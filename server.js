@@ -303,6 +303,30 @@ app.post('/api/pdf-vision', async (req, res) => {
   }
 });
 
+// PDF KELIME TANIMA
+app.post('/api/pdf-vision-word', async (req, res) => {
+  try {
+    const { base64 } = req.body;
+    if (!base64) return res.status(400).json({ error: 'Goruntu eksik.' });
+    const msg = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 64,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: 'image/png', data: base64 } },
+          { type: 'text', text: 'This is a cropped region from a Polish text. What Polish word or short phrase do you see? Output ONLY the word/phrase, nothing else. Preserve Polish characters exactly (a with ogonek, e with ogonek, o with acute, etc). If multiple words, output only the most prominent one.' }
+        ]
+      }]
+    });
+    const word = msg.content[0].text.trim().replace(/^["']+|["']+$/g, '');
+    res.json({ word, ok: true });
+  } catch(e) {
+    console.error('Vision word error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
