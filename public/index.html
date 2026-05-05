@@ -196,6 +196,36 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .color-dot.selected{border-color:#fff;}
 #profile-badge{position:fixed;top:10px;right:14px;display:none;align-items:center;gap:8px;background:#111;border:1px solid #222;padding:5px 12px 5px 8px;border-radius:99px;cursor:pointer;z-index:500;font-family:'Syne',sans-serif;font-size:12px;color:#888;}
 #profile-badge:hover{border-color:#6b5d48;color:#c8b89a;}
+/* GRAMMAR */
+.grammar-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;}
+.gtab{padding:8px 16px;border-radius:8px 8px 0 0;border:1px solid transparent;background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.gtab.active{background:var(--teal-bg);border-color:var(--teal);color:#5dc0b0;}
+.gtab:hover:not(.active){background:var(--surface2);color:var(--text);}
+.grammar-section{display:none;}.grammar-section.active{display:block;}
+.case-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;}
+.case-table th{background:var(--surface3);color:var(--accent);padding:8px 10px;text-align:left;border:1px solid var(--border2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.case-table td{padding:8px 10px;border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;}
+.case-table tr:hover td{background:var(--surface2);}
+.case-name{font-weight:700;color:#5dc0b0;white-space:nowrap;font-family:'Syne',sans-serif;}
+.case-question{font-size:10px;color:var(--text3);display:block;font-family:'Syne',sans-serif;font-style:italic;}
+.gender-m{color:#7090d0;}.gender-f{color:#e090c0;}.gender-n{color:#6dbf9a;}.gender-pl-m{color:#c8a050;}.gender-pl-nm{color:#888;}
+.aspect-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.aspect-ndk{background:var(--blue-bg);border:1px solid var(--blue);border-radius:12px;padding:16px;}
+.aspect-dk{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px;}
+.aspect-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.aspect-form{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;margin-bottom:4px;}
+.aspect-meaning{font-size:13px;color:var(--text2);margin-bottom:6px;}
+.aspect-usage{font-size:11px;color:var(--text3);font-style:italic;line-height:1.5;}
+.aspect-diff{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-bottom:14px;font-size:13px;line-height:1.7;color:var(--text2);}
+.aspect-ex{background:var(--surface3);border-radius:8px;padding:10px 13px;margin-bottom:8px;}
+.aspect-ex-pl{font-size:12px;font-family:'DM Mono',monospace;color:var(--text);font-style:italic;margin-bottom:3px;}
+.aspect-ex-tr{font-size:11px;color:var(--text3);}
+.grammar-answer{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px;font-size:13px;line-height:1.8;color:var(--text2);margin-top:14px;}
+.grammar-answer h2,.grammar-answer h3{color:var(--accent);margin:12px 0 6px;font-size:14px;}
+.grammar-answer strong{color:var(--text);}
+.grammar-answer p{margin-bottom:8px;}
+.grammar-quick-btn{padding:6px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:99px;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
+.grammar-quick-btn:hover{border-color:var(--teal);color:#5dc0b0;}
 
 </style>
 </head>
@@ -243,6 +273,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="nav-section">Kelime Defteri</div>
   <button class="nav-btn" id="nav-special" onclick="showPanel('special')" style="color:#c8a050">⭐ Burak Special</button>
+
+  <div class="nav-section">Dilbilgisi</div>
+  <button class="nav-btn" id="nav-grammar" onclick="showPanel('grammar')" style="color:#5dc0b0">📖 Grammar</button>
 
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
@@ -461,6 +494,140 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <input type="text" id="special-search" class="special-search" placeholder="Kayıtlı kelimelerde ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
     <div id="special-count" class="special-count"></div>
     <div id="special-list"></div>
+  </div>
+
+  <!-- GRAMMAR -->
+  <div class="panel" id="panel-grammar">
+    <div class="panel-title">📖 Grammar <span class="mode-badge" style="background:var(--teal-bg);color:#5dc0b0;border:1px solid var(--teal)">Dilbilgisi Rehberi</span></div>
+    <div class="panel-sub">Case tabloları, aspect kuralları ve hızlı dilbilgisi sorgusu.</div>
+
+    <div class="grammar-tabs">
+      <button class="gtab active" onclick="switchGTab('cases')">📋 Case Tabloları</button>
+      <button class="gtab" onclick="switchGTab('aspect')">⚡ Aspect (dk/ndk)</button>
+      <button class="gtab" onclick="switchGTab('query')">💬 Hızlı Soru</button>
+    </div>
+
+    <!-- CASE TABLOLARI -->
+    <div class="grammar-section active" id="gsec-cases">
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Hızlı referans:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;padding:3px 10px;border-radius:99px;background:var(--blue-bg);color:#7090d0;border:1px solid var(--blue)">Rodzaj męski (erkek)</span>
+          <span style="font-size:12px;padding:3px 10px;border-radius:99px;background:#1a0d16;color:#e090c0;border:1px solid var(--pink)">Rodzaj żeński (dişi)</span>
+          <span style="font-size:12px;padding:3px 10px;border-radius:99px;background:var(--green-bg);color:#6dbf9a;border:1px solid var(--green)">Rodzaj nijaki (nötr)</span>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Hal (Przypadek)</th>
+            <th>Soru</th>
+            <th class="gender-m">Erkek (-)</th>
+            <th class="gender-m">Erkek (cansız)</th>
+            <th class="gender-f">Dişi</th>
+            <th class="gender-n">Nötr</th>
+            <th class="gender-pl-m">Çoğul M.os.</th>
+            <th class="gender-pl-nm">Çoğul Niemos.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="case-name">Mianownik</span><span class="case-question">Yalın — kim/ne?</span></td><td style="color:var(--text3);font-size:11px">kto? co?</td>
+            <td class="gender-m">-∅ / -a</td><td class="gender-m">-∅</td><td class="gender-f">-a / -i</td><td class="gender-n">-o / -e / -ę</td><td class="gender-pl-m">-i / -y / -owie</td><td class="gender-pl-nm">-y / -i / -a</td></tr>
+          <tr><td><span class="case-name">Dopełniacz</span><span class="case-question">İyelik — kogo/czego?</span></td><td style="color:var(--text3);font-size:11px">kogo? czego?</td>
+            <td class="gender-m">-a / -u</td><td class="gender-m">-a / -u</td><td class="gender-f">-y / -i</td><td class="gender-n">-a</td><td class="gender-pl-m">-ów / -y</td><td class="gender-pl-nm">-∅ / -y / -i</td></tr>
+          <tr><td><span class="case-name">Celownik</span><span class="case-question">Yönelme — komu/czemu?</span></td><td style="color:var(--text3);font-size:11px">komu? czemu?</td>
+            <td class="gender-m">-owi / -u</td><td class="gender-m">-owi / -u</td><td class="gender-f">-ie / -y / -i</td><td class="gender-n">-u</td><td class="gender-pl-m">-om</td><td class="gender-pl-nm">-om</td></tr>
+          <tr><td><span class="case-name">Biernik</span><span class="case-question">Belirtme — kogo/co?</span></td><td style="color:var(--text3);font-size:11px">kogo? co?</td>
+            <td class="gender-m">-a</td><td class="gender-m">= Mian.</td><td class="gender-f">-ę / = Dopeł.</td><td class="gender-n">= Mian.</td><td class="gender-pl-m">= Dopeł.</td><td class="gender-pl-nm">= Mian.</td></tr>
+          <tr><td><span class="case-name">Narzędnik</span><span class="case-question">Araç — kim/czym?</span></td><td style="color:var(--text3);font-size:11px">kim? czym?</td>
+            <td class="gender-m">-em / -iem</td><td class="gender-m">-em</td><td class="gender-f">-ą</td><td class="gender-n">-em</td><td class="gender-pl-m">-ami / -mi</td><td class="gender-pl-nm">-ami / -mi</td></tr>
+          <tr><td><span class="case-name">Miejscownik</span><span class="case-question">Bulunma — o kim/czym?</span></td><td style="color:var(--text3);font-size:11px">o kim? o czym?</td>
+            <td class="gender-m">-ie / -u</td><td class="gender-m">-ie / -u</td><td class="gender-f">-ie / -y / -i</td><td class="gender-n">-ie / -u</td><td class="gender-pl-m">-ach</td><td class="gender-pl-nm">-ach</td></tr>
+          <tr><td><span class="case-name">Wołacz</span><span class="case-question">Seslenme — ey kim!</span></td><td style="color:var(--text3);font-size:11px">!</td>
+            <td class="gender-m">-ie / -u / -e</td><td class="gender-m">-ie / -u</td><td class="gender-f">-o / -i</td><td class="gender-n">= Mian.</td><td class="gender-pl-m">= Mian.</td><td class="gender-pl-nm">= Mian.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <!-- Sıfat ekleri -->
+      <div style="margin-top:20px;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--accent)">Sıfat Ekleri (Przymiotnik)</div>
+      <div style="overflow-x:auto">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Hal</th>
+            <th class="gender-m">Erkek</th>
+            <th class="gender-f">Dişi</th>
+            <th class="gender-n">Nötr</th>
+            <th class="gender-pl-m">Çoğul M.os.</th>
+            <th class="gender-pl-nm">Çoğul Niemos.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="case-name">Mian.</td><td class="gender-m">-y / -i</td><td class="gender-f">-a</td><td class="gender-n">-e</td><td class="gender-pl-m">-i / -y</td><td class="gender-pl-nm">-e</td></tr>
+          <tr><td class="case-name">Dopeł.</td><td class="gender-m">-ego</td><td class="gender-f">-ej</td><td class="gender-n">-ego</td><td class="gender-pl-m">-ych / -ich</td><td class="gender-pl-nm">-ych / -ich</td></tr>
+          <tr><td class="case-name">Celow.</td><td class="gender-m">-emu</td><td class="gender-f">-ej</td><td class="gender-n">-emu</td><td class="gender-pl-m">-ym / -im</td><td class="gender-pl-nm">-ym / -im</td></tr>
+          <tr><td class="case-name">Biern.</td><td class="gender-m">-ego / -y</td><td class="gender-f">-ą</td><td class="gender-n">-e</td><td class="gender-pl-m">-ych / -ich</td><td class="gender-pl-nm">-e</td></tr>
+          <tr><td class="case-name">Narzęd.</td><td class="gender-m">-ym / -im</td><td class="gender-f">-ą</td><td class="gender-n">-ym / -im</td><td class="gender-pl-m">-ymi / -imi</td><td class="gender-pl-nm">-ymi / -imi</td></tr>
+          <tr><td class="case-name">Miejscow.</td><td class="gender-m">-ym / -im</td><td class="gender-f">-ej</td><td class="gender-n">-ym / -im</td><td class="gender-pl-m">-ych / -ich</td><td class="gender-pl-nm">-ych / -ich</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- ASPECT -->
+    <div class="grammar-section" id="gsec-aspect">
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.7;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px">
+          <strong style="color:var(--accent)">Aspect nedir?</strong> Lehçe fiillerin iki formu vardır:<br>
+          <span style="color:#7090d0">Niedokonany (ndk.)</span> — devam eden, tekrarlayan, tamamlanmamış eylem<br>
+          <span style="color:#6dbf9a">Dokonany (dk.)</span> — tamamlanmış, sonuçlanan, tek seferlik eylem
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="aspect-input" placeholder="Fiil yaz... (örn: pisać, iść, robić)" style="margin-bottom:0;flex:1;border-color:var(--teal);" onkeydown="if(event.key==='Enter')lookupAspect()">
+          <button class="btn btn-teal" onclick="lookupAspect()" id="aspect-btn">Analiz Et</button>
+        </div>
+      </div>
+      <!-- Hızlı örnekler -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+        <span style="font-size:11px;color:var(--text3)">Örnekler:</span>
+        <button class="grammar-quick-btn" onclick="quickAspect('pisać')">pisać</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('czytać')">czytać</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('mówić')">mówić</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('iść')">iść</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('robić')">robić</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('kupować')">kupować</button>
+      </div>
+      <div id="aspect-result"></div>
+    </div>
+
+    <!-- HIZLI SORU -->
+    <div class="grammar-section" id="gsec-query">
+      <div style="margin-bottom:14px">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px">Herhangi bir Lehçe dilbilgisi sorusunu Türkçe sor:</div>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="grammar-query-input" placeholder="örn: Narzędnik ne zaman kullanılır? / być fiilinin çekimi nedir?" style="margin-bottom:0;flex:1" onkeydown="if(event.key==='Enter')askGrammar()">
+          <button class="btn btn-teal" onclick="askGrammar()" id="grammar-ask-btn">Sor</button>
+        </div>
+      </div>
+      <!-- Hazır sorular -->
+      <div style="margin-bottom:14px">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Sık sorulanlar:</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="grammar-quick-btn" onclick="quickQuery('Dopełniacz ne zaman kullanılır?')">Dopełniacz kullanımı</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('być fiilinin geniş zaman çekimi')">być çekimi</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('Biernik ile Dopełniacz farkı nedir?')">Biernik vs Dopełniacz</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('Sayılardan sonra hangi hal kullanılır?')">Sayı + hal kuralı</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('Zaimki osobowe - kişi zamirleri')">Kişi zamirleri</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('Przysłówek nasıl yapılır?')">Zarf yapımı</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('Aspekt geçmiş zamanda nasıl kullanılır?')">Aspekt + geçmiş</button>
+          <button class="grammar-quick-btn" onclick="quickQuery('Stopniowanie - karşılaştırma dereceleri')">Karşılaştırma</button>
+        </div>
+      </div>
+      <div id="grammar-answer"></div>
+    </div>
   </div>
 
   <!-- İSTATİSTİK -->
@@ -860,6 +1027,7 @@ function showPanel(name){
   if(name==='lib-lyrics'){renderLib('lyrics');document.getElementById('nav-lib-lyrics').classList.add('active');}
   if(name==='stats')loadStats();
   if(name==='special')renderSpecialList();
+  if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active');}
 }
 
 // ── TARAMA ────────────────────────────────────────
@@ -1631,6 +1799,95 @@ function updateCounts(){
   const l=store.units.filter(u=>u.mode==='lesson').reduce((a,b)=>a+b.words.length,0);
   const m=store.units.filter(u=>u.mode==='lyrics').reduce((a,b)=>a+b.words.length,0);
   document.getElementById('word-count').innerHTML='<small style="font-size:11px;color:var(--text3)">📚 '+l+' akademik &nbsp; 🎵 '+m+' müzik</small>';
+}
+
+// ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
+
+function switchGTab(tab) {
+  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
+  const idx = ['cases','aspect','query'].indexOf(tab);
+  document.querySelectorAll('.gtab')[idx].classList.add('active');
+  document.getElementById('gsec-'+tab).classList.add('active');
+}
+
+async function lookupAspect() {
+  const verb = document.getElementById('aspect-input').value.trim();
+  if (!verb) return;
+  const btn = document.getElementById('aspect-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('aspect-result').innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center"><span class="spinner"></span> Analiz ediliyor...</div>';
+  try {
+    const data = await api.post('/api/grammar/aspect', { verb });
+    renderAspectResult(data);
+  } catch(e) {
+    document.getElementById('aspect-result').innerHTML = '<div style="color:var(--red)">Hata: ' + esc(e.message) + '</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Analiz Et';
+}
+
+function quickAspect(verb) {
+  document.getElementById('aspect-input').value = verb;
+  lookupAspect();
+}
+
+function renderAspectResult(d) {
+  const el = document.getElementById('aspect-result');
+  if (!d || !d.ndk) { el.innerHTML = '<div style="color:var(--red)">Sonuç alınamadı.</div>'; return; }
+  el.innerHTML =
+    '<div class="aspect-grid">' +
+      '<div class="aspect-ndk">' +
+        '<div class="aspect-label" style="color:#7090d0">Niedokonany (ndk.) — Bitmemiş</div>' +
+        '<div class="aspect-form" style="color:#7090d0">' + esc(d.ndk.form) + '</div>' +
+        '<div class="aspect-meaning">' + esc(d.ndk.meaning_tr) + '</div>' +
+        '<div class="aspect-usage">' + esc(d.ndk.usage_tr) + '</div>' +
+      '</div>' +
+      '<div class="aspect-dk">' +
+        '<div class="aspect-label" style="color:#6dbf9a">Dokonany (dk.) — Tamamlanmış</div>' +
+        '<div class="aspect-form" style="color:#6dbf9a">' + esc(d.dk.form) + '</div>' +
+        '<div class="aspect-meaning">' + esc(d.dk.meaning_tr) + '</div>' +
+        '<div class="aspect-usage">' + esc(d.dk.usage_tr) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="aspect-diff"><strong style="color:var(--accent)">Fark:</strong> ' + esc(d.difference_tr) + '</div>' +
+    (d.example_ndk_pl ? '<div class="aspect-ex"><div class="aspect-ex-pl">ndk: ' + esc(d.example_ndk_pl) + '</div><div class="aspect-ex-tr">' + esc(d.example_ndk_tr) + '</div></div>' : '') +
+    (d.example_dk_pl ? '<div class="aspect-ex"><div class="aspect-ex-pl">dk: ' + esc(d.example_dk_pl) + '</div><div class="aspect-ex-tr">' + esc(d.example_dk_tr) + '</div></div>' : '');
+}
+
+async function askGrammar() {
+  const query = document.getElementById('grammar-query-input').value.trim();
+  if (!query) return;
+  const btn = document.getElementById('grammar-ask-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('grammar-answer').innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center"><span class="spinner"></span> Yanıt hazırlanıyor...</div>';
+  try {
+    const data = await api.post('/api/grammar/query', { query });
+    const html = markdownToHtml(data.answer || '');
+    document.getElementById('grammar-answer').innerHTML = '<div class="grammar-answer">' + html + '</div>';
+  } catch(e) {
+    document.getElementById('grammar-answer').innerHTML = '<div style="color:var(--red)">Hata: ' + esc(e.message) + '</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Sor';
+}
+
+function quickQuery(q) {
+  document.getElementById('grammar-query-input').value = q;
+  askGrammar();
+}
+
+function markdownToHtml(md) {
+  if (!md) return '';
+  let h = md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/## (.+)/g,'<h2>$1</h2>')
+    .replace(/### (.+)/g,'<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/`(.+?)`/g,'<code style="background:var(--surface3);padding:1px 5px;border-radius:4px;font-family:DM Mono,monospace">$1</code>')
+    .replace(/^- (.+)/gm,'<li style="margin-bottom:3px">$1</li>');
+  h = h.replace(/(<li[^>]*>[\s\S]*?<\/li>)/g, '<ul style="margin:6px 0 8px 16px">$1</ul>');
+  h = h.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+  return '<p>' + h + '</p>';
 }
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}

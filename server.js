@@ -327,6 +327,63 @@ app.post('/api/pdf-vision-word', async (req, res) => {
   }
 });
 
+// ── GRAMMAR API ───────────────────────────────────────────
+
+// Hizli grammar sorgu - fiil aspect, kural aciklamasi vs.
+app.post('/api/grammar/query', async (req, res) => {
+  try {
+    const { query } = req.body;
+    const prompt = [
+      'You are a Polish grammar expert teaching Turkish university students.',
+      'Answer this Polish grammar question clearly and concisely:',
+      '"' + query + '"',
+      '',
+      'Rules for your response:',
+      '- Respond in TURKISH (the student language)',
+      '- Use Polish examples with Turkish translations',
+      '- For verbs: always show both dokonany (dk.) and niedokonany (ndk.) forms with meanings',
+      '- For cases: show the endings in a clear table format',
+      '- Keep it practical and memorable',
+      '- Max 400 words',
+      '- Format with clear sections using simple markdown (## for headers, **bold** for Polish words)',
+      '',
+      'Return JSON: {"answer": "your markdown response here", "type": "verb|case|rule|other"}'
+    ].join('
+');
+
+    const raw = await claudeAsk(prompt, 1024);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) return res.json({ answer: raw, type: 'other' });
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// Fiil aspect analizi
+app.post('/api/grammar/aspect', async (req, res) => {
+  try {
+    const { verb } = req.body;
+    const prompt = [
+      'Analyze the Polish verb "' + verb + '" and provide its aspect pair.',
+      'Return ONLY valid JSON:',
+      '{',
+      '  "base_verb": "the verb as given",',
+      '  "ndk": {"form": "niedokonany form", "meaning_tr": "Turkish meaning", "meaning_en": "English meaning", "usage_tr": "when to use in Turkish"},',
+      '  "dk": {"form": "dokonany form", "meaning_tr": "Turkish meaning", "meaning_en": "English meaning", "usage_tr": "when to use in Turkish"},',
+      '  "difference_tr": "key difference explained in Turkish (2-3 sentences)",',
+      '  "example_ndk_pl": "example sentence with ndk form",',
+      '  "example_ndk_tr": "Turkish translation",',
+      '  "example_dk_pl": "example sentence with dk form",',
+      '  "example_dk_tr": "Turkish translation"',
+      '}'
+    ].join('
+');
+    const raw = await claudeAsk(prompt, 800);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON bulunamadi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
