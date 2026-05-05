@@ -210,10 +210,10 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </div>
 
 <!-- AKTİF PROFİL BADGE (sağ üst) -->
-<div id="profile-badge" onclick="switchProfile()">
-  <span id="badge-emoji" style="font-size:16px"></span>
-  <span id="badge-name"></span>
-  <span style="font-size:10px;opacity:.5;margin-left:2px">▾</span>
+<div id="profile-badge" onclick="switchProfile()" title="Profil değiştir">
+  <span id="badge-emoji" style="font-size:18px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;"></span>
+  <span id="badge-name" style="font-weight:700"></span>
+  <span style="font-size:10px;opacity:.4;margin-left:2px">▾</span>
 </div>
 
 <div id="sidebar">
@@ -556,15 +556,18 @@ async function showProfileScreen() {
 function renderProfileGrid(profiles) {
   const grid = document.getElementById('profile-grid');
   grid.innerHTML = '';
+  const lastUsed = localStorage.getItem('polonica_profile') || '';
   profiles.forEach(p => {
+    const isLast = p.key === lastUsed;
     const av = document.createElement('div');
     av.className = 'profile-avatar';
     av.innerHTML =
-      '<div class="pa-circle" style="background:'+p.color+'22">' +
+      '<div class="pa-circle" style="background:'+p.color+'22;' + (isLast?'border-color:'+p.color+';box-shadow:0 0 20px '+p.color+'44':'') + '">' +
         '<span style="font-size:42px">'+p.emoji+'</span>' +
         '<button class="pa-del pa-del-btn" data-profile-key="'+p.key+'" title="Sil">&#x2715;</button>' +
       '</div>' +
-      '<span class="pa-name">'+esc(p.name)+'</span>' +
+      '<span class="pa-name" style="color:'+(isLast?'#fff':'#aaa')+'">'+esc(p.name)+'</span>' +
+      (isLast ? '<span style="font-size:10px;color:#c8b89a;font-family:DM Mono,monospace;letter-spacing:.05em">SON KULLANILAN</span>' : '') +
       '<span class="pa-stats">'+p.wordCount+' kelime · '+p.specialCount+' özel</span>';
     av.onclick = () => selectProfile(p);
     av.querySelectorAll('.pa-del-btn').forEach(btn => {
@@ -648,15 +651,26 @@ async function deleteProfile(key) {
 
 // ── BAŞLANGIÇ ─────────────────────────────────────────────
 async function boot() {
-  const pass = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:_authToken})}).then(r=>r.json());
-  if (!pass.ok && process && false) { showLoginScreen(); return; } // auth disabled for now
-  // Kayıtlı profil varsa direkt giriş
-  if (_activeProfile) {
+  try {
     const profiles = await fetch('/api/profiles').then(r=>r.json());
-    const saved = profiles.find(p=>p.key===_activeProfile);
-    if (saved) { selectProfile(saved); return; }
+    // Kayıtlı profil localStorage'da varsa direkt giriş
+    if (_activeProfile) {
+      const saved = profiles.find(p => p.key === _activeProfile);
+      if (saved) {
+        selectProfile(saved);
+        return;
+      }
+    }
+    // Tek profil varsa direkt seç
+    if (profiles.length === 1) {
+      selectProfile(profiles[0]);
+      return;
+    }
+    showProfileScreen();
+  } catch(e) {
+    console.error('Boot hatasi:', e);
+    showProfileScreen();
   }
-  showProfileScreen();
 }
 
 function showLoginScreen() {
