@@ -1647,6 +1647,16 @@ async function deletePDF(id){
   const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
 }
 
+// Son sayfa kaydet/yükle - profil bazlı localStorage
+function savePDFPage(pdfId, page) {
+  const key = 'pdf_page_' + (_activeProfile||'default') + '_' + pdfId;
+  localStorage.setItem(key, page);
+}
+function loadPDFPage(pdfId) {
+  const key = 'pdf_page_' + (_activeProfile||'default') + '_' + pdfId;
+  return parseInt(localStorage.getItem(key)) || 1;
+}
+
 async function openPDF(id){
   const st=document.getElementById('pdf-status');
   st.innerHTML='<span class="spinner"></span> Yükleniyor...';
@@ -1655,11 +1665,15 @@ async function openPDF(id){
   const bin=atob(data.base64),arr=new Uint8Array(bin.length);
   for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
   currentPdfDoc=await pdfjsLib.getDocument({data:arr}).promise;
-  currentPdfId=id;currentPage=1;totalPages=currentPdfDoc.numPages;
+  currentPdfId=id;
+  totalPages=currentPdfDoc.numPages;
+  // Son bırakılan sayfadan başla
+  const savedPage = loadPDFPage(id);
+  currentPage = Math.min(savedPage, totalPages);
   document.getElementById('pdf-viewer-empty').style.display='none';
   document.getElementById('pdf-viewer-active').style.display='flex';
   document.getElementById('pdf-page-results').innerHTML='';
-  st.textContent=data.name+' — '+totalPages+' sayfa';
+  st.textContent=data.name+' — '+totalPages+' sayfa'+(currentPage>1?' · Sayfa '+currentPage+'. sayfadan devam':'');
   await renderPDFPage();
   const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
 }
@@ -1695,8 +1709,12 @@ async function renderPDFPage(){
   document.getElementById('pdf-page-info').textContent = currentPage + ' / ' + totalPages;
 }
 
-async function prevPage(){if(currentPage>1){currentPage--;await renderPDFPage();}}
-async function nextPage(){if(currentPage<totalPages){currentPage++;await renderPDFPage();}}
+async function prevPage(){
+  if(currentPage>1){currentPage--;await renderPDFPage();savePDFPage(currentPdfId,currentPage);}
+}
+async function nextPage(){
+  if(currentPage<totalPages){currentPage++;await renderPDFPage();savePDFPage(currentPdfId,currentPage);}
+}
 
 // ── PDF KELİME KROP SEÇİMİ ───────────────────────────────
 let _selWord = '';
