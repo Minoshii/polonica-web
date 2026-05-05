@@ -271,6 +271,38 @@ app.get('/api/export/csv',(req,res)=>{
   res.send('\uFEFF'+lines.join('\n'));
 });
 
+// ── PDF VISION OCR ────────────────────────────────────────
+app.post('/api/pdf-vision', async (req, res) => {
+  try {
+    const { base64, mediaType } = req.body;
+    if (!base64) return res.status(400).json({ error: 'Görüntü verisi eksik.' });
+
+    const msg = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 2048,
+      messages: [{
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            source: { type: 'base64', media_type: mediaType || 'image/png', data: base64 }
+          },
+          {
+            type: 'text',
+            text: 'This is a page from a Polish language textbook. Extract ALL text you see in this image, exactly as written. Preserve Polish characters (ą, ę, ó, ś, ź, ż, ć, ń, ł). Output ONLY the extracted text, nothing else. No explanations, no formatting notes.'
+          }
+        ]
+      }]
+    });
+
+    const text = msg.content[0].text.trim();
+    res.json({ text, ok: true });
+  } catch(e) {
+    console.error('Vision OCR hatası:', e);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');

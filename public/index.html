@@ -1411,59 +1411,80 @@ async function lookupSelectedWord() {
   await lookupSpecial();
 }
 
-async function extractAndAnalyzePages(pages){
-  const allTokens=[];
-  for(const pn of pages){
-    const page=await currentPdfDoc.getPage(pn);
-    const tc=await page.getTextContent();
-    tc.items.forEach(i=>allTokens.push(...(i.str.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g)||[])));
+// Sayfadan metin çıkar: önce text layer dene, boşsa Vision OCR kullan
+async function extractTextFromPage(pageNum) {
+  const page = await currentPdfDoc.getPage(pageNum);
+  // 1. Normal text layer dene
+  const tc = await page.getTextContent();
+  const layerText = tc.items.map(i => i.str).join(' ').trim();
+  if (layerText.length > 20) return layerText; // metin var, kullan
+
+  // 2. Taranmış PDF — Canvas'tan görüntü al, Claude Vision'a gönder
+  const st = document.getElementById('pdf-status');
+  st.innerHTML = '<span class="spinner"></span> Taranmış sayfa — Vision OCR çalışıyor...';
+  const canvas = document.getElementById('pdf-canvas');
+  const base64 = canvas.toDataURL('image/png').split(',')[1];
+  try {
+    const r = await api.post('/api/pdf-vision', { base64, mediaType: 'image/png' });
+    if (r.ok && r.text) return r.text;
+  } catch(e) { console.error('Vision OCR hatasi:', e); }
+  return '';
+}
+
+async function extractAndAnalyzePages(pages) {
+  const st = document.getElementById('pdf-status');
+  const allTokens = [];
+  for (const pn of pages) {
+    // Sayfayı render et (görüntü için)
+    if (pn !== currentPage) {
+      currentPage = pn;
+      await renderPDFPage();
+    }
+    const text = await extractTextFromPage(pn);
+    const tokens = text.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g) || [];
+    allTokens.push(...tokens);
   }
-  const seen=new Set();const tokens=[];
-  for(const t of allTokens){const l=t.toLowerCase();if(!seen.has(l)){seen.add(l);tokens.push(t);}}
-  const CHUNK=50,total=Math.ceil(tokens.length/CHUNK);
-  const st=document.getElementById('pdf-status');
-  const allWords=[];
-  for(let ci=0;ci<total;ci++){
-    const chunk=tokens.slice(ci*CHUNK,(ci+1)*CHUNK);
-    st.innerHTML='<span class="spinner"></span> '+(ci+1)+'/'+total+' parça...';
-    try{const d=await window.polonica.analyzeText({text:chunk.join(' '),count:chunk.length,mode:'lesson'});if(d.words)allWords.push(...d.words);}catch(e){}
+  const seen = new Set(); const tokens = [];
+  for (const t of allTokens) { const l = t.toLowerCase(); if (!seen.has(l)) { seen.add(l); tokens.push(t); } }
+  const CHUNK = 50, total = Math.ceil(tokens.length / CHUNK);
+  const allWords = [];
+  for (let ci = 0; ci < total; ci++) {
+    const chunk = tokens.slice(ci * CHUNK, (ci+1) * CHUNK);
+    st.innerHTML = '<span class="spinner"></span> Analiz: ' + (ci+1) + '/' + total + ' parça...';
+    try { const d = await window.polonica.analyzeText({text:chunk.join(' '),count:chunk.length,mode:'lesson'}); if(d.words) allWords.push(...d.words); } catch(e) {}
   }
   return allWords;
 }
 
-async function analyzePDFPage(){
-  if(!currentPdfDoc)return;
-  const st=document.getElementById('pdf-status');
-  st.innerHTML='<span class="spinner"></span> Analiz ediliyor...';
-  const allWords=await extractAndAnalyzePages([currentPage]);
-  if(!allWords.length){st.textContent='Metin bulunamadı (taranmış PDF olabilir).';return;}
-  scanMode='lesson';
-  scanned=allWords.map((w,i)=>({...w,_sid:'pdf'+i}));
-  const re=document.getElementById('pdf-page-results');
-  re.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa '+currentPage+': '+allWords.length+' kelime</div>';
-  renderWordList('pdf-page-results-inner',scanned,'pdf');
-  if(!document.getElementById('pdf-page-results-inner')){
-    const inner=document.createElement('div');inner.id='pdf-page-results-inner';re.appendChild(inner);
-    renderWordList('pdf-page-results-inner',scanned,'pdf');
-  }
-  st.textContent='Tamamlandı.';updateSaveBar();
+async function analyzePDFPage() {
+  if (!currentPdfDoc) return;
+  const st = document.getElementById('pdf-status');
+  st.innerHTML = '<span class="spinner"></span> Sayfa analiz ediliyor...';
+  const allWords = await extractAndAnalyzePages([currentPage]);
+  if (!allWords.length) { st.textContent = 'Metin çıkarılamadı.'; return; }
+  scanMode = 'lesson';
+  scanned = allWords.map((w,i) => ({...w, _sid:'pdf'+i}));
+  const re = document.getElementById('pdf-page-results');
+  re.innerHTML = '<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa ' + currentPage + ': ' + allWords.length + ' kelime</div><div id="pdf-page-results-inner"></div>';
+  renderWordList('pdf-page-results-inner', scanned, 'pdf');
+  st.textContent = 'Tamamlandı.'; updateSaveBar();
 }
 
-async function analyzeRange(){
-  if(!currentPdfDoc)return;
-  const input=prompt('Hangi sayfaları analiz etmek istersin? (örn: 5-8)');if(!input)return;
-  const parts=input.split('-');
-  const from=Math.max(1,parseInt(parts[0])||currentPage);
-  const to=Math.min(totalPages,parseInt(parts[1])||from);
-  const pages=[];for(let p=from;p<=to;p++)pages.push(p);
-  const allWords=await extractAndAnalyzePages(pages);
-  if(!allWords.length){document.getElementById('pdf-status').textContent='Metin bulunamadı.';return;}
-  scanMode='lesson';
-  scanned=allWords.map((w,i)=>({...w,_sid:'pdf'+i}));
-  const re=document.getElementById('pdf-page-results');
-  re.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa '+from+'-'+to+': '+allWords.length+' kelime</div><div id="pdf-page-results-inner"></div>';
-  renderWordList('pdf-page-results-inner',scanned,'pdf');
-  document.getElementById('pdf-status').textContent='Tamamlandı.';updateSaveBar();
+async function analyzeRange() {
+  if (!currentPdfDoc) return;
+  const input = prompt('Hangi sayfaları analiz etmek istersin? (örn: 5-8)'); if (!input) return;
+  const parts = input.split('-');
+  const from = Math.max(1, parseInt(parts[0]) || currentPage);
+  const to = Math.min(totalPages, parseInt(parts[1]) || from);
+  const pages = []; for (let p = from; p <= to; p++) pages.push(p);
+  const allWords = await extractAndAnalyzePages(pages);
+  if (!allWords.length) { document.getElementById('pdf-status').textContent = 'Metin bulunamadı.'; return; }
+  scanMode = 'lesson';
+  scanned = allWords.map((w,i) => ({...w, _sid:'pdf'+i}));
+  const re = document.getElementById('pdf-page-results');
+  re.innerHTML = '<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa ' + from + '-' + to + ': ' + allWords.length + ' kelime</div><div id="pdf-page-results-inner"></div>';
+  renderWordList('pdf-page-results-inner', scanned, 'pdf');
+  document.getElementById('pdf-status').textContent = 'Tamamlandı.'; updateSaveBar();
 }
 
 // ── AYARLAR ──────────────────────────────────────
