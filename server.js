@@ -123,13 +123,26 @@ app.post('/api/analyze', async (req,res) => {
     for(let ci=0;ci<chunks.length;ci++){
       const chunk=chunks[ci];
       const tokenList=chunk.map((t,i)=>(i+1)+'. '+t).join('\n');
-      const modeNote=mode==='lyrics'?'Polish song lyrics / street speech.':'Polish academic/educational material.';
-      const prompt=['You are an expert Polish linguist. Analyze EVERY word. Output exactly '+chunk.length+' JSON objects in order. NEVER skip.',
+      const isLyrics = mode === 'lyrics';
+      const modeNote = isLyrics
+        ? 'This text is from Polish song lyrics, rap, or street speech. It may contain slang, colloquialisms, vulgarisms, and non-standard spelling.'
+        : 'This text is from Polish academic/educational material.';
+      const slangRule = isLyrics
+        ? '11."slang": true if the word is slang/colloquial/vulgar/non-standard Polish, false otherwise'
+        : '11."slang": false';
+      const prompt=['You are an expert Polish linguist specializing in both standard and colloquial Polish. Analyze EVERY word. Output exactly '+chunk.length+' JSON objects in order. NEVER skip.',
         modeNote,'RULES:',
-        '1."original":word as given  2."pl":LEMMA(infinitive/nominative)  3."inflection_note":grammar tag else ""',
-        '4."tr":Turkish 2-6w verbs -mak/-mek  5."en":English 1-4w  6."category":"verb"|"noun"|"adj"|"other"',
+        '1."original":word exactly as given',
+        '2."pl":LEMMA - for slang/colloquial give the slang lemma form, NOT a standard equivalent',
+        '3."inflection_note":grammar tag if inflected else ""',
+        '4."tr":Turkish meaning 2-6w. For slang use natural Turkish slang equivalent.',
+        '5."en":English 1-4w',
+        '6."category":"verb"|"noun"|"adj"|"other"',
         '7."type":czasownik/rzeczownik/przymiotnik etc.',
-        '8."example_pl":natural Polish sentence 8-14w using LEMMA  9."example_tr":Turkish  10."example_en":English',
+        '8."example_pl":natural Polish sentence 8-14w using the word as-is',
+        '9."example_tr":Turkish translation',
+        '10."example_en":English translation',
+        slangRule,
         'Return ONLY: {"words":[...]}','','WORDS:',tokenList].join('\n');
       const raw=await claudeAsk(prompt,chunk.length*120+512);
       const match=raw.match(/\{[\s\S]*\}/);
@@ -166,10 +179,32 @@ app.post('/api/distractors', async (req,res) => {
 // ── BURAK SPECIAL ─────────────────────────────────────────
 app.post('/api/special/lookup', async (req,res) => {
   try {
-    const {word}=req.body;
-    const raw=await claudeAsk('Polish-Turkish-English dictionary. Look up: "'+word+'"\nReturn JSON: {"pl":"","original":"","inflection_note":"","tr":"","en":"","category":"","type":"","example_pl":"","example_tr":"","example_en":""}',512);
-    const match=raw.match(/\{[\s\S]*\}/);
-    if(!match) throw new Error('Parse hatasi.');
+    const {word, mode} = req.body;
+    const isSlangMode = mode === 'lyrics';
+    const contextNote = isSlangMode
+      ? 'This word may be Polish slang, colloquial speech, rap/hip-hop language, or non-standard spelling. Analyze it as such - do NOT try to map it to standard Polish.'
+      : 'This is standard Polish.';
+    const prompt = [
+      'You are a Polish-Turkish-English dictionary covering both standard and colloquial/slang Polish.',
+      'Look up: "' + word + '"',
+      contextNote,
+      '- "pl": the word in its base/lemma form (keep slang form if slang)',
+      '- "original": the word exactly as given',
+      '- "inflection_note": grammar note if inflected, else ""',
+      '- "tr": natural Turkish meaning. For slang use Turkish slang/colloquial equivalent.',
+      '- "en": English meaning 1-4 words',
+      '- "category": "verb"|"noun"|"adj"|"other"',
+      '- "type": czasownik/rzeczownik/przymiotnik/przyslowek/przyimek/spojnik',
+      '- "slang": true if this is slang/colloquial/vulgar/non-standard Polish, false if standard',
+      '- "slang_note": if slang=true, brief note in Turkish about its register (e.g. "argo", "sokak dili", "rap jargonu"), else ""',
+      '- "example_pl": natural Polish sentence using this word',
+      '- "example_tr": Turkish translation',
+      '- "example_en": English translation',
+      'Return ONLY valid JSON, no markdown.'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 600);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Parse hatasi.');
     res.json(JSON.parse(match[0]));
   } catch(e){res.status(500).json({error:e.message});}
 });

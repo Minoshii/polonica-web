@@ -226,6 +226,23 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .grammar-answer p{margin-bottom:8px;}
 .grammar-quick-btn{padding:6px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:99px;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
 .grammar-quick-btn:hover{border-color:var(--teal);color:#5dc0b0;}
+.slang-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;background:#2a0d1a;color:#e060a0;border:1px solid #c060a0;letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:middle;}
+.word-card.slang-card{border-color:#c060a044;}
+.word-card.slang-card:hover{border-color:#c060a0;}
+
+/* TOKEN PICKER */
+.token-display{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0;line-height:2.4;display:none;}
+.token-display.visible{display:block;}
+.tok{display:inline;padding:3px 6px;border-radius:6px;cursor:pointer;transition:all .15s;font-size:14px;font-family:'DM Mono',monospace;margin:2px 1px;}
+.tok-word{color:var(--text);border:1px solid transparent;}
+.tok-word:hover{border-color:var(--accent-dim);background:var(--accent-bg);color:var(--accent);}
+.tok-word.tok-selected{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);font-weight:700;}
+.tok-punct{color:var(--text3);cursor:default;font-size:13px;}
+.tok-conj{color:var(--text3);font-size:13px;border:1px dashed transparent;cursor:pointer;}
+.tok-conj:hover{border-color:var(--border2);background:var(--surface3);}
+.tok-conj.tok-selected{background:var(--surface3);border-color:var(--border2);color:var(--text);}
+.token-actions{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+.tok-count{font-size:12px;color:var(--text2);padding:6px 12px;background:var(--surface3);border-radius:6px;}
 
 </style>
 </head>
@@ -270,6 +287,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="nav-section">Kütüphane</div>
   <button class="nav-btn" id="nav-lib-lesson" onclick="showPanel('lib-lesson')">◫ Akademik</button>
   <button class="nav-btn" id="nav-lib-lyrics" onclick="showPanel('lib-lyrics')">◈ Sokak / Müzik</button>
+  <button class="nav-btn" id="nav-lib-class" onclick="showPanel('lib-class')" style="color:#7090d0">🎓 Dersten Gelenler</button>
 
   <div class="nav-section">Kelime Defteri</div>
   <button class="nav-btn" id="nav-special" onclick="showPanel('special')" style="color:#c8a050">⭐ Burak Special</button>
@@ -326,16 +344,14 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- DERS MATERYALİ -->
   <div class="panel active" id="panel-lesson">
     <div class="panel-title">Ders Kitabı Tara <span class="mode-badge badge-lesson">Akademik</span></div>
-    <div class="panel-sub">Metni yapıştır, kelimeler fiil / isim / sıfat olarak ayrıştırılır.</div>
-    <textarea id="lesson-text" placeholder="Lehçe metni buraya yapıştır..."></textarea>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <select id="lesson-count" style="width:auto;">
-        <option value="10">10 kelime</option><option value="20">20 kelime</option>
-        <option value="30">30 kelime</option><option value="50" selected>50 kelime</option>
-        <option value="75">75 kelime</option><option value="100">100 kelime</option>
-        <option value="150">150 kelime</option><option value="200">200 kelime</option>
-      </select>
-      <button class="btn btn-blue" id="lesson-btn" onclick="doScan('lesson')">Tara &amp; Seç</button>
+    <div class="panel-sub">Metni yapıştır → kelimeler parçalanır → istediğin kelimelere tıkla → analiz et.</div>
+    <textarea id="lesson-text" placeholder="Lehçe metni buraya yapıştır..." oninput="tokenizeText('lesson')"></textarea>
+    <div class="token-display" id="lesson-tokens"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+      <div class="tok-count" id="lesson-sel-count">0 kelime seçildi</div>
+      <button class="btn btn-blue" id="lesson-btn" onclick="analyzeSelected('lesson')">🔍 Seçilenleri Analiz Et</button>
+      <button class="btn" onclick="selectAllTokens('lesson')" style="font-size:12px">Tümünü Seç</button>
+      <button class="btn" onclick="clearTokenSel('lesson')" style="font-size:12px">Temizle</button>
       <span id="lesson-status"></span>
     </div>
     <div id="lesson-results"></div>
@@ -344,16 +360,14 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- ŞARKI SÖZLERİ -->
   <div class="panel" id="panel-lyrics">
     <div class="panel-title">Şarkı Sözleri <span class="mode-badge badge-lyrics">Sokak</span></div>
-    <div class="panel-sub">Slang, argo ve konuşma dili kelimeleri için.</div>
-    <textarea id="lyrics-text" placeholder="Şarkı sözlerini yapıştır..."></textarea>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <select id="lyrics-count" style="width:auto;">
-        <option value="10">10 kelime</option><option value="20">20 kelime</option>
-        <option value="30">30 kelime</option><option value="50" selected>50 kelime</option>
-        <option value="75">75 kelime</option><option value="100">100 kelime</option>
-        <option value="150">150 kelime</option><option value="200">200 kelime</option>
-      </select>
-      <button class="btn btn-purple" id="lyrics-btn" onclick="doScan('lyrics')">Tara &amp; Seç</button>
+    <div class="panel-sub">Slang, argo ve konuşma dili kelimeleri için. Tıkla → seç → analiz et.</div>
+    <textarea id="lyrics-text" placeholder="Şarkı sözlerini yapıştır..." oninput="tokenizeText('lyrics')"></textarea>
+    <div class="token-display" id="lyrics-tokens"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+      <div class="tok-count" id="lyrics-sel-count">0 kelime seçildi</div>
+      <button class="btn btn-purple" id="lyrics-btn" onclick="analyzeSelected('lyrics')">🔍 Seçilenleri Analiz Et</button>
+      <button class="btn" onclick="selectAllTokens('lyrics')" style="font-size:12px">Tümünü Seç</button>
+      <button class="btn" onclick="clearTokenSel('lyrics')" style="font-size:12px">Temizle</button>
       <span id="lyrics-status"></span>
     </div>
     <div id="lyrics-results"></div>
@@ -630,6 +644,15 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
   </div>
 
+  <!-- DERSTEN GELENLER -->
+  <div class="panel" id="panel-lib-class">
+    <div class="panel-title">🎓 Dersten Gelenler</div>
+    <div class="panel-sub">Derste karşılaştığın ve seçtiğin kelimeler burada birikir.</div>
+    <div class="search-row"><input type="text" id="search-class" placeholder="Kelime veya ünite ara..." oninput="filterLib('class')" style="margin-bottom:0"></div>
+    <div id="lib-class-main"><div class="unit-grid" id="grid-class"></div></div>
+    <div id="detail-class" style="display:none"></div>
+  </div>
+
   <!-- İSTATİSTİK -->
   <div class="panel" id="panel-stats">
     <div class="panel-title">İstatistik</div>
@@ -652,8 +675,12 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <!-- KAYDET ÇUBUĞU -->
 <div id="save-bar">
   <span id="sbc">0 seçildi</span>
-  <input type="text" id="save-name" placeholder="Ünite adı..." style="margin-bottom:0;width:200px">
-  <button class="btn btn-green" onclick="saveSelected()">Kaydet</button>
+  <input type="text" id="save-name" placeholder="Ünite adı (örn: Ders 4 - Hafta 3)..." style="margin-bottom:0;width:220px">
+  <select id="save-mode-sel" style="margin-bottom:0;width:auto;padding:9px 12px">
+    <option value="">Otomatik (kategori grubu)</option>
+    <option value="class">🎓 Dersten Gelenler</option>
+  </select>
+  <button class="btn btn-green" onclick="saveSelectedWithMode()">Kaydet</button>
   <button class="btn" onclick="clearSel()">İptal</button>
 </div>
 
@@ -1027,10 +1054,120 @@ function showPanel(name){
   if(name==='lib-lyrics'){renderLib('lyrics');document.getElementById('nav-lib-lyrics').classList.add('active');}
   if(name==='stats')loadStats();
   if(name==='special')renderSpecialList();
+  if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active');}
 }
 
 // ── TARAMA ────────────────────────────────────────
+// ── TOKEN PICKER ──────────────────────────────────────────
+const _tokenSel = { lesson: new Set(), lyrics: new Set() };
+
+function tokenizeText(mode) {
+  const ta = document.getElementById(mode + '-text');
+  const text = ta ? ta.value : '';
+  const tokBox = document.getElementById(mode + '-tokens');
+  const cntEl = document.getElementById(mode + '-sel-count');
+  if (!text.trim()) { tokBox.classList.remove('visible'); tokBox.innerHTML = ''; return; }
+
+  // Metni token'lara böl: kelimeler + noktalama + boşluklar
+  const parts = text.match(/[A-Za-zÀ-öø-ÿĀ-ž'-]+|[^\wA-Za-zÀ-öø-ÿĀ-ž'-]+/g) || [];
+
+  // Bağlaçlar listesi (soluk gösterilecek ama tıklanabilir)
+  const conjSet = new Set(['i','a','ale','lub','czy','że','bo','gdy','kiedy','jak','też','już','nie','się','to','co','na','w','z','do','po','przez','dla','od','przy','bez','nad','pod','przed','za','o','ze']);
+
+  tokBox.innerHTML = '';
+  tokBox.classList.add('visible');
+  _tokenSel[mode] = _tokenSel[mode] || new Set();
+
+  parts.forEach((part, idx) => {
+    const isWord = /[A-Za-zÀ-öø-ÿĀ-ž'-]/.test(part);
+    if (!isWord) {
+      // Noktalama / boşluk
+      const sp = document.createElement('span');
+      sp.className = 'tok tok-punct';
+      sp.textContent = part;
+      tokBox.appendChild(sp);
+      return;
+    }
+    const lower = part.toLowerCase();
+    const isConj = conjSet.has(lower);
+    const span = document.createElement('span');
+    span.className = 'tok ' + (isConj ? 'tok-conj' : 'tok-word');
+    span.textContent = part;
+    span.dataset.word = lower;
+    span.dataset.orig = part;
+    if (_tokenSel[mode].has(lower)) span.classList.add('tok-selected');
+    span.onclick = () => {
+      if (_tokenSel[mode].has(lower)) {
+        _tokenSel[mode].delete(lower);
+        span.classList.remove('tok-selected');
+      } else {
+        _tokenSel[mode].add(lower);
+        span.classList.add('tok-selected');
+        // Aynı kelime başka yerlerde de seçili görünsün
+        tokBox.querySelectorAll('[data-word="' + lower + '"]').forEach(s => s.classList.add('tok-selected'));
+      }
+      updateTokenCount(mode);
+    };
+    tokBox.appendChild(span);
+  });
+  updateTokenCount(mode);
+}
+
+function updateTokenCount(mode) {
+  const el = document.getElementById(mode + '-sel-count');
+  const n = (_tokenSel[mode] || new Set()).size;
+  if (el) el.textContent = n + ' kelime seçildi';
+}
+
+function selectAllTokens(mode) {
+  const tokBox = document.getElementById(mode + '-tokens');
+  if (!tokBox) return;
+  tokBox.querySelectorAll('.tok-word, .tok-conj').forEach(s => {
+    _tokenSel[mode].add(s.dataset.word);
+    s.classList.add('tok-selected');
+  });
+  updateTokenCount(mode);
+}
+
+function clearTokenSel(mode) {
+  (_tokenSel[mode] || new Set()).clear();
+  const tokBox = document.getElementById(mode + '-tokens');
+  if (tokBox) tokBox.querySelectorAll('.tok-selected').forEach(s => s.classList.remove('tok-selected'));
+  updateTokenCount(mode);
+}
+
+async function analyzeSelected(mode) {
+  const sel = _tokenSel[mode] || new Set();
+  if (sel.size === 0) { alert('Önce kelime seç!'); return; }
+
+  const tokens = [...sel];
+  const btn = document.getElementById(mode + '-btn');
+  const st = document.getElementById(mode + '-status');
+  btn.disabled = true;
+  st.innerHTML = '<span class="spinner"></span> ' + tokens.length + ' kelime analiz ediliyor...';
+
+  try {
+    const CHUNK = 40;
+    const chunks = [];
+    for (let i = 0; i < tokens.length; i += CHUNK) chunks.push(tokens.slice(i, i + CHUNK));
+    const allWords = [];
+    for (let ci = 0; ci < chunks.length; ci++) {
+      const chunk = chunks[ci];
+      st.innerHTML = '<span class="spinner"></span> ' + (ci+1) + '/' + chunks.length + ' parça...';
+      const data = await window.polonica.analyzeText({ text: chunk.join(' '), count: chunk.length, mode });
+      if (data.words) allWords.push(...data.words);
+    }
+    scanMode = mode;
+    scanned = allWords.map((w, i) => ({ ...w, _sid: i }));
+    renderWordList(mode + '-results', scanned, mode);
+    st.textContent = scanned.length + ' kelime analiz edildi — seç ve kaydet!';
+  } catch(e) {
+    st.textContent = 'Hata: ' + e.message;
+  }
+  btn.disabled = false;
+}
+
 async function doScan(mode){
   scanMode=mode;
   const text=document.getElementById(mode+'-text').value.trim();
@@ -1090,10 +1227,12 @@ function makeWordCard(w){
   const tc={verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888'}[w.category]||'#888';
   const tl={verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger'}[w.category]||'';
   const tb='<span class="word-type-badge" style="color:'+tc+';border-color:'+tc+'33;background:'+tc+'11">'+tl+'</span>';
+  const slangBadge=w.slang?'<span class="slang-badge">🔥 SLANG</span>':'';
+  if(w.slang) d.classList.add('slang-card');
   const cb=w.category==='verb'?'<button class="btn" style="margin-left:auto;font-size:10px;padding:2px 8px" onclick="event.stopPropagation();showConj(&apos;'+esc(w.pl)+'&apos;)">Çekim</button>':'';
   const ex=w.example_pl
     ?'<div class="word-example"><span class="ex-pl">'+esc(w.example_pl)+'</span>'+(w.example_tr?'<span class="ex-tr">'+esc(w.example_tr)+'</span>':'')+'</div>':'';
-  d.innerHTML='<div class="word-card-header">'+headHtml+tb+cb+'<span class="word-en">'+esc(w.en||'')+'</span></div>'+
+  d.innerHTML='<div class="word-card-header">'+slangBadge+headHtml+tb+cb+'<span class="word-en">'+esc(w.en||'')+'</span></div>'+
     '<div><span class="word-tr-main">'+esc(w.tr)+'</span></div>'+ex;
   return d;
 }
@@ -1168,14 +1307,31 @@ async function saveSelected(){
     if(!ok)return;
   }
 
-  const groups={verb:'Fiiller',noun:'Isimler',adj:'Sifatlar',other:'Diger'};
-  for(const [cat,lbl] of Object.entries(groups)){
-    const list=fresh.filter(w=>w.category===cat);
-    if(list.length)await window.polonica.createUnit({name:base+' · '+lbl,words:list,mode:scanMode});
+  // Kaydetme modu: lesson/lyrics → kategori grupla, class → dersten gelenler tek ünite
+  if(scanMode === 'lesson' || scanMode === 'lyrics'){
+    const groups={verb:'Fiiller',noun:'Isimler',adj:'Sifatlar',other:'Diger'};
+    for(const [cat,lbl] of Object.entries(groups)){
+      const list=fresh.filter(w=>w.category===cat);
+      if(list.length)await window.polonica.createUnit({name:base+' · '+lbl,words:list,mode:scanMode});
+    }
+  } else {
+    // Dersten Gelenler modu - hepsi tek ünite
+    if(fresh.length) await window.polonica.createUnit({name:base,words:fresh,mode:'class'});
   }
   store=await window.polonica.getStore();
   clearSel();updateCounts();updateTestSelect();
+  // Dersten Gelenler'e yönlendir
+  if(scanMode === 'class' || document.getElementById('panel-lib-class')) {
+    showPanel('lib-class');
+  }
   alert(fresh.length+' yeni kelime kaydedildi!'+(dupes.length?' ('+dupes.length+' duplicate atlandi)':''));
+}
+
+function saveSelectedWithMode(){
+  const modeEl = document.getElementById('save-mode-sel');
+  const chosenMode = modeEl ? modeEl.value : '';
+  if(chosenMode === 'class') scanMode = 'class';
+  saveSelected();
 }
 
 function clearSel(){selected.clear();updateSaveBar();document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));}
@@ -1188,7 +1344,7 @@ function renderLib(mode){
   const main=document.getElementById('lib-'+mode+'-main');
   const det=document.getElementById('detail-'+mode);
   if(main)main.style.display='block';if(det)det.style.display='none';
-  let units=store.units.filter(u=>u.mode===mode);
+  let units=mode==='class'?store.units.filter(u=>u.mode==='class'):store.units.filter(u=>u.mode===mode);
   if(q)units=units.filter(u=>u.name.toLowerCase().includes(q)||u.words.some(w=>w.pl.toLowerCase().includes(q)||(w.tr||'').toLowerCase().includes(q)));
   if(!units.length){grid.innerHTML='<p style="color:var(--text3);padding:12px 0">Henüz kayıt yok.</p>';return;}
   const today=new Date().toISOString().slice(0,10);
@@ -1908,7 +2064,7 @@ async function lookupSpecial(){
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>';
   try {
-    const data = await window.polonica.specialLookup({ word });
+    const data = await window.polonica.specialLookup({ word, mode: scanMode || 'lesson' });
     lookupResult = data;
     showLookupResult(data);
   } catch(e) {
@@ -1920,8 +2076,10 @@ async function lookupSpecial(){
 
 function showLookupResult(d){
   const origDiffers = d.original && d.original.toLowerCase() !== (d.pl||'').toLowerCase();
-  document.getElementById('slr-pl').textContent = d.pl || '';
-  document.getElementById('slr-inflected').textContent = origDiffers ? '(' + d.original + ')' : '';
+  // Slang badge
+  const slangHtml = d.slang ? '<span class="slang-badge">🔥 SLANG' + (d.slang_note ? ' · ' + esc(d.slang_note) : '') + '</span>' : '';
+  document.getElementById('slr-pl').innerHTML = slangHtml + esc(d.pl || '');
+  document.getElementById('slr-inflected').textContent = origDiffers ? '(' + (d.original||'') + ')' : '';
   document.getElementById('slr-note').textContent = d.inflection_note ? ' · ' + d.inflection_note : '';
   document.getElementById('slr-tr').textContent = d.tr || '';
   document.getElementById('slr-en').textContent = d.en || '';
@@ -2019,8 +2177,9 @@ function _renderSpecialList(){
     row.className = 'special-row';
     row.id = rowId;
     row.onclick = () => toggleSpecialDetail(e.id);
+    const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
     row.innerHTML =
-      '<span class="special-row-pl">'+esc(e.pl)+'</span>'+
+      '<span class="special-row-pl">'+slangBadge+esc(e.pl)+'</span>'+
       '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
       (e.note ? '<span class="special-row-note">⭐ '+esc(e.note)+'</span>' : '<span class="special-row-note" style="opacity:.3">not yok</span>')+
       '<span class="special-row-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
