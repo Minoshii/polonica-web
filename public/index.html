@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Polonica">
+<meta name="theme-color" content="#c8b89a">
+<title>Polonica</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root{--bg:#0c0c0c;--surface:#111;--surface2:#161616;--surface3:#1c1c1c;--border:#222;--border2:#2a2a2a;--accent:#c8b89a;--accent-dim:#6b5d48;--accent-bg:#1a160e;--text:#e8e6e1;--text2:#888;--text3:#444;--green:#4a9a6a;--green-bg:#0d2017;--red:#c05050;--red-bg:#200d0d;--blue:#5080c0;--blue-bg:#0d1a30;--purple:#9060c0;--purple-bg:#1a0d30;--pink:#c060a0;--pink-bg:#1a0d16;--teal:#3a9a8a;--teal-bg:#0d1e1c;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;}
+#sidebar{width:210px;min-width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 10px 12px;overflow-y:auto;}
+.logo{font-size:20px;font-weight:800;color:var(--accent);padding:0 8px;margin-bottom:20px;letter-spacing:-0.5px;}
+.nav-section{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:0 8px;margin:10px 0 4px;}
+.nav-btn{width:100%;padding:8px 12px;background:none;border:none;color:var(--text2);text-align:left;cursor:pointer;border-radius:8px;margin-bottom:2px;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px;transition:all .15s;}
+.nav-btn:hover{background:var(--surface2);color:var(--text);}
+.nav-btn.active{background:var(--surface3);color:var(--accent);}
+.sidebar-footer{margin-top:auto;padding:10px 8px 0;border-top:1px solid var(--border);}
+.footer-btns{display:flex;gap:5px;margin-bottom:8px;}
+.footer-btn{flex:1;padding:5px 4px;background:none;border:1px solid var(--border);color:var(--text3);border-radius:6px;cursor:pointer;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;transition:all .15s;text-align:center;}
+.footer-btn:hover{border-color:var(--accent-dim);color:var(--accent);}
+.ollama-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--text3);margin-right:5px;}
+.ollama-dot.ok{background:var(--green);}
+#word-count{padding:0 8px;margin-top:8px;}
+#main{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.panel{display:none;padding:26px 30px;flex:1;animation:fadeIn .15s ease;}
+.panel.active{display:flex;flex-direction:column;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.panel-title{font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:-0.5px;}
+.panel-sub{font-size:13px;color:var(--text2);margin-bottom:18px;}
+.mode-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.06em;text-transform:uppercase;margin-left:8px;vertical-align:middle;}
+.badge-lesson{background:var(--blue-bg);color:#7090d0;border:1px solid var(--blue);}
+.badge-lyrics{background:var(--purple-bg);color:#b080e0;border:1px solid var(--purple);}
+input[type=text],textarea,select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;padding:10px 13px;margin-bottom:10px;transition:border-color .15s;}
+input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent-dim);}
+textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:12px;}
+.btn{padding:9px 16px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;}
+.btn:hover{background:var(--surface3);border-color:#333;}
+.btn:disabled{opacity:.4;cursor:default;}
+.btn-accent{border-color:var(--accent-dim);color:var(--accent);background:transparent;}
+.btn-green{border-color:var(--green);color:#6dbf9a;background:var(--green-bg);}
+.btn-blue{border-color:var(--blue);color:#7090d0;background:var(--blue-bg);}
+.btn-purple{border-color:var(--purple);color:#b080e0;background:var(--purple-bg);}
+.btn-red{border-color:var(--red);color:#e07070;background:var(--red-bg);}
+.btn-pink{border-color:var(--pink);color:#e090c0;background:var(--pink-bg);}
+.btn-teal{border-color:var(--teal);color:#5dc0b0;background:var(--teal-bg);}
+.category-section{margin-top:16px;margin-bottom:20px;}
+.category-title{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:10px;border-bottom:1px solid var(--border2);padding-bottom:8px;text-transform:uppercase;display:flex;align-items:center;}
+.word-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:6px;cursor:pointer;transition:all .15s;}
+.word-card:hover{border-color:var(--border2);background:var(--surface3);}
+.word-card.selected{border-color:var(--accent-dim);background:var(--accent-bg);}
+.word-card-header{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;}
+.word-pl{font-size:16px;font-weight:700;}
+.word-orig{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;background:var(--surface3);border-radius:4px;padding:1px 6px;}
+.word-inflected{font-size:13px;color:var(--text3);font-family:'DM Mono',monospace;font-weight:400;margin-left:1px;}
+.word-type-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;border:1px solid;letter-spacing:.04em;text-transform:uppercase;}
+.word-en{font-size:11px;color:var(--text3);margin-left:auto;font-family:'DM Mono',monospace;}
+.word-tr-main{font-size:13px;color:var(--accent);font-weight:600;}
+.word-example{margin-top:6px;padding-top:6px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:2px;}
+.ex-pl{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;font-style:italic;line-height:1.5;}
+.ex-tr{font-size:11px;color:var(--text3);line-height:1.5;}
+#save-bar{position:fixed;bottom:0;left:210px;right:0;background:var(--surface);border-top:1px solid var(--border);padding:11px 30px;display:none;align-items:center;gap:10px;z-index:100;}
+#save-bar.visible{display:flex;}
+.prog-bar{height:4px;background:var(--border);border-radius:99px;margin-bottom:20px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--accent);transition:width .3s ease;}
+.unit-prog-bar{height:2px;background:var(--border);border-radius:99px;margin-bottom:8px;}
+.unit-prog-fill{height:100%;background:var(--accent);border-radius:99px;}
+.flashcard{border:1px solid var(--border);border-radius:16px;background:var(--surface2);padding:40px;text-align:center;cursor:pointer;min-height:200px;display:flex;flex-direction:column;justify-content:center;margin-bottom:20px;transition:all .2s;}
+.flashcard:hover{border-color:var(--accent-dim);}
+.mc-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mc-opt{padding:15px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;text-align:left;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--text);transition:all .2s;}
+.mc-opt:hover{border-color:var(--border2);}
+.mc-opt.correct{background:var(--green-bg);border-color:var(--green);color:#6dbf9a;}
+.mc-opt.wrong{background:var(--red-bg);border-color:var(--red);color:#e07070;}
+.srs-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;background:#2a1a08;color:#c8a050;border:1px solid #6b4a10;margin-left:6px;}
+.unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;padding:4px 0;}
+.unit-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .15s;}
+.unit-card:hover{border-color:var(--accent-dim);}
+.unit-name{font-size:14px;font-weight:700;margin-bottom:4px;}
+.unit-meta{font-size:12px;color:var(--text2);margin-bottom:10px;}
+.unit-actions{margin-top:10px;display:flex;gap:6px;}
+.back-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.back-row h2{flex:1;font-size:16px;font-weight:700;}
+.dict-word{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;background:var(--surface2);cursor:pointer;transition:all .15s;}
+.dict-word:hover{border-color:var(--accent-dim);}
+.dw-info{font-size:13px;}
+.dw-prog{font-size:12px;color:var(--text2);white-space:nowrap;}
+.search-row{display:flex;gap:8px;margin-bottom:14px;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.stat-num{font-size:28px;font-weight:800;margin-bottom:4px;}
+.stat-lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.chart-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;}
+.chart-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;}
+.missed-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface3);border-radius:8px;margin-bottom:5px;}
+.missed-pl{font-size:14px;font-weight:700;flex:1;}
+.pdf-layout{display:flex;gap:16px;flex:1;min-height:0;}
+.pdf-list-col{width:200px;min-width:200px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;}
+.pdf-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .15s;}
+.pdf-item:hover{border-color:var(--accent-dim);}
+.pdf-item.active-pdf{border-color:var(--accent-dim);background:var(--accent-bg);}
+.pdf-item-name{font-size:12px;font-weight:700;margin-bottom:4px;word-break:break-word;line-height:1.4;}
+.pdf-item-date{font-size:10px;color:var(--text3);}
+.pdf-viewer-col{flex:1;display:flex;flex-direction:column;min-width:0;}
+.pdf-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.pdf-canvas-wrap{flex:0 0 auto;overflow:auto;background:var(--surface3);border-radius:10px;border:1px solid var(--border);display:flex;align-items:flex-start;justify-content:center;padding:16px;max-height:400px;}
+#pdf-canvas{max-width:100%;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.pdf-empty{display:flex;align-items:center;justify-content:center;height:200px;color:var(--text3);font-size:14px;}
+.pdf-page-info{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:200;}
+.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:28px;width:600px;max-width:95vw;max-height:80vh;overflow-y:auto;}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;}
+.conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.conj-block{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.conj-block-title{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.conj-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid var(--border);}
+.conj-row:last-child{border-bottom:none;}
+.conj-pronoun{color:var(--text3);}
+.conj-form{font-weight:700;font-family:'DM Mono',monospace;}
+.notes-area{width:100%;background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;resize:vertical;height:70px;margin-top:10px;margin-bottom:10px;}
+.notes-area:focus{outline:none;border-color:var(--accent-dim);}
+.spinner{width:12px;height:12px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;display:inline-block;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* BURAK SPECIAL */
+.special-input-row{display:flex;gap:8px;margin-bottom:16px;}
+.special-input-row input{flex:1;margin-bottom:0;}
+/* Kompakt satır kart */
+.special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
+.special-row:hover{border-color:#c8a050;background:#1a140a;}
+.special-row.open{border-color:#c8a050;background:#1a140a;border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;}
+.special-row-pl{font-size:14px;font-weight:800;color:#c8a050;min-width:120px;}
+.special-row-tr{font-size:13px;color:var(--text);flex:1;}
+.special-row-note{font-size:11px;color:#8a6a30;font-family:'DM Mono',monospace;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.special-row-badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;border:1px solid;white-space:nowrap;}
+.special-row-arrow{font-size:11px;color:var(--text3);margin-left:4px;transition:transform .15s;}
+.special-row.open .special-row-arrow{transform:rotate(180deg);}
+/* Detay paneli */
+.special-detail{display:none;border:1px solid #c8a050;border-top:none;border-bottom-left-radius:8px;border-bottom-right-radius:8px;background:#1a140a;padding:14px 16px;margin-bottom:5px;}
+.special-detail.open{display:block;}
+.special-pl{font-size:20px;font-weight:800;color:#c8a050;margin-bottom:2px;}
+.special-inflected{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-left:6px;}
+.special-tr{font-size:15px;color:var(--text);font-weight:600;margin-bottom:2px;}
+.special-en{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.special-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #6b4a10;background:#2a1a08;color:#c8a050;margin-right:6px;}
+.special-example{font-size:11px;color:var(--text2);font-style:italic;font-family:'DM Mono',monospace;padding:7px 10px;background:var(--surface3);border-radius:6px;margin:8px 0;line-height:1.6;}
+.special-note-area{width:100%;background:var(--surface3);border:1px dashed #6b4a10;border-radius:8px;padding:9px 12px;color:#c8a050;font-family:'DM Mono',monospace;font-size:12px;resize:none;height:56px;margin-top:6px;transition:border-color .15s;}
+.special-note-area:focus{outline:none;border-color:#c8a050;border-style:solid;}
+.special-note-area::placeholder{color:var(--accent-dim);}
+.special-detail-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.special-date{font-size:10px;color:var(--text3);}
+.special-lookup-result{background:var(--accent-bg);border:1px solid var(--accent-dim);border-radius:12px;padding:18px;margin-bottom:16px;display:none;}
+.special-empty{text-align:center;padding:60px 20px;color:var(--text3);}
+.special-count{font-size:12px;color:var(--text3);margin-bottom:8px;}
+.special-search{margin-bottom:10px;}
+
+/* PROFİL SEÇİCİ */
+#profile-screen{position:fixed;inset:0;background:#0c0c0c;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9000;font-family:'Syne',sans-serif;}
+#profile-screen.hidden{display:none;}
+.profile-title{font-size:32px;font-weight:800;color:#e8e6e1;margin-bottom:48px;letter-spacing:-1px;text-align:center;}
+.profile-grid{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;}
+.profile-avatar{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:12px;transition:transform .2s;}
+.profile-avatar:hover{transform:scale(1.08);}
+.pa-circle{width:110px;height:110px;border-radius:18px;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:42px;transition:border-color .2s;position:relative;}
+.profile-avatar:hover .pa-circle{border-color:rgba(255,255,255,.7);}
+.pa-name{font-size:15px;font-weight:700;color:#aaa;}
+.profile-avatar:hover .pa-name{color:#fff;}
+.pa-stats{font-size:11px;color:#444;font-family:'DM Mono',monospace;text-align:center;}
+.pa-del{position:absolute;top:-8px;right:-8px;width:22px;height:22px;background:#c05050;border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.profile-avatar:hover .pa-del{display:flex;}
+.pa-add{width:110px;height:110px;border-radius:18px;border:3px dashed #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:36px;color:#333;cursor:pointer;transition:all .2s;}
+.pa-add:hover{border-color:#c8b89a;color:#c8b89a;}
+.profile-new-form{background:#111;border:1px solid #222;border-radius:16px;padding:24px;width:320px;display:none;flex-direction:column;gap:10px;margin-top:16px;}
+.profile-new-form.open{display:flex;}
+.pnf-input{background:#161616;border:1px solid #2a2a2a;color:#e8e6e1;border-radius:8px;padding:10px 13px;font-family:'Syne',sans-serif;font-size:14px;width:100%;}
+.pnf-input:focus{outline:none;border-color:#6b5d48;}
+.emoji-row{display:flex;gap:8px;flex-wrap:wrap;}
+.emoji-opt{font-size:22px;padding:5px 8px;border-radius:8px;cursor:pointer;border:2px solid transparent;}
+.emoji-opt:hover,.emoji-opt.selected{border-color:#c8b89a;background:#1a160e;}
+.color-dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;}
+.color-dot.selected{border-color:#fff;}
+#profile-badge{position:fixed;top:10px;right:14px;display:none;align-items:center;gap:8px;background:#111;border:1px solid #222;padding:5px 12px 5px 8px;border-radius:99px;cursor:pointer;z-index:500;font-family:'Syne',sans-serif;font-size:12px;color:#888;}
+#profile-badge:hover{border-color:#6b5d48;color:#c8b89a;}
+
+</style>
+</head>
+<body>
+
+<!-- PROFİL SEÇİCİ EKRANI -->
+<div id="profile-screen">
+  <div class="profile-title">KİM KULLANIYOR?</div>
+  <div class="profile-grid" id="profile-grid"></div>
+  <div class="profile-new-form" id="profile-new-form">
+    <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px">Yeni Profil</div>
+    <input class="pnf-input" id="pnf-name" placeholder="İsim (örn: Burak, Bahar)" maxlength="20">
+    <div style="font-size:11px;color:var(--text3)">Emoji seç:</div>
+    <div class="emoji-row" id="pnf-emojis"></div>
+    <div style="font-size:11px;color:var(--text3)">Renk seç:</div>
+    <div class="color-row" id="pnf-colors"></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="btn btn-accent" onclick="createProfile()" style="flex:1">Oluştur</button>
+      <button class="btn" onclick="document.getElementById('profile-new-form').classList.remove('open')">İptal</button>
+    </div>
+  </div>
+</div>
+
+<!-- AKTİF PROFİL BADGE (sağ üst) -->
+<div id="profile-badge" onclick="switchProfile()">
+  <span id="badge-emoji" style="font-size:16px"></span>
+  <span id="badge-name"></span>
+  <span style="font-size:10px;opacity:.5;margin-left:2px">▾</span>
+</div>
+
+<div id="sidebar">
+  <div class="logo">Polonica</div>
+
+  <div class="nav-section">Tara</div>
+  <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')">📚 Ders Materyali</button>
+  <button class="nav-btn" id="nav-lyrics" onclick="showPanel('lyrics')">🎵 Şarkı Sözleri</button>
+  <button class="nav-btn" id="nav-analyze" onclick="showPanel('analyze')">🔬 Metin Analizi</button>
+
+  <div class="nav-section">Materyal</div>
+  <button class="nav-btn" id="nav-pdf" onclick="showPanel('pdf')">📄 PDF Kütüphanesi</button>
+
+  <div class="nav-section">Kütüphane</div>
+  <button class="nav-btn" id="nav-lib-lesson" onclick="showPanel('lib-lesson')">◫ Akademik</button>
+  <button class="nav-btn" id="nav-lib-lyrics" onclick="showPanel('lib-lyrics')">◈ Sokak / Müzik</button>
+
+  <div class="nav-section">Kelime Defteri</div>
+  <button class="nav-btn" id="nav-special" onclick="showPanel('special')" style="color:#c8a050">⭐ Burak Special</button>
+
+  <div class="nav-section">Çalış</div>
+  <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
+  <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
+
+  <div id="word-count"></div>
+
+  <div class="sidebar-footer">
+    <div class="footer-btns">
+      <button class="footer-btn" onclick="doExport()">💾 Yedek</button>
+      <button class="footer-btn" onclick="doImport()">📂 Yükle</button>
+      <button class="footer-btn" onclick="doExportCSV()">↗ CSV</button>
+    </div>
+    <div style="font-size:11px;color:var(--text3);display:flex;align-items:center;justify-content:space-between;">
+      <span><span class="ollama-dot" id="ollama-dot"></span><span id="ollama-label">Bağlanıyor...</span></span>
+      <button onclick="showSettings()" style="background:none;border:1px solid var(--border);color:var(--text3);border-radius:5px;padding:2px 7px;cursor:pointer;font-size:10px;font-family:'Syne',sans-serif;">⚙</button>
+    </div>
+  </div>
+</div>
+
+<!-- AYARLAR MODALI -->
+<div id="modal-settings" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeSettings()">
+  <div class="modal-box" style="width:420px">
+    <div class="modal-title">
+      <span>⚙ Ayarlar</span>
+      <button class="btn" onclick="closeSettings()" style="padding:4px 10px">✕</button>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px">OLLAMA DİL MODELİ</label>
+      <input type="text" id="settings-model" placeholder="qwen2.5:3b" style="margin-bottom:4px">
+      <div style="font-size:11px;color:var(--text3)">Metin analizi için. Önerilen: qwen2.5:3b, mistral, phi3</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px">VISION MODELİ (OCR için, opsiyonel)</label>
+      <input type="text" id="settings-vision" placeholder="boş bırakabilirsin (llava, minicpm-v, vs.)" style="margin-bottom:4px">
+      <div style="font-size:11px;color:var(--text3)">Screenshot yapıştırınca metne çevirir. llava veya minicpm-v gerekli.</div>
+    </div>
+    <div id="settings-ollama-status" style="margin-bottom:14px;padding:10px;background:var(--surface3);border-radius:8px;font-size:12px;"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-accent" onclick="saveSettings()">Kaydet</button>
+      <button class="btn" onclick="closeSettings()">İptal</button>
+    </div>
+  </div>
+</div>
+
+<div id="main">
+
+  <!-- DERS MATERYALİ -->
+  <div class="panel active" id="panel-lesson">
+    <div class="panel-title">Ders Kitabı Tara <span class="mode-badge badge-lesson">Akademik</span></div>
+    <div class="panel-sub">Metni yapıştır, kelimeler fiil / isim / sıfat olarak ayrıştırılır.</div>
+    <textarea id="lesson-text" placeholder="Lehçe metni buraya yapıştır..."></textarea>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select id="lesson-count" style="width:auto;">
+        <option value="10">10 kelime</option><option value="20">20 kelime</option>
+        <option value="30">30 kelime</option><option value="50" selected>50 kelime</option>
+        <option value="75">75 kelime</option><option value="100">100 kelime</option>
+        <option value="150">150 kelime</option><option value="200">200 kelime</option>
+      </select>
+      <button class="btn btn-blue" id="lesson-btn" onclick="doScan('lesson')">Tara &amp; Seç</button>
+      <span id="lesson-status"></span>
+    </div>
+    <div id="lesson-results"></div>
+  </div>
+
+  <!-- ŞARKI SÖZLERİ -->
+  <div class="panel" id="panel-lyrics">
+    <div class="panel-title">Şarkı Sözleri <span class="mode-badge badge-lyrics">Sokak</span></div>
+    <div class="panel-sub">Slang, argo ve konuşma dili kelimeleri için.</div>
+    <textarea id="lyrics-text" placeholder="Şarkı sözlerini yapıştır..."></textarea>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select id="lyrics-count" style="width:auto;">
+        <option value="10">10 kelime</option><option value="20">20 kelime</option>
+        <option value="30">30 kelime</option><option value="50" selected>50 kelime</option>
+        <option value="75">75 kelime</option><option value="100">100 kelime</option>
+        <option value="150">150 kelime</option><option value="200">200 kelime</option>
+      </select>
+      <button class="btn btn-purple" id="lyrics-btn" onclick="doScan('lyrics')">Tara &amp; Seç</button>
+      <span id="lyrics-status"></span>
+    </div>
+    <div id="lyrics-results"></div>
+  </div>
+
+  <!-- METİN ANALİZİ -->
+  <div class="panel" id="panel-analyze">
+    <div class="panel-title">Metin Analizi <span class="mode-badge" style="background:var(--pink-bg);color:#e090c0;border:1px solid var(--pink)">Tam Analiz</span></div>
+    <div class="panel-sub">Tüm benzersiz kelimeler otomatik parçalara bölünerek analiz edilir — kelime sınırı yok.</div>
+    <textarea id="analyze-text" style="height:160px" placeholder="Lehçe metni yapıştır..."></textarea>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <div id="analyze-wordcount" style="font-size:12px;color:var(--text3);padding:6px 12px;background:var(--surface3);border-radius:6px;border:1px solid var(--border)">Metin gir...</div>
+      <select id="analyze-mode-sel" style="width:auto;margin-bottom:0"><option value="lesson">Akademik</option><option value="lyrics">Müzik / Slang</option></select>
+      <button class="btn btn-pink" id="analyze-btn" onclick="doAnalyzeFull()">🔬 Analiz Et</button>
+      <span id="analyze-status" style="font-size:12px;color:var(--text2)"></span>
+    </div>
+    <div id="analyze-progress" style="display:none;margin-bottom:14px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px" id="analyze-progress-label">Hazırlanıyor...</div>
+      <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden"><div id="analyze-progress-fill" style="height:100%;background:var(--pink);width:0%;transition:width .4s ease"></div></div>
+    </div>
+    <div id="analyze-results"></div>
+  </div>
+
+  <!-- PDF KÜTÜPHANESİ -->
+  <div class="panel" id="panel-pdf">
+    <div class="panel-title">PDF Kütüphanesi</div>
+    <div class="panel-sub">Ders kitapları kalıcı olarak saklanır. Sayfa seç, metni analiz et, kelimeleri kaydet.</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;">
+      <button class="btn btn-teal" onclick="addPDFs()">+ PDF Ekle</button>
+      <span id="pdf-status" style="font-size:12px;color:var(--text2)"></span>
+    </div>
+    <div class="pdf-layout">
+      <div class="pdf-list-col" id="pdf-list-col">
+        <div style="color:var(--text3);font-size:13px">Henüz kitap yok.</div>
+      </div>
+      <div class="pdf-viewer-col">
+        <div id="pdf-viewer-empty" class="pdf-empty">← Bir kitap seç</div>
+        <div id="pdf-viewer-active" style="display:none;flex-direction:column;flex:1">
+          <div class="pdf-toolbar">
+            <button class="btn" onclick="prevPage()">&#8592; Önceki</button>
+            <span class="pdf-page-info" id="pdf-page-info">— / —</span>
+            <button class="btn" onclick="nextPage()">Sonraki &#8594;</button>
+            <button class="btn btn-pink" onclick="analyzePDFPage()" style="margin-left:auto">🔬 Bu Sayfayı Analiz Et</button>
+            <button class="btn" onclick="analyzeRange()" style="font-size:12px">Sayfa Aralığı...</button>
+          </div>
+          <div class="pdf-canvas-wrap"><canvas id="pdf-canvas"></canvas></div>
+          <div id="pdf-page-results" style="margin-top:12px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AKADEMİK KÜTÜPHANE -->
+  <div class="panel" id="panel-lib-lesson">
+    <div class="panel-title">Akademik Kütüphane</div>
+    <div class="search-row"><input type="text" id="search-lesson" placeholder="Kelime veya ünite ara..." oninput="filterLib('lesson')" style="margin-bottom:0"></div>
+    <div id="lib-lesson-main"><div class="unit-grid" id="grid-lesson"></div></div>
+    <div id="detail-lesson" style="display:none"></div>
+  </div>
+
+  <!-- MÜZİK KÜTÜPHANESİ -->
+  <div class="panel" id="panel-lib-lyrics">
+    <div class="panel-title">Sokak / Müzik Kütüphanesi</div>
+    <div class="search-row"><input type="text" id="search-lyrics" placeholder="Kelime veya ünite ara..." oninput="filterLib('lyrics')" style="margin-bottom:0"></div>
+    <div id="lib-lyrics-main"><div class="unit-grid" id="grid-lyrics"></div></div>
+    <div id="detail-lyrics" style="display:none"></div>
+  </div>
+
+  <!-- TEST -->
+  <div class="panel" id="panel-test">
+    <div id="test-setup-view">
+      <div class="panel-title">Test Hazırla</div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px">Ünite</label>
+        <select id="test-unit" onchange="updatePoolInfo()"></select>
+        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px">Mod</label>
+        <select id="test-mode" onchange="updatePoolInfo()">
+          <option value="flashcard">Flashcard</option>
+          <option value="mc">Çoktan Seçmeli</option>
+          <option value="srs">SRS — Tekrar Zamanı Gelenler</option>
+          <option value="weak">Zayıf Kelimeler (2+ yanlış)</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn btn-accent" onclick="startTest()">Başlat</button>
+        <span id="test-pool-info" style="font-size:12px;color:var(--text2)"></span>
+      </div>
+    </div>
+    <div id="test-active" style="display:none"></div>
+  </div>
+
+  <!-- BURAK SPECIAL -->
+  <div class="panel" id="panel-special">
+    <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:#2a1a08;color:#c8a050;border:1px solid #6b4a10">Kişisel Sözlük</span></div>
+    <div class="panel-sub">Ders sırasında karşına çıkan kelimeyi yaz, anlamı otomatik gelsin. Notunu ekle, kaydet.</div>
+
+    <!-- Arama + giriş -->
+    <div class="special-input-row">
+      <input type="text" id="special-word-input" placeholder="Lehçe kelime veya fiil yaz... (örn: chodzić, piękny, zrobiłem)" onkeydown="if(event.key==='Enter')lookupSpecial()" style="margin-bottom:0;border-color:#6b4a10;">
+      <button class="btn" onclick="lookupSpecial()" id="special-lookup-btn" style="border-color:#c8a050;color:#c8a050;background:#2a1a08;white-space:nowrap;">🔍 Ara</button>
+    </div>
+
+    <!-- Arama sonucu (önizleme) -->
+    <div id="special-lookup-result" class="special-lookup-result">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span class="special-pl" id="slr-pl"></span>
+          <span class="special-inflected" id="slr-inflected"></span>
+          <span class="special-infl-note" id="slr-note"></span>
+        </div>
+        <span id="slr-badge" class="special-type-badge"></span>
+      </div>
+      <div class="special-tr" id="slr-tr"></div>
+      <div class="special-en" id="slr-en"></div>
+      <div class="special-example" id="slr-example"></div>
+      <div style="margin-top:4px;margin-bottom:4px;font-size:11px;color:var(--text3)">⭐ BURAK NOTU — bu kelimeyi sana ne hatırlatıyor?</div>
+      <textarea class="special-note-area" id="slr-note-input" placeholder="örn: hoca bunu 3 kez tekrarladı / benek'in soyadına benziyor / zor çekim, dikkat..."></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button class="btn btn-accent" onclick="saveSpecial()" style="border-color:#c8a050;color:#c8a050;">⭐ Kelime Defterine Kaydet</button>
+        <button class="btn" onclick="clearLookup()">İptal</button>
+      </div>
+    </div>
+
+    <!-- Liste -->
+    <input type="text" id="special-search" class="special-search" placeholder="Kayıtlı kelimelerde ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
+    <div id="special-count" class="special-count"></div>
+    <div id="special-list"></div>
+  </div>
+
+  <!-- İSTATİSTİK -->
+  <div class="panel" id="panel-stats">
+    <div class="panel-title">İstatistik</div>
+    <div id="stats-content" style="color:var(--text3)">Yükleniyor...</div>
+  </div>
+
+</div>
+
+<!-- ÇEKİM MODAL -->
+<div id="modal-conj" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeConj()">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span id="conj-title">Çekim Tablosu</span>
+      <button class="btn" onclick="closeConj()" style="padding:4px 10px">✕</button>
+    </div>
+    <div id="conj-body" style="text-align:center;padding:20px"><span class="spinner"></span></div>
+  </div>
+</div>
+
+<!-- KAYDET ÇUBUĞU -->
+<div id="save-bar">
+  <span id="sbc">0 seçildi</span>
+  <input type="text" id="save-name" placeholder="Ünite adı..." style="margin-bottom:0;width:200px">
+  <button class="btn btn-green" onclick="saveSelected()">Kaydet</button>
+  <button class="btn" onclick="clearSel()">İptal</button>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ── AKTİF PROFİL ──────────────────────────────────────────
+let _activeProfile = localStorage.getItem('polonica_profile') || '';
+let _authToken = localStorage.getItem('polonica_token') || '';
+
+// ── API KATMANI ────────────────────────────────────────────
+const _fetch = async (url, opts={}) => {
+  opts.headers = opts.headers || {};
+  opts.headers['x-auth-token'] = _authToken;
+  opts.headers['x-profile'] = _activeProfile;
+  const r = await fetch(url, opts);
+  if (r.status === 401) { _authToken=''; localStorage.removeItem('polonica_token'); showLoginScreen(); throw new Error('Yetkisiz'); }
+  return r;
+};
+const api = {
+  async get(url)        { const r=await _fetch(url); return r.json(); },
+  async post(url, body) { const r=await _fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return r.json(); },
+  async del(url)        { const r=await _fetch(url,{method:'DELETE'}); return r.json(); },
+  async put(url, body)  { const r=await _fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return r.json(); },
+};
+
+window.polonica = {
+  getStore:            ()   => api.get('/api/store'),
+  saveSettings:        (s)  => api.post('/api/settings', s),
+  checkOllama:         ()   => api.get('/api/check-ollama'),
+  analyzeText:         (a)  => api.post('/api/analyze', a),
+  getConjugation:      (a)  => api.post('/api/conjugation', a),
+  generateDistractors: (a)  => api.post('/api/distractors', a),
+  createUnit:          (a)  => api.post('/api/units', a),
+  deleteUnit:          (id) => api.del('/api/units/'+id),
+  updateUnitNotes:     (a)  => api.put('/api/units/'+a.id+'/notes', {notes:a.notes}),
+  updateProgress:      (a)  => api.post('/api/progress', a),
+  resetProgress:       (id) => api.post('/api/progress/reset/'+id, {}),
+  pdfList:             ()   => api.get('/api/pdfs'),
+  pdfRead:             (id) => api.get('/api/pdfs/'+id),
+  pdfDelete:           (id) => api.del('/api/pdfs/'+id),
+  getStats:            ()   => api.get('/api/stats'),
+  exportCsv:           ({unitId}) => { window.open('/api/export/csv?unitId='+unitId,'_blank'); return Promise.resolve({ok:true}); },
+  exportData:          ()   => { window.open('/api/export/json','_blank'); return Promise.resolve({ok:true}); },
+  specialLookup:       (a)  => api.post('/api/special/lookup', a),
+  specialSave:         (a)  => api.post('/api/special', a),
+  specialList:         ()   => api.get('/api/special'),
+  specialDelete:       (id) => api.del('/api/special/'+id),
+  specialUpdateNote:   (a)  => api.put('/api/special/'+a.id+'/note', {note:a.note}),
+  ocrImage:            ()   => Promise.resolve({text:'',error:'OCR web versiyonunda yok.'}),
+  readClipboardImage:  ()   => Promise.resolve({base64:null}),
+  openFile:            ()   => Promise.resolve({text:null}),
+  importData: async () => new Promise(resolve => {
+    const inp=document.createElement('input'); inp.type='file'; inp.accept='.json';
+    inp.onchange = async () => {
+      try { const text=await inp.files[0].text(); const r=await api.post('/api/import/json',JSON.parse(text)); resolve(r); }
+      catch(e){ resolve({ok:false,error:e.message}); }
+    };
+    inp.click();
+  }),
+  pdfOpenDialog: async () => new Promise(resolve => {
+    const inp=document.createElement('input'); inp.type='file'; inp.accept='.pdf'; inp.multiple=true;
+    inp.onchange = async () => {
+      const added=[];
+      for(const file of inp.files){
+        const fd=new FormData(); fd.append('pdf',file);
+        const r=await _fetch('/api/pdfs',{method:'POST',body:fd});
+        const meta=await r.json();
+        if(meta.id) added.push(meta);
+      }
+      resolve({added});
+    };
+    inp.click();
+  }),
+};
+
+// ── PROFİL SİSTEMİ ────────────────────────────────────────
+const EMOJIS = ['📚','🎓','⭐','🦁','🐺','🦊','🌙','🔥','💎','🎯','🎵','🌿','⚡','🍀','🏆'];
+const COLORS  = ['#c8b89a','#5080c0','#4a9a6a','#c05050','#9060c0','#c060a0','#3a9a8a','#c8a050','#888'];
+let pnfEmoji = EMOJIS[0], pnfColor = COLORS[0];
+
+async function showProfileScreen() {
+  document.getElementById('profile-screen').classList.remove('hidden');
+  document.getElementById('profile-badge').style.display = 'none';
+  const profiles = await fetch('/api/profiles').then(r=>r.json());
+  renderProfileGrid(profiles);
+  initNewProfileForm();
+}
+
+function renderProfileGrid(profiles) {
+  const grid = document.getElementById('profile-grid');
+  grid.innerHTML = '';
+  profiles.forEach(p => {
+    const av = document.createElement('div');
+    av.className = 'profile-avatar';
+    av.innerHTML =
+      '<div class="pa-circle" style="background:'+p.color+'22">' +
+        '<span style="font-size:42px">'+p.emoji+'</span>' +
+        '<button class="pa-del pa-del-btn" data-profile-key="'+p.key+'" title="Sil">&#x2715;</button>' +
+      '</div>' +
+      '<span class="pa-name">'+esc(p.name)+'</span>' +
+      '<span class="pa-stats">'+p.wordCount+' kelime · '+p.specialCount+' özel</span>';
+    av.onclick = () => selectProfile(p);
+    av.querySelectorAll('.pa-del-btn').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); deleteProfile(btn.dataset.profileKey); });
+    });
+    grid.appendChild(av);
+  });
+  // Yeni profil butonu
+  const addWrap = document.createElement('div');
+  addWrap.innerHTML =
+    '<div class="pa-add" id="pa-add-btn">+</div>' +
+    '<span style="font-size:14px;font-weight:700;color:#444;font-family:Syne,sans-serif">Yeni Profil</span>';
+  addWrap.querySelector('#pa-add-btn').addEventListener('click',()=>{document.getElementById('profile-new-form').classList.add('open');document.getElementById('pnf-name').focus();});
+  addWrap.style.cssText='display:flex;flex-direction:column;align-items:center;gap:12px;';
+  grid.appendChild(addWrap);
+}
+
+function initNewProfileForm() {
+  const er = document.getElementById('pnf-emojis');
+  er.innerHTML = '';
+  EMOJIS.forEach(e => {
+    const s = document.createElement('span');
+    s.className = 'emoji-opt' + (e===pnfEmoji?' selected':'');
+    s.textContent = e;
+    s.onclick = () => { pnfEmoji=e; document.querySelectorAll('.emoji-opt').forEach(x=>x.classList.remove('selected')); s.classList.add('selected'); };
+    er.appendChild(s);
+  });
+  const cr = document.getElementById('pnf-colors');
+  cr.innerHTML = '';
+  COLORS.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'color-dot' + (c===pnfColor?' selected':'');
+    d.style.background = c;
+    d.onclick = () => { pnfColor=c; document.querySelectorAll('.color-dot').forEach(x=>x.classList.remove('selected')); d.classList.add('selected'); };
+    cr.appendChild(d);
+  });
+}
+
+async function createProfile() {
+  const name = document.getElementById('pnf-name').value.trim();
+  if (!name) return;
+  await fetch('/api/profiles',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,color:pnfColor,emoji:pnfEmoji})});
+  document.getElementById('pnf-name').value='';
+  document.getElementById('profile-new-form').classList.remove('open');
+  const profiles = await fetch('/api/profiles').then(r=>r.json());
+  renderProfileGrid(profiles);
+}
+
+async function deleteProfile(key) {
+  if(!confirm('Bu profil ve tüm verileri silinsin mi?')) return;
+  await fetch('/api/profiles/'+key,{method:'DELETE'});
+  const profiles = await fetch('/api/profiles').then(r=>r.json());
+  renderProfileGrid(profiles);
+}
+
+function selectProfile(p) {
+  _activeProfile = p.key;
+  localStorage.setItem('polonica_profile', p.key);
+  // Badge güncelle
+  document.getElementById('badge-emoji').textContent = p.emoji;
+  document.getElementById('badge-name').textContent = p.name;
+  document.getElementById('profile-badge').style.display = 'flex';
+  // Profil ekranını kapat
+  document.getElementById('profile-screen').classList.add('hidden');
+  // Uygulamayı başlat
+  init();
+}
+
+function switchProfile() {
+  // Profil seçiciye geri dön
+  document.getElementById('profile-screen').classList.remove('hidden');
+  showProfileScreen();
+}
+
+async function deleteProfile(key) {
+  if(!confirm('Bu profil ve tum verileri silinsin mi?')) return;
+  await _fetch('/api/profiles/'+key,{method:'DELETE'});
+  const profiles = await fetch('/api/profiles').then(r=>r.json());
+  renderProfileGrid(profiles);
+}
+
+// ── BAŞLANGIÇ ─────────────────────────────────────────────
+async function boot() {
+  const pass = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:_authToken})}).then(r=>r.json());
+  if (!pass.ok && process && false) { showLoginScreen(); return; } // auth disabled for now
+  // Kayıtlı profil varsa direkt giriş
+  if (_activeProfile) {
+    const profiles = await fetch('/api/profiles').then(r=>r.json());
+    const saved = profiles.find(p=>p.key===_activeProfile);
+    if (saved) { selectProfile(saved); return; }
+  }
+  showProfileScreen();
+}
+
+function showLoginScreen() {
+  // Şifre gerekiyorsa burası tetiklenir
+  const pass = prompt('Polonica şifre:');
+  if (pass) { _authToken=pass; localStorage.setItem('polonica_token',pass); boot(); }
+}
+
+boot();
+
+// window.polonica asagida tanimlandi
+window.polonica = {
+  getStore:            ()    => api.get('/api/store'),
+  saveSettings:        (s)   => api.post('/api/settings', s),
+  checkOllama:         ()    => api.get('/api/check-ollama'),
+  analyzeText:         (a)   => api.post('/api/analyze', a),
+  getConjugation:      (a)   => api.post('/api/conjugation', a),
+  generateDistractors: (a)   => api.post('/api/distractors', a),
+  createUnit:          (a)   => api.post('/api/units', a),
+  deleteUnit:          (id)  => api.del('/api/units/'+id),
+  updateUnitNotes:     (a)   => api.put('/api/units/'+a.id+'/notes', {notes:a.notes}),
+  updateProgress:      (a)   => api.post('/api/progress', a),
+  resetProgress:       (id)  => api.post('/api/progress/reset/'+id, {}),
+  pdfList:             ()    => api.get('/api/pdfs'),
+  pdfRead:             (id)  => api.get('/api/pdfs/'+id),
+  pdfDelete:           (id)  => api.del('/api/pdfs/'+id),
+  getStats:            ()    => api.get('/api/stats'),
+  exportCsv:           ({unitId}) => { window.open('/api/export/csv?unitId='+unitId,'_blank'); return Promise.resolve({ok:true}); },
+  exportData:          ()    => { window.open('/api/export/json','_blank'); return Promise.resolve({ok:true}); },
+  specialLookup:       (a)   => api.post('/api/special/lookup', a),
+  specialSave:         (a)   => api.post('/api/special', a),
+  specialList:         ()    => api.get('/api/special'),
+  specialDelete:       (id)  => api.del('/api/special/'+id),
+  specialUpdateNote:   (a)   => api.put('/api/special/'+a.id+'/note', {note:a.note}),
+
+  pdfOpenDialog: async () => {
+    return new Promise(resolve => {
+      const inp = document.createElement('input');
+      inp.type='file'; inp.accept='.pdf'; inp.multiple=true;
+      inp.onchange = async () => {
+        const added = [];
+        for(const file of inp.files){
+          const fd = new FormData(); fd.append('pdf', file);
+          const r = await _fetch('/api/pdfs', {method:'POST', body:fd});
+          const meta = await r.json();
+          if(meta.id) added.push(meta);
+        }
+        resolve({added});
+      };
+      inp.click();
+    });
+  },
+
+  importData: async () => {
+    return new Promise(resolve => {
+      const inp = document.createElement('input');
+      inp.type='file'; inp.accept='.json';
+      inp.onchange = async () => {
+        try {
+          const text = await inp.files[0].text();
+          const data = JSON.parse(text);
+          const r = await api.post('/api/import/json', data);
+          resolve(r);
+        } catch(e){ resolve({ok:false, error:e.message}); }
+      };
+      inp.click();
+    });
+  },
+
+  // Electron-only stublar (web'de çalışmaz ama çağrılabilir)
+  ocrImage: async () => ({ text:'', error:'OCR web versiyonunda desteklenmiyor.' }),
+  readClipboardImage: async () => ({ base64: null }),
+  openFile: async () => ({ text: null }),
+};
+
+// ── LOGIN MODAL ────────────────────────────────────────────
+function showLoginModal(){
+  let m = document.getElementById('login-modal');
+  if(!m){
+    m = document.createElement('div');
+    m.id = 'login-modal';
+    m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:9999';
+    m.innerHTML = [
+      '<div style="background:#111;border:1px solid #6b4a10;border-radius:16px;padding:32px;width:320px;text-align:center">',
+      '<div style="font-size:28px;font-weight:800;color:#c8b89a;margin-bottom:8px">Polonica</div>',
+      '<div style="font-size:13px;color:#888;margin-bottom:20px">Sifre ile giris yap</div>',
+      '<input type="password" id="login-pass" placeholder="Sifre..." style="width:100%;background:#161616;border:1px solid #333;border-radius:8px;padding:10px;color:#e8e6e1;font-size:14px;margin-bottom:12px">',
+      '<button onclick="doLogin()" style="width:100%;padding:10px;background:transparent;border:1px solid #c8b89a;color:#c8b89a;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">Giris</button>',
+      '<div id="login-err" style="color:#e07070;font-size:12px;margin-top:10px"></div>',
+      '</div>'
+    ].join('');
+    document.getElementById('login-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+    document.body.appendChild(m);
+  }
+  m.style.display = 'flex';
+  setTimeout(() => document.getElementById('login-pass').focus(), 50);
+}
+
+async function doLogin(){
+  const pass = document.getElementById('login-pass').value;
+  const r = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({password:pass})});
+  const data = await r.json();
+  if(data.ok){
+    _authToken = data.token;
+    localStorage.setItem('polonica_token', _authToken);
+    document.getElementById('login-modal').style.display = 'none';
+    init();
+  } else {
+    document.getElementById('login-err').textContent = 'Şifre yanlış.';
+  }
+}
+
+let store={units:[]};
+let scanned=[],selected=new Set(),scanMode='lesson';
+let testWords=[],testIdx=0,testCorrect=0,testMode='',testFlipped=false;
+let currentPdfDoc=null,currentPdfId=null,currentPage=1,totalPages=0;
+
+async function init(){
+  try {
+    if(typeof window.polonica==='undefined'){
+      throw new Error('window.polonica bulunamadi. preload.js yuklenmiyor olabilir.');
+    }
+    store=await window.polonica.getStore();
+    updateCounts();updateTestSelect();setupAnalyzePanel();loadPDFLibrary();
+    renderSpecialList();
+    await checkOllamaStatus();
+    setupPaste(); // OCR paste dinleyicisi
+  } catch(e) {
+    document.getElementById('ollama-label').textContent='HATA: '+e.message;
+    document.getElementById('ollama-dot').style.background='#c05050';
+    console.error('init hatasi:', e);
+    // Yine de temel UI'yi calistir
+    try { setupAnalyzePanel(); } catch(_) {}
+  }
+}
+
+async function checkOllamaStatus(){
+  const lbl=document.getElementById('ollama-label');
+  const dot=document.getElementById('ollama-dot');
+  lbl.textContent='Bağlanıyor...';
+  try {
+    const oll=await window.polonica.checkOllama();
+    dot.classList.toggle('ok',oll.ok);
+    if(oll.ok){
+      lbl.innerHTML=(oll.models&&oll.models[0]?oll.models[0]:'Aktif')+
+        ' <button onclick="checkOllamaStatus()" style="font-size:9px;padding:1px 5px;background:none;border:1px solid var(--border);color:var(--text3);border-radius:4px;cursor:pointer;margin-left:4px;">↺</button>';
+    } else {
+      lbl.innerHTML='Kapalı — <button onclick="checkOllamaStatus()" style="font-size:9px;padding:1px 5px;background:none;border:1px solid var(--red);color:#e07070;border-radius:4px;cursor:pointer;">Tekrar Dene</button>';
+    }
+    return oll;
+  } catch(e) {
+    dot.style.background='#c05050';
+    lbl.innerHTML='Bağlanamadı <button onclick="checkOllamaStatus()" style="font-size:9px;padding:1px 5px;background:none;border:1px solid var(--red);color:#e07070;border-radius:4px;cursor:pointer;">↺</button>';
+    return { ok: false };
+  }
+}
+
+function showPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  const nb=document.getElementById('nav-'+name);if(nb)nb.classList.add('active');
+  if(name==='lib-lesson'){renderLib('lesson');document.getElementById('nav-lib-lesson').classList.add('active');}
+  if(name==='lib-lyrics'){renderLib('lyrics');document.getElementById('nav-lib-lyrics').classList.add('active');}
+  if(name==='stats')loadStats();
+  if(name==='special')renderSpecialList();
+}
+
+// ── TARAMA ────────────────────────────────────────
+async function doScan(mode){
+  scanMode=mode;
+  const text=document.getElementById(mode+'-text').value.trim();
+  const count=parseInt(document.getElementById(mode+'-count').value);
+  if(!text)return;
+  const st=document.getElementById(mode+'-status');
+  st.innerHTML='<span class="spinner"></span> İşleniyor...';
+  document.getElementById(mode+'-btn').disabled=true;
+  try{
+    const data=await window.polonica.analyzeText({text,count,mode});
+    scanned=(data.words||[]).map((w,i)=>({...w,_sid:i}));
+    renderWordList(mode+'-results',scanned,mode);
+    st.textContent=scanned.length+' kelime bulundu.';
+  }catch(e){st.textContent='Hata: '+e.message;}
+  document.getElementById(mode+'-btn').disabled=false;
+}
+
+function renderWordList(elId,words,mode){
+  const el=document.getElementById(elId);el.innerHTML='';
+  const cats=[
+    {key:'verb',label:'🔵 Fiiller',sub:'Czasowniki'},
+    {key:'noun',label:'🟡 İsimler',sub:'Rzeczowniki'},
+    {key:'adj',label:'🟢 Sıfatlar & Zarflar',sub:'Przymiotniki'},
+    {key:'other',label:'⚪ Diğer',sub:'Inne'},
+  ];
+  let any=false;
+  cats.forEach(({key,label,sub})=>{
+    const list=words.filter(w=>(w.category||'other')===key);
+    if(!list.length)return;any=true;
+    const sec=document.createElement('div');sec.className='category-section';
+    const tb=document.createElement('div');tb.className='category-title';
+    tb.innerHTML=label+' <span style="font-weight:400;font-size:11px;opacity:.5">'+sub+' · '+list.length+'</span>'+
+      '<button class="btn" style="margin-left:auto;font-size:11px;padding:3px 10px" onclick="selectCat(\''+key+'\',\''+mode+'\')">Tümünü Seç</button>';
+    sec.appendChild(tb);
+    list.forEach(w=>sec.appendChild(makeWordCard(w)));
+    el.appendChild(sec);
+  });
+  if(!any)el.innerHTML='<p style="color:var(--text3);padding:20px 0">Sonuç yok.</p>';
+}
+
+function makeWordCard(w){
+  const d=document.createElement('div');
+  d.className='word-card'+(selected.has(w._sid)?' selected':'');
+  d.onclick=()=>{
+    if(selected.has(w._sid))selected.delete(w._sid);else selected.add(w._sid);
+    d.classList.toggle('selected',selected.has(w._sid));updateSaveBar();
+  };
+
+  // Ana baslik: lemma/infinitive | Cekimli form parantez icinde (farkli ise)
+  const origDiffers=w.original&&w.original.toLowerCase()!==(w.pl||'').toLowerCase();
+  const inflNote=(w.inflection_note&&w.inflection_note!=='')?w.inflection_note:null;
+  let headHtml='<span class="word-pl">'+esc(w.pl)+'</span>';
+  if(origDiffers){
+    headHtml+='<span class="word-inflected">('+esc(w.original)+(inflNote?' <em style=\"opacity:.6;font-weight:400;font-style:italic;font-size:9px\">'+esc(inflNote)+'</em>':'')+')</span>';
+  }
+
+  const tc={verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888'}[w.category]||'#888';
+  const tl={verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger'}[w.category]||'';
+  const tb='<span class="word-type-badge" style="color:'+tc+';border-color:'+tc+'33;background:'+tc+'11">'+tl+'</span>';
+  const cb=w.category==='verb'?'<button class="btn" style="margin-left:auto;font-size:10px;padding:2px 8px" onclick="event.stopPropagation();showConj(&apos;'+esc(w.pl)+'&apos;)">Çekim</button>':'';
+  const ex=w.example_pl
+    ?'<div class="word-example"><span class="ex-pl">'+esc(w.example_pl)+'</span>'+(w.example_tr?'<span class="ex-tr">'+esc(w.example_tr)+'</span>':'')+'</div>':'';
+  d.innerHTML='<div class="word-card-header">'+headHtml+tb+cb+'<span class="word-en">'+esc(w.en||'')+'</span></div>'+
+    '<div><span class="word-tr-main">'+esc(w.tr)+'</span></div>'+ex;
+  return d;
+}
+
+function selectCat(key,mode){
+  const pool=mode==='analyze'?scanned:scanned;
+  pool.filter(w=>w.category===key).forEach(w=>selected.add(w._sid));
+  if(mode==='analyze')renderWordList('analyze-results',scanned,'analyze');
+  else if(mode==='pdf')renderWordList('pdf-page-results',scanned,'pdf');
+  else renderWordList(mode+'-results',scanned,mode);
+  updateSaveBar();
+}
+
+// ── METİN ANALİZİ ─────────────────────────────────
+function setupAnalyzePanel(){
+  const ta=document.getElementById('analyze-text');if(!ta)return;
+  ta.addEventListener('input',()=>{
+    const raw=ta.value.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g)||[];
+    const u=new Set(raw.map(t=>t.toLowerCase()));
+    const wc=document.getElementById('analyze-wordcount');
+    wc.innerHTML=ta.value.trim()?'<b>'+u.size+'</b> benzersiz · '+raw.length+' token':'Metin gir...';
+  });
+}
+
+async function doAnalyzeFull(){
+  const ta=document.getElementById('analyze-text');
+  const text=ta.value.trim();if(!text)return;
+  const raw=text.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g)||[];
+  const seen=new Set();const tokens=[];
+  for(const t of raw){const l=t.toLowerCase();if(!seen.has(l)){seen.add(l);tokens.push(t);}}
+  const mode=document.getElementById('analyze-mode-sel').value;
+  const CHUNK=50;const total=Math.ceil(tokens.length/CHUNK);
+  const btn=document.getElementById('analyze-btn');btn.disabled=true;
+  document.getElementById('analyze-progress').style.display='block';
+  document.getElementById('analyze-results').innerHTML='';
+  const allWords=[];
+  for(let ci=0;ci<total;ci++){
+    const chunk=tokens.slice(ci*CHUNK,(ci+1)*CHUNK);
+    document.getElementById('analyze-progress-label').textContent=(ci+1)+'/'+total+' parça — '+chunk[0]+'...';
+    document.getElementById('analyze-progress-fill').style.width=Math.round((ci/total)*100)+'%';
+    try{const data=await window.polonica.analyzeText({text:chunk.join(' '),count:chunk.length,mode});if(data.words)allWords.push(...data.words);}catch(e){}
+  }
+  document.getElementById('analyze-progress-fill').style.width='100%';
+  document.getElementById('analyze-progress-label').textContent='Tamamlandı — '+allWords.length+' kelime.';
+  scanMode=mode;
+  scanned=allWords.map((w,i)=>({...w,_sid:'a'+i}));
+  renderWordList('analyze-results',scanned,'analyze');
+  btn.disabled=false;
+}
+
+// ── KAYDET ────────────────────────────────────────
+function updateSaveBar(){
+  document.getElementById('save-bar').className=selected.size>0?'visible':'';
+  document.getElementById('sbc').textContent=selected.size+' seçildi';
+}
+
+async function saveSelected(){
+  const words=scanned.filter(w=>selected.has(w._sid));if(!words.length)return;
+  const base=document.getElementById('save-name').value.trim()||'Yeni Unite';
+
+  // Duplicate tespiti
+  const existingPl=new Set(store.units.flatMap(u=>u.words.map(w=>w.pl.toLowerCase().trim())));
+  const dupes=words.filter(w=>existingPl.has((w.pl||'').toLowerCase().trim()));
+  const fresh=words.filter(w=>!existingPl.has((w.pl||'').toLowerCase().trim()));
+
+  if(dupes.length>0&&fresh.length===0){
+    alert('Sectiklerin tamami zaten kutuphanende mevcut:\n'+dupes.map(w=>w.pl).join(', '));
+    return;
+  }
+  if(dupes.length>0){
+    const ok=confirm(dupes.length+' kelime zaten kayitli ve atlanacak:\n'+dupes.map(w=>w.pl).join(', ')+'\n\nDevam edilsin mi?');
+    if(!ok)return;
+  }
+
+  const groups={verb:'Fiiller',noun:'Isimler',adj:'Sifatlar',other:'Diger'};
+  for(const [cat,lbl] of Object.entries(groups)){
+    const list=fresh.filter(w=>w.category===cat);
+    if(list.length)await window.polonica.createUnit({name:base+' · '+lbl,words:list,mode:scanMode});
+  }
+  store=await window.polonica.getStore();
+  clearSel();updateCounts();updateTestSelect();
+  alert(fresh.length+' yeni kelime kaydedildi!'+(dupes.length?' ('+dupes.length+' duplicate atlandi)':''));
+}
+
+function clearSel(){selected.clear();updateSaveBar();document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));}
+
+// ── KÜTÜPHANELER ─────────────────────────────────
+function renderLib(mode){
+  const grid=document.getElementById('grid-'+mode);if(!grid)return;
+  const q=((document.getElementById('search-'+mode)||{}).value||'').toLowerCase();
+  grid.innerHTML='';
+  const main=document.getElementById('lib-'+mode+'-main');
+  const det=document.getElementById('detail-'+mode);
+  if(main)main.style.display='block';if(det)det.style.display='none';
+  let units=store.units.filter(u=>u.mode===mode);
+  if(q)units=units.filter(u=>u.name.toLowerCase().includes(q)||u.words.some(w=>w.pl.toLowerCase().includes(q)||(w.tr||'').toLowerCase().includes(q)));
+  if(!units.length){grid.innerHTML='<p style="color:var(--text3);padding:12px 0">Henüz kayıt yok.</p>';return;}
+  const today=new Date().toISOString().slice(0,10);
+  units.forEach(u=>{
+    const learned=u.words.filter(w=>w.progress&&w.progress.correct>=2).length;
+    const pct=Math.round((learned/u.words.length)*100)||0;
+    const srs=u.words.filter(w=>w.srs&&w.srs.nextReview&&w.srs.nextReview.slice(0,10)<=today).length;
+    const d=document.createElement('div');d.className='unit-card';d.onclick=()=>viewUnit(u.id,mode);
+    d.innerHTML='<div class="unit-name">'+esc(u.name)+(srs?'<span class="srs-badge">'+srs+' tekrar</span>':'')+'</div>'+
+      '<div class="unit-meta">'+u.words.length+' kelime · %'+pct+'</div>'+
+      '<div class="unit-prog-bar"><div class="unit-prog-fill" style="width:'+pct+'%"></div></div>'+
+      '<div class="unit-actions">'+
+      '<button class="btn" style="font-size:11px;padding:4px 10px" onclick="event.stopPropagation();deleteUnit(\''+u.id+'\',\''+mode+'\')">Sil</button>'+
+      '<button class="btn" style="font-size:11px;padding:4px 10px" onclick="event.stopPropagation();doExportCSVUnit(\''+u.id+'\')">CSV</button></div>';
+    grid.appendChild(d);
+  });
+}
+
+function filterLib(mode){renderLib(mode);}
+
+function viewUnit(id,mode){
+  const unit=store.units.find(u=>u.id===id);if(!unit)return;
+  const main=document.getElementById('lib-'+mode+'-main');
+  const det=document.getElementById('detail-'+mode);
+  if(main)main.style.display='none';if(!det)return;det.style.display='block';
+  let h='<div class="back-row"><button class="btn" onclick="renderLib(\''+mode+'\')">&#8592; Geri</button><h2>'+esc(unit.name)+'</h2>'+
+    '<button class="btn" onclick="resetProg(\''+unit.id+'\',\''+mode+'\')">Sıfırla</button></div>'+
+    '<div style="margin-bottom:14px"><div style="font-size:11px;color:var(--text3);margin-bottom:4px">NOTLAR</div>'+
+    '<textarea class="notes-area" id="notes-'+unit.id+'" onblur="saveNotes(\''+unit.id+'\')">'+esc(unit.notes||'')+'</textarea></div>';
+  unit.words.forEach(w=>{
+    const p=w.progress||{correct:0,wrong:0};
+    const srs=w.srs&&w.srs.nextReview?'<span style="font-size:10px;color:var(--text3);margin-left:8px">&#8594;'+w.srs.nextReview.slice(0,10)+'</span>':'';
+    const conjHint=w.category==='verb'?' <span style="font-size:10px;color:var(--text3)">(çekim için tıkla)</span>':'';
+    h+='<div class="dict-word" onclick="'+(w.category==='verb'?'showConj(\''+esc(w.pl)+'\')':'')+'">' +
+      '<div class="dw-info"><strong>'+esc(w.pl)+'</strong>: '+esc(w.tr)+srs+conjHint+'</div>'+
+      '<div class="dw-prog">✓ '+p.correct+' / ✗ '+p.wrong+'</div></div>';
+  });
+  det.innerHTML=h;
+}
+
+async function saveNotes(id){
+  const ta=document.getElementById('notes-'+id);if(!ta)return;
+  await window.polonica.updateUnitNotes({id,notes:ta.value});
+  store=await window.polonica.getStore();
+}
+
+async function deleteUnit(id,mode){
+  if(!confirm('Bu üniteyi sil?'))return;
+  await window.polonica.deleteUnit(id);
+  store=await window.polonica.getStore();renderLib(mode);updateCounts();updateTestSelect();
+}
+async function resetProg(id,mode){
+  await window.polonica.resetProgress(id);store=await window.polonica.getStore();viewUnit(id,mode);
+}
+
+// ── TEST ──────────────────────────────────────────
+function updateTestSelect(){
+  const sel=document.getElementById('test-unit');if(!sel)return;
+  sel.innerHTML='<option value="all">Tüm Kelimeler</option>';
+  store.units.filter(u=>u.mode==='lesson').forEach(u=>{sel.innerHTML+='<option value="'+u.id+'">'+esc(u.name)+'</option>';});
+  store.units.filter(u=>u.mode==='lyrics').forEach(u=>{sel.innerHTML+='<option value="'+u.id+'">'+esc(u.name)+'</option>';});
+  updatePoolInfo();
+}
+
+function getPool(id){
+  return id==='all'
+    ?store.units.flatMap(u=>u.words.map(w=>({...w,_uid:u.id})))
+    :(store.units.find(u=>u.id===id)||{words:[]}).words.map(w=>({...w,_uid:id}));
+}
+
+function updatePoolInfo(){
+  const id=document.getElementById('test-unit').value;
+  const mode=document.getElementById('test-mode').value;
+  const today=new Date().toISOString().slice(0,10);
+  let pool=getPool(id);
+  if(mode==='srs')pool=pool.filter(w=>w.srs&&w.srs.nextReview&&w.srs.nextReview.slice(0,10)<=today);
+  if(mode==='weak')pool=pool.filter(w=>w.progress&&w.progress.wrong>=2&&(w.progress.correct||0)<2);
+  document.getElementById('test-pool-info').textContent=pool.length+' kelime hazır';
+}
+
+function startTest(){
+  const id=document.getElementById('test-unit').value;
+  const rawMode=document.getElementById('test-mode').value;
+  const today=new Date().toISOString().slice(0,10);
+  let pool=getPool(id);
+  if(rawMode==='srs')pool=pool.filter(w=>w.srs&&w.srs.nextReview&&w.srs.nextReview.slice(0,10)<=today);
+  if(rawMode==='weak')pool=pool.filter(w=>w.progress&&w.progress.wrong>=2&&(w.progress.correct||0)<2);
+  if(pool.length<2){alert('Yetersiz kelime ('+pool.length+')');return;}
+  testMode=(rawMode==='srs'||rawMode==='weak')?'flashcard':rawMode;
+  testWords=shuffle([...pool]).slice(0,Math.min(20,pool.length));
+  testIdx=0;testCorrect=0;testFlipped=false;
+  document.getElementById('test-setup-view').style.display='none';
+  document.getElementById('test-active').style.display='block';
+  renderCard();
+}
+
+function renderCard(){
+  const area=document.getElementById('test-active');
+  if(testIdx>=testWords.length){
+    const pct=Math.round(testCorrect/testWords.length*100);
+    area.innerHTML='<div style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:12px">'+(pct>=70?'🎉':'📚')+'</div>'+
+      '<h2 style="font-size:28px;margin-bottom:8px">'+testCorrect+'/'+testWords.length+'</h2>'+
+      '<p style="color:var(--text2);margin-bottom:24px">%'+pct+' başarı</p>'+
+      '<button class="btn btn-accent" onclick="endTest()">Yeni Test</button></div>';
+    return;
+  }
+  const w=testWords[testIdx];const pct=testIdx/testWords.length*100;
+  let h='<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>';
+  h+='<p style="text-align:center;font-size:12px;color:var(--text2);margin-bottom:16px">'+(testIdx+1)+'/'+testWords.length+'</p>';
+  if(testMode==='flashcard'){
+    if(!testFlipped){
+      h+='<div class="flashcard" id="fc-front"><h3 style="font-size:28px;margin-bottom:8px">'+esc(w.pl)+'</h3><p style="color:var(--text2)">Tıkla ve gör</p></div>';
+    }else{
+      h+='<div class="flashcard"><h3 style="font-size:28px;margin-bottom:8px">'+esc(w.pl)+'</h3>'+
+        '<p style="font-size:20px;margin-bottom:6px">'+esc(w.tr)+'</p>'+
+        '<p style="font-size:12px;color:var(--text3);font-family:\'DM Mono\',monospace;margin-bottom:8px">'+esc(w.en||'')+'</p>'+
+        (w.example_pl?'<p style="font-size:11px;color:var(--text3);font-style:italic;margin-bottom:20px">'+esc(w.example_pl)+'</p>':'<div style="margin-bottom:20px"></div>')+
+        '<div style="display:flex;gap:12px;justify-content:center">'+
+        '<button class="btn btn-red" onclick="ans(false)">✗ Bilmedim</button>'+
+        '<button class="btn btn-green" onclick="ans(true)">✓ Bildim</button></div></div>';
+    }
+  }else{
+    // Akilli MC: once ayni kategoriden distractor ara
+    const all=store.units.flatMap(u=>u.words);
+    const sameCat=all.filter(x=>x.pl!==w.pl&&x.category===w.category);
+    const otherCat=all.filter(x=>x.pl!==w.pl&&x.category!==w.category);
+    const pool=shuffle([...sameCat,...otherCat]);
+    const localOpts=pool.slice(0,3);
+    const capitalize=s=>s?s.charAt(0).toUpperCase()+s.slice(1):s;
+    // Eksik distractor varsa Ollama'ya sor (async, skeleton gosterirken yukle)
+    const buildOpts=(distractorTrList)=>{
+      const fakes=distractorTrList.map((tr,i)=>({pl:'__fake__'+i,tr:capitalize(tr),category:w.category}));
+      const filledLocal=localOpts.slice(0,3-fakes.length).map(o=>({...o,tr:capitalize(o.tr||'')}));
+      return shuffle([{...w,tr:capitalize(w.tr||'')},...filledLocal,...fakes]);
+    };
+    const renderOpts=(opts)=>{
+      const container=document.getElementById('mc-opts-container');if(!container)return;
+      container.innerHTML='';
+      opts.forEach(o=>{
+        const btn=document.createElement('button');btn.className='mc-opt';
+        btn.textContent=o.tr;
+        btn.onclick=()=>checkMC(btn,(o.pl===w.pl||o.pl==='__correct__'),capitalize(w.tr||''));
+        container.appendChild(btn);
+      });
+    };
+    // Ilk render: local kelimelerle
+    const initialOpts=buildOpts([]);
+    h+='<h2 style="text-align:center;margin-bottom:20px;font-size:26px">'+esc(w.pl)+'</h2>';
+    h+='<div class="mc-opts" id="mc-opts-container">';
+    initialOpts.forEach(o=>{h+='<button class="mc-opt" onclick="checkMC(this,'+(o.pl===w.pl||o.pl==='__correct__')+',\''+capitalize(w.tr||'')+'\')">'+esc(o.tr)+'</button>';});
+    h+='</div>';
+    // Eger ayni kategoriden <3 yerel kelime varsa Ollama'dan ekle
+    if(sameCat.length<3){
+      setTimeout(async()=>{
+        try{
+          const needed=3-Math.min(sameCat.length,3);
+          const res=await window.polonica.generateDistractors({word:w.pl,tr:w.tr,category:w.category,count:needed});
+          if(res.distractors&&res.distractors.length){
+            renderOpts(buildOpts(res.distractors));
+          }
+        }catch(e){}
+      },0);
+    }
+  }
+  area.innerHTML=h;
+  const fc=document.getElementById('fc-front');
+  if(fc)fc.onclick=()=>{testFlipped=true;renderCard();};
+}
+
+async function ans(c){
+  if(c)testCorrect++;
+  const w=testWords[testIdx];
+  await window.polonica.updateProgress({unitId:w._uid,wordPl:w.pl,correct:c});
+  testIdx++;testFlipped=false;renderCard();
+}
+
+function checkMC(btn,c,correctTr){
+  if(c)btn.classList.add('correct');
+  else{btn.classList.add('wrong');document.querySelectorAll('.mc-opt').forEach(b=>{if(b.textContent===correctTr)b.classList.add('correct');});}
+  document.querySelectorAll('.mc-opt').forEach(b=>b.disabled=true);
+  setTimeout(()=>ans(c),800);
+}
+
+function endTest(){
+  testWords=[];testIdx=0;testCorrect=0;testFlipped=false;
+  document.getElementById('test-setup-view').style.display='block';
+  document.getElementById('test-active').style.display='none';
+  document.getElementById('test-active').innerHTML='';
+  window.polonica.getStore().then(s=>{store=s;updateTestSelect();});
+}
+
+// ── İSTATİSTİK ────────────────────────────────────
+async function loadStats(){
+  const s=await window.polonica.getStats();
+  const el=document.getElementById('stats-content');
+  let h='<div class="stats-grid">'+
+    stCard(s.total,'📚 Toplam','#c8b89a')+stCard(s.learned,'✓ Öğrenilen','#4a9a6a')+
+    stCard(s.weak,'⚠ Zayıf','#c05050')+stCard(s.dueSRS,'⟳ Tekrar','#5080c0')+'</div>';
+  h+='<div class="chart-wrap"><div class="chart-title">Kategori Dağılımı</div><div style="display:flex;gap:10px;flex-wrap:wrap;">';
+  [['verb','Fiil','#5080c0'],['noun','İsim','#c8a050'],['adj','Sıfat/Zarf','#4a9a6a'],['other','Diğer','#666']].forEach(([k,l,c])=>{
+    const n=s.byCategory[k]||0,p=s.total>0?Math.round(n/s.total*100):0;
+    h+='<div style="flex:1;min-width:80px;background:var(--surface3);border-radius:8px;padding:12px;text-align:center">'+
+      '<div style="font-size:20px;font-weight:800;color:'+c+'">'+n+'</div>'+
+      '<div style="font-size:11px;color:var(--text3)">%'+p+' '+l+'</div></div>';
+  });
+  h+='</div></div>';
+  h+='<div class="chart-wrap"><div class="chart-title">Son 7 Gün</div>'+weekChart(s.weekLog)+'</div>';
+  if(s.mostMissed.length){
+    h+='<div class="chart-wrap"><div class="chart-title">En Çok Yanlış</div>';
+    s.mostMissed.forEach(w=>{
+      h+='<div class="missed-row"><span class="missed-pl">'+esc(w.pl)+'</span>'+
+        '<div style="display:flex;gap:10px;font-size:12px"><span style="color:#e07070">✗ '+w.wrong+'</span><span style="color:#6dbf9a">✓ '+w.correct+'</span></div></div>';
+    });
+    h+='</div>';
+  }
+  el.innerHTML=h;
+}
+
+function stCard(n,l,c){return'<div class="stat-card"><div class="stat-num" style="color:'+c+'">'+n+'</div><div class="stat-lbl">'+l+'</div></div>';}
+
+function weekChart(wl){
+  const mx=Math.max(...wl.map(d=>d.correct+d.wrong),1);
+  const W=50,G=8,H=90,PX=8;const sw=wl.length*(W+G)-G+PX*2;
+  let s='<svg viewBox="0 0 '+sw+' 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px">';
+  wl.forEach((d,i)=>{
+    const x=i*(W+G)+PX,tot=d.correct+d.wrong;
+    const ch=tot>0?Math.round((d.correct/mx)*H):0,wh=tot>0?Math.round((d.wrong/mx)*H):0,th=ch+wh;
+    if(!th)s+='<rect x="'+x+'" y="'+(H+PX)+'" width="'+W+'" height="2" fill="#2a2a2a" rx="2"/>';
+    if(wh)s+='<rect x="'+x+'" y="'+(H-th+PX)+'" width="'+W+'" height="'+wh+'" fill="#c05050" rx="3"/>';
+    if(ch)s+='<rect x="'+x+'" y="'+(H-ch+PX)+'" width="'+W+'" height="'+ch+'" fill="#4a9a6a" rx="3"/>';
+    if(tot)s+='<text x="'+(x+W/2)+'" y="'+(H-th+PX-4)+'" fill="#888" font-size="10" text-anchor="middle">'+tot+'</text>';
+    s+='<text x="'+(x+W/2)+'" y="112" fill="#555" font-size="10" text-anchor="middle">'+d.label+'</text>';
+  });
+  return s+'</svg>';
+}
+
+// ── ÇEKİM TABLOSU ─────────────────────────────────
+async function showConj(word){
+  document.getElementById('modal-conj').style.display='flex';
+  document.getElementById('conj-title').textContent=word+' — Çekim';
+  document.getElementById('conj-body').innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span> Üretiliyor...</div>';
+  try{
+    const data=await window.polonica.getConjugation({word});
+    let h='<div class="conj-grid">';
+    const blocks=[
+      ['Geniş Zaman',data.present,['ja','ty','on_ona_ono','my','wy','oni_one'],['ja','ty','on/ona/ono','my','wy','oni/one']],
+      ['Geçmiş — Eril',data.past_m,['ja','ty','on','my','wy','oni'],['ja(m)','ty(m)','on','my(m)','wy(m)','oni']],
+      ['Geçmiş — Dişil',data.past_f,['ja','ty','ona','my','wy','one'],['ja(f)','ty(f)','ona','my(f)','wy(f)','one']],
+      ['Gelecek Zaman',data.future,['ja','ty','on_ona_ono','my','wy','oni_one'],['ja','ty','on/ona/ono','my','wy','oni/one']],
+      ['Emir Kipi',data.imperative,['ty','my','wy'],['ty','my','wy']],
+    ];
+    blocks.forEach(([title,obj,keys,lbls])=>{
+      if(!obj)return;
+      h+='<div class="conj-block"><div class="conj-block-title">'+title+'</div>';
+      keys.forEach((k,i)=>{h+='<div class="conj-row"><span class="conj-pronoun">'+lbls[i]+'</span><span class="conj-form">'+esc(obj[k]||'—')+'</span></div>';});
+      h+='</div>';
+    });
+    document.getElementById('conj-body').innerHTML=h+'</div>';
+  }catch(e){document.getElementById('conj-body').innerHTML='<p style="color:var(--red)">Hata: '+e.message+'</p>';}
+}
+
+function closeConj(){document.getElementById('modal-conj').style.display='none';}
+
+// ── PDF ───────────────────────────────────────────
+async function loadPDFLibrary(){
+  const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
+}
+
+function renderPDFList(pdfs){
+  const col=document.getElementById('pdf-list-col');col.innerHTML='';
+  if(!pdfs.length){col.innerHTML='<div style="color:var(--text3);font-size:13px">Henüz kitap yok.</div>';return;}
+  pdfs.forEach(p=>{
+    const d=document.createElement('div');
+    d.className='pdf-item'+(p.id===currentPdfId?' active-pdf':'');
+    d.onclick=()=>openPDF(p.id);
+    d.innerHTML='<div class="pdf-item-name">'+esc(p.name)+'</div>'+
+      '<div class="pdf-item-date">'+(p.addedAt?p.addedAt.slice(0,10):'')+'</div>'+
+      '<div style="margin-top:8px"><button class="btn" style="font-size:11px;padding:3px 10px" onclick="event.stopPropagation();deletePDF(\''+p.id+'\')">Sil</button></div>';
+    col.appendChild(d);
+  });
+}
+
+async function addPDFs(){
+  const st=document.getElementById('pdf-status');
+  st.innerHTML='<span class="spinner"></span> Ekleniyor...';
+  const r=await window.polonica.pdfOpenDialog();
+  if(r.added&&r.added.length){const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);st.textContent=r.added.length+' PDF eklendi.';}
+  else st.textContent='';
+}
+
+async function deletePDF(id){
+  if(!confirm('Bu PDF silinsin mi?'))return;
+  await window.polonica.pdfDelete(id);
+  if(currentPdfId===id){
+    currentPdfDoc=null;currentPdfId=null;currentPage=1;totalPages=0;
+    document.getElementById('pdf-viewer-empty').style.display='flex';
+    document.getElementById('pdf-viewer-active').style.display='none';
+    document.getElementById('pdf-page-results').innerHTML='';
+  }
+  const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
+}
+
+async function openPDF(id){
+  const st=document.getElementById('pdf-status');
+  st.innerHTML='<span class="spinner"></span> Yükleniyor...';
+  const data=await window.polonica.pdfRead(id);
+  if(data.error){st.textContent='Hata: '+data.error;return;}
+  const bin=atob(data.base64),arr=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+  currentPdfDoc=await pdfjsLib.getDocument({data:arr}).promise;
+  currentPdfId=id;currentPage=1;totalPages=currentPdfDoc.numPages;
+  document.getElementById('pdf-viewer-empty').style.display='none';
+  document.getElementById('pdf-viewer-active').style.display='flex';
+  document.getElementById('pdf-page-results').innerHTML='';
+  st.textContent=data.name+' — '+totalPages+' sayfa';
+  await renderPDFPage();
+  const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
+}
+
+async function renderPDFPage(){
+  if(!currentPdfDoc)return;
+  const page=await currentPdfDoc.getPage(currentPage);
+  const vp=page.getViewport({scale:1.4});
+  const canvas=document.getElementById('pdf-canvas');
+  canvas.width=vp.width;canvas.height=vp.height;
+  await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+  document.getElementById('pdf-page-info').textContent=currentPage+' / '+totalPages;
+}
+
+async function prevPage(){if(currentPage>1){currentPage--;await renderPDFPage();}}
+async function nextPage(){if(currentPage<totalPages){currentPage++;await renderPDFPage();}}
+
+async function extractAndAnalyzePages(pages){
+  const allTokens=[];
+  for(const pn of pages){
+    const page=await currentPdfDoc.getPage(pn);
+    const tc=await page.getTextContent();
+    tc.items.forEach(i=>allTokens.push(...(i.str.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g)||[])));
+  }
+  const seen=new Set();const tokens=[];
+  for(const t of allTokens){const l=t.toLowerCase();if(!seen.has(l)){seen.add(l);tokens.push(t);}}
+  const CHUNK=50,total=Math.ceil(tokens.length/CHUNK);
+  const st=document.getElementById('pdf-status');
+  const allWords=[];
+  for(let ci=0;ci<total;ci++){
+    const chunk=tokens.slice(ci*CHUNK,(ci+1)*CHUNK);
+    st.innerHTML='<span class="spinner"></span> '+(ci+1)+'/'+total+' parça...';
+    try{const d=await window.polonica.analyzeText({text:chunk.join(' '),count:chunk.length,mode:'lesson'});if(d.words)allWords.push(...d.words);}catch(e){}
+  }
+  return allWords;
+}
+
+async function analyzePDFPage(){
+  if(!currentPdfDoc)return;
+  const st=document.getElementById('pdf-status');
+  st.innerHTML='<span class="spinner"></span> Analiz ediliyor...';
+  const allWords=await extractAndAnalyzePages([currentPage]);
+  if(!allWords.length){st.textContent='Metin bulunamadı (taranmış PDF olabilir).';return;}
+  scanMode='lesson';
+  scanned=allWords.map((w,i)=>({...w,_sid:'pdf'+i}));
+  const re=document.getElementById('pdf-page-results');
+  re.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa '+currentPage+': '+allWords.length+' kelime</div>';
+  renderWordList('pdf-page-results-inner',scanned,'pdf');
+  if(!document.getElementById('pdf-page-results-inner')){
+    const inner=document.createElement('div');inner.id='pdf-page-results-inner';re.appendChild(inner);
+    renderWordList('pdf-page-results-inner',scanned,'pdf');
+  }
+  st.textContent='Tamamlandı.';updateSaveBar();
+}
+
+async function analyzeRange(){
+  if(!currentPdfDoc)return;
+  const input=prompt('Hangi sayfaları analiz etmek istersin? (örn: 5-8)');if(!input)return;
+  const parts=input.split('-');
+  const from=Math.max(1,parseInt(parts[0])||currentPage);
+  const to=Math.min(totalPages,parseInt(parts[1])||from);
+  const pages=[];for(let p=from;p<=to;p++)pages.push(p);
+  const allWords=await extractAndAnalyzePages(pages);
+  if(!allWords.length){document.getElementById('pdf-status').textContent='Metin bulunamadı.';return;}
+  scanMode='lesson';
+  scanned=allWords.map((w,i)=>({...w,_sid:'pdf'+i}));
+  const re=document.getElementById('pdf-page-results');
+  re.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa '+from+'-'+to+': '+allWords.length+' kelime</div><div id="pdf-page-results-inner"></div>';
+  renderWordList('pdf-page-results-inner',scanned,'pdf');
+  document.getElementById('pdf-status').textContent='Tamamlandı.';updateSaveBar();
+}
+
+// ── AYARLAR ──────────────────────────────────────
+function showSettings(){
+  const m=document.getElementById('modal-settings');
+  m.style.display='flex';
+  document.getElementById('settings-model').value=store.settings.ollamaModel||'qwen2.5:3b';
+  document.getElementById('settings-vision').value=store.settings.visionModel||'';
+  // Mevcut durumu goster
+  const st=document.getElementById('settings-ollama-status');
+  const dot=document.getElementById('ollama-dot');
+  const lbl=document.getElementById('ollama-label');
+  const isOk=dot.classList.contains('ok');
+  st.innerHTML=(isOk
+    ? '<span style="color:var(--green)">✓ Ollama bağlı</span> — model: <strong>'+(store.settings.ollamaModel||'?')+'</strong>'
+    : '<span style="color:var(--red)">✗ Ollama kapalı veya bağlantı yok</span><br><small style="color:var(--text3)">Ollama kurulu değilse: ollama.com sitesinden indir ve <code>ollama run qwen2.5:3b</code> komutuyla başlat.</small>');
+}
+
+function closeSettings(){ document.getElementById('modal-settings').style.display='none'; }
+
+async function saveSettings(){
+  const model=document.getElementById('settings-model').value.trim()||'qwen2.5:3b';
+  const vision=document.getElementById('settings-vision').value.trim();
+  store.settings.ollamaModel=model;
+  store.settings.visionModel=vision;
+  await window.polonica.saveSettings({ollamaModel:model,visionModel:vision});
+  closeSettings();
+  await checkOllamaStatus();
+}
+
+// ── YEDEK / CSV ───────────────────────────────────
+async function doExport(){const r=await window.polonica.exportData();if(r.ok)alert('Yedek kaydedildi!');}
+async function doImport(){
+  const r=await window.polonica.importData();
+  if(r.ok){store=await window.polonica.getStore();updateCounts();updateTestSelect();alert('Geri yüklendi!');}
+  else if(r.error)alert('Hata: '+r.error);
+}
+async function doExportCSV(){await window.polonica.exportCsv({unitId:'all'});}
+async function doExportCSVUnit(id){await window.polonica.exportCsv({unitId:id});}
+
+// ── YARDIMCI ──────────────────────────────────────
+function updateCounts(){
+  const l=store.units.filter(u=>u.mode==='lesson').reduce((a,b)=>a+b.words.length,0);
+  const m=store.units.filter(u=>u.mode==='lyrics').reduce((a,b)=>a+b.words.length,0);
+  document.getElementById('word-count').innerHTML='<small style="font-size:11px;color:var(--text3)">📚 '+l+' akademik &nbsp; 🎵 '+m+' müzik</small>';
+}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+
+// ── BURAK SPECIAL ─────────────────────────────────
+let specialList = [];
+let lookupResult = null;
+
+async function loadSpecialList(){
+  specialList = await window.polonica.specialList();
+}
+
+async function lookupSpecial(){
+  const word = document.getElementById('special-word-input').value.trim();
+  if(!word) return;
+  const btn = document.getElementById('special-lookup-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const data = await window.polonica.specialLookup({ word });
+    lookupResult = data;
+    showLookupResult(data);
+  } catch(e) {
+    alert('Hata: ' + e.message);
+  }
+  btn.disabled = false;
+  btn.textContent = '🔍 Ara';
+}
+
+function showLookupResult(d){
+  const origDiffers = d.original && d.original.toLowerCase() !== (d.pl||'').toLowerCase();
+  document.getElementById('slr-pl').textContent = d.pl || '';
+  document.getElementById('slr-inflected').textContent = origDiffers ? '(' + d.original + ')' : '';
+  document.getElementById('slr-note').textContent = d.inflection_note ? ' · ' + d.inflection_note : '';
+  document.getElementById('slr-tr').textContent = d.tr || '';
+  document.getElementById('slr-en').textContent = d.en || '';
+  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888'};
+  const typeLabels = {verb:'fiil',noun:'isim',adj:'sıfat/zarf',other:'diğer'};
+  const badge = document.getElementById('slr-badge');
+  badge.textContent = typeLabels[d.category] || d.category || '';
+  badge.style.color = typeColors[d.category] || '#888';
+  badge.style.borderColor = (typeColors[d.category] || '#888') + '55';
+  badge.style.background = (typeColors[d.category] || '#888') + '11';
+  document.getElementById('slr-example').innerHTML =
+    (d.example_pl ? '<span style="color:var(--text)">' + esc(d.example_pl) + '</span>' : '') +
+    (d.example_tr ? '<br><span style="color:var(--text3)">' + esc(d.example_tr) + '</span>' : '');
+  document.getElementById('slr-note-input').value = '';
+  document.getElementById('special-lookup-result').style.display = 'block';
+  document.getElementById('slr-note-input').focus();
+}
+
+function clearLookup(){
+  lookupResult = null;
+  document.getElementById('special-lookup-result').style.display = 'none';
+  document.getElementById('special-word-input').value = '';
+}
+
+async function saveSpecial(){
+  if(!lookupResult) return;
+  const note = document.getElementById('slr-note-input').value.trim();
+  const entry = { ...lookupResult, note };
+  await window.polonica.specialSave(entry);
+  specialList = await window.polonica.specialList();
+  clearLookup();
+  renderSpecialList();
+  // Küçük onay animasyonu
+  const btn = document.querySelector('[onclick="saveSpecial()"]');
+  if(btn){ const orig=btn.textContent; btn.textContent='✓ Kaydedildi!'; setTimeout(()=>btn.textContent=orig,1500); }
+}
+
+async function deleteSpecial(id){
+  if(!confirm('Bu kelimeyi defterden sil?')) return;
+  specialList = await window.polonica.specialDelete(id);
+  renderSpecialList();
+}
+
+async function updateSpecialNote(id, note){
+  await window.polonica.specialUpdateNote({ id, note });
+}
+
+function renderSpecialList(){
+  if(typeof window.polonica === 'undefined') return;
+  // Asenkron yükle
+  window.polonica.specialList().then(list => {
+    specialList = list;
+    _renderSpecialList();
+  });
+}
+
+function _renderSpecialList(){
+  const q = (document.getElementById('special-search')||{value:''}).value.toLowerCase();
+  const container = document.getElementById('special-list');
+  const countEl = document.getElementById('special-count');
+  if(!container) return;
+
+  let list = [...specialList].reverse();
+  if(q) list = list.filter(e =>
+    (e.pl||'').toLowerCase().includes(q) ||
+    (e.tr||'').toLowerCase().includes(q) ||
+    (e.note||'').toLowerCase().includes(q) ||
+    (e.original||'').toLowerCase().includes(q)
+  );
+
+  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888'};
+  const typeLabels = {verb:'fiil',noun:'isim',adj:'sıfat/zarf',other:'diğer'};
+
+  countEl.textContent = specialList.length + ' kelime kayıtlı' + (q ? ' — ' + list.length + ' sonuç' : '');
+
+  if(!list.length){
+    container.innerHTML = specialList.length === 0
+      ? '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">⭐</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Kelime defteri boş</div><div style="font-size:13px">Yukarıdan bir kelime ara ve kaydet.</div></div>'
+      : '<div class="special-empty">Arama sonucu yok.</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+
+  list.forEach(e => {
+    const tc = typeColors[e.category]||'#888';
+    const tl = typeLabels[e.category]||'';
+    const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+    const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+    const rowId = 'sr-'+e.id;
+    const detId = 'sd-'+e.id;
+
+    // Kompakt satır
+    const row = document.createElement('div');
+    row.className = 'special-row';
+    row.id = rowId;
+    row.onclick = () => toggleSpecialDetail(e.id);
+    row.innerHTML =
+      '<span class="special-row-pl">'+esc(e.pl)+'</span>'+
+      '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
+      (e.note ? '<span class="special-row-note">⭐ '+esc(e.note)+'</span>' : '<span class="special-row-note" style="opacity:.3">not yok</span>')+
+      '<span class="special-row-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
+      '<span class="special-row-arrow">▾</span>';
+
+    // Detay paneli
+    const detail = document.createElement('div');
+    detail.className = 'special-detail';
+    detail.id = detId;
+    detail.innerHTML =
+      '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap;">'+
+        '<span class="special-pl">'+esc(e.pl)+'</span>'+
+        (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
+        '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
+      '</div>'+
+      '<div class="special-tr">'+esc(e.tr)+'</div>'+
+      '<div class="special-en">'+esc(e.en||'')+'</div>'+
+      (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+      '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
+      '<textarea class="special-note-area" data-id="'+e.id+'" onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value)" placeholder="Notu buraya yaz...">'+esc(e.note||'')+'</textarea>'+
+      '<div class="special-detail-footer">'+
+        '<span class="special-date">'+dateStr+'</span>'+
+        '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
+      '</div>';
+
+    container.appendChild(row);
+    container.appendChild(detail);
+  });
+}
+
+function toggleSpecialDetail(id){
+  const row = document.getElementById('sr-'+id);
+  const det = document.getElementById('sd-'+id);
+  if(!row||!det) return;
+  const isOpen = det.classList.contains('open');
+  // Tüm açıkları kapat
+  document.querySelectorAll('.special-detail.open').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.special-row.open').forEach(r=>r.classList.remove('open'));
+  if(!isOpen){
+    det.classList.add('open');
+    row.classList.add('open');
+    // Nota odaklan
+    const ta = det.querySelector('.special-note-area');
+    if(ta) setTimeout(()=>ta.focus(),50);
+  }
+}
+
+async function updateSpecialNoteAndRefresh(id, note){
+  await updateSpecialNote(id, note);
+  // Satır notunu güncelle (yeniden render etmeden)
+  const row = document.getElementById('sr-'+id);
+  if(row){
+    const noteEl = row.querySelector('.special-row-note');
+    if(noteEl){
+      noteEl.style.opacity = note ? '1' : '.3';
+      noteEl.textContent = note ? '⭐ '+note : 'not yok';
+    }
+  }
+}
+
+// ── OCR PASTE ─────────────────────────────────────
+// Textarelara resim yapıştırılınca OCR çalıştır
+function setupPaste(){
+  document.querySelectorAll('textarea').forEach(ta=>{
+    ta.addEventListener('paste', async (e)=>{
+      const items = e.clipboardData && e.clipboardData.items;
+      if(!items) return;
+      for(const item of items){
+        if(item.type.startsWith('image/')){
+          e.preventDefault();
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = async (ev) => {
+            const dataUrl = ev.target.result;
+            const base64 = dataUrl.split(',')[1];
+            const mediaType = item.type;
+
+            // OCR yükleniyor göstergesi
+            const old = ta.placeholder;
+            ta.placeholder = '🔍 Görüntü analiz ediliyor...';
+            ta.disabled = true;
+
+            try {
+              const result = await window.polonica.ocrImage({ base64, mediaType });
+              if(result.text && result.text.trim()){
+                const pos = ta.selectionStart || 0;
+                const before = ta.value.slice(0,pos);
+                const after = ta.value.slice(pos);
+                ta.value = before + result.text + after;
+                // input event'ini tetikle (kelime sayacı için)
+                ta.dispatchEvent(new Event('input'));
+                showOCRBanner(result.method || 'ocr');
+              } else if(result.error) {
+                showOCRError(result.error);
+              }
+            } catch(err){
+              showOCRError(err.message);
+            } finally {
+              ta.placeholder = old;
+              ta.disabled = false;
+              ta.focus();
+            }
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    });
+  });
+}
+
+function showOCRBanner(method){
+  let b = document.getElementById('ocr-banner');
+  if(!b){ b=document.createElement('div'); b.id='ocr-banner';
+    b.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#0d2017;border:1px solid var(--green);color:#6dbf9a;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;z-index:999;transition:opacity .4s';
+    document.body.appendChild(b); }
+  b.textContent = '✓ Metin çıkarıldı (' + (method==='vision'?'Ollama vision':'Tesseract') + ')';
+  b.style.opacity='1';
+  setTimeout(()=>{ b.style.opacity='0'; }, 3000);
+}
+
+function showOCRError(msg){
+  let b = document.getElementById('ocr-banner');
+  if(!b){ b=document.createElement('div'); b.id='ocr-banner';
+    b.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);background:var(--red-bg);border:1px solid var(--red);color:#e07070;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;z-index:999;max-width:500px;text-align:center';
+    document.body.appendChild(b); }
+  b.textContent = '⚠ OCR: ' + msg;
+  b.style.opacity='1';
+  setTimeout(()=>{ b.style.opacity='0'; }, 6000);
+}
+
+// boot() yukarida cagrildi
+</script>
+</body>
+</html>
