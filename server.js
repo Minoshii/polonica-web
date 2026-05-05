@@ -348,8 +348,7 @@ app.post('/api/grammar/query', async (req, res) => {
       '- Format with clear sections using simple markdown (## for headers, **bold** for Polish words)',
       '',
       'Return JSON: {"answer": "your markdown response here", "type": "verb|case|rule|other"}'
-    ].join('
-');
+    ].join('\n');
 
     const raw = await claudeAsk(prompt, 1024);
     const match = raw.match(/\{[\s\S]*\}/);
@@ -375,8 +374,7 @@ app.post('/api/grammar/aspect', async (req, res) => {
       '  "example_dk_pl": "example sentence with dk form",',
       '  "example_dk_tr": "Turkish translation"',
       '}'
-    ].join('
-');
+    ].join('\n');
     const raw = await claudeAsk(prompt, 800);
     const match = raw.match(/\{[\s\S]*\}/);
     if (!match) throw new Error('JSON bulunamadi.');
