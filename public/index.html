@@ -108,8 +108,14 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .pdf-item-date{font-size:10px;color:var(--text3);}
 .pdf-viewer-col{flex:1;display:flex;flex-direction:column;min-width:0;}
 .pdf-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
-.pdf-canvas-wrap{flex:0 0 auto;overflow:auto;background:var(--surface3);border-radius:10px;border:1px solid var(--border);display:flex;align-items:flex-start;justify-content:center;padding:16px;max-height:400px;}
-#pdf-canvas{max-width:100%;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.pdf-canvas-wrap{flex:1;overflow:auto;background:#1a1a1a;border-radius:10px;border:1px solid var(--border);display:flex;align-items:flex-start;justify-content:center;padding:20px;min-height:500px;position:relative;}
+.pdf-page-container{position:relative;display:inline-block;box-shadow:0 4px 24px rgba(0,0,0,.6);border-radius:4px;}
+#pdf-canvas{display:block;border-radius:4px;}
+#pdf-text-layer{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;opacity:1;line-height:1;pointer-events:auto;}
+#pdf-text-layer span{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%;}
+#pdf-text-layer ::selection{background:rgba(200,184,154,.35);color:transparent;}
+.pdf-selection-tooltip{position:fixed;background:#1a160e;border:1px solid #c8b89a;border-radius:10px;padding:8px 12px;display:none;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.5);gap:8px;align-items:center;}
+.pdf-selection-tooltip.visible{display:flex;}
 .pdf-empty{display:flex;align-items:center;justify-content:center;height:200px;color:var(--text3);font-size:14px;}
 .pdf-page-info{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:200;}
@@ -356,7 +362,18 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
             <button class="btn btn-pink" onclick="analyzePDFPage()" style="margin-left:auto">🔬 Bu Sayfayı Analiz Et</button>
             <button class="btn" onclick="analyzeRange()" style="font-size:12px">Sayfa Aralığı...</button>
           </div>
-          <div class="pdf-canvas-wrap"><canvas id="pdf-canvas"></canvas></div>
+          <div class="pdf-canvas-wrap" id="pdf-canvas-wrap">
+            <div class="pdf-page-container" id="pdf-page-container">
+              <canvas id="pdf-canvas"></canvas>
+              <div id="pdf-text-layer"></div>
+            </div>
+          </div>
+          <!-- Seçim tooltip -->
+          <div class="pdf-selection-tooltip" id="pdf-sel-tooltip">
+            <span id="pdf-sel-word" style="font-size:14px;font-weight:700;color:#c8b89a;font-family:DM Mono,monospace"></span>
+            <button class="btn" style="font-size:11px;padding:4px 10px;background:#2a1a08;border-color:#c8b89a;color:#c8b89a" onclick="lookupSelectedWord()">⭐ Burak Special'a Ekle</button>
+            <button class="btn" style="font-size:11px;padding:4px 10px" onclick="hideSelTooltip()">✕</button>
+          </div>
           <div id="pdf-page-results" style="margin-top:12px;overflow-y:auto"></div>
         </div>
       </div>
@@ -1320,15 +1337,79 @@ async function openPDF(id){
 async function renderPDFPage(){
   if(!currentPdfDoc)return;
   const page=await currentPdfDoc.getPage(currentPage);
-  const vp=page.getViewport({scale:1.4});
-  const canvas=document.getElementById('pdf-canvas');
-  canvas.width=vp.width;canvas.height=vp.height;
-  await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
-  document.getElementById('pdf-page-info').textContent=currentPage+' / '+totalPages;
+
+  // Ekran genişliğine göre scale ayarla
+  const wrap = document.getElementById('pdf-canvas-wrap');
+  const availW = (wrap ? wrap.clientWidth : 800) - 40;
+  const baseVp = page.getViewport({scale:1});
+  const scale = Math.min(Math.max(availW / baseVp.width, 1.0), 2.2);
+  const vp = page.getViewport({scale});
+
+  const canvas = document.getElementById('pdf-canvas');
+  canvas.width = vp.width; canvas.height = vp.height;
+  await page.render({canvasContext:canvas.getContext('2d'), viewport:vp}).promise;
+
+  // Text layer - kelime seçimi için
+  const textLayer = document.getElementById('pdf-text-layer');
+  textLayer.innerHTML = '';
+  textLayer.style.width = vp.width + 'px';
+  textLayer.style.height = vp.height + 'px';
+  const textContent = await page.getTextContent();
+  pdfjsLib.renderTextLayer({
+    textContent,
+    container: textLayer,
+    viewport: vp,
+    textDivs: []
+  });
+
+  document.getElementById('pdf-page-info').textContent = currentPage + ' / ' + totalPages;
 }
 
 async function prevPage(){if(currentPage>1){currentPage--;await renderPDFPage();}}
 async function nextPage(){if(currentPage<totalPages){currentPage++;await renderPDFPage();}}
+
+// ── PDF KELİME SEÇİMİ ─────────────────────────────────────
+let _selWord = '';
+
+document.addEventListener('mouseup', () => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const text = sel.toString().trim();
+  if (!text || text.length < 2 || text.length > 40) return;
+  // Sadece PDF text layer içinde seçim yapılmışsa
+  const anchor = sel.anchorNode;
+  const textLayer = document.getElementById('pdf-text-layer');
+  if (!textLayer || !textLayer.contains(anchor)) return;
+  _selWord = text.replace(/\s+/g,' ').trim();
+  showSelTooltip(_selWord);
+});
+
+function showSelTooltip(word) {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return;
+  const rect = sel.getRangeAt(0).getBoundingClientRect();
+  const tooltip = document.getElementById('pdf-sel-tooltip');
+  document.getElementById('pdf-sel-word').textContent = word;
+  tooltip.style.top = (rect.top - 54 + window.scrollY) + 'px';
+  tooltip.style.left = Math.max(8, rect.left + rect.width/2 - 120) + 'px';
+  tooltip.classList.add('visible');
+}
+
+function hideSelTooltip() {
+  document.getElementById('pdf-sel-tooltip').classList.remove('visible');
+  window.getSelection().removeAllRanges();
+  _selWord = '';
+}
+
+async function lookupSelectedWord() {
+  if (!_selWord) return;
+  const word = _selWord;
+  hideSelTooltip();
+  // Burak Special'a git ve kelimeyi ara
+  showPanel('special');
+  document.getElementById('special-word-input').value = word;
+  await lookupSpecial();
+}
 
 async function extractAndAnalyzePages(pages){
   const allTokens=[];
