@@ -238,6 +238,12 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .grammar-answer p{margin-bottom:8px;}
 .grammar-quick-btn{padding:6px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:99px;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
 .grammar-quick-btn:hover{border-color:var(--teal);color:#5dc0b0;}
+.idiom-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;background:#0d1e1c;color:#5dc0b0;border:1px solid var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:middle;}
+.idiom-type-badge{display:inline-block;font-size:9px;padding:2px 6px;border-radius:99px;background:#0d1a30;color:#7090d0;border:1px solid var(--blue);margin-right:4px;}
+.related-phrases{margin-top:10px;padding:10px 13px;background:var(--surface3);border-radius:8px;border-left:3px solid var(--teal);}
+.related-phrase-item{display:inline-block;padding:4px 10px;margin:3px;background:var(--surface2);border:1px solid var(--border2);border-radius:99px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace;transition:all .15s;}
+.related-phrase-item:hover{border-color:var(--teal);color:#5dc0b0;}
+.usage-note{font-size:12px;color:var(--text2);font-style:italic;padding:8px 12px;background:var(--surface3);border-radius:8px;margin-top:8px;border-left:3px solid var(--accent-dim);line-height:1.6;}
 .slang-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;background:#2a0d1a;color:#e060a0;border:1px solid #c060a0;letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:middle;}
 .word-card.slang-card{border-color:#c060a044;}
 .word-card.slang-card:hover{border-color:#c060a0;}
@@ -574,6 +580,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <div class="special-tr" id="slr-tr"></div>
       <div class="special-en" id="slr-en"></div>
       <div class="special-example" id="slr-example"></div>
+      <div id="slr-related" style="display:none;margin-bottom:8px"></div>
       <div style="margin-top:4px;margin-bottom:4px;font-size:11px;color:var(--text3)">⭐ BURAK NOTU — bu kelimeyi sana ne hatırlatıyor?</div>
       <textarea class="special-note-area" id="slr-note-input" placeholder="örn: hoca bunu 3 kez tekrarladı / benek'in soyadına benziyor / zor çekim, dikkat..."></textarea>
       <div style="display:flex;gap:8px;margin-top:10px;">
@@ -2475,26 +2482,58 @@ async function lookupSpecial(){
 
 function showLookupResult(d){
   const origDiffers = d.original && d.original.toLowerCase() !== (d.pl||'').toLowerCase();
-  // Slang badge
+
+  // Badge'ler
   const slangHtml = d.slang ? '<span class="slang-badge">🔥 SLANG' + (d.slang_note ? ' · ' + esc(d.slang_note) : '') + '</span>' : '';
-  document.getElementById('slr-pl').innerHTML = slangHtml + esc(d.pl || '');
+  const idiomTypeLabels = {deyim:'💬 DEYİM', kalip:'🗣 KALIP', soyleys:'✦ SÖYLEYİŞ'};
+  const idiomHtml = d.is_idiom && d.idiom_type ? '<span class="idiom-badge">' + (idiomTypeLabels[d.idiom_type] || '💬 ' + d.idiom_type.toUpperCase()) + '</span>' : '';
+  const registerLabels = {resmi:'📋 resmi',gundelik:'💬 gündelik',sokak:'🔥 sokak',yazi:'📝 yazı'};
+  const registerHtml = d.register && d.register !== 'gundelik' ? '<span class="idiom-type-badge">' + (registerLabels[d.register]||d.register) + '</span>' : '';
+
+  document.getElementById('slr-pl').innerHTML = idiomHtml + slangHtml + registerHtml + '<strong>' + esc(d.pl || '') + '</strong>';
   document.getElementById('slr-inflected').textContent = origDiffers ? '(' + (d.original||'') + ')' : '';
   document.getElementById('slr-note').textContent = d.inflection_note ? ' · ' + d.inflection_note : '';
   document.getElementById('slr-tr').textContent = d.tr || '';
   document.getElementById('slr-en').textContent = d.en || '';
-  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888'};
-  const typeLabels = {verb:'fiil',noun:'isim',adj:'sıfat/zarf',other:'diğer'};
+
+  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+  const typeLabels = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
   const badge = document.getElementById('slr-badge');
   badge.textContent = typeLabels[d.category] || d.category || '';
   badge.style.color = typeColors[d.category] || '#888';
   badge.style.borderColor = (typeColors[d.category] || '#888') + '55';
   badge.style.background = (typeColors[d.category] || '#888') + '11';
-  document.getElementById('slr-example').innerHTML =
-    (d.example_pl ? '<span style="color:var(--text)">' + esc(d.example_pl) + '</span>' : '') +
-    (d.example_tr ? '<br><span style="color:var(--text3)">' + esc(d.example_tr) + '</span>' : '');
+
+  // Örnek + kullanım notu
+  let exHtml = '';
+  if (d.example_pl) exHtml += '<span style="color:var(--text);font-style:italic">' + esc(d.example_pl) + '</span>';
+  if (d.example_tr) exHtml += '<br><span style="color:var(--text3)">' + esc(d.example_tr) + '</span>';
+  if (d.usage_note) exHtml += '<div class="usage-note">💡 ' + esc(d.usage_note) + '</div>';
+  document.getElementById('slr-example').innerHTML = exHtml;
+
+  // İlgili kalıplar
+  const relEl = document.getElementById('slr-related');
+  if (relEl) {
+    if (d.related_phrases && d.related_phrases.length) {
+      let relHtml = '<div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>';
+      d.related_phrases.forEach(p => {
+        relHtml += '<span class="related-phrase-item" onclick="quickLookupPhrase(' + JSON.stringify(p.pl) + ')" title="' + esc(p.tr||'') + '">' + esc(p.pl) + ' <span style=\"color:var(--text3)\">· ' + esc(p.tr||'') + '</span></span>';
+      });
+      relEl.innerHTML = '<div class="related-phrases">' + relHtml + '</div>';
+      relEl.style.display = 'block';
+    } else {
+      relEl.style.display = 'none';
+    }
+  }
+
   document.getElementById('slr-note-input').value = '';
   document.getElementById('special-lookup-result').style.display = 'block';
   document.getElementById('slr-note-input').focus();
+}
+
+function quickLookupPhrase(phrase) {
+  document.getElementById('special-word-input').value = phrase;
+  lookupSpecial();
 }
 
 function clearLookup(){

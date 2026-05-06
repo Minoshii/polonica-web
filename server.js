@@ -181,28 +181,52 @@ app.post('/api/special/lookup', async (req,res) => {
   try {
     const {word, mode} = req.body;
     const isSlangMode = mode === 'lyrics';
+
+    // Deyim/kalip tespiti - birden fazla kelimeyse veya bilinen kalip ise
+    const wordCount = word.trim().split(/\s+/).length;
+    const isLikelyIdiom = wordCount >= 2;
+
     const contextNote = isSlangMode
-      ? 'This word may be Polish slang, colloquial speech, rap/hip-hop language, or non-standard spelling. Analyze it as such - do NOT try to map it to standard Polish.'
+      ? 'This may be Polish slang, colloquial speech, or rap language.'
       : 'This is standard Polish.';
+
+    const idiomFields = isLikelyIdiom ? [
+      '- "is_idiom": true if this is a fixed expression/idiom/collocation/phrase, false if just words',
+      '- "idiom_type": "deyim" (idiom with non-literal meaning) | "kalip" (fixed phrase/collocation) | "soyleys" (common saying/expression) | "" if not idiom',
+      '- "register": "resmi" (formal) | "gundelik" (everyday) | "sokak" (street/slang) | "yazi" (written) - language register in Turkish',
+      '- "usage_note": in Turkish, when and how to use this expression (1-2 sentences)',
+      '- "related_phrases": array of 3-5 related Polish phrases/idioms with Turkish meanings, e.g. [{"pl":"po co","tr":"ne icin/neden"}]',
+    ] : [
+      '- "is_idiom": false',
+      '- "idiom_type": ""',
+      '- "register": "gundelik"',
+      '- "usage_note": ""',
+      '- "related_phrases": []',
+    ];
+
     const prompt = [
-      'You are a Polish-Turkish-English dictionary covering both standard and colloquial/slang Polish.',
+      'You are a Polish-Turkish-English dictionary and phraseology expert.',
       'Look up: "' + word + '"',
       contextNote,
-      '- "pl": the word in its base/lemma form (keep slang form if slang)',
-      '- "original": the word exactly as given',
-      '- "inflection_note": grammar note if inflected, else ""',
-      '- "tr": natural Turkish meaning. For slang use Turkish slang/colloquial equivalent.',
-      '- "en": English meaning 1-4 words',
-      '- "category": "verb"|"noun"|"adj"|"other"',
-      '- "type": czasownik/rzeczownik/przymiotnik/przyslowek/przyimek/spojnik',
-      '- "slang": true if this is slang/colloquial/vulgar/non-standard Polish, false if standard',
-      '- "slang_note": if slang=true, brief note in Turkish about its register (e.g. "argo", "sokak dili", "rap jargonu"), else ""',
-      '- "example_pl": natural Polish sentence using this word',
-      '- "example_tr": Turkish translation',
-      '- "example_en": English translation',
+      '',
+      '- "pl": the canonical form of this word/phrase',
+      '- "original": exactly as given',
+      '- "inflection_note": grammar note if single word is inflected, else ""',
+      '- "tr": natural Turkish meaning/translation (2-8 words)',
+      '- "en": English meaning (1-5 words)',
+      '- "category": "verb"|"noun"|"adj"|"other"|"phrase"',
+      '- "type": czasownik/rzeczownik/przymiotnik/wyrazenie/idiom/kolokacja',
+      '- "slang": true if slang/vulgar/non-standard, false otherwise',
+      '- "slang_note": slang register note in Turkish if slang=true, else ""',
+      '- "example_pl": natural Polish sentence or context using this word/phrase',
+      '- "example_tr": Turkish translation of example',
+      '- "example_en": English translation of example',
+    ].concat(idiomFields).concat([
+      '',
       'Return ONLY valid JSON, no markdown.'
-    ].join('\n');
-    const raw = await claudeAsk(prompt, 600);
+    ]).join('\n');
+
+    const raw = await claudeAsk(prompt, 900);
     const match = raw.match(/\{[\s\S]*\}/);
     if (!match) throw new Error('Parse hatasi.');
     res.json(JSON.parse(match[0]));
