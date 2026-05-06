@@ -2741,15 +2741,45 @@ function toggleSpecialDetail(id){
   const det = document.getElementById('sd-'+id);
   if(!row||!det) return;
   const isOpen = det.classList.contains('open');
-  // Tüm açıkları kapat
   document.querySelectorAll('.special-detail.open').forEach(d=>d.classList.remove('open'));
   document.querySelectorAll('.special-row.open').forEach(r=>r.classList.remove('open'));
   if(!isOpen){
     det.classList.add('open');
     row.classList.add('open');
-    // Nota odaklan
     const ta = det.querySelector('.special-note-area');
     if(ta) setTimeout(()=>ta.focus(),50);
+
+    // related_phrases yoksa arka planda Claude'dan çek ve güncelle
+    const entry = specialList.find(e => e.id === id);
+    if(entry && (!entry.related_phrases || !entry.related_phrases.length)) {
+      const relDiv = det.querySelector('.special-related-live');
+      if(relDiv) return; // zaten yükleniyor
+      const placeholder = document.createElement('div');
+      placeholder.className = 'special-related-live';
+      placeholder.style.cssText = 'font-size:11px;color:var(--text3);margin-bottom:8px';
+      placeholder.innerHTML = '<span class="spinner"></span> İlgili kalıplar yükleniyor...';
+      // Not alanından önce ekle
+      const noteLabel = det.querySelector('[style*="accent-dim"]');
+      if(noteLabel) det.insertBefore(placeholder, noteLabel);
+      // Lookup yap
+      window.polonica.specialLookup({ word: entry.pl || entry.original, mode: 'lesson' }).then(data => {
+        if(data.related_phrases && data.related_phrases.length) {
+          // Server'a kaydet
+          entry.related_phrases = data.related_phrases;
+          entry.usage_note = data.usage_note || entry.usage_note;
+          window.polonica.specialSave(entry);
+          // UI'ı güncelle
+          let html = '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>';
+          data.related_phrases.forEach(p => {
+            html += '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>';
+          });
+          html += '</div>';
+          placeholder.outerHTML = html;
+        } else {
+          placeholder.remove();
+        }
+      }).catch(() => placeholder.remove());
+    }
   }
 }
 
