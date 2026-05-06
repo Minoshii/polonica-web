@@ -387,6 +387,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="btn btn-blue" id="lesson-btn" onclick="analyzeSelected('lesson')">🔍 Seçilenleri Analiz Et</button>
       <button class="btn" onclick="selectAllTokens('lesson')" style="font-size:12px">Tümünü Seç</button>
       <button class="btn" onclick="clearTokenSel('lesson')" style="font-size:12px">Temizle</button>
+      <button class="btn" onclick="sendToSpecial('lesson')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:#2a1a08">⭐ Burak Special</button>
       <span id="lesson-status"></span>
     </div>
     <div id="lesson-results"></div>
@@ -423,6 +424,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="btn btn-purple" id="lyrics-btn" onclick="analyzeSelected('lyrics')">🔍 Seçilenleri Analiz Et</button>
       <button class="btn" onclick="selectAllTokens('lyrics')" style="font-size:12px">Tümünü Seç</button>
       <button class="btn" onclick="clearTokenSel('lyrics')" style="font-size:12px">Temizle</button>
+      <button class="btn" onclick="sendToSpecial('lyrics')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:#2a1a08">⭐ Burak Special</button>
       <span id="lyrics-status"></span>
     </div>
     <div id="lyrics-results"></div>
@@ -1321,6 +1323,53 @@ function clearTokenSel(mode) {
   const tokBox = document.getElementById(mode + '-tokens');
   if (tokBox) tokBox.querySelectorAll('.tok-selected').forEach(s => s.classList.remove('tok-selected'));
   updateTokenCount(mode);
+}
+
+// ── BURAK SPECIAL'A GÖNDER ────────────────────────────────
+async function sendToSpecial(mode) {
+  const sel = _tokenSel[mode] || new Set();
+  if (sel.size === 0) { alert('Önce kelime seç!'); return; }
+
+  // Şarkı adını al (lyrics modundaysa Genius'tan yüklenenler)
+  let source = '';
+  if (mode === 'lyrics') {
+    const titleEl = document.getElementById('genius-loaded-title');
+    const artistEl = document.getElementById('genius-loaded-artist');
+    if (titleEl && titleEl.textContent) {
+      source = titleEl.textContent + (artistEl ? ' · ' + artistEl.textContent.split(' · ')[0] : '');
+    }
+  }
+
+  const tokens = [...sel];
+  const st = document.getElementById(mode + '-status');
+  st.innerHTML = '<span class="spinner"></span> ' + tokens.length + ' kelime Burak Special a gonderiliyor...';
+
+  let successCount = 0;
+  const CHUNK = 20;
+  for (let i = 0; i < tokens.length; i += CHUNK) {
+    const chunk = tokens.slice(i, i + CHUNK);
+    try {
+      const data = await window.polonica.analyzeText({ text: chunk.join(' '), count: chunk.length, mode });
+      if (data.words) {
+        for (const w of data.words) {
+          const entry = {
+            ...w,
+            is_idiom: false,
+            source: source || (mode === 'lyrics' ? 'Şarkı Sözleri' : 'Ders Materyali'),
+            source_type: mode
+          };
+          await window.polonica.specialSave(entry);
+          successCount++;
+        }
+      }
+    } catch(e) { console.error('chunk error:', e); }
+  }
+
+  st.textContent = successCount + ' kelime eklendi!' + (source ? ' (' + source + ')' : '');
+  clearTokenSel(mode);
+
+  // Kısa animasyon sonra Special'a git
+  setTimeout(() => { showPanel('special'); }, 1200);
 }
 
 async function analyzeSelected(mode) {
@@ -2649,8 +2698,9 @@ function _renderSpecialList(){
     row.id = rowId;
     row.onclick = () => toggleSpecialDetail(e.id);
     const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
+    const sourceBadge = e.source ? '<span style="font-size:9px;color:#7090d0;font-family:DM Mono,monospace;margin-left:4px">🎵'+esc(e.source)+'</span>' : '';
     row.innerHTML =
-      '<span class="special-row-pl">'+slangBadge+esc(e.pl)+'</span>'+
+      '<span class="special-row-pl">'+slangBadge+esc(e.pl)+sourceBadge+'</span>'+
       '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
       (e.note ? '<span class="special-row-note">⭐ '+esc(e.note)+'</span>' : '<span class="special-row-note" style="opacity:.3">not yok</span>')+
       '<span class="special-row-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
@@ -2672,7 +2722,7 @@ function _renderSpecialList(){
       '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
       '<textarea class="special-note-area" data-id="'+e.id+'" onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value)" placeholder="Notu buraya yaz...">'+esc(e.note||'')+'</textarea>'+
       '<div class="special-detail-footer">'+
-        '<span class="special-date">'+dateStr+'</span>'+
+        '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
         '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
       '</div>';
 
