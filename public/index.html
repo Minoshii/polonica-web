@@ -152,6 +152,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 /* BURAK SPECIAL */
 .special-input-row{display:flex;gap:8px;margin-bottom:16px;}
 .special-input-row input{flex:1;margin-bottom:0;}
+.special-tabs{display:flex;gap:6px;margin-bottom:16px;}
+.special-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.special-tab.active-words{background:#2a1a08;border-color:#6b4a10;color:#c8a050;}
+.special-tab.active-idioms{background:#0d1e1c;border-color:var(--teal);color:#5dc0b0;}
+.special-tab:hover{background:var(--surface2);}
 /* Kompakt satır kart */
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
 .special-row:hover{border-color:#c8a050;background:#1a140a;}
@@ -559,11 +564,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- BURAK SPECIAL -->
   <div class="panel" id="panel-special">
     <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:#2a1a08;color:#c8a050;border:1px solid #6b4a10">Kişisel Sözlük</span></div>
-    <div class="panel-sub">Ders sırasında karşına çıkan kelimeyi yaz, anlamı otomatik gelsin. Notunu ekle, kaydet.</div>
+    <div class="panel-sub">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</div>
 
     <!-- Arama + giriş -->
     <div class="special-input-row">
-      <input type="text" id="special-word-input" placeholder="Lehçe kelime veya fiil yaz... (örn: chodzić, piękny, zrobiłem)" onkeydown="if(event.key==='Enter')lookupSpecial()" style="margin-bottom:0;border-color:#6b4a10;">
+      <input type="text" id="special-word-input" placeholder="Kelime, deyim veya kalıp... (örn: chodzić, o co chodzi, nie ma sprawy)" onkeydown="if(event.key==='Enter')lookupSpecial()" style="margin-bottom:0;border-color:#6b4a10;">
       <button class="btn" onclick="lookupSpecial()" id="special-lookup-btn" style="border-color:#c8a050;color:#c8a050;background:#2a1a08;white-space:nowrap;">🔍 Ara</button>
     </div>
 
@@ -581,16 +586,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <div class="special-en" id="slr-en"></div>
       <div class="special-example" id="slr-example"></div>
       <div id="slr-related" style="display:none;margin-bottom:8px"></div>
-      <div style="margin-top:4px;margin-bottom:4px;font-size:11px;color:var(--text3)">⭐ BURAK NOTU — bu kelimeyi sana ne hatırlatıyor?</div>
-      <textarea class="special-note-area" id="slr-note-input" placeholder="örn: hoca bunu 3 kez tekrarladı / benek'in soyadına benziyor / zor çekim, dikkat..."></textarea>
+      <div style="margin-top:4px;margin-bottom:4px;font-size:11px;color:var(--text3)">⭐ BURAK NOTU</div>
+      <textarea class="special-note-area" id="slr-note-input" placeholder="örn: hoca bunu 3 kez tekrarladı / ne zaman kullanılır..."></textarea>
       <div style="display:flex;gap:8px;margin-top:10px;">
-        <button class="btn btn-accent" onclick="saveSpecial()" style="border-color:#c8a050;color:#c8a050;">⭐ Kelime Defterine Kaydet</button>
+        <button class="btn btn-accent" onclick="saveSpecial()" id="slr-save-btn" style="border-color:#c8a050;color:#c8a050;">⭐ Kaydet</button>
         <button class="btn" onclick="clearLookup()">İptal</button>
       </div>
     </div>
 
-    <!-- Liste -->
-    <input type="text" id="special-search" class="special-search" placeholder="Kayıtlı kelimelerde ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
+    <!-- Sekmeler -->
+    <div class="special-tabs">
+      <button class="special-tab active-words" id="stab-words" onclick="switchSpecialTab('words')">⭐ Kelimeler <span id="stab-words-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-idioms" onclick="switchSpecialTab('idioms')">💬 Deyimler & Kalıplar <span id="stab-idioms-count" style="font-size:10px;opacity:.6"></span></button>
+    </div>
+
+    <input type="text" id="special-search" class="special-search" placeholder="Ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
     <div id="special-count" class="special-count"></div>
     <div id="special-list"></div>
   </div>
@@ -2458,6 +2468,16 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 // ── BURAK SPECIAL ─────────────────────────────────
 let specialList = [];
 let lookupResult = null;
+let _specialTab = 'words'; // 'words' | 'idioms'
+
+function switchSpecialTab(tab) {
+  _specialTab = tab;
+  const wBtn = document.getElementById('stab-words');
+  const iBtn = document.getElementById('stab-idioms');
+  wBtn.className = 'special-tab' + (tab==='words' ? ' active-words' : '');
+  iBtn.className = 'special-tab' + (tab==='idioms' ? ' active-idioms' : '');
+  renderSpecialList();
+}
 
 async function loadSpecialList(){
   specialList = await window.polonica.specialList();
@@ -2546,7 +2566,11 @@ async function saveSpecial(){
   if(!lookupResult) return;
   const note = document.getElementById('slr-note-input').value.trim();
   const entry = { ...lookupResult, note };
+  // is_idiom yoksa false olarak set et
+  if(entry.is_idiom === undefined) entry.is_idiom = false;
   await window.polonica.specialSave(entry);
+  // Doğru sekmeye geç
+  if(entry.is_idiom) switchSpecialTab('idioms');
   specialList = await window.polonica.specialList();
   clearLookup();
   renderSpecialList();
@@ -2580,7 +2604,16 @@ function _renderSpecialList(){
   const countEl = document.getElementById('special-count');
   if(!container) return;
 
-  let list = [...specialList].reverse();
+  // Sekmeye gore filtrele
+  const words = specialList.filter(e => !e.is_idiom);
+  const idioms = specialList.filter(e => e.is_idiom);
+  const activeList = _specialTab === 'idioms' ? idioms : words;
+  const wc = document.getElementById('stab-words-count');
+  const ic = document.getElementById('stab-idioms-count');
+  if(wc) wc.textContent = words.length ? '(' + words.length + ')' : '';
+  if(ic) ic.textContent = idioms.length ? '(' + idioms.length + ')' : '';
+
+  let list = [...activeList].reverse();
   if(q) list = list.filter(e =>
     (e.pl||'').toLowerCase().includes(q) ||
     (e.tr||'').toLowerCase().includes(q) ||
@@ -2588,15 +2621,15 @@ function _renderSpecialList(){
     (e.original||'').toLowerCase().includes(q)
   );
 
-  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888'};
-  const typeLabels = {verb:'fiil',noun:'isim',adj:'sıfat/zarf',other:'diğer'};
-
-  countEl.textContent = specialList.length + ' kelime kayıtlı' + (q ? ' — ' + list.length + ' sonuç' : '');
-
+  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+  const typeLabels = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
+  const tabLabel = _specialTab === 'idioms' ? 'deyim/kalip' : 'kelime';
+  countEl.textContent = activeList.length + ' ' + tabLabel + ' kayitli' + (q ? ' - ' + list.length + ' sonuc' : '');
   if(!list.length){
-    container.innerHTML = specialList.length === 0
-      ? '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">⭐</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Kelime defteri boş</div><div style="font-size:13px">Yukarıdan bir kelime ara ve kaydet.</div></div>'
-      : '<div class="special-empty">Arama sonucu yok.</div>';
+    const emptyMsg = _specialTab === 'idioms'
+      ? '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">💬</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Deyim & Kalıp defteri boş</div><div style="font-size:13px">Yukarıdan "o co chodzi", "nie ma sprawy" gibi kalıpları ara ve kaydet.</div></div>'
+      : '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">⭐</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Kelime defteri boş</div><div style="font-size:13px">Yukarıdan bir kelime ara ve kaydet.</div></div>';
+    container.innerHTML = activeList.length === 0 ? emptyMsg : '<div class="special-empty">Arama sonucu yok.</div>';
     return;
   }
 
