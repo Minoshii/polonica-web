@@ -410,6 +410,12 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
             <button class="btn" onclick="prevPage()">&#8592; Önceki</button>
             <span class="pdf-page-info" id="pdf-page-info">— / —</span>
             <button class="btn" onclick="nextPage()">Sonraki &#8594;</button>
+            <div style="display:flex;align-items:center;gap:4px;background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:3px 6px;">
+              <button class="btn" onclick="zoomOut()" style="padding:4px 8px;border:none;background:none;font-size:16px" title="Uzaklaştır">−</button>
+              <span id="pdf-zoom-label" style="font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;min-width:38px;text-align:center">100%</span>
+              <button class="btn" onclick="zoomIn()" style="padding:4px 8px;border:none;background:none;font-size:16px" title="Yaklaştır">+</button>
+              <button class="btn" onclick="zoomFit()" style="padding:3px 8px;border:none;background:none;font-size:10px;color:var(--text3)" title="Sayfaya Sığdır">⊡</button>
+            </div>
             <button class="btn" id="sel-mode-btn" onclick="toggleSelMode()" style="margin-left:auto;border-color:#c8a050;color:#c8a050">✂ Kelime Seç</button>
             <button class="btn btn-pink" onclick="analyzePDFPage()">🔬 Sayfayı Analiz Et</button>
             <button class="btn" onclick="analyzeRange()" style="font-size:12px">Aralık...</button>
@@ -1678,16 +1684,37 @@ async function openPDF(id){
   const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
 }
 
+let _pdfZoom = 0; // 0 = otomatik sığdır, pozitif sayı = manuel zoom yüzdesi
+
+function zoomIn(){
+  const cur = _pdfZoom || getCurrentAutoScale();
+  _pdfZoom = Math.min(cur + 0.15, 3.5);
+  renderPDFPage();
+}
+function zoomOut(){
+  const cur = _pdfZoom || getCurrentAutoScale();
+  _pdfZoom = Math.max(cur - 0.15, 0.4);
+  renderPDFPage();
+}
+function zoomFit(){ _pdfZoom = 0; renderPDFPage(); }
+
+function getCurrentAutoScale(){
+  const wrap = document.getElementById('pdf-canvas-wrap');
+  return parseFloat((document.getElementById('pdf-zoom-label')||{}).textContent) / 100 || 1.0;
+}
+
 async function renderPDFPage(){
   if(!currentPdfDoc)return;
   const page=await currentPdfDoc.getPage(currentPage);
 
-  // Ekran genişliğine göre scale ayarla
+  // Zoom: manuel veya otomatik sığdır
   const wrap = document.getElementById('pdf-canvas-wrap');
   const availW = (wrap ? wrap.clientWidth : 800) - 40;
   const baseVp = page.getViewport({scale:1});
-  const scale = Math.min(Math.max(availW / baseVp.width, 1.0), 2.2);
+  const autoScale = Math.min(Math.max(availW / baseVp.width, 0.8), 2.2);
+  const scale = _pdfZoom > 0 ? _pdfZoom : autoScale;
   const vp = page.getViewport({scale});
+  document.getElementById('pdf-zoom-label').textContent = Math.round(scale*100) + '%';
 
   const canvas = document.getElementById('pdf-canvas');
   canvas.width = vp.width; canvas.height = vp.height;
