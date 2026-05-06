@@ -420,24 +420,34 @@ app.post('/api/grammar/aspect', async (req, res) => {
 // ── GENIUS API ────────────────────────────────────────────
 const https = require('https');
 
-function geniusGet(path) {
+function httpsGet(url, headers) {
   return new Promise((resolve, reject) => {
-    const token = process.env.GENIUS_ACCESS_TOKEN;
-    if (!token) return reject(new Error('GENIUS_ACCESS_TOKEN eksik.'));
+    const u = new URL(url);
     const opts = {
-      hostname: 'api.genius.com',
-      path,
+      hostname: u.hostname, path: u.pathname + u.search,
       method: 'GET',
-      headers: { 'Authorization': 'Bearer ' + token, 'User-Agent': 'Polonica/1.0' }
+      headers: headers || { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0' }
     };
     const req = https.request(opts, res => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => { try { resolve(JSON.parse(d)); } catch(e) { reject(e); } });
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return httpsGet(res.headers.location, headers).then(resolve).catch(reject);
+      }
+      let d = ''; res.setEncoding('utf8');
+      res.on('data', c => d += c);
+      res.on('end', () => resolve(d));
     });
     req.on('error', reject);
-    req.setTimeout(10000, () => { req.destroy(); reject(new Error('Genius timeout.')); });
+    req.setTimeout(15000, () => { req.destroy(); reject(new Error('Timeout.')); });
     req.end();
   });
+}
+
+function geniusGet(path) {
+  const token = process.env.GENIUS_ACCESS_TOKEN;
+  const headers = token
+    ? { 'Authorization': 'Bearer ' + token, 'User-Agent': 'Polonica/1.0' }
+    : { 'User-Agent': 'Mozilla/5.0' };
+  return httpsGet('https://api.genius.com' + path, headers).then(d => JSON.parse(d));
 }
 
 function geniusFetch(url) {
@@ -474,12 +484,13 @@ app.get('/api/genius/search', async (req, res) => {
   try {
     const q = encodeURIComponent(req.query.q || '');
     if (!q) return res.status(400).json({ error: 'Arama terimi gerekli.' });
-    const data = await geniusGet('/search?q=' + q + '&per_page=8');
-    console.log('Genius full response:', JSON.stringify(data).slice(0,500));
-    // Genius farklı yapılar dönebilir
-    const response = data.response || data;
-    const hitsArr = response.hits || response.sections?.[0]?.hits || [];
-    const hits = hitsArr.map(h => ({
+    const data = await geniusGet('/search?q=' + q + '&per_page=10&text_format=plain');
+    console.log('Genius meta:', data.meta && data.meta.status);
+    if (data.meta && data.meta.status !== 200) {
+      return res.status(400).json({ error: 'Genius: ' + (data.meta.message||data.meta.status) });
+    }
+    const hitsArr = (data.response && data.response.hits) || [];
+    const hits = hitsArr.filter(h => h.type === 'song').map(h => ({
       id: h.result.id,
       title: h.result.title,
       artist: h.result.primary_artist.name,
