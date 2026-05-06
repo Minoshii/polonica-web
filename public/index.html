@@ -153,7 +153,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-input-row{display:flex;gap:8px;margin-bottom:16px;}
 .special-input-row input{flex:1;margin-bottom:0;}
 .special-tabs{display:flex;gap:6px;margin-bottom:16px;}
-/* MUZYKA */
+/* MÜZYKA */
 .muzyka-album{border:1px solid #2a1a3a;border-radius:14px;margin-bottom:12px;overflow:hidden;transition:border-color .2s;}
 .muzyka-album:hover{border-color:#9060c0;}
 .muzyka-album.open{border-color:#9060c0;}
@@ -623,7 +623,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="special-tabs">
       <button class="special-tab active-words" id="stab-words" onclick="switchSpecialTab('words')">⭐ Kelimeler <span id="stab-words-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-idioms" onclick="switchSpecialTab('idioms')">💬 Deyimler <span id="stab-idioms-count" style="font-size:10px;opacity:.6"></span></button>
-      <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka')" style="border-color:#3a1a5a;color:#9060c0">🎵 Müzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka')" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
     </div>
 
     <input type="text" id="special-search" class="special-search" placeholder="Ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
@@ -2551,7 +2551,7 @@ function switchSpecialTab(tab) {
   wBtn.className = 'special-tab' + (tab==='words' ? ' active-words' : '');
   iBtn.className = 'special-tab' + (tab==='idioms' ? ' active-idioms' : '');
   if(mBtn) mBtn.className = 'special-tab' + (tab==='muzyka' ? ' active-muzyka' : '');
-  // Müzyka sekmesinde search bar gizle
+  // Muzyka sekmesinde search bar gizle
   const searchEl = document.getElementById('special-search');
   const countEl = document.getElementById('special-count');
   if(searchEl) searchEl.style.display = tab==='muzyka' ? 'none' : '';
@@ -2697,11 +2697,11 @@ function _renderSpecialList(){
   if(ic) ic.textContent = idioms.length ? '('+idioms.length+')' : '';
   if(mc) mc.textContent = muzykaAll.length ? '('+muzykaAll.length+')' : '';
 
-  // Müzyka sekmesi - şarkı bazlı grupla
+  // Muzyka sekmesi - şarkı bazlı grupla
   if(_specialTab === 'muzyka') {
     container.innerHTML = '';
     if(!muzykaAll.length) {
-      container.innerHTML = '<div class="muzyka-empty"><div style="font-size:40px;margin-bottom:12px">🎵</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Müzyka defteri boş</div><div style="font-size:13px">Şarkı Sözleri sekmesinden kelime seç → ⭐ Burak Special butonu ile ekle.</div></div>';
+      container.innerHTML = '<div class="muzyka-empty"><div style="font-size:40px;margin-bottom:12px">🎵</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Muzyka defteri boş</div><div style="font-size:13px">Şarkı Sözleri sekmesinden kelime seç → ⭐ Burak Special butonu ile ekle.</div></div>';
       return;
     }
     // Şarkıya göre grupla
