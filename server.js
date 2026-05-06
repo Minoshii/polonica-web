@@ -502,33 +502,78 @@ app.get('/api/genius/search', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// Şarkı sözü çek - Genius HTML'inden scrape
+// lrclib.net - açık lyrics API (cors yok, token gerekmez)
+app.get('/api/lyrics/search', async (req, res) => {
+  try {
+    const { artist, title } = req.query;
+    const url = 'https://lrclib.net/api/search?artist_name=' + encodeURIComponent(artist||'') + '&track_name=' + encodeURIComponent(title||'');
+    const data = await httpsGet(url, { 'User-Agent': 'Polonica/1.0 (github.com/Minoshii/polonica-web)' });
+    const results = JSON.parse(data);
+    if (!results || !results.length) return res.json({ lyrics: null });
+    // En iyi sonucu al
+    const best = results[0];
+    const lyrics = best.plainLyrics || best.syncedLyrics?.replace(/\[\d+:\d+\.\d+\]/g, '') || '';
+    res.json({ lyrics: lyrics.trim(), title: best.trackName, artist: best.artistName });
+  } catch(e) {
+    res.json({ lyrics: null, error: e.message });
+  }
+});
+
+// Şarkı sözü çek
 app.get('/api/genius/lyrics/:id', async (req, res) => {
   try {
-    const data = await geniusGet('/songs/' + req.params.id);
+    const data = await geniusGet('/songs/' + req.params.id + '?text_format=plain');
     const song = data.response.song;
+
+    // Yöntem 1: API'den direkt plain text lyrics
+    if (song.lyrics && song.lyrics.plain) {
+      return res.json({
+        lyrics: song.lyrics.plain,
+        title: song.title,
+        artist: song.primary_artist.name,
+        thumbnail: song.song_art_image_thumbnail_url
+      });
+    }
+
+    // Yöntem 2: Genius sayfasını scrape et
     const pageUrl = song.url;
+    const html = await httpsGet(pageUrl);
+    console.log('HTML length:', html.length, 'URL:', pageUrl);
 
-    // Genius sayfasını çek ve lyrics'i parse et
-    const html = await geniusFetch(pageUrl);
-
-    // lyrics JSON'dan çıkar (Genius sayfası window.__PRELOADED_STATE__ içinde tutuyor)
     let lyrics = '';
 
-    // Yöntem 1: data-lyrics-container
-    const containerMatches = html.match(/data-lyrics-container="true"[^>]*>([\s\S]*?)<\/div>/g);
-    if (containerMatches) {
-      lyrics = containerMatches.map(m => {
-        return m
-          .replace(/<br\s*\/?>|<\/div>/gi, '\n')
-          .replace(/<[^>]+>/g, '')
-          .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x27;/g, "'").replace(/&quot;/g, '"')
-          .trim();
-      }).join('\n');
+    // data-lyrics-container attribute'u
+    const re = /data-lyrics-container="true"[^>]*>([\s\S]*?)<\/div>(?=\s*<div|\s*<\/div|\s*$)/g;
+    let match;
+    const parts = [];
+    while ((match = re.exec(html)) !== null) {
+      parts.push(match[1]);
+    }
+    if (parts.length) {
+      lyrics = parts.map(p =>
+        p.replace(/<br\s*\/?>/gi, '\n')
+         .replace(/<a[^>]*>/gi, '').replace(/<\/a>/gi, '')
+         .replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '')
+         .replace(/<[^>]+>/g, '')
+         .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+         .trim()
+      ).join('\n\n');
+    }
+
+    // Yöntem 3: __NEXT_DATA__ JSON içinden
+    if (!lyrics) {
+      const nextData = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
+      if (nextData) {
+        try {
+          const json = JSON.parse(nextData[1]);
+          const lyricsData = json?.props?.pageProps?.songPage?.lyricsData?.body?.plain || '';
+          if (lyricsData) lyrics = lyricsData;
+        } catch(e) {}
+      }
     }
 
     if (!lyrics) {
-      return res.json({ lyrics: '', title: song.title, artist: song.primary_artist.name, note: 'Sözler bu şarkı için bulunamadı.' });
+      return res.json({ lyrics: '', title: song.title, artist: song.primary_artist.name, note: 'Sözler bu şarkı için scrape edilemedi.' });
     }
 
     res.json({
@@ -537,7 +582,10 @@ app.get('/api/genius/lyrics/:id', async (req, res) => {
       artist: song.primary_artist.name,
       thumbnail: song.song_art_image_thumbnail_url
     });
-  } catch(e) { res.status(500).json({ error: e.message }); }
+  } catch(e) {
+    console.error('Lyrics error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.listen(PORT,'0.0.0.0',()=>{

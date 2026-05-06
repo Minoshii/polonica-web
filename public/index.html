@@ -1162,7 +1162,7 @@ async function searchGenius() {
           img +
           '<div class="genius-hit-info"><div class="genius-hit-title" title="' + esc(hit.title) + '">' + esc(hit.title) + '</div>' +
           '<div class="genius-hit-artist">' + esc(hit.artist) + '</div></div>';
-        card.onclick = () => loadGeniusLyrics(hit.id, hit.title, hit.artist);
+        card.onclick = () => loadGeniusLyrics(hit.id, hit.title, hit.artist, hit.url);
         grid.appendChild(card);
       });
     }
@@ -1173,24 +1173,45 @@ async function searchGenius() {
   btn.disabled = false; btn.textContent = 'Ara';
 }
 
-async function loadGeniusLyrics(id, title, artist) {
+async function loadGeniusLyrics(id, title, artist, geniusUrl) {
   const hitsEl = document.getElementById('genius-hits');
-  hitsEl.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0"><span class="spinner"></span> Sözler yükleniyor...</div>';
+  hitsEl.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0;display:flex;align-items:center;gap:8px"><span class="spinner"></span> Sözler aranıyor...</div>';
+
+  // Önce lrclib.net dene - açık API, scrape gerekmez
+  try {
+    const lrc = await api.get('/api/lyrics/search?artist=' + encodeURIComponent(artist) + '&title=' + encodeURIComponent(title));
+    if (lrc.lyrics && lrc.lyrics.length > 50) {
+      document.getElementById('lyrics-text').value = lrc.lyrics;
+      document.getElementById('genius-loaded-title').textContent = title;
+      document.getElementById('genius-loaded-artist').textContent = artist + ' · lrclib';
+      document.getElementById('genius-loaded').style.display = 'flex';
+      hitsEl.style.display = 'none';
+      tokenizeText('lyrics');
+      return;
+    }
+  } catch(e) {}
+
+  // lrclib'de yok - Genius'tan dene
   try {
     const data = await api.get('/api/genius/lyrics/' + id);
-    if (data.lyrics) {
+    if (data.lyrics && data.lyrics.length > 50) {
       document.getElementById('lyrics-text').value = data.lyrics;
       document.getElementById('genius-loaded-title').textContent = data.title || title;
       document.getElementById('genius-loaded-artist').textContent = data.artist || artist;
       document.getElementById('genius-loaded').style.display = 'flex';
       hitsEl.style.display = 'none';
       tokenizeText('lyrics');
-    } else {
-      hitsEl.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0">' + (data.note || 'Sözler bulunamadı.') + '</div>';
+      return;
     }
-  } catch(e) {
-    hitsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px 0">Hata: ' + esc(e.message) + '</div>';
-  }
+  } catch(e) {}
+
+  // İkisi de olmadı - Genius sayfasını aç, kullanıcı kopyalasın
+  hitsEl.innerHTML =
+    '<div style="font-size:12px;color:var(--text3);padding:8px 0">' +
+    'Sözler otomatik alınamadı. ' +
+    '<a href="' + (geniusUrl||"#") + '" target="_blank" style="color:#b080e0">Genius ac</a>' +
+    ' → kopyala → aşağıdaki kutuya yapıştır' +
+    '</div>';
 }
 
 function clearGeniusLyrics() {
