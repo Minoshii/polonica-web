@@ -475,11 +475,11 @@ app.get('/api/genius/search', async (req, res) => {
     const q = encodeURIComponent(req.query.q || '');
     if (!q) return res.status(400).json({ error: 'Arama terimi gerekli.' });
     const data = await geniusGet('/search?q=' + q + '&per_page=8');
-    console.log('Genius search response meta:', JSON.stringify(data.meta || data.error || 'ok'));
-    if (data.meta && data.meta.status !== 200) {
-      return res.status(data.meta.status).json({ error: 'Genius API: ' + data.meta.message });
-    }
-    const hits = (data.response.hits || []).map(h => ({
+    console.log('Genius full response:', JSON.stringify(data).slice(0,500));
+    // Genius farklı yapılar dönebilir
+    const response = data.response || data;
+    const hitsArr = response.hits || response.sections?.[0]?.hits || [];
+    const hits = hitsArr.map(h => ({
       id: h.result.id,
       title: h.result.title,
       artist: h.result.primary_artist.name,
