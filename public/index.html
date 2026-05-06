@@ -2719,6 +2719,11 @@ function _renderSpecialList(){
       '<div class="special-tr">'+esc(e.tr)+'</div>'+
       '<div class="special-en">'+esc(e.en||'')+'</div>'+
       (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+      (e.usage_note ? '<div class="usage-note">💡 '+esc(e.usage_note)+'</div>' : '')+
+      (e.related_phrases && e.related_phrases.length ?
+        '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
+        e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
+        '</div>' : '')+
       '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
       '<textarea class="special-note-area" data-id="'+e.id+'" onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value)" placeholder="Notu buraya yaz...">'+esc(e.note||'')+'</textarea>'+
       '<div class="special-detail-footer">'+
