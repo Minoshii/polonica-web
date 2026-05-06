@@ -1160,8 +1160,9 @@ async function searchGenius() {
         const img = hit.thumbnail ? '<img src="'+esc(hit.thumbnail)+'" style="width:44px;height:44px;border-radius:6px;object-fit:cover;flex-shrink:0">' : '<div style="width:44px;height:44px;border-radius:6px;background:var(--purple-bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px">♪</div>';
         card.innerHTML =
           img +
-          '<div class="genius-hit-info"><div class="genius-hit-title" title="' + esc(hit.title) + '">' + esc(hit.title) + '</div>' +
-          '<div class="genius-hit-artist">' + esc(hit.artist) + '</div></div>';
+          '<div class="genius-hit-info" style="flex:1;min-width:0"><div class="genius-hit-title" title="' + esc(hit.title) + '">' + esc(hit.title) + '</div>' +
+          '<div class="genius-hit-artist">' + esc(hit.artist) + '</div></div>' +
+          '<a href="' + esc(hit.url) + '" target="_blank" onclick="event.stopPropagation()" style="font-size:10px;color:#b080e0;white-space:nowrap;padding:3px 6px;border:1px solid var(--purple);border-radius:5px;text-decoration:none;flex-shrink:0" title="Genius ac">↗</a>';
         card.onclick = () => loadGeniusLyrics(hit.id, hit.title, hit.artist, hit.url);
         grid.appendChild(card);
       });
@@ -1205,13 +1206,16 @@ async function loadGeniusLyrics(id, title, artist, geniusUrl) {
     }
   } catch(e) {}
 
-  // İkisi de olmadı - Genius sayfasını aç, kullanıcı kopyalasın
+  // İkisi de olmadı - net talimat ver
+  const gLink = geniusUrl || '#';
+  hitsEl.style.display = 'block';
   hitsEl.innerHTML =
-    '<div style="font-size:12px;color:var(--text3);padding:8px 0">' +
-    'Sözler otomatik alınamadı. ' +
-    '<a href="' + (geniusUrl||"#") + '" target="_blank" style="color:#b080e0">Genius ac</a>' +
-    ' → kopyala → aşağıdaki kutuya yapıştır' +
-    '</div>';
+    '<div style="background:#1a0d30;border:1px solid var(--purple);border-radius:10px;padding:14px;font-size:13px">' +
+    '<div style="font-weight:700;color:#b080e0;margin-bottom:8px">Sözler otomatik alınamadı — 2 adımda halledelim:</div>' +
+    '<div style="color:var(--text2);line-height:2">' +
+    '1. <a href="' + gLink + '" target="_blank" style="color:#b080e0;font-weight:700;text-decoration:underline">Genius Ac</a> → sözleri seç + Ctrl+A, Ctrl+C<br>' +
+    '2. Aşağıdaki kutuya Ctrl+V yap → kelimeler tıklanabilir hale gelir' +
+    '</div></div>';
 }
 
 function clearGeniusLyrics() {
