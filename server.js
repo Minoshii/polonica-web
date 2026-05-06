@@ -417,6 +417,108 @@ app.post('/api/grammar/aspect', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── GENIUS API ────────────────────────────────────────────
+const https = require('https');
+
+function geniusGet(path) {
+  return new Promise((resolve, reject) => {
+    const token = process.env.GENIUS_ACCESS_TOKEN;
+    if (!token) return reject(new Error('GENIUS_ACCESS_TOKEN eksik.'));
+    const opts = {
+      hostname: 'api.genius.com',
+      path,
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + token, 'User-Agent': 'Polonica/1.0' }
+    };
+    const req = https.request(opts, res => {
+      let d = ''; res.on('data', c => d += c);
+      res.on('end', () => { try { resolve(JSON.parse(d)); } catch(e) { reject(e); } });
+    });
+    req.on('error', reject);
+    req.setTimeout(10000, () => { req.destroy(); reject(new Error('Genius timeout.')); });
+    req.end();
+  });
+}
+
+function geniusFetch(url) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(url);
+    const opts = {
+      hostname: u.hostname, path: u.pathname + u.search,
+      method: 'GET',
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+    };
+    const req = https.request(opts, res => {
+      // Redirect takip et
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return geniusFetch(res.headers.location).then(resolve).catch(reject);
+      }
+      let d = ''; res.setEncoding('utf8');
+      res.on('data', c => d += c);
+      res.on('end', () => resolve(d));
+    });
+    req.on('error', reject);
+    req.setTimeout(15000, () => { req.destroy(); reject(new Error('Timeout.')); });
+    req.end();
+  });
+}
+
+// Şarkı arama
+app.get('/api/genius/search', async (req, res) => {
+  try {
+    const q = encodeURIComponent(req.query.q || '');
+    if (!q) return res.status(400).json({ error: 'Arama terimi gerekli.' });
+    const data = await geniusGet('/search?q=' + q + '&per_page=8');
+    const hits = (data.response.hits || []).map(h => ({
+      id: h.result.id,
+      title: h.result.title,
+      artist: h.result.primary_artist.name,
+      thumbnail: h.result.song_art_image_thumbnail_url,
+      url: h.result.url,
+      language: h.result.language || ''
+    }));
+    res.json({ hits });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// Şarkı sözü çek - Genius HTML'inden scrape
+app.get('/api/genius/lyrics/:id', async (req, res) => {
+  try {
+    const data = await geniusGet('/songs/' + req.params.id);
+    const song = data.response.song;
+    const pageUrl = song.url;
+
+    // Genius sayfasını çek ve lyrics'i parse et
+    const html = await geniusFetch(pageUrl);
+
+    // lyrics JSON'dan çıkar (Genius sayfası window.__PRELOADED_STATE__ içinde tutuyor)
+    let lyrics = '';
+
+    // Yöntem 1: data-lyrics-container
+    const containerMatches = html.match(/data-lyrics-container="true"[^>]*>([\s\S]*?)<\/div>/g);
+    if (containerMatches) {
+      lyrics = containerMatches.map(m => {
+        return m
+          .replace(/<br\s*\/?>|<\/div>/gi, '\n')
+          .replace(/<[^>]+>/g, '')
+          .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x27;/g, "'").replace(/&quot;/g, '"')
+          .trim();
+      }).join('\n');
+    }
+
+    if (!lyrics) {
+      return res.json({ lyrics: '', title: song.title, artist: song.primary_artist.name, note: 'Sözler bu şarkı için bulunamadı.' });
+    }
+
+    res.json({
+      lyrics: lyrics.trim(),
+      title: song.title,
+      artist: song.primary_artist.name,
+      thumbnail: song.song_art_image_thumbnail_url
+    });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');

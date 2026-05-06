@@ -253,6 +253,18 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .tok-conj{color:var(--text3);font-size:13px;border:1px dashed transparent;cursor:pointer;}
 .tok-conj:hover{border-color:var(--border2);background:var(--surface3);}
 .tok-conj.tok-selected{background:var(--surface3);border-color:var(--border2);color:var(--text);}
+
+/* GENIUS */
+.genius-search-row{display:flex;gap:8px;margin-bottom:12px;}
+.genius-search-row input{flex:1;margin-bottom:0;}
+.genius-hits{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px;}
+.genius-hit{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;transition:all .15s;display:flex;gap:10px;align-items:center;}
+.genius-hit:hover{border-color:var(--purple);background:var(--purple-bg);}
+.genius-hit img{width:44px;height:44px;border-radius:6px;object-fit:cover;flex-shrink:0;}
+.genius-hit-info{min-width:0;}
+.genius-hit-title{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.genius-hit-artist{font-size:11px;color:var(--text3);}
+.genius-lyrics-loaded{background:var(--purple-bg);border:1px solid var(--purple);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
 .token-actions{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
 .tok-count{font-size:12px;color:var(--text2);padding:6px 12px;background:var(--surface3);border-radius:6px;}
 
@@ -372,8 +384,28 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- ŞARKI SÖZLERİ -->
   <div class="panel" id="panel-lyrics">
     <div class="panel-title">Şarkı Sözleri <span class="mode-badge badge-lyrics">Sokak</span></div>
-    <div class="panel-sub">Slang, argo ve konuşma dili kelimeleri için. Tıkla → seç → analiz et.</div>
-    <textarea id="lyrics-text" placeholder="Şarkı sözlerini yapıştır..." oninput="tokenizeText('lyrics')"></textarea>
+    <div class="panel-sub">Genius'tan şarkı ara veya sözleri yapıştır → kelimelere tıkla → analiz et.</div>
+
+    <!-- Genius arama -->
+    <div style="background:var(--purple-bg);border:1px solid var(--purple);border-radius:12px;padding:14px;margin-bottom:14px;">
+      <div style="font-size:12px;font-weight:700;color:#b080e0;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:16px">♪</span> Genius'tan Şarkı Ara
+      </div>
+      <div class="genius-search-row">
+        <input type="text" id="genius-search-input" placeholder="Sanatçı veya şarkı adı... (örn: Quebonafide, Mata)" onkeydown="if(event.key==='Enter')searchGenius()" style="margin-bottom:0;border-color:var(--purple)">
+        <button class="btn btn-purple" onclick="searchGenius()" id="genius-search-btn">Ara</button>
+      </div>
+      <div id="genius-hits" style="display:none"></div>
+      <div id="genius-loaded" class="genius-lyrics-loaded" style="display:none">
+        <div>
+          <span id="genius-loaded-title" style="font-size:13px;font-weight:700;color:#b080e0"></span>
+          <span id="genius-loaded-artist" style="font-size:11px;color:var(--text3);margin-left:8px"></span>
+        </div>
+        <button class="btn" onclick="clearGeniusLyrics()" style="font-size:11px;padding:3px 10px">Temizle</button>
+      </div>
+    </div>
+
+    <textarea id="lyrics-text" placeholder="...veya şarkı sözlerini buraya yapıştır." oninput="tokenizeText('lyrics')"></textarea>
     <div class="token-display" id="lyrics-tokens"></div>
     <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
       <div class="tok-count" id="lyrics-sel-count">0 kelime seçildi</div>
@@ -1105,6 +1137,72 @@ function showPanel(name){
 }
 
 // ── TARAMA ────────────────────────────────────────
+// ── GENIUS ────────────────────────────────────────────────
+async function searchGenius() {
+  const q = document.getElementById('genius-search-input').value.trim();
+  if (!q) return;
+  const btn = document.getElementById('genius-search-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  const hitsEl = document.getElementById('genius-hits');
+  hitsEl.style.display = 'none'; hitsEl.innerHTML = '';
+  try {
+    const data = await api.get('/api/genius/search?q=' + encodeURIComponent(q));
+    if (!data.hits || !data.hits.length) {
+      hitsEl.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0">Sonuç bulunamadı.</div>';
+      hitsEl.style.display = 'block';
+    } else {
+      hitsEl.style.display = 'block';
+      hitsEl.innerHTML = '<div class="genius-hits" id="genius-hits-grid"></div>';
+      const grid = document.getElementById('genius-hits-grid');
+      data.hits.forEach(hit => {
+        const card = document.createElement('div');
+        card.className = 'genius-hit';
+        const img = hit.thumbnail ? '<img src="'+esc(hit.thumbnail)+'" style="width:44px;height:44px;border-radius:6px;object-fit:cover;flex-shrink:0">' : '<div style="width:44px;height:44px;border-radius:6px;background:var(--purple-bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px">♪</div>';
+        card.innerHTML =
+          img +
+          '<div class="genius-hit-info"><div class="genius-hit-title" title="' + esc(hit.title) + '">' + esc(hit.title) + '</div>' +
+          '<div class="genius-hit-artist">' + esc(hit.artist) + '</div></div>';
+        card.onclick = () => loadGeniusLyrics(hit.id, hit.title, hit.artist);
+        grid.appendChild(card);
+      });
+    }
+  } catch(e) {
+    hitsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px 0">Hata: ' + esc(e.message) + '</div>';
+    hitsEl.style.display = 'block';
+  }
+  btn.disabled = false; btn.textContent = 'Ara';
+}
+
+async function loadGeniusLyrics(id, title, artist) {
+  const hitsEl = document.getElementById('genius-hits');
+  hitsEl.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0"><span class="spinner"></span> Sözler yükleniyor...</div>';
+  try {
+    const data = await api.get('/api/genius/lyrics/' + id);
+    if (data.lyrics) {
+      document.getElementById('lyrics-text').value = data.lyrics;
+      document.getElementById('genius-loaded-title').textContent = data.title || title;
+      document.getElementById('genius-loaded-artist').textContent = data.artist || artist;
+      document.getElementById('genius-loaded').style.display = 'flex';
+      hitsEl.style.display = 'none';
+      tokenizeText('lyrics');
+    } else {
+      hitsEl.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0">' + (data.note || 'Sözler bulunamadı.') + '</div>';
+    }
+  } catch(e) {
+    hitsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px 0">Hata: ' + esc(e.message) + '</div>';
+  }
+}
+
+function clearGeniusLyrics() {
+  document.getElementById('lyrics-text').value = '';
+  document.getElementById('genius-loaded').style.display = 'none';
+  document.getElementById('genius-hits').style.display = 'none';
+  document.getElementById('lyrics-tokens').innerHTML = '';
+  document.getElementById('lyrics-tokens').classList.remove('visible');
+  if (_tokenSel.lyrics) _tokenSel.lyrics.clear();
+  updateTokenCount('lyrics');
+}
+
 // ── TOKEN PICKER ──────────────────────────────────────────
 const _tokenSel = { lesson: new Set(), lyrics: new Set() };
 
