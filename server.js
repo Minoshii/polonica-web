@@ -463,12 +463,22 @@ function geniusFetch(url) {
   });
 }
 
+// Genius token kontrol
+app.get('/api/genius/test', (req, res) => {
+  const token = process.env.GENIUS_ACCESS_TOKEN;
+  res.json({ hasToken: !!token, tokenLength: token ? token.length : 0, tokenStart: token ? token.slice(0,8)+'...' : null });
+});
+
 // Şarkı arama
 app.get('/api/genius/search', async (req, res) => {
   try {
     const q = encodeURIComponent(req.query.q || '');
     if (!q) return res.status(400).json({ error: 'Arama terimi gerekli.' });
     const data = await geniusGet('/search?q=' + q + '&per_page=8');
+    console.log('Genius search response meta:', JSON.stringify(data.meta || data.error || 'ok'));
+    if (data.meta && data.meta.status !== 200) {
+      return res.status(data.meta.status).json({ error: 'Genius API: ' + data.meta.message });
+    }
     const hits = (data.response.hits || []).map(h => ({
       id: h.result.id,
       title: h.result.title,
