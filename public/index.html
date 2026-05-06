@@ -114,6 +114,18 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 #pdf-text-layer{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;opacity:1;line-height:1;pointer-events:auto;}
 #pdf-text-layer span{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%;}
 #pdf-text-layer ::selection{background:rgba(200,184,154,.35);color:transparent;}
+/* PDF ANNOTATION */
+.annot-toolbar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;flex-wrap:wrap;}
+.annot-tool-btn{padding:6px 10px;border-radius:7px;border:1px solid transparent;background:none;color:var(--text2);cursor:pointer;font-size:13px;transition:all .15s;display:flex;align-items:center;gap:4px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;}
+.annot-tool-btn:hover{background:var(--surface3);border-color:var(--border2);}
+.annot-tool-btn.active{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent);}
+.annot-color-btn{width:22px;height:22px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.annot-color-btn.active{border-color:#fff;transform:scale(1.2);}
+.annot-size-slider{width:70px;accent-color:var(--accent);cursor:pointer;}
+.annot-sep{width:1px;height:20px;background:var(--border2);margin:0 2px;}
+#pdf-annot-canvas{position:absolute;top:0;left:0;border-radius:4px;touch-action:none;}
+.annot-toolbar-wrap{display:none;}
+.annot-toolbar-wrap.visible{display:flex;}
 .pdf-selection-tooltip{position:fixed;background:#1a160e;border:1px solid #c8b89a;border-radius:10px;padding:8px 12px;display:none;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.5);gap:8px;align-items:center;}
 .pdf-selection-tooltip.visible{display:flex;}
 .sel-mode-active{cursor:crosshair!important;}
@@ -416,14 +428,42 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
               <button class="btn" onclick="zoomIn()" style="padding:4px 8px;border:none;background:none;font-size:16px" title="Yaklaştır">+</button>
               <button class="btn" onclick="zoomFit()" style="padding:3px 8px;border:none;background:none;font-size:10px;color:var(--text3)" title="Sayfaya Sığdır">⊡</button>
             </div>
-            <button class="btn" id="sel-mode-btn" onclick="toggleSelMode()" style="margin-left:auto;border-color:#c8a050;color:#c8a050">✂ Kelime Seç</button>
+            <button class="btn" id="annot-toggle-btn" onclick="toggleAnnotMode()" style="margin-left:auto;border-color:#5dc0b0;color:#5dc0b0">✏️ Not Al</button>
+            <button class="btn" id="sel-mode-btn" onclick="toggleSelMode()" style="border-color:#c8a050;color:#c8a050">✂ Kelime Seç</button>
             <button class="btn btn-pink" onclick="analyzePDFPage()">🔬 Sayfayı Analiz Et</button>
             <button class="btn" onclick="analyzeRange()" style="font-size:12px">Aralık...</button>
           </div>
+          <!-- Annotation toolbar -->
+          <div class="annot-toolbar-wrap" id="annot-toolbar-wrap">
+            <div class="annot-toolbar">
+              <button class="annot-tool-btn active" id="annot-pen-btn" onclick="setAnnotTool('pen')" title="Kalem">✏️ Kalem</button>
+              <button class="annot-tool-btn" id="annot-hl-btn" onclick="setAnnotTool('highlight')" title="İşaretleme">🖌 İşaretçi</button>
+              <button class="annot-tool-btn" id="annot-eraser-btn" onclick="setAnnotTool('eraser')" title="Silgi">⌫ Silgi</button>
+              <div class="annot-sep"></div>
+              <div style="display:flex;gap:5px;align-items:center;">
+                <div class="annot-color-btn active" style="background:#e05050" onclick="setAnnotColor('#e05050',this)" title="Kırmızı"></div>
+                <div class="annot-color-btn" style="background:#c8b89a" onclick="setAnnotColor('#c8b89a',this)" title="Altın"></div>
+                <div class="annot-color-btn" style="background:#5080c0" onclick="setAnnotColor('#5080c0',this)" title="Mavi"></div>
+                <div class="annot-color-btn" style="background:#4a9a6a" onclick="setAnnotColor('#4a9a6a',this)" title="Yeşil"></div>
+                <div class="annot-color-btn" style="background:#fff" onclick="setAnnotColor('#fff',this)" title="Beyaz"></div>
+              </div>
+              <div class="annot-sep"></div>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <span style="font-size:11px;color:var(--text3)">Boyut</span>
+                <input type="range" class="annot-size-slider" id="annot-size" min="1" max="20" value="3" oninput="setAnnotSize(this.value)">
+                <span id="annot-size-lbl" style="font-size:11px;color:var(--text3);min-width:14px">3</span>
+              </div>
+              <div class="annot-sep"></div>
+              <button class="annot-tool-btn" onclick="clearAnnotPage()" style="color:#e07070" title="Bu sayfayı temizle">🗑 Temizle</button>
+              <button class="annot-tool-btn" onclick="undoAnnot()" title="Geri al">↩ Geri</button>
+            </div>
+          </div>
+
           <div class="pdf-canvas-wrap" id="pdf-canvas-wrap">
             <div class="pdf-page-container" id="pdf-page-container">
               <canvas id="pdf-canvas"></canvas>
               <div id="pdf-text-layer"></div>
+              <canvas id="pdf-annot-canvas"></canvas>
               <canvas id="pdf-sel-canvas" style="position:absolute;top:0;left:0;pointer-events:none;display:none;border-radius:4px;"></canvas>
             </div>
           </div>
@@ -1684,6 +1724,186 @@ async function openPDF(id){
   const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
 }
 
+// ── PDF ANNOTATION SİSTEMİ ────────────────────────────────
+let _annotMode = false;
+let _annotTool = 'pen'; // pen | highlight | eraser
+let _annotColor = '#e05050';
+let _annotSize = 3;
+let _annotDrawing = false;
+let _annotHistory = {}; // pdfId+page -> [dataURL array]
+
+function annotKey(){ return (_activeProfile||'default')+'_'+currentPdfId+'_'+currentPage; }
+
+function saveAnnotPage(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas||!currentPdfId) return;
+  const key = 'annot_' + annotKey();
+  // Boş canvas'ı kaydetme
+  const blank = document.createElement('canvas');
+  blank.width=canvas.width; blank.height=canvas.height;
+  if(canvas.toDataURL() === blank.toDataURL()) { localStorage.removeItem(key); return; }
+  try{ localStorage.setItem(key, canvas.toDataURL()); }catch(e){ console.warn('Annotation kaydetme hatasi:', e); }
+}
+
+function loadAnnotPage(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas||!currentPdfId) return;
+  const key = 'annot_' + annotKey();
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const saved = localStorage.getItem(key);
+  if(!saved) return;
+  const img = new Image();
+  img.onload = () => ctx.drawImage(img,0,0);
+  img.src = saved;
+}
+
+function pushAnnotHistory(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas) return;
+  const k = annotKey();
+  if(!_annotHistory[k]) _annotHistory[k] = [];
+  _annotHistory[k].push(canvas.toDataURL());
+  if(_annotHistory[k].length > 20) _annotHistory[k].shift(); // max 20 adım
+}
+
+function undoAnnot(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas) return;
+  const k = annotKey();
+  if(!_annotHistory[k]||!_annotHistory[k].length){ clearAnnotPage(); return; }
+  const prev = _annotHistory[k].pop();
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const img = new Image();
+  img.onload = () => { ctx.drawImage(img,0,0); saveAnnotPage(); };
+  img.src = prev;
+}
+
+function clearAnnotPage(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas) return;
+  pushAnnotHistory();
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  saveAnnotPage();
+}
+
+function toggleAnnotMode(){
+  _annotMode = !_annotMode;
+  const btn = document.getElementById('annot-toggle-btn');
+  const toolbar = document.getElementById('annot-toolbar-wrap');
+  const canvas = document.getElementById('pdf-annot-canvas');
+  const textLayer = document.getElementById('pdf-text-layer');
+  if(_annotMode){
+    btn.textContent = '✏️ Not Al (Aktif)';
+    btn.style.background = 'var(--teal-bg)';
+    toolbar.classList.add('visible');
+    if(canvas){ canvas.style.pointerEvents='auto'; canvas.style.cursor='crosshair'; }
+    if(textLayer) textLayer.style.pointerEvents='none'; // çizim öncelikli
+    setupAnnotCanvas();
+  } else {
+    btn.textContent = '✏️ Not Al';
+    btn.style.background = '';
+    toolbar.classList.remove('visible');
+    if(canvas){ canvas.style.pointerEvents='none'; canvas.style.cursor=''; }
+    if(textLayer) textLayer.style.pointerEvents='auto';
+    saveAnnotPage();
+  }
+}
+
+function setAnnotTool(tool){
+  _annotTool = tool;
+  document.querySelectorAll('.annot-tool-btn').forEach(b=>b.classList.remove('active'));
+  const btn = document.getElementById('annot-'+tool+'-btn')||document.getElementById('annot-'+tool.replace('highlight','hl')+'-btn');
+  if(btn) btn.classList.add('active');
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(canvas) canvas.style.cursor = tool==='eraser'?'cell':'crosshair';
+}
+
+function setAnnotColor(color, el){
+  _annotColor = color;
+  document.querySelectorAll('.annot-color-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+function setAnnotSize(val){
+  _annotSize = parseInt(val);
+  const lbl = document.getElementById('annot-size-lbl');
+  if(lbl) lbl.textContent = val;
+}
+
+function setupAnnotCanvas(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas||canvas._annotSetup) return;
+  canvas._annotSetup = true;
+  let lastX, lastY;
+
+  const getPos = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const touch = e.touches ? e.touches[0] : e;
+    return { x:(touch.clientX-rect.left)*scaleX, y:(touch.clientY-rect.top)*scaleY };
+  };
+
+  const startDraw = (e) => {
+    if(!_annotMode) return;
+    e.preventDefault();
+    pushAnnotHistory();
+    _annotDrawing = true;
+    const {x,y} = getPos(e);
+    lastX=x; lastY=y;
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath(); ctx.moveTo(x,y);
+  };
+
+  const draw = (e) => {
+    if(!_annotMode||!_annotDrawing) return;
+    e.preventDefault();
+    const {x,y} = getPos(e);
+    const ctx = canvas.getContext('2d');
+    if(_annotTool==='eraser'){
+      const sz = _annotSize * 4;
+      ctx.clearRect(x-sz/2, y-sz/2, sz, sz);
+    } else if(_annotTool==='highlight'){
+      ctx.globalAlpha = 0.3;
+      ctx.strokeStyle = _annotColor;
+      ctx.lineWidth = _annotSize * 5;
+      ctx.lineCap = 'square';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.lineTo(x,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x,y);
+    } else {
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = _annotColor;
+      ctx.lineWidth = _annotSize;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.lineTo(x,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x,y);
+    }
+    lastX=x; lastY=y;
+  };
+
+  const endDraw = (e) => {
+    if(!_annotDrawing) return;
+    _annotDrawing = false;
+    const ctx = canvas.getContext('2d');
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+    saveAnnotPage();
+  };
+
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('mouseleave', endDraw);
+  canvas.addEventListener('touchstart', startDraw, {passive:false});
+  canvas.addEventListener('touchmove', draw, {passive:false});
+  canvas.addEventListener('touchend', endDraw);
+}
+
 let _pdfZoom = 0; // 0 = otomatik sığdır, pozitif sayı = manuel zoom yüzdesi
 
 function zoomIn(){
@@ -1734,12 +1954,23 @@ async function renderPDFPage(){
   });
 
   document.getElementById('pdf-page-info').textContent = currentPage + ' / ' + totalPages;
+
+  // Annotation canvas boyutlandır ve kayıtlı notları yükle
+  const annotCanvas = document.getElementById('pdf-annot-canvas');
+  if(annotCanvas){
+    annotCanvas.width = vp.width; annotCanvas.height = vp.height;
+    annotCanvas.style.width = vp.width + 'px';
+    annotCanvas.style.height = vp.height + 'px';
+    loadAnnotPage();
+  }
 }
 
 async function prevPage(){
+  saveAnnotPage(); // mevcut sayfayı kaydet
   if(currentPage>1){currentPage--;await renderPDFPage();savePDFPage(currentPdfId,currentPage);}
 }
 async function nextPage(){
+  saveAnnotPage(); // mevcut sayfayı kaydet
   if(currentPage<totalPages){currentPage++;await renderPDFPage();savePDFPage(currentPdfId,currentPage);}
 }
 
