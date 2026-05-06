@@ -153,6 +153,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-input-row{display:flex;gap:8px;margin-bottom:16px;}
 .special-input-row input{flex:1;margin-bottom:0;}
 .special-tabs{display:flex;gap:6px;margin-bottom:16px;}
+/* KELİME ACCORDION */
+.word-accordion{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.word-accordion-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;background:var(--surface2);transition:background .15s;}
+.word-accordion-header:hover{background:var(--surface3);}
+.word-accordion.open .word-accordion-header{background:var(--surface3);}
+.word-accordion-icon{font-size:18px;flex-shrink:0;}
+.word-accordion-title{font-size:13px;font-weight:800;flex:1;color:var(--text);}
+.word-accordion-count{font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;border:1px solid;flex-shrink:0;}
+.word-accordion-arrow{font-size:11px;color:var(--text3);transition:transform .2s;}
+.word-accordion.open .word-accordion-arrow{transform:rotate(180deg);}
+.word-accordion-body{display:none;border-top:1px solid var(--border);}
+.word-accordion.open .word-accordion-body{display:block;animation:fadeIn .15s ease;}
+
 /* MÜZYKA */
 .muzyka-album{border:1px solid #2a1a3a;border-radius:14px;margin-bottom:12px;overflow:hidden;transition:border-color .2s;}
 .muzyka-album:hover{border-color:#9060c0;}
@@ -2771,13 +2784,70 @@ function _renderSpecialList(){
   countEl.textContent = activeList.length + ' ' + tabLabel + ' kayitli' + (q ? ' - ' + list.length + ' sonuc' : '');
   if(!list.length){
     const emptyMsg = _specialTab === 'idioms'
-      ? '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">💬</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Deyim & Kalıp defteri boş</div><div style="font-size:13px">Yukarıdan "o co chodzi", "nie ma sprawy" gibi kalıpları ara ve kaydet.</div></div>'
-      : '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">⭐</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Kelime defteri boş</div><div style="font-size:13px">Yukarıdan bir kelime ara ve kaydet.</div></div>';
+      ? '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">💬</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Deyim & Kalip defteri bos</div><div style="font-size:13px">Yukaridan "o co chodzi", "nie ma sprawy" gibi kaliplari ara ve kaydet.</div></div>'
+      : '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">⭐</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Kelime defteri bos</div><div style="font-size:13px">Yukaridan bir kelime ara ve kaydet.</div></div>';
     container.innerHTML = activeList.length === 0 ? emptyMsg : '<div class="special-empty">Arama sonucu yok.</div>';
     return;
   }
 
   container.innerHTML = '';
+
+  // Kelimeler sekmesi: kategori + cilt accordion (her cilt max 50)
+  if(_specialTab === 'words' && !q) {
+    const CILT = 50;
+    const cats = [
+      {key:'verb', label:'Fiiller', icon:'🔵', color:'#5080c0'},
+      {key:'noun', label:'İsimler', icon:'🟡', color:'#c8a050'},
+      {key:'adj',  label:'Sıfatlar & Zarflar', icon:'🟢', color:'#4a9a6a'},
+      {key:'other',label:'Diğer', icon:'⚪', color:'#888'},
+    ];
+    cats.forEach(cat => {
+      const catWords = list.filter(e => (e.category||'other') === cat.key);
+      if(!catWords.length) return;
+      // Ciltlere böl
+      for(let ci = 0; ci < Math.ceil(catWords.length/CILT); ci++) {
+        const ciltWords = catWords.slice(ci*CILT, (ci+1)*CILT);
+        const ciltLabel = Math.ceil(catWords.length/CILT) > 1 ? cat.label + ' · Cilt '+(ci+1) : cat.label;
+        const acc = document.createElement('div');
+        acc.className = 'word-accordion' + (ci===0 ? ' open' : '');
+        acc.style.borderColor = cat.color + '44';
+        const header = document.createElement('div');
+        header.className = 'word-accordion-header';
+        header.innerHTML =
+          '<span class="word-accordion-icon">'+cat.icon+'</span>'+
+          '<span class="word-accordion-title" style="color:'+cat.color+'">'+ciltLabel+'</span>'+
+          '<span class="word-accordion-count" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+ciltWords.length+'</span>'+
+          '<span class="word-accordion-arrow">▾</span>';
+        header.onclick = () => acc.classList.toggle('open');
+        const body = document.createElement('div');
+        body.className = 'word-accordion-body';
+        ciltWords.forEach(e => {
+          const row = document.createElement('div');
+          row.className = 'special-row';
+          row.id = 'sr-'+e.id;
+          row.onclick = () => toggleSpecialDetail(e.id);
+          const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
+          const sourceBadge = e.source ? '<span style="font-size:9px;color:#7090d0;font-family:DM Mono,monospace;margin-left:4px">🎵'+esc(e.source)+'</span>' : '';
+          row.innerHTML =
+            '<span class="special-row-pl">'+slangBadge+esc(e.pl)+sourceBadge+'</span>'+
+            '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
+            (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
+            '<span class="special-row-badge" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+typeLabels[e.category]||''+'</span>'+
+            '<span class="special-row-arrow">▾</span>';
+          const det = document.createElement('div');
+          det.className = 'special-detail';
+          det.id = 'sd-'+e.id;
+          buildDetailHTML(det, e, typeColors, typeLabels);
+          body.appendChild(row);
+          body.appendChild(det);
+        });
+        acc.appendChild(header);
+        acc.appendChild(body);
+        container.appendChild(acc);
+      }
+    });
+    return;
+  }
 
   list.forEach(e => {
     const tc = typeColors[e.category]||'#888';
@@ -2829,6 +2899,33 @@ function _renderSpecialList(){
     container.appendChild(row);
     container.appendChild(detail);
   });
+}
+
+function buildDetailHTML(det, e, typeColors, typeLabels) {
+  const tc = typeColors[e.category]||'#888';
+  const tl = typeLabels[e.category]||'';
+  const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+  const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+  det.innerHTML =
+    '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap;">'+
+      '<span class="special-pl">'+esc(e.pl)+'</span>'+
+      (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
+      '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
+    '</div>'+
+    '<div class="special-tr">'+esc(e.tr)+'</div>'+
+    '<div class="special-en">'+esc(e.en||'')+'</div>'+
+    (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+    (e.usage_note ? '<div class="usage-note">💡 '+esc(e.usage_note)+'</div>' : '')+
+    (e.related_phrases && e.related_phrases.length ?
+      '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
+      e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
+      '</div>' : '')+
+    '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
+    '<textarea class="special-note-area" data-id="'+e.id+'" onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value)" placeholder="Notu buraya yaz...">'+esc(e.note||'')+'</textarea>'+
+    '<div class="special-detail-footer">'+
+      '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
+      '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
+    '</div>';
 }
 
 function toggleSpecialDetail(id){
