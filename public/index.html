@@ -216,6 +216,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
 .special-tab.active-words{background:#2a1a08;border-color:#6b4a10;color:#c8a050;}
 .special-tab.active-idioms{background:#0d1e1c;border-color:var(--teal);color:#5dc0b0;}
+.special-tab.active-akademik{background:#0d1a2a;border-color:#5080c0;color:#7090d0;}
 .special-tab.active-muzyka{background:#1a0d30;border-color:#9060c0;color:#b080e0;}
 .special-tab.active-slang{background:#1a0d0d;border-color:#c05050;color:#e07070;}
 .special-tab:hover{background:var(--surface2);}
@@ -489,10 +490,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="nav-section">Materyal</div>
   <button class="nav-btn" id="nav-pdf" onclick="showPanel('pdf')">📄 PDF Kütüphanesi</button>
 
-  <div class="nav-section">Kütüphane</div>
-  <button class="nav-btn" id="nav-lib-lesson" onclick="showPanel('lib-lesson')">◫ Akademik</button>
-  <button class="nav-btn" id="nav-lib-lyrics" onclick="showPanel('lib-lyrics')">◈ Sokak / Müzik</button>
-  <button class="nav-btn" id="nav-lib-class" onclick="showPanel('lib-class')" style="color:#7090d0">🎓 Dersten Gelenler</button>
+
 
   <div class="nav-section">Kelime Defteri</div>
   <button class="nav-btn" id="nav-special" onclick="showPanel('special')" style="color:#c8a050">⭐ Burak Special</button>
@@ -715,20 +713,30 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- TEST -->
   <div class="panel" id="panel-test">
     <div id="test-setup-view">
-      <div class="panel-title">Test Hazırla</div>
-      <div style="margin-bottom:16px">
-        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px">Ünite</label>
-        <select id="test-unit" onchange="updatePoolInfo()"></select>
-        <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px">Mod</label>
-        <select id="test-mode" onchange="updatePoolInfo()">
-          <option value="flashcard">Flashcard</option>
-          <option value="mc">Çoktan Seçmeli</option>
-          <option value="srs">SRS — Tekrar Zamanı Gelenler</option>
-          <option value="weak">Zayıf Kelimeler (2+ yanlış)</option>
-        </select>
+      <div class="panel-title">🔁 Test</div>
+      <div class="panel-sub">Burak Special'dan kelime seç, test yap.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div>
+          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Kaynak</label>
+          <select id="test-source" onchange="updatePoolInfo()" style="margin-bottom:0">
+            <option value="all">Tümü</option>
+            <option value="words">⭐ Kelimeler</option>
+            <option value="idioms">💬 Deyimler</option>
+            <option value="akademik">📚 Akademik</option>
+            <option value="muzyka">🎵 Muzyka</option>
+            <option value="slang">🔥 Slang</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Mod</label>
+          <select id="test-mode" onchange="updatePoolInfo()" style="margin-bottom:0">
+            <option value="flashcard">Flashcard</option>
+            <option value="mc">Çoktan Seçmeli</option>
+          </select>
+        </div>
       </div>
       <div style="display:flex;align-items:center;gap:12px">
-        <button class="btn btn-accent" onclick="startTest()">Başlat</button>
+        <button class="btn btn-accent" onclick="startTestFromSpecial()">▶ Başlat</button>
         <span id="test-pool-info" style="font-size:12px;color:var(--text2)"></span>
       </div>
     </div>
@@ -772,6 +780,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="special-tabs">
       <button class="special-tab active-words" id="stab-words" onclick="switchSpecialTab('words')">⭐ Kelimeler <span id="stab-words-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-idioms" onclick="switchSpecialTab('idioms')">💬 Deyimler <span id="stab-idioms-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-akademik" onclick="switchSpecialTab('akademik')" style="border-color:#1a2a3a;color:#7090d0">📚 Akademik <span id="stab-akademik-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka');muzykaClick()" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-slang" onclick="switchSpecialTab('slang')" style="border-color:#5a1a1a;color:#e07070">🔥 Slang <span id="stab-slang-count" style="font-size:10px;opacity:.6"></span></button>
     </div>
@@ -1008,8 +1017,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <span id="sbc">0 seçildi</span>
   <input type="text" id="save-name" placeholder="Ünite adı (örn: Ders 4 - Hafta 3)..." style="margin-bottom:0;width:220px">
   <select id="save-mode-sel" style="margin-bottom:0;width:auto;padding:9px 12px">
-    <option value="">Otomatik (kategori grubu)</option>
-    <option value="class">🎓 Dersten Gelenler</option>
+    <option value="special">⭐ Burak Special</option>
+    <option value="lesson">📚 Akademik (ünite)</option>
   </select>
   <button class="btn btn-green" onclick="saveSelectedWithMode()">Kaydet</button>
   <button class="btn" onclick="clearSel()">İptal</button>
@@ -1812,11 +1821,32 @@ async function saveSelected(){
   alert(fresh.length+' yeni kelime kaydedildi!'+(dupes.length?' ('+dupes.length+' duplicate atlandi)':''));
 }
 
-function saveSelectedWithMode(){
+async function saveSelectedWithMode(){
   const modeEl = document.getElementById('save-mode-sel');
-  const chosenMode = modeEl ? modeEl.value : '';
-  if(chosenMode === 'class') scanMode = 'class';
-  saveSelected();
+  const chosenMode = modeEl ? modeEl.value : 'special';
+  if(chosenMode === 'special') {
+    // Direkt Burak Special'a gönder
+    const toSave = scanned.filter(w => selected.has(w._sid));
+    if(!toSave.length) { alert('Kelime sec!'); return; }
+    const nameEl = document.getElementById('save-name');
+    const unitName = nameEl ? nameEl.value.trim() : '';
+    let savedCount = 0;
+    for(const w of toSave) {
+      await window.polonica.specialSave({
+        ...w, is_idiom:false,
+        source: unitName || 'Ders Materyali',
+        source_type: 'akademik'
+      });
+      savedCount++;
+    }
+    clearSel();
+    setTimeout(() => { showPanel('special'); switchSpecialTab('akademik'); }, 300);
+    const st = document.getElementById(scanMode+'-status');
+    if(st) st.textContent = savedCount + ' kelime eklendi!';
+  } else {
+    if(chosenMode === 'class') scanMode = 'class';
+    saveSelected();
+  }
 }
 
 function clearSel(){selected.clear();updateSaveBar();document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));}
@@ -1886,41 +1916,40 @@ async function resetProg(id,mode){
 }
 
 // ── TEST ──────────────────────────────────────────
-function updateTestSelect(){
-  const sel=document.getElementById('test-unit');if(!sel)return;
-  sel.innerHTML='<option value="all">Tüm Kelimeler</option>';
-  store.units.filter(u=>u.mode==='lesson').forEach(u=>{sel.innerHTML+='<option value="'+u.id+'">'+esc(u.name)+'</option>';});
-  store.units.filter(u=>u.mode==='lyrics').forEach(u=>{sel.innerHTML+='<option value="'+u.id+'">'+esc(u.name)+'</option>';});
-  updatePoolInfo();
-}
+function updateTestSelect(){ updatePoolInfo(); }
 
-function getPool(id){
-  return id==='all'
-    ?store.units.flatMap(u=>u.words.map(w=>({...w,_uid:u.id})))
-    :(store.units.find(u=>u.id===id)||{words:[]}).words.map(w=>({...w,_uid:id}));
+function getSpecialPool(source) {
+  if(!specialList || !specialList.length) return [];
+  if(source === 'all') return specialList;
+  if(source === 'words') return specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source && e.source_type !== 'akademik' && e.source_type !== 'lesson');
+  if(source === 'idioms') return specialList.filter(e => e.is_idiom);
+  if(source === 'akademik') return specialList.filter(e => e.source_type === 'akademik' || e.source_type === 'lesson');
+  if(source === 'muzyka') return specialList.filter(e => e.source_type === 'lyrics' || (e.source && e.source_type !== 'akademik'));
+  if(source === 'slang') return specialList.filter(e => e.slang && e.source_type !== 'lyrics');
+  return specialList;
 }
 
 function updatePoolInfo(){
-  const id=document.getElementById('test-unit').value;
-  const mode=document.getElementById('test-mode').value;
-  const today=new Date().toISOString().slice(0,10);
-  let pool=getPool(id);
-  if(mode==='srs')pool=pool.filter(w=>w.srs&&w.srs.nextReview&&w.srs.nextReview.slice(0,10)<=today);
-  if(mode==='weak')pool=pool.filter(w=>w.progress&&w.progress.wrong>=2&&(w.progress.correct||0)<2);
-  document.getElementById('test-pool-info').textContent=pool.length+' kelime hazır';
+  const src = (document.getElementById('test-source')||{}).value || 'all';
+  const pool = getSpecialPool(src);
+  const infoEl = document.getElementById('test-pool-info');
+  if(infoEl) infoEl.textContent = pool.length + ' kelime hazır';
 }
 
-function startTest(){
-  const id=document.getElementById('test-unit').value;
-  const rawMode=document.getElementById('test-mode').value;
-  const today=new Date().toISOString().slice(0,10);
-  let pool=getPool(id);
-  if(rawMode==='srs')pool=pool.filter(w=>w.srs&&w.srs.nextReview&&w.srs.nextReview.slice(0,10)<=today);
-  if(rawMode==='weak')pool=pool.filter(w=>w.progress&&w.progress.wrong>=2&&(w.progress.correct||0)<2);
-  if(pool.length<2){alert('Yetersiz kelime ('+pool.length+')');return;}
-  testMode=(rawMode==='srs'||rawMode==='weak')?'flashcard':rawMode;
-  testWords=shuffle([...pool]).slice(0,Math.min(20,pool.length));
-  testIdx=0;testCorrect=0;testFlipped=false;
+function startTestFromSpecial(){
+  const src = (document.getElementById('test-source')||{}).value || 'all';
+  const mode = (document.getElementById('test-mode')||{}).value || 'flashcard';
+  const pool = getSpecialPool(src).filter(e => e.pl && e.tr);
+  if(pool.length < 2){ alert('En az 2 kelime gerekli!'); return; }
+  startTestWithPool(pool, mode);
+}
+
+function startTest(){ startTestFromSpecial(); }
+
+function startTestWithPool(pool, rawMode) {
+  testMode = rawMode;
+  testWords = shuffle([...pool]).slice(0, Math.min(30, pool.length));
+  testIdx=0; testCorrect=0; testFlipped=false;
   document.getElementById('test-setup-view').style.display='none';
   document.getElementById('test-active').style.display='block';
   renderCard();
@@ -2873,12 +2902,14 @@ function switchSpecialTab(tab) {
   wBtn.className = 'special-tab' + (tab==='words' ? ' active-words' : '');
   iBtn.className = 'special-tab' + (tab==='idioms' ? ' active-idioms' : '');
   if(mBtn) mBtn.className = 'special-tab' + (tab==='muzyka' ? ' active-muzyka' : '');
+  const aBtn = document.getElementById('stab-akademik');
+  if(aBtn) aBtn.className = 'special-tab' + (tab==='akademik' ? ' active-akademik' : '');
   const sBtn = document.getElementById('stab-slang');
   if(sBtn) sBtn.className = 'special-tab' + (tab==='slang' ? ' active-slang' : '');
   const searchEl = document.getElementById('special-search');
   const countEl = document.getElementById('special-count');
-  if(searchEl) searchEl.style.display = (tab==='muzyka'||tab==='slang') ? 'none' : '';
-  if(countEl) countEl.style.display = (tab==='muzyka'||tab==='slang') ? 'none' : '';
+  if(searchEl) searchEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik') ? 'none' : '';
+  if(countEl) countEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik') ? 'none' : '';
   // Liste animasyonu
   const listEl = document.getElementById('special-list');
   if(listEl){ listEl.style.opacity='0'; listEl.style.transform='translateY(6px)'; }
@@ -3016,22 +3047,76 @@ function _renderSpecialList(){
   if(!container) return;
 
   // Kategoriler
-  const muzykaAll = specialList.filter(e => e.source_type === 'lyrics' || e.source);
-  const words = specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source);
-  const idioms = specialList.filter(e => e.is_idiom);
+  const muzykaAll = specialList.filter(e => e.source_type === 'lyrics' || (e.source && e.source_type !== 'akademik'));
+  const akademikAll = specialList.filter(e => e.source_type === 'akademik' || e.source_type === 'lesson');
+  const words = specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source && e.source_type !== 'akademik' && e.source_type !== 'lesson');
+  const idioms = specialList.filter(e => e.is_idiom && e.source_type !== 'akademik' && e.source_type !== 'lesson');
 
   const slangAll = specialList.filter(e => e.slang && e.source_type !== 'lyrics' && !e.source);
 
   const wc = document.getElementById('stab-words-count');
   const ic = document.getElementById('stab-idioms-count');
+  const ac = document.getElementById('stab-akademik-count');
   const mc = document.getElementById('stab-muzyka-count');
   const sc = document.getElementById('stab-slang-count');
   if(wc) wc.textContent = words.length ? '('+words.length+')' : '';
   if(ic) ic.textContent = idioms.length ? '('+idioms.length+')' : '';
+  if(ac) ac.textContent = akademikAll.length ? '('+akademikAll.length+')' : '';
   if(mc) mc.textContent = muzykaAll.length ? '('+muzykaAll.length+')' : '';
   if(sc) sc.textContent = slangAll.length ? '('+slangAll.length+')' : '';
 
   // Muzyka sekmesi - şarkı bazlı grupla
+  // Akademik sekmesi - ünite/tarih bazlı grupla
+  if(_specialTab === 'akademik') {
+    container.innerHTML = '';
+    if(!akademikAll.length) {
+      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">📚</div><div style=\"font-size:16px;font-weight:700;margin-bottom:6px\">Akademik defteri bos</div><div style=\"font-size:13px\">Ders Materyali tarayip Burak Special'a gonder.</div></div>";
+      return;
+    }
+    const groups = {};
+    akademikAll.forEach(e => {
+      const key = e.source || e.unitName || 'Ders Materyali';
+      if(!groups[key]) groups[key] = [];
+      groups[key].push(e);
+    });
+    const typeColors2 = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+    const typeLabels2 = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
+    Object.entries(groups).forEach(([unitName, entries], gi) => {
+      const album = document.createElement('div');
+      album.className = 'muzyka-album';
+      album.style.borderColor = '#5080c044';
+      album.id = 'akademik-album-'+gi;
+      const header = document.createElement('div');
+      header.className = 'muzyka-album-header';
+      header.innerHTML =
+        '<span class="muzyka-album-emoji">📚</span>'+
+        '<div class="muzyka-album-info"><div class="muzyka-album-title" style="color:#7090d0">'+esc(unitName)+'</div>'+
+        '<div class="muzyka-album-meta">'+entries.length+' kelime</div></div>'+
+        '<span class="muzyka-album-count" style="color:#7090d0;border-color:#5080c044;background:#0d1a3011">'+entries.length+'</span>'+
+        '<span class="muzyka-album-arrow">▾</span>';
+      header.onclick = () => album.classList.toggle('open');
+      const wordsDiv = document.createElement('div');
+      wordsDiv.className = 'muzyka-words';
+      entries.forEach(e => {
+        const tc = typeColors2[e.category]||'#888';
+        const tl = typeLabels2[e.category]||'';
+        const row = document.createElement('div');
+        row.className = 'muzyka-word-row';
+        row.onclick = () => quickLookupPhrase(e.pl||e.original);
+        row.innerHTML =
+          '<span class="muzyka-word-pl">'+esc(e.pl||e.original||'')+'</span>'+
+          '<span class="muzyka-word-tr">'+esc(e.tr||'')+'</span>'+
+          (e.note?'<span class="muzyka-word-note">⭐ '+esc(e.note)+'</span>':'')+
+          '<span class="muzyka-word-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>';
+        wordsDiv.appendChild(row);
+      });
+      if(gi===0) album.classList.add('open');
+      album.appendChild(header); album.appendChild(wordsDiv);
+      container.appendChild(album);
+    });
+    return;
+  }
+
   if(_specialTab === 'muzyka') {
     container.innerHTML = '';
     if(!muzykaAll.length) {
@@ -3727,7 +3812,7 @@ document.addEventListener('click', onActivity);
 function spawnFox() {
   if (_fox || _foxLeaving) return;
   _fox = document.createElement('div');
-  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:8888;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;left:' + (window.innerWidth - 80) + 'px;top:' + (window.innerHeight - 80) + 'px;';
+  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:500;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;z-index:500!important;left:' + (window.innerWidth - 80) + 'px;top:' + (window.innerHeight - 80) + 'px;';
   _fox.textContent = '🦊';
   _foxPos = { x: window.innerWidth - 80, y: window.innerHeight - 80 };
   document.body.appendChild(_fox);
