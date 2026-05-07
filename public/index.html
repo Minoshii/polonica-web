@@ -307,6 +307,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .grammar-answer p{margin-bottom:8px;}
 .grammar-quick-btn{padding:6px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:99px;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
 .grammar-quick-btn:hover{border-color:var(--teal);color:#5dc0b0;}
+/* HAKKINDA */
+.about-wrap{max-width:680px;margin:0 auto;padding:8px 0;}
+.about-hero{text-align:center;padding:40px 20px 32px;border-bottom:1px solid var(--border);}
+.about-logo{font-size:42px;font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#dc143c 0%,#c8b89a 50%,#e30016 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.about-tagline{font-size:13px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.15em;text-transform:uppercase;}
+.about-body{padding:32px 0;font-size:14px;line-height:1.9;color:var(--text2);}
+.about-body p{margin-bottom:16px;}
+.about-body strong{color:var(--text);font-weight:700;}
+.about-section{margin-bottom:28px;}
+.about-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--accent-dim);margin-bottom:12px;}
+.about-bullet{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;font-size:13px;color:var(--text2);}
+.about-bullet-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.about-footer{border-top:1px solid var(--border);padding-top:24px;text-align:center;}
+.about-sig{font-size:13px;color:var(--text3);font-family:'DM Mono',monospace;font-style:italic;}
+.about-motto{font-size:20px;font-weight:800;color:var(--text);margin:20px 0 8px;letter-spacing:-0.5px;}
 .idiom-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;background:#0d1e1c;color:#5dc0b0;border:1px solid var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:middle;}
 .idiom-type-badge{display:inline-block;font-size:9px;padding:2px 6px;border-radius:99px;background:#0d1a30;color:#7090d0;border:1px solid var(--blue);margin-right:4px;}
 .related-phrases{margin-top:10px;padding:10px 13px;background:var(--surface3);border-radius:8px;border-left:3px solid var(--teal);}
@@ -398,6 +413,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
+  <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px">ℹ Hakkında</button>
 
   <div id="word-count"></div>
 
@@ -834,6 +850,47 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="search-row"><input type="text" id="search-class" placeholder="Kelime veya ünite ara..." oninput="filterLib('class')" style="margin-bottom:0"></div>
     <div id="lib-class-main"><div class="unit-grid" id="grid-class"></div></div>
     <div id="detail-class" style="display:none"></div>
+  </div>
+
+  <!-- HAKKINDA -->
+  <div class="panel" id="panel-about">
+    <div class="about-wrap">
+      <div class="about-hero">
+        <div class="about-logo">Polonica</div>
+        <div class="about-tagline">Türk-Leh Dil Köprüsü · v2.0</div>
+      </div>
+
+      <div class="about-body">
+        <div class="about-section">
+          <p>ChatGPT'ye "şu cümleyi çevir" deyip yapıştıranlar için değil.</p>
+          <p>Lehçe'yi <strong>gerçekten</strong> öğrenmek isteyenler için — hata yapmaktan korkmayan, <em style="color:var(--accent)">"kurwa"</em> kelimesinin neden o kadar çok şarkıda geçtiğini merak eden, hocanın tahtaya yazdığı cümleyi sadece defterine değil zihnine kazımak isteyen insanlar için.</p>
+        </div>
+
+        <div class="about-section">
+          <div class="about-section-title">Bu uygulama</div>
+          <div class="about-bullet"><span class="about-bullet-icon">📚</span><span>Ders kitabındaki kelimeleri toplar — ama aynı zamanda Mata'nın şarkısındaki sokak argosunu da öğretir</span></div>
+          <div class="about-bullet"><span class="about-bullet-icon">🗣</span><span><em style="color:var(--accent)">rozumiem</em> demeyi değil, doğru bağlamda <em style="color:var(--accent)">kumam</em> demeyi bildirir</span></div>
+          <div class="about-bullet"><span class="about-bullet-icon">💬</span><span>Gramer kuralı değil, <em style="color:var(--accent)">o co chodzi</em> gibi kalıpları içselleştirir</span></div>
+          <div class="about-bullet"><span class="about-bullet-icon">🎵</span><span>Polonya marşını çalar, tilki çıkarır, bayrak yağdırır — çünkü dil sadece gramer değil, kültürdür</span></div>
+          <div class="about-bullet"><span class="about-bullet-icon">🧠</span><span>Güçlü bir kütüphane altyapısı üzerine kurulu — kelimelerde çok nadiren hata yapabilir ama <strong>anlamda yapmaz</strong>. Gündelik kullanımları en temiz öğreneceğiniz yerdesiniz</span></div>
+        </div>
+
+        <div class="about-section">
+          <div class="about-section-title">Hedef</div>
+          <p>Sınıfta o an çeviriye bakan değil, <strong>zaten bilen</strong> olmak.</p>
+        </div>
+
+        <div class="about-footer">
+          <div class="about-motto">Hata yapın. Tekrar yapın. Öğrenin.</div>
+          <div style="display:flex;justify-content:center;gap:16px;margin:16px 0 20px;">
+            <svg width="36" height="24" viewBox="0 0 36 24" style="border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.4)"><rect width="36" height="12" fill="#fff"/><rect y="12" width="36" height="12" fill="#dc143c"/></svg>
+            <svg width="36" height="24" viewBox="0 0 36 24" style="border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.4)"><rect width="36" height="24" fill="#e30016"/><circle cx="13" cy="12" r="7" fill="#fff"/><circle cx="16" cy="12" r="5.5" fill="#e30016"/><polygon points="21,12 23,9 20.5,10.5 21.5,7.5 19,10.5" fill="#fff"/></svg>
+          </div>
+          <div class="about-sig">— Burak, İÜ Lehçe Bölümü</div>
+          <div style="margin-top:16px;font-size:11px;color:#333;font-family:'DM Mono',monospace;">Plastik olmayın 🦊</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- İSTATİSTİK -->
@@ -3513,33 +3570,68 @@ function playMelody() {
 
 // ── 3. AFK TİLKİ ──────────────────────────────────────
 let _afkTimer = null, _fox = null, _foxTarget = {x:200,y:200}, _foxPos = {x:200,y:200}, _foxRaf = null;
-const AFK_MS = 3 * 60 * 1000; // 3 dakika
+let _foxLeaving = false, _foxLeaveTimer = null;
+const AFK_MS = 3 * 60 * 1000;
 
 function resetAfk() {
   clearTimeout(_afkTimer);
-  if (_fox) { _fox.remove(); _fox = null; cancelAnimationFrame(_foxRaf); }
-  _afkTimer = setTimeout(spawnFox, AFK_MS);
+  clearTimeout(_foxLeaveTimer);
+  if (_fox && !_foxLeaving) {
+    // Mouse geldi - tilki 3-4 saniye daha takip etsin sonra veda edip gitsin
+    _foxLeaving = true;
+    const bubble = _fox.querySelector('div');
+    if (bubble) { bubble.textContent = 'Do widzenia! 🦊'; }
+    _foxLeaveTimer = setTimeout(() => {
+      if (_fox) {
+        _fox.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
+        _fox.style.opacity = '0';
+        _fox.style.transform = (_foxTarget.x < _foxPos.x ? 'scaleX(-1) ' : '') + 'translateY(60px) scale(0.5)';
+        setTimeout(() => {
+          if (_fox) { _fox.remove(); _fox = null; }
+          _foxLeaving = false;
+          cancelAnimationFrame(_foxRaf);
+        }, 1200);
+      }
+    }, 3500);
+  } else if (!_fox) {
+    // Tilki yok, timer sıfırla
+    _afkTimer = setTimeout(spawnFox, AFK_MS);
+  }
+}
+
+function hardResetAfk() {
+  // Sadece activity varsa ve tilki yoksa timer'ı sıfırla
+  if (!_fox && !_foxLeaving) {
+    clearTimeout(_afkTimer);
+    _afkTimer = setTimeout(spawnFox, AFK_MS);
+  }
 }
 
 document.addEventListener('mousemove', e => {
   _foxTarget = { x: e.clientX, y: e.clientY };
-  resetAfk();
+  if (_fox && !_foxLeaving) {
+    // Tilki takip modunda, resetAfk çağırma
+  } else if (!_fox) {
+    hardResetAfk();
+  }
 });
-document.addEventListener('keydown', resetAfk);
-document.addEventListener('click', resetAfk);
+document.addEventListener('keydown', hardResetAfk);
+document.addEventListener('click', hardResetAfk);
 
 function spawnFox() {
   if (_fox) return;
+  _foxLeaving = false;
   _fox = document.createElement('div');
-  _fox.style.cssText = 'position:fixed;bottom:20px;right:20px;font-size:36px;z-index:8888;pointer-events:none;transition:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));';
+  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:8888;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;';
   _fox.textContent = '🦊';
-  _fox.title = 'AFK tilki!';
   _foxPos = { x: window.innerWidth - 80, y: window.innerHeight - 80 };
+  _fox.style.left = _foxPos.x + 'px';
+  _fox.style.top = _foxPos.y + 'px';
   document.body.appendChild(_fox);
+  requestAnimationFrame(() => { _fox.style.opacity = '1'; });
 
-  // Konuşma balonu
   const bubble = document.createElement('div');
-  bubble.style.cssText = 'position:fixed;bottom:62px;right:16px;background:#1a160e;border:1px solid #c8b89a;border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:#c8b89a;font-family:Syne,sans-serif;z-index:8888;pointer-events:none;white-space:nowrap;';
+  bubble.style.cssText = 'position:absolute;bottom:44px;right:0;background:#1a160e;border:1px solid #c8b89a;border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:#c8b89a;font-family:Syne,sans-serif;white-space:nowrap;animation:panelIn .3s ease;';
   const msgs = ['Ej, uczysz się?', 'Nie ma sprawy!', 'Czy rozumiesz?', 'Bardzo dobrze!', 'Kumam! Kumam!'];
   bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
   _fox.appendChild(bubble);
@@ -3548,20 +3640,17 @@ function spawnFox() {
 }
 
 function animateFox() {
-  if (!_fox) return;
-  const speed = 0.06;
+  if (!_fox || _foxLeaving) return;
+  const speed = 0.055;
   _foxPos.x += (_foxTarget.x - 30 - _foxPos.x) * speed;
   _foxPos.y += (_foxTarget.y - 30 - _foxPos.y) * speed;
   _fox.style.left = _foxPos.x + 'px';
   _fox.style.top = _foxPos.y + 'px';
-  _fox.style.bottom = 'auto';
-  _fox.style.right = 'auto';
-  // Sola/sağa bak
   _fox.style.transform = _foxTarget.x < _foxPos.x ? 'scaleX(-1)' : 'scaleX(1)';
   _foxRaf = requestAnimationFrame(animateFox);
 }
 
-resetAfk(); // Başlat
+_afkTimer = setTimeout(spawnFox, AFK_MS);
 </script>
 </body>
 </html>
