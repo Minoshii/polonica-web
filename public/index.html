@@ -3006,7 +3006,7 @@ function _renderSpecialList(){
         const ciltLabel = Math.ceil(catWords.length/CILT) > 1 ? cat.label + ' · Cilt '+(ci+1) : cat.label;
         const acc = document.createElement('div');
         acc.className = 'word-accordion' + (ci===0 ? ' open' : '');
-        acc.style.cssText = 'border-color:'+cat.color+'44;animation:accordionIn .3s ease both;animation-delay:'+(gi*80)+'ms;';
+        acc.style.cssText = 'border-color:'+cat.color+'44;animation:accordionIn .3s ease both;animation-delay:'+(ci*60)+'ms;';
         const header = document.createElement('div');
         header.className = 'word-accordion-header';
         header.innerHTML =
@@ -3281,9 +3281,67 @@ function logoClick() {
   _logoTimer = setTimeout(() => _logoClicks = 0, 2000);
   if (_logoClicks >= 5) {
     _logoClicks = 0;
+    _logoClicks = 0;
     showFlagAnimation();
+    playNationalAnthems();
   }
 }
+function playNationalAnthems() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function makeReverb(ctx, sec) {
+      const len = ctx.sampleRate * sec;
+      const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2);
+      }
+      const conv = ctx.createConvolver(); conv.buffer = buf; return conv;
+    }
+
+    const reverb = makeReverb(ctx, 1.5);
+    const master = ctx.createGain(); master.gain.value = 0.5;
+    master.connect(ctx.destination);
+    const wet = ctx.createGain(); wet.gain.value = 0.25;
+    wet.connect(reverb); reverb.connect(master);
+    const dry = ctx.createGain(); dry.gain.value = 0.75; dry.connect(master);
+
+    function note(freq, start, dur) {
+      if (freq <= 0) return;
+      [1, 2, 3].forEach(function(h, hi) {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq * h;
+        g.gain.setValueAtTime(0, start);
+        g.gain.linearRampToValueAtTime([0.45,0.12,0.05][hi], start + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + dur * 0.92);
+        osc.connect(g); g.connect(dry); g.connect(wet);
+        osc.start(start); osc.stop(start + dur);
+      });
+    }
+
+    const B = 60/108;
+
+    // Polonya marşı kısa intro
+    var t = ctx.currentTime + 0.1;
+    [[392,1],[392,0.5],[440,0.5],[494,1],[440,0.5],[392,0.5],[494,1],[440,0.5],[392,0.5],[440,2]].forEach(function(n) {
+      note(n[0], t, n[1]*B*0.9); t += n[1]*B;
+    });
+
+    // Kısa duraklama
+    t += B * 1.5;
+
+    // İstiklal Marşı başlangıcı
+    // Korkma sönmez bu şafaklarda...
+    [[330,1],[330,0.5],[392,0.5],[440,1],[392,0.5],[440,0.5],[494,1.5],[0,0.5],
+     [494,0.5],[523,0.5],[494,0.5],[440,0.5],[392,1],[330,0.5],[294,0.5],[330,2]].forEach(function(n) {
+      note(n[0], t, n[1]*B*0.88); t += n[1]*B;
+    });
+
+  } catch(e) {}
+}
+
 
 function showFlagAnimation() {
   if (document.getElementById('flag-toast')) return;
