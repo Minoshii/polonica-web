@@ -358,6 +358,60 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .token-actions{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
 .tok-count{font-size:12px;color:var(--text2);padding:6px 12px;background:var(--surface3);border-radius:6px;}
 
+/* ── MOBİL ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  body { overflow:hidden; position:relative; }
+
+  #sidebar {
+    position:fixed;top:0;left:0;bottom:0;z-index:800;
+    transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+    width:240px!important;min-width:240px!important;
+    box-shadow:4px 0 24px rgba(0,0,0,.5);
+  }
+  #sidebar.mobile-open { transform:translateX(0); }
+
+  #sidebar-overlay {
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:799;
+  }
+  #sidebar.mobile-open ~ #sidebar-overlay,
+  #sidebar-overlay.visible { display:block; }
+
+  #mobile-header {
+    display:flex!important;align-items:center;justify-content:space-between;
+    padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:700;flex-shrink:0;
+  }
+  #mobile-menu-btn {
+    background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;
+    padding:4px 8px;border-radius:6px;line-height:1;
+  }
+  #mobile-menu-btn:active { background:var(--surface2); }
+  #mobile-logo { font-size:18px;font-weight:900;color:var(--accent);letter-spacing:-0.5px; }
+
+  #main { width:100vw; }
+  .panel { padding:16px 14px!important; }
+  .panel-title { font-size:18px!important; }
+
+  /* Butonlar daha büyük */
+  .btn { padding:11px 14px!important;font-size:13px!important; }
+  input[type=text],textarea,select { font-size:14px!important; }
+
+  /* Profil badge üstte sola git */
+  #profile-badge { top:8px!important;right:10px!important;font-size:11px!important; }
+
+  /* Save bar mobil */
+  #save-bar { flex-wrap:wrap;gap:6px;padding:8px 12px; }
+  #save-bar input { width:100%!important; }
+
+  /* Grammar tablolar scroll */
+  .case-table { font-size:10px!important; }
+  .case-table th,.case-table td { padding:5px 6px!important; }
+}
+@media (min-width: 641px) {
+  #mobile-header { display:none!important; }
+  #sidebar-overlay { display:none!important; }
+}
+
 </style>
 </head>
 <body>
@@ -386,6 +440,15 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <span id="badge-name" style="font-weight:700"></span>
   <span style="font-size:10px;opacity:.4;margin-left:2px">▾</span>
 </div>
+
+<!-- MOBİL HEADER -->
+<div id="mobile-header" style="display:none">
+  <button id="mobile-menu-btn" onclick="toggleMobileSidebar()">☰</button>
+  <span class="mobile-logo">Polonica</span>
+  <span style="width:40px"></span>
+</div>
+<!-- Overlay -->
+<div id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
 <div id="sidebar">
   <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica</div>
@@ -3325,6 +3388,27 @@ function showOCRError(msg){
 }
 
 // boot() yukarida cagrildi
+
+// ── MOBİL SİDEBAR ─────────────────────────────────────
+function toggleMobileSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  const isOpen = sb.classList.contains('mobile-open');
+  sb.classList.toggle('mobile-open', !isOpen);
+  ov.classList.toggle('visible', !isOpen);
+}
+
+// Panel açılınca mobilde sidebar kapat
+const _origShowPanel = showPanel;
+function showPanel(name) {
+  _origShowPanel(name);
+  if (window.innerWidth <= 640) {
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('sidebar-overlay');
+    if (sb) sb.classList.remove('mobile-open');
+    if (ov) ov.classList.remove('visible');
+  }
+}
 
 // ══════════════════════════════════════════════════════
 // 🥚 EASTER EGGS
