@@ -3287,6 +3287,40 @@ function logoClick() {
 
 function showFlagAnimation() {
   if (document.getElementById('flag-toast')) return;
+  // JS tabanlı yağmur - kesin çalışır
+  (function spawnRain() {
+    const colors = ['#dc143c','#fff','#e30016','#fff','#dc143c','#c8b89a'];
+    const shapes = ['●','■','▲','★','PL','TR','◆'];
+    for (let i = 0; i < 55; i++) {
+      setTimeout(function() {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const shape = shapes[Math.floor(Math.random()*shapes.length)];
+        const size = 8 + Math.floor(Math.random()*12);
+        const left = Math.random()*window.innerWidth;
+        const drift = (Math.random()-0.5)*120;
+        const dur = 2000 + Math.floor(Math.random()*1500);
+        el.style.cssText = 'position:fixed;left:'+left+'px;top:-20px;z-index:9998;pointer-events:none;font-size:'+size+'px;color:'+color+';font-weight:900;will-change:transform;';
+        el.textContent = shape;
+        document.body.appendChild(el);
+        var start = null;
+        var h = window.innerHeight + 40;
+        function step(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts-start)/dur, 1);
+          var y = p*h;
+          var x = drift*p;
+          var r = p*540;
+          var op = p > 0.75 ? (1-p)*4 : 1;
+          el.style.transform = 'translate('+x+'px,'+y+'px) rotate('+r+'deg)';
+          el.style.opacity = op;
+          if (p < 1) requestAnimationFrame(step);
+          else el.remove();
+        }
+        requestAnimationFrame(step);
+      }, i * 40);
+    }
+  })();
   const toast = document.createElement('div');
   toast.id = 'flag-toast';
   toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#0d0a12;border:1px solid #3a2a4a;border-radius:16px;padding:16px 28px;z-index:9999;font-family:Syne,sans-serif;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.6);transition:transform .5s cubic-bezier(.34,1.3,.64,1),opacity .5s;opacity:0;pointer-events:none;';
