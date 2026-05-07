@@ -153,6 +153,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-input-row{display:flex;gap:8px;margin-bottom:16px;}
 .special-input-row input{flex:1;margin-bottom:0;}
 .special-tabs{display:flex;gap:6px;margin-bottom:16px;}
+/* FLAG DROP EASTER EGG */
+#flag-drop{position:fixed;top:0;left:0;z-index:9000;pointer-events:none;transform:translateY(-120%);transition:transform .6s cubic-bezier(.34,1.3,.64,1);}
+#flag-drop.visible{transform:translateY(0);}
+#flag-drop.hiding{transform:translateY(-110%);transition:transform .5s ease-in;}
+
 /* EJ MAŁA */
 .ejmala-input-wrap{display:flex;gap:8px;margin-bottom:20px;}
 .ejmala-input{flex:1;font-size:18px;padding:14px 18px;border-radius:12px;border:2px solid #c060a0;background:var(--surface2);color:var(--text);font-family:'DM Mono',monospace;margin-bottom:0;}
@@ -369,6 +374,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 <div id="sidebar">
   <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica</div>
+  <div id="flag-drop">
+    <div style="background:linear-gradient(180deg,#dc143c 50%,#fff 50%);width:52px;height:34px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.4);margin:4px 8px;"></div>
+    <div style="background:linear-gradient(180deg,#fff 50%,#dc143c 50%);width:52px;height:34px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.4);margin:4px 8px;"></div>
+    <div style="font-size:9px;color:#444;font-family:DM Mono,monospace;text-align:center;letter-spacing:.1em;padding-bottom:6px">PL × TR</div>
+  </div>
 
   <div class="nav-section">Tara</div>
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')">📚 Ders Materyali</button>
@@ -3253,53 +3263,13 @@ function logoClick() {
 }
 
 function showFlagAnimation() {
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;';
-  overlay.onclick = () => document.body.removeChild(overlay);
-
-  overlay.innerHTML = `
-    <div style="font-family:'Syne',sans-serif;font-size:13px;color:#555;margin-bottom:20px;letter-spacing:.2em;text-transform:uppercase">Polonica — v2.0</div>
-    <div style="display:flex;gap:24px;margin-bottom:28px;animation:flagIn .6s ease">
-      <div style="text-align:center">
-        <div style="font-size:80px;line-height:1;filter:drop-shadow(0 4px 12px #dc143c66)">🇵🇱</div>
-        <div style="font-size:11px;color:#888;margin-top:8px;font-family:'DM Mono',monospace">POLSKA</div>
-      </div>
-      <div style="font-size:48px;color:#444;display:flex;align-items:center">×</div>
-      <div style="text-align:center">
-        <div style="font-size:80px;line-height:1;filter:drop-shadow(0 4px 12px #e3001666)">🇹🇷</div>
-        <div style="font-size:11px;color:#888;margin-top:8px;font-family:'DM Mono',monospace">TÜRKİYE</div>
-      </div>
-    </div>
-    <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:900;background:linear-gradient(135deg,#dc143c,#c8b89a,#e30016);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;">Polonica</div>
-    <div style="font-size:13px;color:#555;font-family:'DM Mono',monospace;letter-spacing:.1em">Türk-Leh dil köprüsü 🦊</div>
-    <div style="margin-top:32px;font-size:11px;color:#333">tıkla / kapat</div>
-  `;
-
-  // Konfeti
-  for (let i = 0; i < 60; i++) {
-    const c = document.createElement('div');
-    const colors = ['#dc143c','#ffffff','#e30016','#c8b89a','#9060c0'];
-    const rot = Math.random() * 720;
-    const tx = (Math.random()-0.5)*200;
-    const w = (4+Math.random()*6).toFixed(1);
-    const h = (4+Math.random()*6).toFixed(1);
-    const col = colors[Math.floor(Math.random()*colors.length)];
-    const br = Math.random()>0.5 ? '50%' : '2px';
-    const dur = (1.5+Math.random()*2).toFixed(2);
-    const del = (Math.random()*0.5).toFixed(2);
-    const lft = (Math.random()*100).toFixed(1);
-    c.style.cssText = 'position:fixed;width:'+w+'px;height:'+h+'px;background:'+col+';border-radius:'+br+';top:-10px;left:'+lft+'vw;z-index:10000;animation:konfeti '+dur+'s ease-in '+del+'s forwards;';
-    overlay.appendChild(c);
-  }
-
-  if (!document.getElementById('easter-css')) {
-    const style = document.createElement('style');
-    style.id = 'easter-css';
-    style.textContent = '@keyframes flagIn { from { transform:scale(0) rotate(-10deg); opacity:0; } to { transform:scale(1) rotate(0); opacity:1; } } @keyframes konfeti { 0%{top:-10px;opacity:1;transform:rotate(0)} 100%{top:110vh;opacity:0;transform:rotate(720deg)} }';
-    document.head.appendChild(style);
-  }
-
-  document.body.appendChild(overlay);
+  const el = document.getElementById('flag-drop');
+  if (!el || el.classList.contains('visible')) return;
+  el.classList.add('visible');
+  setTimeout(() => {
+    el.classList.add('hiding');
+    setTimeout(() => { el.classList.remove('visible','hiding'); }, 500);
+  }, 3500);
 }
 
 // ── 2. MUZYKA EASTER EGG - MELODİ ─────────────────────
@@ -3317,37 +3287,95 @@ function muzykaClick() {
 function playMelody() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    // Polonya ulusal marşı başlangıcı - Mazurek Dąbrowskiego notaları
-    const notes = [
-      {f:392,d:.3},{f:392,d:.15},{f:440,d:.15},{f:494,d:.3},{f:440,d:.15},{f:392,d:.15},
-      {f:494,d:.3},{f:440,d:.15},{f:392,d:.15},{f:440,d:.6},{f:0,d:.1},
-      {f:349,d:.3},{f:349,d:.15},{f:392,d:.15},{f:440,d:.3},{f:392,d:.15},{f:349,d:.15},
-      {f:392,d:.6},{f:0,d:.15},{f:294,d:.3},{f:294,d:.15},{f:330,d:.15},
-      {f:392,d:.45},{f:330,d:.15},{f:392,d:.45},{f:392,d:.15},
+
+    // Reverb - konvolüsyon
+    function makeReverb(ctx, seconds) {
+      const len = ctx.sampleRate * seconds;
+      const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2);
+      }
+      const conv = ctx.createConvolver();
+      conv.buffer = buf;
+      return conv;
+    }
+
+    const reverb = makeReverb(ctx, 1.8);
+    const masterGain = ctx.createGain();
+    masterGain.gain.value = 0.6;
+    const dryGain = ctx.createGain(); dryGain.gain.value = 0.7;
+    const wetGain = ctx.createGain(); wetGain.gain.value = 0.3;
+    dryGain.connect(masterGain);
+    wetGain.connect(reverb); reverb.connect(masterGain);
+    masterGain.connect(ctx.destination);
+
+    // Piyano benzeri ses: sine + harmonikler
+    function playNote(freq, startTime, duration) {
+      if (freq <= 0) return;
+      const harmonics = [
+        {mult:1, vol:0.5, type:"sine"},
+        {mult:2, vol:0.15, type:"sine"},
+        {mult:3, vol:0.08, type:"sine"},
+        {mult:4, vol:0.04, type:"sine"},
+      ];
+      harmonics.forEach(({mult, vol, type}) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq * mult;
+        // ADSR envelope - piyano gibi hızlı attack, uzun decay
+        g.gain.setValueAtTime(0, startTime);
+        g.gain.linearRampToValueAtTime(vol, startTime + 0.008);
+        g.gain.exponentialRampToValueAtTime(vol * 0.3, startTime + 0.1);
+        g.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.95);
+        osc.connect(g);
+        g.connect(dryGain);
+        g.connect(wetGain);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      });
+    }
+
+    // Mazurek Dąbrowskiego - daha temiz ritim
+    const BPM = 116;
+    const B = 60 / BPM; // bir vuruş süresi
+    const melody = [
+      [392,1],[392,0.5],[440,0.5],[494,1],[440,0.5],[392,0.5],
+      [494,1],[440,0.5],[392,0.5],[440,2],[0,0.3],
+      [349,1],[349,0.5],[392,0.5],[440,1],[392,0.5],[349,0.5],
+      [392,2],[0,0.3],[294,1],[294,0.5],[330,0.5],
+      [392,1.5],[330,0.5],[392,1.5],[392,0.5],
+      [440,1],[440,0.5],[494,0.5],[523,1],[494,0.5],[440,0.5],
+      [494,2],[0,0.5],
     ];
 
-    // Toast mesajı
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a0d30;border:1px solid #9060c0;border-radius:12px;padding:12px 20px;z-index:9999;font-family:Syne,sans-serif;font-size:13px;color:#b080e0;display:flex;align-items:center;gap:10px;';
-    toast.innerHTML = '<span style="font-size:20px">🎵</span> Mazurek Dąbrowskiego — Polonya Marşı';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
+    // Bas notaları (sol el)
+    const bass = [
+      [196,1.5],[196,1.5],[196,1.5],[196,1.5],
+      [175,1.5],[175,1.5],[147,1.5],[147,1.5],
+      [196,1.5],[196,1.5],[196,1.5],[196,1.5],
+    ];
 
-    let t = ctx.currentTime + 0.1;
-    notes.forEach(({f, d}) => {
-      if (f > 0) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.type = 'triangle';
-        osc.frequency.value = f;
-        gain.gain.setValueAtTime(0, t);
-        gain.gain.linearRampToValueAtTime(0.15, t + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + d - 0.02);
-        osc.start(t); osc.stop(t + d);
-      }
-      t += d;
+    let t = ctx.currentTime + 0.15;
+    melody.forEach(([f, beats]) => {
+      playNote(f, t, beats * B * 0.9);
+      t += beats * B;
     });
+
+    // Bas
+    let tb = ctx.currentTime + 0.15;
+    bass.forEach(([f, beats]) => {
+      playNote(f * 0.5, tb, beats * B * 0.85);
+      tb += beats * B;
+    });
+
+    // Toast
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a0d30;border:1px solid #9060c0;border-radius:12px;padding:12px 20px;z-index:9999;font-family:Syne,sans-serif;font-size:13px;color:#b080e0;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(144,96,192,.3);';
+    toast.innerHTML = '<span style="font-size:20px">🎵</span> Mazurek D\u0105browskiego — Polonya Mar\u015f\u0131';
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.transition = 'opacity .5s'; toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 5000);
   } catch(e) { console.log('Audio desteklenmiyor.'); }
 }
 
