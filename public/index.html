@@ -220,6 +220,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-tab.active-slang{background:#1a0d0d;border-color:#c05050;color:#e07070;}
 .special-tab:hover{background:var(--surface2);}
 /* Kompakt satır kart */
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+@keyframes accordionIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
 .special-row:hover{border-color:#c8a050;background:#1a140a;}
 .special-row.open{border-color:#c8a050;background:#1a140a;border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;}
@@ -2945,6 +2947,7 @@ function _renderSpecialList(){
       const row = document.createElement('div');
       row.className = 'special-row';
       row.id = 'sr-'+e.id;
+      row.style.cssText = 'animation:rowIn .22s ease both;animation-delay:'+(list2.indexOf(e)*30)+'ms;';
       row.onclick = () => toggleSpecialDetail(e.id);
       const slangNote = e.slang_note ? '<span style="font-size:9px;color:#e07070;font-family:DM Mono,monospace;margin-left:6px;padding:1px 6px;border:1px solid #c0505044;border-radius:99px">'+esc(e.slang_note)+'</span>' : '';
       row.innerHTML =
@@ -3003,7 +3006,7 @@ function _renderSpecialList(){
         const ciltLabel = Math.ceil(catWords.length/CILT) > 1 ? cat.label + ' · Cilt '+(ci+1) : cat.label;
         const acc = document.createElement('div');
         acc.className = 'word-accordion' + (ci===0 ? ' open' : '');
-        acc.style.borderColor = cat.color + '44';
+        acc.style.cssText = 'border-color:'+cat.color+'44;animation:accordionIn .3s ease both;animation-delay:'+(gi*80)+'ms;';
         const header = document.createElement('div');
         header.className = 'word-accordion-header';
         header.innerHTML =
@@ -3011,13 +3014,24 @@ function _renderSpecialList(){
           '<span class="word-accordion-title" style="color:'+cat.color+'">'+ciltLabel+'</span>'+
           '<span class="word-accordion-count" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+ciltWords.length+'</span>'+
           '<span class="word-accordion-arrow">▾</span>';
-        header.onclick = () => acc.classList.toggle('open');
+        header.onclick = () => {
+          const wasOpen = acc.classList.contains('open');
+          acc.classList.toggle('open');
+          if(!wasOpen) {
+            body.querySelectorAll('.special-row').forEach((r,i) => {
+              r.style.animation='none'; void r.offsetWidth;
+              r.style.animation='rowIn .2s ease both';
+              r.style.animationDelay=(i*30)+'ms';
+            });
+          }
+        };
         const body = document.createElement('div');
         body.className = 'word-accordion-body';
-        ciltWords.forEach(e => {
+        ciltWords.forEach((e, rowIdx) => {
           const row = document.createElement('div');
           row.className = 'special-row';
           row.id = 'sr-'+e.id;
+          row.style.cssText = 'animation:rowIn .25s ease both;animation-delay:'+(rowIdx*35)+'ms;';
           row.onclick = () => toggleSpecialDetail(e.id);
           const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
           const sourceBadge = e.source ? '<span style="font-size:9px;color:#7090d0;font-family:DM Mono,monospace;margin-left:4px">🎵'+esc(e.source)+'</span>' : '';
@@ -3042,7 +3056,7 @@ function _renderSpecialList(){
     return;
   }
 
-  list.forEach(e => {
+  list.forEach((e, rowIdx) => {
     const tc = typeColors[e.category]||'#888';
     const tl = typeLabels[e.category]||'';
     const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
@@ -3054,6 +3068,7 @@ function _renderSpecialList(){
     const row = document.createElement('div');
     row.className = 'special-row';
     row.id = rowId;
+    row.style.cssText = 'animation:rowIn .22s ease both;animation-delay:'+(rowIdx*30)+'ms;';
     row.onclick = () => toggleSpecialDetail(e.id);
     const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
     const sourceBadge = e.source ? '<span style="font-size:9px;color:#7090d0;font-family:DM Mono,monospace;margin-left:4px">🎵'+esc(e.source)+'</span>' : '';
@@ -3277,9 +3292,11 @@ function showFlagAnimation() {
   toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#0d0a12;border:1px solid #3a2a4a;border-radius:16px;padding:16px 28px;z-index:9999;font-family:Syne,sans-serif;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.6);transition:transform .5s cubic-bezier(.34,1.3,.64,1),opacity .5s;opacity:0;pointer-events:none;';
   toast.innerHTML =
     '<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">' +
-      '<span style="font-size:32px">🇵🇱</span>' +
-      '<span style="font-size:16px;color:#333">×</span>' +
-      '<span style="font-size:32px">🇹🇷</span>' +
+      // Polonya: beyaz üst kırmızı alt
+      '<svg width="44" height="30" viewBox="0 0 44 30" style="border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"><rect width="44" height="15" fill="#fff"/><rect y="15" width="44" height="15" fill="#dc143c"/></svg>' +
+      '<span style="font-size:14px;color:#333;font-weight:700">×</span>' +
+      // Türkiye: kırmızı zemin, ay ve yıldız
+      '<svg width="44" height="30" viewBox="0 0 44 30" style="border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"><rect width="44" height="30" fill="#e30016"/><circle cx="16" cy="15" r="7" fill="#fff"/><circle cx="19" cy="15" r="5.5" fill="#e30016"/><polygon points="25,15 27.2,12.2 24.2,13.8 25,10.5 22.8,13" fill="#fff"/></svg>' +
     '</div>' +
     '<div style="font-size:16px;font-weight:900;background:linear-gradient(135deg,#dc143c,#c8b89a,#e30016);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Polonica</div>' +
     '<div style="font-size:10px;color:#444;font-family:DM Mono,monospace;letter-spacing:.1em;margin-top:4px">Turk-Leh dil koprusu 🦊</div>';
