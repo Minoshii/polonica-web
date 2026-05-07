@@ -368,7 +368,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </div>
 
 <div id="sidebar">
-  <div class="logo">Polonica</div>
+  <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica</div>
 
   <div class="nav-section">Tara</div>
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')">📚 Ders Materyali</button>
@@ -660,7 +660,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="special-tabs">
       <button class="special-tab active-words" id="stab-words" onclick="switchSpecialTab('words')">⭐ Kelimeler <span id="stab-words-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-idioms" onclick="switchSpecialTab('idioms')">💬 Deyimler <span id="stab-idioms-count" style="font-size:10px;opacity:.6"></span></button>
-      <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka')" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka');muzykaClick()" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-slang" onclick="switchSpecialTab('slang')" style="border-color:#5a1a1a;color:#e07070">🔥 Slang <span id="stab-slang-count" style="font-size:10px;opacity:.6"></span></button>
     </div>
 
@@ -2917,6 +2917,7 @@ function _renderSpecialList(){
 
   // Slang sekmesi - düz liste kırmızı temalı
   if(_specialTab === 'slang') {
+    container.innerHTML = '';
     if(!slangAll.length) {
       container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">🔥</div><div style=\"font-size:16px;font-weight:700\">Slang defteri bos</div><div style=\"font-size:13px\">Ej Mala veya Burak Special'dan slang kaydet.</div></div>";
       return;
@@ -3234,6 +3235,173 @@ function showOCRError(msg){
 }
 
 // boot() yukarida cagrildi
+
+// ══════════════════════════════════════════════════════
+// 🥚 EASTER EGGS
+// ══════════════════════════════════════════════════════
+
+// ── 1. LOGO EASTER EGG ─────────────────────────────────
+let _logoClicks = 0, _logoTimer = null;
+function logoClick() {
+  _logoClicks++;
+  clearTimeout(_logoTimer);
+  _logoTimer = setTimeout(() => _logoClicks = 0, 2000);
+  if (_logoClicks >= 5) {
+    _logoClicks = 0;
+    showFlagAnimation();
+  }
+}
+
+function showFlagAnimation() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;';
+  overlay.onclick = () => document.body.removeChild(overlay);
+
+  overlay.innerHTML = `
+    <div style="font-family:'Syne',sans-serif;font-size:13px;color:#555;margin-bottom:20px;letter-spacing:.2em;text-transform:uppercase">Polonica — v2.0</div>
+    <div style="display:flex;gap:24px;margin-bottom:28px;animation:flagIn .6s ease">
+      <div style="text-align:center">
+        <div style="font-size:80px;line-height:1;filter:drop-shadow(0 4px 12px #dc143c66)">🇵🇱</div>
+        <div style="font-size:11px;color:#888;margin-top:8px;font-family:'DM Mono',monospace">POLSKA</div>
+      </div>
+      <div style="font-size:48px;color:#444;display:flex;align-items:center">×</div>
+      <div style="text-align:center">
+        <div style="font-size:80px;line-height:1;filter:drop-shadow(0 4px 12px #e3001666)">🇹🇷</div>
+        <div style="font-size:11px;color:#888;margin-top:8px;font-family:'DM Mono',monospace">TÜRKİYE</div>
+      </div>
+    </div>
+    <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:900;background:linear-gradient(135deg,#dc143c,#c8b89a,#e30016);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;">Polonica</div>
+    <div style="font-size:13px;color:#555;font-family:'DM Mono',monospace;letter-spacing:.1em">Türk-Leh dil köprüsü 🦊</div>
+    <div style="margin-top:32px;font-size:11px;color:#333">tıkla / kapat</div>
+  `;
+
+  // Konfeti
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    const colors = ['#dc143c','#ffffff','#e30016','#c8b89a','#9060c0'];
+    const rot = Math.random() * 720;
+    const tx = (Math.random()-0.5)*200;
+    const w = (4+Math.random()*6).toFixed(1);
+    const h = (4+Math.random()*6).toFixed(1);
+    const col = colors[Math.floor(Math.random()*colors.length)];
+    const br = Math.random()>0.5 ? '50%' : '2px';
+    const dur = (1.5+Math.random()*2).toFixed(2);
+    const del = (Math.random()*0.5).toFixed(2);
+    const lft = (Math.random()*100).toFixed(1);
+    c.style.cssText = 'position:fixed;width:'+w+'px;height:'+h+'px;background:'+col+';border-radius:'+br+';top:-10px;left:'+lft+'vw;z-index:10000;animation:konfeti '+dur+'s ease-in '+del+'s forwards;';
+    overlay.appendChild(c);
+  }
+
+  if (!document.getElementById('easter-css')) {
+    const style = document.createElement('style');
+    style.id = 'easter-css';
+    style.textContent = '@keyframes flagIn { from { transform:scale(0) rotate(-10deg); opacity:0; } to { transform:scale(1) rotate(0); opacity:1; } } @keyframes konfeti { 0%{top:-10px;opacity:1;transform:rotate(0)} 100%{top:110vh;opacity:0;transform:rotate(720deg)} }';
+    document.head.appendChild(style);
+  }
+
+  document.body.appendChild(overlay);
+}
+
+// ── 2. MUZYKA EASTER EGG - MELODİ ─────────────────────
+let _muzykaClicks = 0, _muzykaTimer = null;
+function muzykaClick() {
+  _muzykaClicks++;
+  clearTimeout(_muzykaTimer);
+  _muzykaTimer = setTimeout(() => _muzykaClicks = 0, 2000);
+  if (_muzykaClicks >= 5) {
+    _muzykaClicks = 0;
+    playMelody();
+  }
+}
+
+function playMelody() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    // Polonya ulusal marşı başlangıcı - Mazurek Dąbrowskiego notaları
+    const notes = [
+      {f:392,d:.3},{f:392,d:.15},{f:440,d:.15},{f:494,d:.3},{f:440,d:.15},{f:392,d:.15},
+      {f:494,d:.3},{f:440,d:.15},{f:392,d:.15},{f:440,d:.6},{f:0,d:.1},
+      {f:349,d:.3},{f:349,d:.15},{f:392,d:.15},{f:440,d:.3},{f:392,d:.15},{f:349,d:.15},
+      {f:392,d:.6},{f:0,d:.15},{f:294,d:.3},{f:294,d:.15},{f:330,d:.15},
+      {f:392,d:.45},{f:330,d:.15},{f:392,d:.45},{f:392,d:.15},
+    ];
+
+    // Toast mesajı
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a0d30;border:1px solid #9060c0;border-radius:12px;padding:12px 20px;z-index:9999;font-family:Syne,sans-serif;font-size:13px;color:#b080e0;display:flex;align-items:center;gap:10px;';
+    toast.innerHTML = '<span style="font-size:20px">🎵</span> Mazurek Dąbrowskiego — Polonya Marşı';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+
+    let t = ctx.currentTime + 0.1;
+    notes.forEach(({f, d}) => {
+      if (f > 0) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'triangle';
+        osc.frequency.value = f;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.15, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + d - 0.02);
+        osc.start(t); osc.stop(t + d);
+      }
+      t += d;
+    });
+  } catch(e) { console.log('Audio desteklenmiyor.'); }
+}
+
+// ── 3. AFK TİLKİ ──────────────────────────────────────
+let _afkTimer = null, _fox = null, _foxTarget = {x:200,y:200}, _foxPos = {x:200,y:200}, _foxRaf = null;
+const AFK_MS = 3 * 60 * 1000; // 3 dakika
+
+function resetAfk() {
+  clearTimeout(_afkTimer);
+  if (_fox) { _fox.remove(); _fox = null; cancelAnimationFrame(_foxRaf); }
+  _afkTimer = setTimeout(spawnFox, AFK_MS);
+}
+
+document.addEventListener('mousemove', e => {
+  _foxTarget = { x: e.clientX, y: e.clientY };
+  resetAfk();
+});
+document.addEventListener('keydown', resetAfk);
+document.addEventListener('click', resetAfk);
+
+function spawnFox() {
+  if (_fox) return;
+  _fox = document.createElement('div');
+  _fox.style.cssText = 'position:fixed;bottom:20px;right:20px;font-size:36px;z-index:8888;pointer-events:none;transition:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));';
+  _fox.textContent = '🦊';
+  _fox.title = 'AFK tilki!';
+  _foxPos = { x: window.innerWidth - 80, y: window.innerHeight - 80 };
+  document.body.appendChild(_fox);
+
+  // Konuşma balonu
+  const bubble = document.createElement('div');
+  bubble.style.cssText = 'position:fixed;bottom:62px;right:16px;background:#1a160e;border:1px solid #c8b89a;border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:#c8b89a;font-family:Syne,sans-serif;z-index:8888;pointer-events:none;white-space:nowrap;';
+  const msgs = ['Ej, uczysz się?', 'Nie ma sprawy!', 'Czy rozumiesz?', 'Bardzo dobrze!', 'Kumam! Kumam!'];
+  bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  _fox.appendChild(bubble);
+
+  animateFox();
+}
+
+function animateFox() {
+  if (!_fox) return;
+  const speed = 0.06;
+  _foxPos.x += (_foxTarget.x - 30 - _foxPos.x) * speed;
+  _foxPos.y += (_foxTarget.y - 30 - _foxPos.y) * speed;
+  _fox.style.left = _foxPos.x + 'px';
+  _fox.style.top = _foxPos.y + 'px';
+  _fox.style.bottom = 'auto';
+  _fox.style.right = 'auto';
+  // Sola/sağa bak
+  _fox.style.transform = _foxTarget.x < _foxPos.x ? 'scaleX(-1)' : 'scaleX(1)';
+  _foxRaf = requestAnimationFrame(animateFox);
+}
+
+resetAfk(); // Başlat
 </script>
 </body>
 </html>
