@@ -1396,6 +1396,13 @@ function showPanel(name){
   if(name==='special')renderSpecialList();
   if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active');}
+  // Mobilde sidebar'ı kapat
+  if(window.innerWidth <= 640){
+    const sb=document.getElementById('sidebar');
+    const ov=document.getElementById('sidebar-overlay');
+    if(sb) sb.classList.remove('mobile-open');
+    if(ov) ov.classList.remove('visible');
+  }
 }
 
 // ── TARAMA ────────────────────────────────────────
@@ -3427,16 +3434,7 @@ function toggleMobileSidebar() {
 }
 
 // Panel açılınca mobilde sidebar kapat
-const _origShowPanel = showPanel;
-function showPanel(name) {
-  _origShowPanel(name);
-  if (window.innerWidth <= 640) {
-    const sb = document.getElementById('sidebar');
-    const ov = document.getElementById('sidebar-overlay');
-    if (sb) sb.classList.remove('mobile-open');
-    if (ov) ov.classList.remove('visible');
-  }
-}
+// mobile sidebar showPanel entegre edildi
 
 // ══════════════════════════════════════════════════════
 // 🥚 EASTER EGGS
@@ -3681,88 +3679,79 @@ function playMelody() {
 }
 
 // ── 3. AFK TİLKİ ──────────────────────────────────────
-let _afkTimer = null, _fox = null, _foxTarget = {x:200,y:200}, _foxPos = {x:200,y:200}, _foxRaf = null;
-let _foxLeaving = false, _foxLeaveTimer = null;
+let _afkTimer = null, _fox = null, _foxTarget = {x:200,y:200}, _foxPos = {x:200,y:200};
+let _foxRaf = null, _foxLeaving = false, _foxLeaveTimer = null;
 const AFK_MS = 3 * 60 * 1000;
 
-function resetAfk() {
+function startAfkTimer() {
   clearTimeout(_afkTimer);
+  _afkTimer = setTimeout(spawnFox, AFK_MS);
+}
+
+function onActivity() {
+  if (_fox && !_foxLeaving) {
+    // Tilki var, aktif oldu — veda başlat
+    startFoxLeave();
+  } else if (!_fox) {
+    startAfkTimer();
+  }
+}
+
+function startFoxLeave() {
+  if (_foxLeaving) return;
+  _foxLeaving = true;
+  const bubble = _fox && _fox.querySelector('div');
+  if (bubble) bubble.textContent = 'Do widzenia! 🦊';
   clearTimeout(_foxLeaveTimer);
-  if (_fox && !_foxLeaving) {
-    // Mouse geldi - tilki 3-4 saniye daha takip etsin sonra veda edip gitsin
-    _foxLeaving = true;
-    const bubble = _fox.querySelector('div');
-    if (bubble) { bubble.textContent = 'Do widzenia! 🦊'; }
-    _foxLeaveTimer = setTimeout(() => {
-      if (_fox) {
-        _fox.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
-        _fox.style.opacity = '0';
-        _fox.style.transform = (_foxTarget.x < _foxPos.x ? 'scaleX(-1) ' : '') + 'translateY(60px) scale(0.5)';
-        setTimeout(() => {
-          if (_fox) { _fox.remove(); _fox = null; }
-          _foxLeaving = false;
-          cancelAnimationFrame(_foxRaf);
-        }, 1200);
-      }
-    }, 3500);
-  } else if (!_fox) {
-    // Tilki yok, timer sıfırla
-    _afkTimer = setTimeout(spawnFox, AFK_MS);
-  }
+  _foxLeaveTimer = setTimeout(function() {
+    if (!_fox) return;
+    cancelAnimationFrame(_foxRaf);
+    _fox.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
+    _fox.style.opacity = '0';
+    _fox.style.transform = (_foxTarget.x < _foxPos.x ? 'scaleX(-1) ' : 'scaleX(1) ') + 'translateY(60px) scale(0.4)';
+    setTimeout(function() {
+      if (_fox) { _fox.remove(); _fox = null; }
+      _foxLeaving = false;
+      startAfkTimer();
+    }, 1300);
+  }, 3500);
 }
 
-function hardResetAfk() {
-  // Sadece activity varsa ve tilki yoksa timer'ı sıfırla
-  if (!_fox && !_foxLeaving) {
-    clearTimeout(_afkTimer);
-    _afkTimer = setTimeout(spawnFox, AFK_MS);
-  }
-}
-
-document.addEventListener('mousemove', e => {
+document.addEventListener('mousemove', function(e) {
   _foxTarget = { x: e.clientX, y: e.clientY };
-  if (_fox && !_foxLeaving) {
-    // Tilki takip modunda, resetAfk çağırma
-  } else if (!_fox) {
-    hardResetAfk();
-  }
+  if (!_fox && !_foxLeaving) startAfkTimer();
 });
-document.addEventListener('keydown', hardResetAfk);
-document.addEventListener('click', hardResetAfk);
+document.addEventListener('keydown', onActivity);
+document.addEventListener('click', onActivity);
 
 function spawnFox() {
-  if (_fox) return;
-  _foxLeaving = false;
+  if (_fox || _foxLeaving) return;
   _fox = document.createElement('div');
-  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:8888;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;';
+  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:8888;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;left:' + (window.innerWidth - 80) + 'px;top:' + (window.innerHeight - 80) + 'px;';
   _fox.textContent = '🦊';
   _foxPos = { x: window.innerWidth - 80, y: window.innerHeight - 80 };
-  _fox.style.left = _foxPos.x + 'px';
-  _fox.style.top = _foxPos.y + 'px';
   document.body.appendChild(_fox);
-  requestAnimationFrame(() => { _fox.style.opacity = '1'; });
+  requestAnimationFrame(function() { if(_fox) _fox.style.opacity = '1'; });
 
-  const bubble = document.createElement('div');
-  bubble.style.cssText = 'position:absolute;bottom:44px;right:0;background:#1a160e;border:1px solid #c8b89a;border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:#c8b89a;font-family:Syne,sans-serif;white-space:nowrap;animation:panelIn .3s ease;';
-  const msgs = ['Ej, uczysz się?', 'Nie ma sprawy!', 'Czy rozumiesz?', 'Bardzo dobrze!', 'Kumam! Kumam!'];
+  var bubble = document.createElement('div');
+  bubble.style.cssText = 'position:absolute;bottom:44px;right:0;background:#1a160e;border:1px solid #c8b89a;border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:#c8b89a;font-family:Syne,sans-serif;white-space:nowrap;';
+  var msgs = ['Ej, uczysz się?', 'Nie ma sprawy!', 'Czy rozumiesz?', 'Bardzo dobrze!', 'Kumam! Kumam!'];
   bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
   _fox.appendChild(bubble);
-
   animateFox();
 }
 
 function animateFox() {
   if (!_fox || _foxLeaving) return;
-  const speed = 0.055;
-  _foxPos.x += (_foxTarget.x - 30 - _foxPos.x) * speed;
-  _foxPos.y += (_foxTarget.y - 30 - _foxPos.y) * speed;
+  _foxPos.x += (_foxTarget.x - 30 - _foxPos.x) * 0.055;
+  _foxPos.y += (_foxTarget.y - 30 - _foxPos.y) * 0.055;
   _fox.style.left = _foxPos.x + 'px';
   _fox.style.top = _foxPos.y + 'px';
   _fox.style.transform = _foxTarget.x < _foxPos.x ? 'scaleX(-1)' : 'scaleX(1)';
   _foxRaf = requestAnimationFrame(animateFox);
 }
 
-_afkTimer = setTimeout(spawnFox, AFK_MS);
+startAfkTimer();
 </script>
 </body>
 </html>
