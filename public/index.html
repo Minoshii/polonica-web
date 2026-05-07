@@ -153,6 +153,28 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-input-row{display:flex;gap:8px;margin-bottom:16px;}
 .special-input-row input{flex:1;margin-bottom:0;}
 .special-tabs{display:flex;gap:6px;margin-bottom:16px;}
+/* EJ MAŁA */
+.ejmala-input-wrap{display:flex;gap:8px;margin-bottom:20px;}
+.ejmala-input{flex:1;font-size:18px;padding:14px 18px;border-radius:12px;border:2px solid #c060a0;background:var(--surface2);color:var(--text);font-family:'DM Mono',monospace;margin-bottom:0;}
+.ejmala-input:focus{outline:none;border-color:#e090c0;box-shadow:0 0 0 3px #c060a022;}
+.ejmala-btn{padding:14px 20px;border-radius:12px;border:2px solid #c060a0;background:#1a0d16;color:#e090c0;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.ejmala-btn:hover{background:#c060a0;color:#fff;}
+.ejmala-result{display:none;}
+.ejmala-result.visible{display:block;}
+.ejmala-base{margin-bottom:20px;padding:18px 20px;background:linear-gradient(135deg,#1a0d1e,#0d0a12);border:2px solid #c060a044;border-radius:14px;}
+.ejmala-base-pl{font-size:28px;font-weight:900;color:#e090c0;font-family:'DM Mono',monospace;margin-bottom:4px;}
+.ejmala-base-tr{font-size:16px;color:var(--text);margin-bottom:2px;}
+.ejmala-base-en{font-size:12px;color:var(--text3);font-style:italic;}
+.ejmala-section{margin-bottom:16px;}
+.ejmala-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;padding:4px 10px;border-radius:6px;display:inline-block;}
+.ejmala-item{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all .15s;position:relative;}
+.ejmala-item:hover{transform:translateX(3px);}
+.ejmala-item-pl{font-size:14px;font-weight:700;color:var(--text);font-family:'DM Mono',monospace;min-width:180px;}
+.ejmala-item-tr{font-size:13px;color:var(--text2);flex:1;}
+.ejmala-item-note{font-size:11px;color:var(--text3);font-style:italic;margin-top:2px;}
+.ejmala-save-btn{font-size:10px;padding:3px 8px;border-radius:6px;border:1px solid;cursor:pointer;background:none;opacity:0;transition:opacity .15s;flex-shrink:0;font-family:'Syne',sans-serif;font-weight:700;}
+.ejmala-item:hover .ejmala-save-btn{opacity:1;}
+
 /* KELİME ACCORDION */
 .word-accordion{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
 .word-accordion-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;background:var(--surface2);transition:background .15s;}
@@ -192,6 +214,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-tab.active-words{background:#2a1a08;border-color:#6b4a10;color:#c8a050;}
 .special-tab.active-idioms{background:#0d1e1c;border-color:var(--teal);color:#5dc0b0;}
 .special-tab.active-muzyka{background:#1a0d30;border-color:#9060c0;color:#b080e0;}
+.special-tab.active-slang{background:#1a0d0d;border-color:#c05050;color:#e07070;}
 .special-tab:hover{background:var(--surface2);}
 /* Kompakt satır kart */
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
@@ -365,6 +388,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="nav-section">Dilbilgisi</div>
   <button class="nav-btn" id="nav-grammar" onclick="showPanel('grammar')" style="color:#5dc0b0">📖 Grammar</button>
+  <button class="nav-btn" id="nav-ejmala" onclick="showPanel('ejmala')" style="color:#e090c0;font-weight:800">🗣 Ej Mała</button>
 
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
@@ -637,11 +661,31 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="special-tab active-words" id="stab-words" onclick="switchSpecialTab('words')">⭐ Kelimeler <span id="stab-words-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-idioms" onclick="switchSpecialTab('idioms')">💬 Deyimler <span id="stab-idioms-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka')" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-slang" onclick="switchSpecialTab('slang')" style="border-color:#5a1a1a;color:#e07070">🔥 Slang <span id="stab-slang-count" style="font-size:10px;opacity:.6"></span></button>
     </div>
 
     <input type="text" id="special-search" class="special-search" placeholder="Ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
     <div id="special-count" class="special-count"></div>
     <div id="special-list"></div>
+  </div>
+
+  <!-- EJ MAŁA -->
+  <div class="panel" id="panel-ejmala">
+    <div class="panel-title">🗣 Ej Mała <span class="mode-badge" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a0">Sokak Rehberi</span></div>
+    <div class="panel-sub">Lehçe bir kelime veya ifade yaz — resmi, gündelik ve slang kullanımları gelsin.</div>
+
+    <div class="ejmala-input-wrap">
+      <input type="text" class="ejmala-input" id="ejmala-input" placeholder="rozumiem, zrobić, dobra..." onkeydown="if(event.key==='Enter')ejMalaSearch()">
+      <button class="ejmala-btn" onclick="ejMalaSearch()" id="ejmala-btn">Göster →</button>
+    </div>
+
+    <div class="ejmala-result" id="ejmala-result">
+      <!-- Base -->
+      <div class="ejmala-base" id="ejmala-base"></div>
+
+      <!-- Sections -->
+      <div id="ejmala-sections"></div>
+    </div>
   </div>
 
   <!-- GRAMMAR -->
@@ -2533,6 +2577,102 @@ function quickQuery(q) {
   askGrammar();
 }
 
+// ── EJ MAŁA ───────────────────────────────────────────────
+const EJMALA_SECTIONS = [
+  { key:'formal',      title:'Resmi',       icon:'📋', bg:'#0d1a30', border:'#5080c0', color:'#7090d0' },
+  { key:'everyday',    title:'Gündelik',    icon:'💬', bg:'#0d1a10', border:'#4a9a6a', color:'#6dbf9a' },
+  { key:'slang',       title:'Slang',       icon:'🔥', bg:'#1a0d0d', border:'#c05050', color:'#e07070' },
+  { key:'patterns',    title:'Kalıplar',    icon:'🔗', bg:'#0d1515', border:'#5dc0b0', color:'#5dc0b0' },
+  { key:'alternatives',title:'Alternatifler',icon:'🔄',bg:'#1a100d', border:'#c8a050', color:'#c8a050' },
+];
+
+async function ejMalaSearch() {
+  const word = document.getElementById('ejmala-input').value.trim();
+  if (!word) return;
+  const btn = document.getElementById('ejmala-btn');
+  btn.disabled = true; btn.textContent = '...';
+  document.getElementById('ejmala-result').classList.remove('visible');
+  try {
+    const data = await api.post('/api/ejmala', { word });
+    renderEjMala(data, word);
+    document.getElementById('ejmala-result').classList.add('visible');
+  } catch(e) {
+    alert('Hata: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = 'Goster →';
+}
+
+function renderEjMala(d, word) {
+  // Base kart
+  document.getElementById('ejmala-base').innerHTML =
+    '<div class="ejmala-base-pl">' + esc(d.base || word) + '</div>' +
+    '<div class="ejmala-base-tr">' + esc(d.base_tr || '') + '</div>' +
+    '<div class="ejmala-base-en">' + esc(d.base_en || '') + '</div>';
+
+  // Section'lar
+  const sectionsEl = document.getElementById('ejmala-sections');
+  sectionsEl.innerHTML = '';
+
+  EJMALA_SECTIONS.forEach(sec => {
+    const items = d[sec.key];
+    if (!items || !items.length) return;
+    const section = document.createElement('div');
+    section.className = 'ejmala-section';
+    section.innerHTML = '<div class="ejmala-section-title" style="background:'+sec.bg+';color:'+sec.color+';border:1px solid '+sec.border+'44">'+sec.icon+' '+sec.title+'</div>';
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'ejmala-item';
+      div.style.cssText = 'background:'+sec.bg+';border:1px solid '+sec.border+'33';
+      div.innerHTML =
+        '<div style="flex:1;min-width:0">'+
+          '<div class="ejmala-item-pl">' + esc(item.pl||'') + '</div>'+
+          '<div class="ejmala-item-tr">' + esc(item.tr||'') + '</div>'+
+          (item.note||item.register ? '<div class="ejmala-item-note">' + esc(item.note||item.register||'') + '</div>' : '')+
+        '</div>'+
+        '<button class="ejmala-save-btn" style="color:'+sec.color+';border-color:'+sec.border+'">⭐ Kaydet</button>';
+      // Kaydet butonu
+      div.querySelector('.ejmala-save-btn').onclick = (e) => {
+        e.stopPropagation();
+        ejMalaSave(item, sec, d);
+      };
+      // Tıklayınca Burak Special'da ara
+      div.onclick = () => {
+        showPanel('special');
+        document.getElementById('special-word-input').value = item.pl;
+        lookupSpecial();
+      };
+      section.appendChild(div);
+    });
+    sectionsEl.appendChild(section);
+  });
+}
+
+async function ejMalaSave(item, sec, baseData) {
+  const entry = {
+    pl: item.pl,
+    original: item.pl,
+    tr: item.tr,
+    en: '',
+    category: 'other',
+    type: 'wyrazenie',
+    slang: sec.key === 'slang',
+    slang_note: sec.key === 'slang' ? 'sokak dili' : '',
+    is_idiom: sec.key === 'patterns',
+    idiom_type: sec.key === 'patterns' ? 'kalip' : '',
+    example_pl: '',
+    example_tr: '',
+    register: item.register || (sec.key === 'formal' ? 'resmi' : sec.key === 'slang' ? 'sokak' : 'gundelik'),
+    usage_note: item.note || '',
+    source: 'Ej Mala: ' + (baseData.base || ''),
+    source_type: 'ejmala'
+  };
+  await window.polonica.specialSave(entry);
+  // Görsel feedback
+  event.target.textContent = '✓';
+  event.target.style.background = 'var(--green-bg)';
+  setTimeout(() => { event.target.textContent = '⭐ Kaydet'; event.target.style.background = 'none'; }, 1500);
+}
+
 function markdownToHtml(md) {
   if (!md) return '';
   let h = md
@@ -2564,11 +2704,12 @@ function switchSpecialTab(tab) {
   wBtn.className = 'special-tab' + (tab==='words' ? ' active-words' : '');
   iBtn.className = 'special-tab' + (tab==='idioms' ? ' active-idioms' : '');
   if(mBtn) mBtn.className = 'special-tab' + (tab==='muzyka' ? ' active-muzyka' : '');
-  // Muzyka sekmesinde search bar gizle
+  const sBtn = document.getElementById('stab-slang');
+  if(sBtn) sBtn.className = 'special-tab' + (tab==='slang' ? ' active-slang' : '');
   const searchEl = document.getElementById('special-search');
   const countEl = document.getElementById('special-count');
-  if(searchEl) searchEl.style.display = tab==='muzyka' ? 'none' : '';
-  if(countEl) countEl.style.display = tab==='muzyka' ? 'none' : '';
+  if(searchEl) searchEl.style.display = (tab==='muzyka'||tab==='slang') ? 'none' : '';
+  if(countEl) countEl.style.display = (tab==='muzyka'||tab==='slang') ? 'none' : '';
   renderSpecialList();
 }
 
@@ -2662,8 +2803,9 @@ async function saveSpecial(){
   // is_idiom yoksa false olarak set et
   if(entry.is_idiom === undefined) entry.is_idiom = false;
   await window.polonica.specialSave(entry);
-  // Doğru sekmeye geç
-  if(entry.source_type === 'lyrics' || entry.source) switchSpecialTab('muzyka');
+  // Doğru sekmeye gec
+  if(entry.slang && entry.source_type !== 'lyrics') switchSpecialTab('slang');
+  else if(entry.source_type === 'lyrics' || (entry.source && !entry.slang)) switchSpecialTab('muzyka');
   else if(entry.is_idiom) switchSpecialTab('idioms');
   specialList = await window.polonica.specialList();
   clearLookup();
@@ -2703,12 +2845,16 @@ function _renderSpecialList(){
   const words = specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source);
   const idioms = specialList.filter(e => e.is_idiom);
 
+  const slangAll = specialList.filter(e => e.slang && e.source_type !== 'lyrics' && !e.source);
+
   const wc = document.getElementById('stab-words-count');
   const ic = document.getElementById('stab-idioms-count');
   const mc = document.getElementById('stab-muzyka-count');
+  const sc = document.getElementById('stab-slang-count');
   if(wc) wc.textContent = words.length ? '('+words.length+')' : '';
   if(ic) ic.textContent = idioms.length ? '('+idioms.length+')' : '';
   if(mc) mc.textContent = muzykaAll.length ? '('+muzykaAll.length+')' : '';
+  if(sc) sc.textContent = slangAll.length ? '('+slangAll.length+')' : '';
 
   // Muzyka sekmesi - şarkı bazlı grupla
   if(_specialTab === 'muzyka') {
@@ -2765,6 +2911,34 @@ function _renderSpecialList(){
       album.appendChild(header);
       album.appendChild(wordsDiv);
       container.appendChild(album);
+    });
+    return;
+  }
+
+  // Slang sekmesi - düz liste kırmızı temalı
+  if(_specialTab === 'slang') {
+    if(!slangAll.length) {
+      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">🔥</div><div style=\"font-size:16px;font-weight:700\">Slang defteri bos</div><div style=\"font-size:13px\">Ej Mala veya Burak Special'dan slang kaydet.</div></div>";
+      return;
+    }
+    const list2 = [...slangAll].reverse();
+    list2.forEach(e => {
+      const row = document.createElement('div');
+      row.className = 'special-row';
+      row.id = 'sr-'+e.id;
+      row.onclick = () => toggleSpecialDetail(e.id);
+      const slangNote = e.slang_note ? '<span style="font-size:9px;color:#e07070;font-family:DM Mono,monospace;margin-left:6px;padding:1px 6px;border:1px solid #c0505044;border-radius:99px">'+esc(e.slang_note)+'</span>' : '';
+      row.innerHTML =
+        '<span class="special-row-pl"><span class="slang-badge">🔥</span>'+esc(e.pl)+slangNote+'</span>'+
+        '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
+        (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
+        '<span class="special-row-badge" style="color:#e07070;border-color:#c0505044;background:#1a0d0d">argo</span>'+
+        '<span class="special-row-arrow">▾</span>';
+      const det = document.createElement('div');
+      det.className = 'special-detail'; det.id = 'sd-'+e.id;
+      buildDetailHTML(det, e, {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'}, {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'});
+      container.appendChild(row);
+      container.appendChild(det);
     });
     return;
   }
