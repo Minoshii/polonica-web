@@ -612,6 +612,58 @@ app.get('/api/genius/lyrics/:id', async (req, res) => {
   }
 });
 
+// ── EJ MAŁA API ───────────────────────────────────────────
+app.post('/api/ejmala', async (req, res) => {
+  try {
+    const { word } = req.body;
+    if (!word || !word.trim()) return res.status(400).json({ error: 'Kelime gerekli.' });
+
+    const prompt = [
+      'You are a Polish language expert. The user typed: "' + word.trim() + '"',
+      '',
+      'Provide a comprehensive breakdown in JSON format:',
+      '{',
+      '  "base": "canonical Polish form",',
+      '  "base_tr": "Turkish meaning 2-5 words",',
+      '  "base_en": "English meaning 1-3 words",',
+      '  "formal": [',
+      '    {"pl": "formal Polish sentence/usage", "tr": "Turkish translation", "note": ""}',
+      '  ],',
+      '  "everyday": [',
+      '    {"pl": "everyday usage or colloquial variant", "tr": "Turkish translation", "note": "register note in Turkish"}',
+      '  ],',
+      '  "slang": [',
+      '    {"pl": "slang/street equivalent or related slang", "tr": "Turkish translation", "note": "context in Turkish"}',
+      '  ],',
+      '  "patterns": [',
+      '    {"pl": "key pattern/collocation with this word", "tr": "Turkish translation"}',
+      '  ],',
+      '  "alternatives": [',
+      '    {"pl": "synonym or alternative expression", "tr": "Turkish translation", "register": "resmi/gundelik/sokak"}',
+      '  ]',
+      '}',
+      '',
+      'Rules:',
+      '- formal: 2-3 entries, standard written Polish',
+      '- everyday: 2-4 entries, spoken conversational Polish',
+      '- slang: 2-4 entries, street/youth/rap slang equivalents (real Polish slang)',
+      '- patterns: 3-5 most useful collocations/fixed phrases',
+      '- alternatives: 3-5 synonyms or near-synonyms across registers',
+      '- All Polish must be natural and authentic',
+      '- Turkish translations must be natural Turkish, not word-for-word',
+      '- Return ONLY valid JSON, no markdown'
+    ].join('\n');
+
+    const raw = await claudeAsk(prompt, 1500);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) {
+    console.error('Ej Mala error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
