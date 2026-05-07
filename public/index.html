@@ -375,9 +375,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <div id="sidebar">
   <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica</div>
   <div id="flag-drop">
-    <div style="background:linear-gradient(180deg,#dc143c 50%,#fff 50%);width:52px;height:34px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.4);margin:4px 8px;"></div>
-    <div style="background:linear-gradient(180deg,#fff 50%,#dc143c 50%);width:52px;height:34px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.4);margin:4px 8px;"></div>
-    <div style="font-size:9px;color:#444;font-family:DM Mono,monospace;text-align:center;letter-spacing:.1em;padding-bottom:6px">PL × TR</div>
+    <div style="display:flex;flex-direction:column;gap:4px;margin:4px 8px;">
+      <div style="font-size:9px;color:#555;font-family:DM Mono,monospace;text-align:center;letter-spacing:.08em;margin-bottom:2px">PL × TR</div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="width:40px;height:26px;border-radius:3px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.4);">
+          <div style="background:#fff;height:13px;"></div>
+          <div style="background:#dc143c;height:13px;"></div>
+        </div>
+        <span style="color:#444;font-size:10px">×</span>
+        <div style="width:40px;height:26px;border-radius:3px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.4);background:#e30016;display:flex;align-items:center;justify-content:center;">
+          <span style="color:#fff;font-size:11px;line-height:1">☽</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="nav-section">Tara</div>
