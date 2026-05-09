@@ -308,6 +308,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .grammar-answer p{margin-bottom:8px;}
 .grammar-quick-btn{padding:6px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:99px;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
 .grammar-quick-btn:hover{border-color:var(--teal);color:#5dc0b0;}
+/* BAĞLAÇLAR */
+.baglaç-search{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px;box-sizing:border-box;}
+.baglaç-search:focus{outline:none;border-color:var(--teal);}
+.baglaç-cat{margin-bottom:20px;}
+.baglaç-cat-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:5px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;}
+.baglaç-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:border-color .15s;cursor:pointer;}
+.baglaç-row:hover{border-color:var(--teal);}
+.baglaç-pl{font-size:14px;font-weight:800;color:#5dc0b0;padding:10px 12px;background:var(--surface2);font-family:'DM Mono',monospace;display:flex;align-items:center;}
+.baglaç-tr{font-size:12px;color:var(--text2);padding:10px 12px;border-left:1px solid var(--border);display:flex;align-items:center;}
+.baglaç-en{font-size:11px;color:var(--text3);font-style:italic;padding:10px 12px;border-left:1px solid var(--border);display:flex;align-items:center;}
+.baglaç-detail{display:none;padding:10px 12px;background:var(--surface3);border-top:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.7;grid-column:1/-1;}
+.baglaç-row.open .baglaç-detail{display:block;}
+.baglaç-example-pl{font-family:'DM Mono',monospace;color:var(--text);font-style:italic;margin-bottom:3px;}
+.baglaç-example-tr{color:var(--text3);}
+.baglaç-no-result{text-align:center;padding:30px;color:var(--text3);font-size:13px;}
 /* HAKKINDA */
 .about-wrap{max-width:680px;margin:0 auto;padding:8px 0;}
 .about-hero{text-align:center;padding:40px 20px 32px;border-bottom:1px solid var(--border);}
@@ -817,6 +832,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="grammar-tabs">
       <button class="gtab active" onclick="switchGTab('cases')">📋 Case Tabloları</button>
       <button class="gtab" onclick="switchGTab('aspect')">⚡ Aspect (dk/ndk)</button>
+      <button class="gtab" onclick="switchGTab('baglaç')">🔗 Bağlaçlar</button>
       <button class="gtab" onclick="switchGTab('query')">💬 Hızlı Soru</button>
     </div>
 
@@ -917,7 +933,258 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
 
     <!-- HIZLI SORU -->
-    <div class="grammar-section" id="gsec-query">
+    <div class="grammar-section" id="gsec-baglaç">
+      <input type="text" class="baglaç-search" id="baglaç-search" placeholder="Ara... (Türkçe, İngilizce veya Lehçe — örn: although, ancak, chociaż)" oninput="filterBaglaçlar(this.value)">
+      <div id="baglaç-list"><div class="baglaç-cat" data-cat="Karşıtlık"><div class="baglaç-cat-title" style="background:#1a0d0d;color:#e07070;border:1px solid #e0707044">↔ Karşıtlık</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ale</div>
+  <div class="baglaç-tr">ama, fakat</div>
+  <div class="baglaç-en">but</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Chcę iść, ale jestem zmęczony.</div><div class="baglaç-example-tr">Gitmek istiyorum ama yorgunum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">lecz</div>
+  <div class="baglaç-tr">ama (yazı dili)</div>
+  <div class="baglaç-en">but (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Nie jestem bogaty, lecz jestem szczęśliwy.</div><div class="baglaç-example-tr">Zengin değilim ama mutluyum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jednak</div>
+  <div class="baglaç-tr">ancak</div>
+  <div class="baglaç-en">however</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Był zmęczony, jednak pracował dalej.</div><div class="baglaç-example-tr">Yorgundu, ancak çalışmaya devam etti.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">natomiast</div>
+  <div class="baglaç-tr">oysa, öte yandan</div>
+  <div class="baglaç-en">whereas</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">On lubi sport, natomiast ona lubi muzykę.</div><div class="baglaç-example-tr">O sporu sever, oysa o müziği sever.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">chociaż</div>
+  <div class="baglaç-tr">her ne kadar</div>
+  <div class="baglaç-en">although</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Chociaż pada, wyjdę.</div><div class="baglaç-example-tr">Yağmur yağsa da çıkacağım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">choć</div>
+  <div class="baglaç-tr">her ne kadar (kısa)</div>
+  <div class="baglaç-en">though</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Choć jest trudno, nie poddaję się.</div><div class="baglaç-example-tr">Zor olsa da vazgeçmiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">mimo że</div>
+  <div class="baglaç-tr">rağmen</div>
+  <div class="baglaç-en">despite</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Mimo że jest chory, pracuje.</div><div class="baglaç-example-tr">Hasta olmasına rağmen çalışıyor.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">tymczasem</div>
+  <div class="baglaç-tr">oysa, bu arada</div>
+  <div class="baglaç-en">meanwhile</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">On śpi, tymczasem ona pracuje.</div><div class="baglaç-example-tr">O uyuyor, oysa o çalışıyor.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">zamiast</div>
+  <div class="baglaç-tr">yerine</div>
+  <div class="baglaç-en">instead of</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zamiast herbaty wypiję kawę.</div><div class="baglaç-example-tr">Çay yerine kahve içeceğim.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Eklik"><div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #6dbf9a44">+ Eklik</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">i</div>
+  <div class="baglaç-tr">ve</div>
+  <div class="baglaç-en">and</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Lubię herbatę i kawę.</div><div class="baglaç-example-tr">Çayı ve kahveyi severim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">oraz</div>
+  <div class="baglaç-tr">ve ayrıca (resmi)</div>
+  <div class="baglaç-en">as well as</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Kupię chleb oraz mleko.</div><div class="baglaç-example-tr">Ekmek ve süt alacağım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">a</div>
+  <div class="baglaç-tr">ve, oysa</div>
+  <div class="baglaç-en">and, while</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">On jest wysoki, a ona niska.</div><div class="baglaç-example-tr">O uzun, o ise kısa.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">też</div>
+  <div class="baglaç-tr">da, de, ayrıca</div>
+  <div class="baglaç-en">also, too</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ja też chcę.</div><div class="baglaç-example-tr">Ben de istiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">również</div>
+  <div class="baglaç-tr">ayrıca, da</div>
+  <div class="baglaç-en">also, likewise</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ona również była tam.</div><div class="baglaç-example-tr">O da oradaydı.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ani</div>
+  <div class="baglaç-tr">ne... ne de</div>
+  <div class="baglaç-en">neither...nor</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ani nie jem, ani nie piję.</div><div class="baglaç-example-tr">Ne yiyorum ne de içiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">dodatkowo</div>
+  <div class="baglaç-tr">ek olarak, üstelik</div>
+  <div class="baglaç-en">additionally</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Dodatkowo masz rabat.</div><div class="baglaç-example-tr">Ek olarak indirim alıyorsun.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ponadto</div>
+  <div class="baglaç-tr">bunun yanı sıra</div>
+  <div class="baglaç-en">furthermore</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ponadto jest mądry.</div><div class="baglaç-example-tr">Bunun yanı sıra akıllıdır.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">nie tylko... ale też</div>
+  <div class="baglaç-tr">sadece değil... aynı zamanda</div>
+  <div class="baglaç-en">not only... but also</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Nie tylko śpiewa, ale też tańczy.</div><div class="baglaç-example-tr">Sadece şarkı söylemez, aynı zamanda dans eder.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Sebep-Sonuç"><div class="baglaç-cat-title" style="background:#1a160d;color:#c8a050;border:1px solid #c8a05044">→ Sebep-Sonuç</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">bo</div>
+  <div class="baglaç-tr">çünkü (gündelik)</div>
+  <div class="baglaç-en">because (informal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Nie idę, bo jestem chory.</div><div class="baglaç-example-tr">Gitmiyorum, çünkü hastayım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ponieważ</div>
+  <div class="baglaç-tr">çünkü (resmi)</div>
+  <div class="baglaç-en">because (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zostałem, ponieważ padało.</div><div class="baglaç-example-tr">Kaldım, çünkü yağmur yağıyordu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">gdyż</div>
+  <div class="baglaç-tr">zira (yazı dili)</div>
+  <div class="baglaç-en">for, since (written)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Odszedł, gdyż był zmęczony.</div><div class="baglaç-example-tr">Gitti, zira yorgundu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">dlatego</div>
+  <div class="baglaç-tr">bu yüzden</div>
+  <div class="baglaç-en">therefore</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Byłem chory, dlatego nie przyszedłem.</div><div class="baglaç-example-tr">Hasta idim, bu yüzden gelmedim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">więc</div>
+  <div class="baglaç-tr">o halde, öyleyse</div>
+  <div class="baglaç-en">so, thus</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jest późno, więc idę spać.</div><div class="baglaç-example-tr">Geç oldu, o halde uyuyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">zatem</div>
+  <div class="baglaç-tr">dolayısıyla</div>
+  <div class="baglaç-en">therefore, hence</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Kłamał, zatem mu nie ufam.</div><div class="baglaç-example-tr">Yalan söyledi, dolayısıyla güvenmiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">skoro</div>
+  <div class="baglaç-tr">madem ki</div>
+  <div class="baglaç-en">since, given that</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Skoro tak mówisz, to masz rację.</div><div class="baglaç-example-tr">Madem öyle diyorsun, haklısın.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Zaman"><div class="baglaç-cat-title" style="background:#0d1020;color:#7090d0;border:1px solid #7090d044">⏱ Zaman</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">kiedy</div>
+  <div class="baglaç-tr">ne zaman, -diğinde</div>
+  <div class="baglaç-en">when</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Kiedy wróciłem, ona spała.</div><div class="baglaç-example-tr">Döndüğümde o uyuyordu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">gdy</div>
+  <div class="baglaç-tr">ne zaman (resmi)</div>
+  <div class="baglaç-en">when (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Gdy byłem młody, marzyłem.</div><div class="baglaç-example-tr">Gençken hayal kurardım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">dopóki</div>
+  <div class="baglaç-tr">olduğu sürece</div>
+  <div class="baglaç-en">as long as, until</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Dopóki żyję, walczę.</div><div class="baglaç-example-tr">Yaşadığım sürece mücadele ederim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">zanim</div>
+  <div class="baglaç-tr">-meden önce</div>
+  <div class="baglaç-en">before</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zanim wyjdziesz, sprawdź klucze.</div><div class="baglaç-example-tr">Çıkmadan önce anahtarları kontrol et.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">po tym jak</div>
+  <div class="baglaç-tr">-dikten sonra</div>
+  <div class="baglaç-en">after</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Po tym jak zjadł, wyszedł.</div><div class="baglaç-example-tr">Yedikten sonra çıktı.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">odkąd</div>
+  <div class="baglaç-tr">-den beri</div>
+  <div class="baglaç-en">since (time)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Odkąd cię znam, jesteś miły.</div><div class="baglaç-example-tr">Seni tanıdığımdan beri naziksin.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jak tylko</div>
+  <div class="baglaç-tr">-ir -mez</div>
+  <div class="baglaç-en">as soon as</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jak tylko wróci, zadzwonię.</div><div class="baglaç-example-tr">Döner dönmez arayacağım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">podczas gdy</div>
+  <div class="baglaç-tr">sırasında, iken</div>
+  <div class="baglaç-en">while, during</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Podczas gdy ona spała, ja pracowałem.</div><div class="baglaç-example-tr">O uyurken ben çalıştım.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Koşul"><div class="baglaç-cat-title" style="background:#110d1a;color:#b080e0;border:1px solid #b080e044">? Koşul</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jeśli</div>
+  <div class="baglaç-tr">eğer... ise</div>
+  <div class="baglaç-en">if</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jeśli chcesz, możesz zostać.</div><div class="baglaç-example-tr">Eğer istersen kalabilirsin.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jeżeli</div>
+  <div class="baglaç-tr">eğer (resmi)</div>
+  <div class="baglaç-en">if (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jeżeli to prawda, to poważne.</div><div class="baglaç-example-tr">Eğer bu doğruysa ciddi.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">gdyby</div>
+  <div class="baglaç-tr">eğer olsaydı</div>
+  <div class="baglaç-en">if (conditional)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Gdybyś przyszedł, byłoby lepiej.</div><div class="baglaç-example-tr">Gelseydin daha iyi olurdu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">pod warunkiem że</div>
+  <div class="baglaç-tr">şartıyla ki</div>
+  <div class="baglaç-en">provided that</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Pomogę, pod warunkiem że będziesz grzeczny.</div><div class="baglaç-example-tr">Uslu olman şartıyla yardım ederim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">o ile</div>
+  <div class="baglaç-tr">olduğu sürece</div>
+  <div class="baglaç-en">as long as, if</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zrobię to, o ile mam czas.</div><div class="baglaç-example-tr">Zamanım olduğu sürece yaparım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">chyba że</div>
+  <div class="baglaç-tr">meğer ki, olmadıkça</div>
+  <div class="baglaç-en">unless</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Przyjdę, chyba że zachoruję.</div><div class="baglaç-example-tr">Gelirim, hastalanmadıkça.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">w przeciwnym razie</div>
+  <div class="baglaç-tr">aksi takdirde</div>
+  <div class="baglaç-en">otherwise</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ucz się, w przeciwnym razie nie zdasz.</div><div class="baglaç-example-tr">Çalış, aksi takdirde geçemezsin.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Amaç"><div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #e090c044">🎯 Amaç</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">żeby</div>
+  <div class="baglaç-tr">ki, -mak için</div>
+  <div class="baglaç-en">so that, in order to</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Uczę się, żeby zdać egzamin.</div><div class="baglaç-example-tr">Sınavı geçmek için çalışıyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">aby</div>
+  <div class="baglaç-tr">-mak için (resmi)</div>
+  <div class="baglaç-en">in order to (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Piszę, aby zrozumieć.</div><div class="baglaç-example-tr">Anlamak için yazıyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">po to żeby</div>
+  <div class="baglaç-tr">tam bunun için</div>
+  <div class="baglaç-en">specifically so that</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Przyszedłem po to, żeby ci pomóc.</div><div class="baglaç-example-tr">Sana yardım etmek için geldim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">w celu</div>
+  <div class="baglaç-tr">amacıyla</div>
+  <div class="baglaç-en">for the purpose of</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">W celu nauki pojechałem za granicę.</div><div class="baglaç-example-tr">Öğrenme amacıyla yurtdışına gittim.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Karşılaştırma"><div class="baglaç-cat-title" style="background:#0d1515;color:#5dc0b0;border:1px solid #5dc0b044">= Karşılaştırma</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jak</div>
+  <div class="baglaç-tr">gibi, kadar</div>
+  <div class="baglaç-en">like, as</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ona jest jak siostra.</div><div class="baglaç-example-tr">O bir kız kardeş gibi.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">niż</div>
+  <div class="baglaç-tr">-den daha</div>
+  <div class="baglaç-en">than</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jestem starszy niż on.</div><div class="baglaç-example-tr">Ben ondan yaşlıyım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">im... tym</div>
+  <div class="baglaç-tr">ne kadar... o kadar</div>
+  <div class="baglaç-en">the more... the more</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Im więcej ćwiczysz, tym lepiej.</div><div class="baglaç-example-tr">Ne kadar çok çalışırsan o kadar iyi.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">tak samo jak</div>
+  <div class="baglaç-tr">tıpkı... gibi</div>
+  <div class="baglaç-en">just like</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Mówi tak samo jak ojciec.</div><div class="baglaç-example-tr">Babası gibi konuşuyor.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">w porównaniu z</div>
+  <div class="baglaç-tr">-e kıyasla</div>
+  <div class="baglaç-en">compared to</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">W porównaniu z nim jestem spokojny.</div><div class="baglaç-example-tr">Ona kıyasla sakinim.</div></div>
+</div></div></div>
+      <div id="baglaç-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+        <div class="grammar-section" id="gsec-query">
       <div style="margin-bottom:14px">
         <div style="font-size:13px;color:var(--text2);margin-bottom:12px">Herhangi bir Lehçe dilbilgisi sorusunu Türkçe sor:</div>
         <div style="display:flex;gap:8px;">
@@ -2706,9 +2973,30 @@ function updateCounts(){
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  const idx = ['cases','aspect','query'].indexOf(tab);
-  document.querySelectorAll('.gtab')[idx].classList.add('active');
-  document.getElementById('gsec-'+tab).classList.add('active');
+  const idx = ['cases','aspect','baglaç','query'].indexOf(tab);
+  if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
+  const sec = document.getElementById('gsec-'+tab);
+  if(sec) sec.classList.add('active');
+}
+
+function filterBaglaçlar(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('baglaç-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('.baglaç-cat').forEach(cat => {
+    let catVisible = false;
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const pl = (row.querySelector('.baglaç-pl')||{}).textContent||'';
+      const tr = (row.querySelector('.baglaç-tr')||{}).textContent||'';
+      const en = (row.querySelector('.baglaç-en')||{}).textContent||'';
+      const ex = (row.querySelector('.baglaç-detail')||{}).textContent||'';
+      const match = !q || pl.toLowerCase().includes(q) || tr.toLowerCase().includes(q) || en.toLowerCase().includes(q) || ex.toLowerCase().includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) { catVisible = true; anyVisible = true; }
+    });
+    cat.style.display = catVisible ? '' : 'none';
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
 }
 
 async function lookupAspect() {
