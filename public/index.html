@@ -323,6 +323,26 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .baglaç-example-pl{font-family:'DM Mono',monospace;color:var(--text);font-style:italic;margin-bottom:3px;}
 .baglaç-example-tr{color:var(--text3);}
 .baglaç-no-result{text-align:center;padding:30px;color:var(--text3);font-size:13px;}
+/* CÜMLE KURUCU */
+.cumle-tab-btn{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.cumle-tab-btn.active{background:#1a0d16;border-color:#c060a0;color:#e090c0;}
+.cumle-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s;cursor:pointer;position:relative;}
+.cumle-card:hover{border-color:var(--accent-dim);}
+.cumle-context{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:8px;}
+.cumle-pl{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.5;}
+.cumle-tr{font-size:13px;color:var(--text2);margin-bottom:3px;}
+.cumle-en{font-size:11px;color:var(--text3);font-style:italic;}
+.cumle-save{position:absolute;top:12px;right:12px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--border2);background:none;color:var(--text3);cursor:pointer;opacity:0;transition:opacity .15s;}
+.cumle-card:hover .cumle-save{opacity:1;}
+.cumle-save:hover{border-color:var(--accent);color:var(--accent);}
+/* İSİM ÇEKİM */
+.decl-table{width:100%;border-collapse:collapse;margin-top:14px;}
+.decl-table th{background:var(--surface3);color:var(--accent);padding:8px 12px;text-align:left;border:1px solid var(--border2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.decl-table td{padding:9px 12px;border:1px solid var(--border);font-size:13px;}
+.decl-case{font-weight:700;color:#5dc0b0;font-family:'Syne',sans-serif;font-size:12px;}
+.decl-sg{font-family:'DM Mono',monospace;color:var(--text);}
+.decl-pl{font-family:'DM Mono',monospace;color:#c8a050;}
+.decl-table tr:hover td{background:var(--surface2);}
 /* HAKKINDA */
 .about-wrap{max-width:680px;margin:0 auto;padding:8px 0;}
 .about-hero{text-align:center;padding:40px 20px 32px;border-bottom:1px solid var(--border);}
@@ -808,19 +828,34 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- EJ MAŁA -->
   <div class="panel" id="panel-ejmala">
     <div class="panel-title">🗣 Ej Mała <span class="mode-badge" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a0">Sokak Rehberi</span></div>
-    <div class="panel-sub">Lehçe bir kelime veya ifade yaz — resmi, gündelik ve slang kullanımları gelsin.</div>
 
-    <div class="ejmala-input-wrap">
-      <input type="text" class="ejmala-input" id="ejmala-input" placeholder="rozumiem, zrobić, dobra..." onkeydown="if(event.key==='Enter')ejMalaSearch()">
-      <button class="ejmala-btn" onclick="ejMalaSearch()" id="ejmala-btn">Göster →</button>
+    <!-- Sekmeler -->
+    <div style="display:flex;gap:8px;margin-bottom:18px;">
+      <button class="cumle-tab-btn active" id="ejmala-tab-main" onclick="switchEjMalaTab('main')">🗣 Kullanımlar</button>
+      <button class="cumle-tab-btn" id="ejmala-tab-cumle" onclick="switchEjMalaTab('cumle')">✍️ Cümle Kurucu</button>
     </div>
 
-    <div class="ejmala-result" id="ejmala-result">
-      <!-- Base -->
-      <div class="ejmala-base" id="ejmala-base"></div>
+    <!-- Ana sekme -->
+    <div id="ejmala-sec-main">
+      <div class="panel-sub" style="margin-bottom:14px">Lehçe bir kelime veya ifade yaz — resmi, gündelik ve slang kullanımları gelsin.</div>
+      <div class="ejmala-input-wrap">
+        <input type="text" class="ejmala-input" id="ejmala-input" placeholder="rozumiem, zrobić, dobra..." onkeydown="if(event.key==='Enter')ejMalaSearch()">
+        <button class="ejmala-btn" onclick="ejMalaSearch()" id="ejmala-btn">Göster →</button>
+      </div>
+      <div class="ejmala-result" id="ejmala-result">
+        <div class="ejmala-base" id="ejmala-base"></div>
+        <div id="ejmala-sections"></div>
+      </div>
+    </div>
 
-      <!-- Sections -->
-      <div id="ejmala-sections"></div>
+    <!-- Cümle Kurucu sekmesi -->
+    <div id="ejmala-sec-cumle" style="display:none">
+      <div class="panel-sub" style="margin-bottom:14px">Bir kelime yaz — 5 farklı bağlamda doğal Lehçe cümle gelsin. Beğendiğini kaydet.</div>
+      <div class="ejmala-input-wrap">
+        <input type="text" class="ejmala-input" id="cumle-input" placeholder="Lehçe kelime veya ifade... (örn: chodzić, piękny, w końcu)" onkeydown="if(event.key==='Enter')buildSentences()" style="border-color:#5dc0b0">
+        <button class="ejmala-btn" onclick="buildSentences()" id="cumle-btn" style="border-color:#5dc0b0;color:#5dc0b0;background:#0d1515">Kur →</button>
+      </div>
+      <div id="cumle-result"></div>
     </div>
   </div>
 
@@ -832,6 +867,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="grammar-tabs">
       <button class="gtab active" onclick="switchGTab('cases')">📋 Case Tabloları</button>
       <button class="gtab" onclick="switchGTab('aspect')">⚡ Aspect (dk/ndk)</button>
+      <button class="gtab" onclick="switchGTab('decl')">📐 İsim Çekim</button>
       <button class="gtab" onclick="switchGTab('baglaç')">🔗 Bağlaçlar</button>
       <button class="gtab" onclick="switchGTab('query')">💬 Hızlı Soru</button>
     </div>
@@ -933,7 +969,29 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
 
     <!-- HIZLI SORU -->
-    <div class="grammar-section" id="gsec-baglaç">
+    <div class="grammar-section" id="gsec-decl">
+      <div style="margin-bottom:14px">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;line-height:1.7">
+          <strong style="color:var(--accent)">İsim/Sıfat Çekimi</strong> — Bir Lehçe isim veya sıfat yaz, tüm 7 haldeki çekimini göster.
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="decl-input" placeholder="Kelime yaz... (örn: dom, kobieta, piękny, stary)" style="margin-bottom:0;flex:1;border-color:#5dc0b0;" onkeydown="if(event.key==='Enter')lookupDeclension()">
+          <button class="btn" onclick="lookupDeclension()" id="decl-btn" style="border-color:#5dc0b0;color:#5dc0b0;background:var(--teal-bg)">Çek</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+          <span style="font-size:11px;color:var(--text3)">Örnekler:</span>
+          <button class="grammar-quick-btn" onclick="quickDecl('dom')">dom</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('kobieta')">kobieta</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('dziecko')">dziecko</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('piękny')">piękny</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('nowy')">nowy</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('Polska')">Polska</button>
+        </div>
+      </div>
+      <div id="decl-result"></div>
+    </div>
+
+        <div class="grammar-section" id="gsec-baglaç">
       <input type="text" class="baglaç-search" id="baglaç-search" placeholder="Ara... (Türkçe, İngilizce veya Lehçe — örn: although, ancak, chociaż)" oninput="filterBaglaçlar(this.value)">
       <div id="baglaç-list"><div class="baglaç-cat" data-cat="Karşıtlık"><div class="baglaç-cat-title" style="background:#1a0d0d;color:#e07070;border:1px solid #e0707044">↔ Karşıtlık</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
   <div class="baglaç-pl">ale</div>
@@ -2968,12 +3026,133 @@ function updateCounts(){
   document.getElementById('word-count').innerHTML='<small style="font-size:11px;color:var(--text3)">📚 '+l+' akademik &nbsp; 🎵 '+m+' müzik</small>';
 }
 
+// ── EJ MAŁA SEKME ─────────────────────────────────────────
+function switchEjMalaTab(tab) {
+  document.getElementById('ejmala-sec-main').style.display = tab==='main' ? 'block' : 'none';
+  document.getElementById('ejmala-sec-cumle').style.display = tab==='cumle' ? 'block' : 'none';
+  document.getElementById('ejmala-tab-main').className = 'cumle-tab-btn' + (tab==='main' ? ' active' : '');
+  document.getElementById('ejmala-tab-cumle').className = 'cumle-tab-btn' + (tab==='cumle' ? ' active' : '');
+}
+
+// ── CÜMLE KURUCU ───────────────────────────────────────────
+const CUMLE_COLORS = {
+  'Gündelik': {bg:'#0d1a10',border:'#4a9a6a',color:'#6dbf9a'},
+  'Soru':     {bg:'#0d1020',border:'#5080c0',color:'#7090d0'},
+  'Olumsuz':  {bg:'#1a0d0d',border:'#c05050',color:'#e07070'},
+  'Resmi':    {bg:'#0d1515',border:'#5dc0b0',color:'#5dc0b0'},
+  'Sokak':    {bg:'#1a0d16',border:'#c060a0',color:'#e090c0'},
+};
+
+async function buildSentences() {
+  const word = document.getElementById('cumle-input').value.trim();
+  if (!word) return;
+  const btn = document.getElementById('cumle-btn');
+  btn.disabled = true; btn.textContent = '...';
+  const res = document.getElementById('cumle-result');
+  res.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span> 5 cümle kuruluyor...</div>';
+  try {
+    const data = await api.post('/api/sentences', { word });
+    if (!data.sentences || !data.sentences.length) throw new Error('Sonuç alınamadı.');
+    res.innerHTML = '';
+    data.sentences.forEach((s, i) => {
+      const c = CUMLE_COLORS[s.context] || CUMLE_COLORS['Gündelik'];
+      const card = document.createElement('div');
+      card.className = 'cumle-card';
+      card.style.cssText = 'background:'+c.bg+';border-color:'+c.border+'44;animation:rowIn .25s ease both;animation-delay:'+(i*60)+'ms;';
+      card.innerHTML =
+        '<span class="cumle-context" style="background:'+c.bg+';color:'+c.color+';border:1px solid '+c.border+'">'+esc(s.context)+'</span>'+
+        '<div class="cumle-pl">'+esc(s.pl)+'</div>'+
+        '<div class="cumle-tr">'+esc(s.tr)+'</div>'+
+        '<div class="cumle-en">'+esc(s.en)+'</div>'+
+        '<button class="cumle-save" data-sentence="'+btoa(unescape(encodeURIComponent(JSON.stringify(s))))+'" onclick="saveCumleBtn(this)" title="Kaydet">⭐ Kaydet</button>';
+      res.appendChild(card);
+    });
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:14px">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Kur →';
+}
+
+async function saveCumleBtn(btn) {
+  try {
+    const sentence = JSON.parse(decodeURIComponent(escape(atob(btn.dataset.sentence))));
+    await window.polonica.specialSave({
+      pl: sentence.pl, original: sentence.pl,
+      tr: sentence.tr, en: sentence.en,
+      category: 'other', type: 'cumle',
+      is_idiom: false, slang: false,
+      source: 'Cumle Kurucu', source_type: 'cumle',
+      example_pl: '', example_tr: ''
+    });
+    btn.textContent = '✓ Kaydedildi';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green)';
+  } catch(e) { console.error(e); }
+}
+
+// ── İSİM/SIFAT ÇEKİMİ ────────────────────────────────────
+const CASE_NAMES = {
+  mianownik:  {tr:'Mianownik',  q:'kto? co?'},
+  dopelniacz: {tr:'Dopełniacz', q:'kogo? czego?'},
+  celownik:   {tr:'Celownik',   q:'komu? czemu?'},
+  biernik:    {tr:'Biernik',    q:'kogo? co?'},
+  narzednik:  {tr:'Narzędnik',  q:'kim? czym?'},
+  miejscownik:{tr:'Miejscownik',q:'o kim? o czym?'},
+  wolacz:     {tr:'Wołacz',     q:'!'},
+};
+
+async function lookupDeclension() {
+  const word = document.getElementById('decl-input').value.trim();
+  if (!word) return;
+  const btn = document.getElementById('decl-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  const res = document.getElementById('decl-result');
+  res.innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center"><span class="spinner"></span> Çekiliyor...</div>';
+  try {
+    const data = await api.post('/api/declension', { word });
+    renderDeclension(data);
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red)">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Çek';
+}
+
+function quickDecl(w) {
+  document.getElementById('decl-input').value = w;
+  lookupDeclension();
+}
+
+function renderDeclension(d) {
+  const res = document.getElementById('decl-result');
+  if (!d || !d.singular) { res.innerHTML = '<div style="color:var(--red)">Sonuç alınamadı.</div>'; return; }
+  const genderMap = {masculine:'Erkek (Męski)',feminine:'Dişi (Żeński)',neuter:'Nötr (Nijaki)'};
+  const genderColor = {masculine:'#7090d0',feminine:'#e090c0',neuter:'#6dbf9a'};
+  const gc = genderColor[d.gender] || '#888';
+  let html = '<div style="margin-bottom:14px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;">' +
+    '<span style="font-size:22px;font-weight:900;font-family:DM Mono,monospace;color:'+gc+'">'+esc(d.word)+'</span>' +
+    '<span style="margin-left:10px;font-size:13px;color:var(--text2)">'+esc(d.meaning_tr||'')+'</span>' +
+    '<span style="margin-left:8px;font-size:11px;padding:2px 8px;border-radius:99px;background:'+gc+'22;color:'+gc+';border:1px solid '+gc+'44">'+esc(genderMap[d.gender]||d.gender||'')+'</span>' +
+    (d.notes ? '<div style="margin-top:8px;font-size:12px;color:var(--text3);font-style:italic">⚠ '+esc(d.notes)+'</div>' : '') +
+    '</div>';
+  html += '<div style="overflow-x:auto"><table class="decl-table"><thead><tr>' +
+    '<th>Hal</th><th>Soru</th><th>Tekil</th><th>Çoğul</th>' +
+    '</tr></thead><tbody>';
+  Object.entries(CASE_NAMES).forEach(([key, info]) => {
+    const sg = (d.singular && d.singular[key]) || '—';
+    const pl = (d.plural && d.plural[key]) || '—';
+    html += '<tr><td class="decl-case">'+info.tr+'</td><td style="font-size:11px;color:var(--text3)">'+info.q+'</td>' +
+      '<td class="decl-sg">'+esc(sg)+'</td><td class="decl-pl">'+esc(pl)+'</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  res.innerHTML = html;
+}
+
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
 
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  const idx = ['cases','aspect','baglaç','query'].indexOf(tab);
+  const idx = ['cases','aspect','decl','baglaç','query'].indexOf(tab);
   if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
   const sec = document.getElementById('gsec-'+tab);
   if(sec) sec.classList.add('active');
