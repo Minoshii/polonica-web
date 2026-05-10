@@ -664,6 +664,67 @@ app.post('/api/ejmala', async (req, res) => {
   }
 });
 
+// ── CÜMLE KURUCU ──────────────────────────────────────────
+app.post('/api/sentences', async (req, res) => {
+  try {
+    const { word } = req.body;
+    if (!word) return res.status(400).json({ error: 'Kelime gerekli.' });
+    const prompt = [
+      'You are a Polish language teacher. Generate exactly 5 varied, natural Polish sentences using the word/phrase: "' + word + '"',
+      'Each sentence should demonstrate a DIFFERENT context or usage:',
+      '1. Simple everyday situation',
+      '2. Question form',
+      '3. Negative form',
+      '4. Formal/written context',
+      '5. Colloquial/spoken context',
+      '',
+      'Return ONLY valid JSON:',
+      '{"word":"' + word + '","sentences":[',
+      '  {"pl":"sentence","tr":"Turkish translation","en":"English translation","context":"Gündelik"},',
+      '  {"pl":"sentence","tr":"Turkish translation","en":"English translation","context":"Soru"},',
+      '  {"pl":"sentence","tr":"Turkish translation","en":"English translation","context":"Olumsuz"},',
+      '  {"pl":"sentence","tr":"Turkish translation","en":"English translation","context":"Resmi"},',
+      '  {"pl":"sentence","tr":"Turkish translation","en":"English translation","context":"Sokak"}',
+      ']}',
+      '',
+      'Rules: sentences 8-15 words, natural Polish, Turkish translations must be natural'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 1200);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── İSİM/SIFAT ÇEKİM TABLOSU ────────────────────────────
+app.post('/api/declension', async (req, res) => {
+  try {
+    const { word } = req.body;
+    if (!word) return res.status(400).json({ error: 'Kelime gerekli.' });
+    const prompt = [
+      'You are a Polish grammar expert. Decline the Polish noun or adjective: "' + word + '"',
+      'Return ONLY valid JSON with all 7 cases in singular and plural:',
+      '{',
+      '  "word": "' + word + '",',
+      '  "type": "noun" or "adjective",',
+      '  "gender": "masculine" or "feminine" or "neuter",',
+      '  "meaning_tr": "Turkish meaning",',
+      '  "singular": {',
+      '    "mianownik": "", "dopelniacz": "", "celownik": "", "biernik": "", "narzednik": "", "miejscownik": "", "wolacz": ""',
+      '  },',
+      '  "plural": {',
+      '    "mianownik": "", "dopelniacz": "", "celownik": "", "biernik": "", "narzednik": "", "miejscownik": "", "wolacz": ""',
+      '  },',
+      '  "notes": "any important notes about irregularities in Turkish"',
+      '}'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 800);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
