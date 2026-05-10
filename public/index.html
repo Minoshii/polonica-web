@@ -1424,125 +1424,135 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
     <!-- SPÓŁGŁOSKI (Ünsüzler) -->
     <div id="fon-sec-spol" style="display:none">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7">Kitaptaki <strong style="color:var(--accent)">Spółgłoski</strong> sınıflandırması — artikülasyon yerine ve biçimine göre. Her hücrede: <span style="color:#6dbf9a">dźwięczna (tonlu)</span> / <span style="color:#e07070">bezdźwięczna (tonsuz)</span></p>
-      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
-      <table style="border-collapse:collapse;min-width:700px;width:100%;font-size:12px">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7">
+        Kitaptaki sınıflandırma — <strong style="color:#6dbf9a">dźwięczna</strong> (tonlu, titreşen) ve <strong style="color:#e07070">bezdźwięczna</strong> (tonsuz) eşleşmeli gösterim.
+      </p>
+
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <table style="border-collapse:collapse;width:100%;min-width:650px;font-size:13px;">
+
+        <!-- BAŞLIK -->
         <thead>
           <tr>
-            <th rowspan="2" style="padding:8px;border:1px solid var(--border2);background:var(--surface3);color:var(--accent);font-size:11px;min-width:80px">Sposób artykulacji<br><span style="color:var(--text3);font-weight:400">Oluşum biçimi</span></th>
-            <th rowspan="2" style="padding:8px;border:1px solid var(--border2);background:var(--surface3);color:var(--text3);font-size:10px">Ustne/Nosowe<br>Ağız/Burun</th>
-            <th colspan="2" style="padding:8px;border:1px solid var(--border2);background:#1a0d10;color:#e07070;font-size:10px">Wargowe<br><span style="color:#888;font-weight:400">Dudak</span></th>
-            <th colspan="2" style="padding:8px;border:1px solid var(--border2);background:#0d1020;color:#7090d0;font-size:10px">Wargowo-zębowe<br><span style="color:#888;font-weight:400">Dudak-diş</span></th>
-            <th colspan="2" style="padding:8px;border:1px solid var(--border2);background:#0d1a10;color:#6dbf9a;font-size:10px">Przednio-językowe<br>zębowe<br><span style="color:#888;font-weight:400">Ön dil-diş</span></th>
-            <th colspan="2" style="padding:8px;border:1px solid var(--border2);background:#1a160d;color:#c8a050;font-size:10px">Przednio-językowe<br>dziąsłowe<br><span style="color:#888;font-weight:400">Ön dil-damak</span></th>
-            <th colspan="2" style="padding:8px;border:1px solid var(--border2);background:#110d1a;color:#b080e0;font-size:10px">Środkowo-językowe<br><span style="color:#888;font-weight:400">Orta dil</span></th>
-            <th colspan="2" style="padding:8px;border:1px solid var(--border2);background:#0d1515;color:#5dc0b0;font-size:10px">Tylno-językowe<br><span style="color:#888;font-weight:400">Arka dil</span></th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#111;color:#888;font-size:11px;text-align:left;min-width:130px">Oluşum Biçimi</th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#1a0d10;color:#e07070;font-size:11px;text-align:center" colspan="2">Wargowe<br><span style="font-weight:400;font-size:10px;color:#888">Dudak</span></th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#0d1020;color:#7090d0;font-size:11px;text-align:center" colspan="2">Wargowo-<br>zębowe<br><span style="font-weight:400;font-size:10px;color:#888">Dudak-diş</span></th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#0d1a10;color:#6dbf9a;font-size:11px;text-align:center" colspan="2">Przednio-językowe<br>zębowe<br><span style="font-weight:400;font-size:10px;color:#888">Ön dil–diş</span></th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#1a160d;color:#c8a050;font-size:11px;text-align:center" colspan="2">Przednio-językowe<br>dziąsłowe<br><span style="font-weight:400;font-size:10px;color:#888">Ön dil–damak</span></th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#110d1a;color:#b080e0;font-size:11px;text-align:center" colspan="2">Środkowo-<br>językowe<br><span style="font-weight:400;font-size:10px;color:#888">Orta dil</span></th>
+            <th style="padding:10px 12px;border:2px solid #333;background:#0d1515;color:#5dc0b0;font-size:11px;text-align:center" colspan="2">Tylno-<br>językowe<br><span style="font-weight:400;font-size:10px;color:#888">Arka dil</span></th>
           </tr>
-          <tr>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:var(--surface3);font-size:9px;color:var(--text3)"></th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#1a0f11;font-size:10px;color:#6dbf9a">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#1a0f11;font-size:10px;color:#e07070">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#0d1020;font-size:10px;color:#6dbf9a">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#0d1020;font-size:10px;color:#e07070">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#0d1520;font-size:10px;color:#6dbf9a">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#0d1520;font-size:10px;color:#e07070">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#1a1810;font-size:10px;color:#6dbf9a">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#1a1810;font-size:10px;color:#e07070">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#150d1a;font-size:10px;color:#6dbf9a">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#150d1a;font-size:10px;color:#e07070">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#0d1815;font-size:10px;color:#6dbf9a">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid var(--border2);background:#0d1815;font-size:10px;color:#e07070">bezdźw.</th>
+          <tr style="background:#0d0d0d">
+            <th style="padding:6px 12px;border:1px solid #222;font-size:10px;color:#555"></th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
+            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
           </tr>
         </thead>
+
         <tbody>
+          <!-- ZWARTE -->
           <tr>
-            <td style="padding:10px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text)">Zwarte<br><span style="font-size:10px;color:var(--text3);font-weight:400">Patlayıcı</span></td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center">ustne</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">b</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">p</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">d</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">t</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">g</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">k</td>
+            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Zwarte<br><span style="font-size:10px;font-weight:400;color:#555">Patlayıcı (stop)</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">b</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">p</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">d</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">t</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">g</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">k</td>
           </tr>
-          <tr style="background:var(--surface2)">
-            <td style="padding:10px;border:1px solid var(--border);background:var(--surface3);font-weight:800;font-size:12px;color:var(--text)">Szczelinowe<br><span style="font-size:10px;color:var(--text3);font-weight:400">Süreksiz (Frikative)</span></td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center">ustne</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">w</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">f</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">z</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">s</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">ż / rz</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">sz</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">ź</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">ś</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">γ / h</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">ch / x</td>
+
+          <!-- SZCZELINOWE -->
+          <tr style="background:#0d0d0d">
+            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Szczelinowe<br><span style="font-size:10px;font-weight:400;color:#555">Süreksiz (frikativ)</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">w</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">f</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">z</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">s</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">ż<br><span style="font-size:14px;opacity:.7">rz</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070">sz</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">ź</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">ś</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:18px;font-weight:900;color:#6dbf9a">γ<br><span style="font-size:14px;opacity:.7">h</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:18px;font-weight:900;color:#e07070">ch<br><span style="font-size:14px;opacity:.7">x</span></td>
           </tr>
+
+          <!-- ZWARTO-SZCZELINOWE -->
           <tr>
-            <td style="padding:10px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text)">Zwarto-szczelinowe<br><span style="font-size:10px;color:var(--text3);font-weight:400">Afrikat</span></td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center">ustne</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:16px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">dz</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:16px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">c</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:16px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">dż</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:16px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">cz</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:16px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">dź</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:16px;font-weight:900;color:#e07070;font-family:DM Mono,monospace;text-align:center">ć</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
+            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Zwarto-szczelinowe<br><span style="font-size:10px;font-weight:400;color:#555">Afrikat</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">dz</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">c</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">dż</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070">cz</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">dź</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">ć</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
           </tr>
-          <tr style="background:var(--surface2)">
-            <td style="padding:10px;border:1px solid var(--border);background:var(--surface3);font-weight:800;font-size:12px;color:var(--text)">Półotwarte<br><span style="font-size:10px;color:var(--text3);font-weight:400">Sürekli (Sonorant)</span></td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center">nosowe</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">m</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">n</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">ń</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
+
+          <!-- PÓŁOTWARTE NOSOWE -->
+          <tr style="background:#0d0d0d">
+            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Półotwarte<br><span style="font-size:10px;font-weight:600;color:#7090d0">nosowe</span><br><span style="font-size:10px;font-weight:400;color:#555">Nazal (burundan)</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">m</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">n</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">ń</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
           </tr>
+
+          <!-- PÓŁOTWARTE USTNE -->
           <tr>
-            <td style="padding:10px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text)">Półotwarte<br><span style="font-size:10px;color:var(--text3);font-weight:400">Sürekli (Lateral/Tril)</span></td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center">ustne</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">l, r, ł</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);font-size:18px;font-weight:900;color:#6dbf9a;font-family:DM Mono,monospace;text-align:center">j</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
-            <td style="padding:8px;border:1px solid var(--border);text-align:center;color:var(--text3)">—</td>
+            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Półotwarte<br><span style="font-size:10px;font-weight:600;color:#c8a050">ustne</span><br><span style="font-size:10px;font-weight:400;color:#555">Lateral / Tril / Yarı-ünlü</span></td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:18px;font-weight:900;color:#6dbf9a">l<br>r<br>ł</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">j</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
+            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
           </tr>
         </tbody>
       </table>
       </div>
 
-      <!-- Lejand -->
-      <div style="margin-top:16px;display:flex;gap:20px;flex-wrap:wrap">
-        <div style="font-size:12px;color:var(--text2)"><span style="color:#6dbf9a;font-weight:700">dźwięczna</span> = tonlu / sesli (titreşen)</div>
-        <div style="font-size:12px;color:var(--text2)"><span style="color:#e07070;font-weight:700">bezdźwięczna</span> = tonsuz / sağır (titreşmeyen)</div>
+      <!-- Lejant -->
+      <div style="margin-top:14px;display:flex;gap:24px;flex-wrap:wrap;padding:12px;background:var(--surface2);border-radius:8px;">
+        <div style="font-size:13px"><span style="color:#6dbf9a;font-weight:800;font-family:DM Mono,monospace">dźwięczna</span> <span style="color:var(--text3)">= tonlu / sesli (titreşen)</span></div>
+        <div style="font-size:13px"><span style="color:#e07070;font-weight:800;font-family:DM Mono,monospace">bezdźwięczna</span> <span style="color:var(--text3)">= tonsuz / sağır (titreşmeyen)</span></div>
+        <div style="font-size:13px;color:var(--text3)"><span style="color:#888">—</span> = bu kombinasyon Lehçe'de yok</div>
       </div>
     </div>
 
