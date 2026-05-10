@@ -930,7 +930,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   </div>
 
   <!-- GRAMMAR -->
-  <div style="display:none" id="panel-grammar-old"><div class="grammar-tabs" style="display:none">
+  <div class="panel" id="panel-grammar"><div class="panel-title">📖 Grammar <span class="mode-badge" style="background:var(--teal-bg);color:#5dc0b0;border:1px solid var(--teal)">Dilbilgisi Rehberi</span></div><div class="panel-sub">Case tabloları, aspect kuralları ve hızlı dilbilgisi sorgusu.</div>
+    <div class="grammar-tabs">
       <button class="gtab active" onclick="switchGTab('cases')">📋 Case Tabloları</button>
       <button class="gtab" onclick="switchGTab('aspect')">⚡ Aspect</button>
       <button class="gtab" onclick="switchGTab('decl')">📐 Çekim</button>
@@ -1032,165 +1033,6 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <button class="grammar-quick-btn" onclick="quickAspect('kupować')">kupować</button>
       </div>
       <div id="aspect-result"></div>
-    </div>
-
-    <!-- HIZLI SORU -->
-  <div class="panel" id="panel-fonetik"><div class="panel-title">🗣 Fonetik <span class="mode-badge" style="background:#110d1a;color:#b080e0;border:1px solid #9060c0">Lehçe Sesler</span></div>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px">
-        Lehçe alfabesi Latin harflerini kullanır ama bazı sesler Türkçe'de yok. Bu tablo her harfin nasıl okunduğunu, Türkçe yaklaşık karşılığını ve örnek kelimeyi gösterir.
-      </p>
-      <div class="fon-section-title">Sessiz Harfler — Özel Lehçe Sesler</div>
-      <table class="fon-table">
-        <thead><tr><th>Harf</th><th>Ses Adı</th><th>Nasıl Okunur</th><th>Türkçe Karşılığı</th><th>Örnek</th></tr></thead>
-        <tbody>
-          <tr><td><div class="fon-letter">sz</div><div class="fon-name">sz</div></td><td class="fon-sound">Sert Ş</td><td class="fon-tr">İngilizce "sh" gibi — Türkçe Ş'den biraz daha sert</td><td class="fon-example">szkoła <span class="fon-ex-tr">okul</span></td></tr>
-          <tr><td><div class="fon-letter">cz</div><div class="fon-name">cz</div></td><td class="fon-sound">Sert Ç</td><td class="fon-tr">Türkçe Ç gibi ama daha geriden, dişlerden değil damaktan</td><td class="fon-example">czas <span class="fon-ex-tr">zaman</span></td></tr>
-          <tr><td><div class="fon-letter">rz</div><div class="fon-name">rz</div></td><td class="fon-sound">Sert J/Ş</td><td class="fon-tr">Fransızca j gibi — ج sesi. "ż" ile aynı okunur</td><td class="fon-example">rzeka <span class="fon-ex-tr">nehir</span></td></tr>
-          <tr><td><div class="fon-letter">ż</div><div class="fon-name">ż (kropka)</div></td><td class="fon-sound">Sert J</td><td class="fon-tr">Fransızca j = Türkçede yok, ج'ye benzer</td><td class="fon-example">żona <span class="fon-ex-tr">eş/karı</span></td></tr>
-          <tr><td><div class="fon-letter">ź</div><div class="fon-name">ź (akcent)</div></td><td class="fon-sound">Yumuşak J</td><td class="fon-tr">ż'den yumuşak, dile dokundurarak söylenir — źle</td><td class="fon-example">źródło <span class="fon-ex-tr">kaynak</span></td></tr>
-          <tr><td><div class="fon-letter">ś</div><div class="fon-name">ś (akcent)</div></td><td class="fon-sound">Yumuşak Ş</td><td class="fon-tr">sz'nin yumuşak versiyonu — dile değdirilerek</td><td class="fon-example">środa <span class="fon-ex-tr">çarşamba</span></td></tr>
-          <tr><td><div class="fon-letter">ć</div><div class="fon-name">ć (akcent)</div></td><td class="fon-sound">Yumuşak Ç</td><td class="fon-tr">cz'nin yumuşak versiyonu — dilin ucu dişe değer</td><td class="fon-example">ćma <span class="fon-ex-tr">güve</span></td></tr>
-          <tr><td><div class="fon-letter">dz</div><div class="fon-name">dz</div></td><td class="fon-sound">Sert DZ</td><td class="fon-tr">Türkçe c sesine benzer (dz birleşimi)</td><td class="fon-example">dzień <span class="fon-ex-tr">gün</span></td></tr>
-          <tr><td><div class="fon-letter">dź</div><div class="fon-name">dź (akcent)</div></td><td class="fon-sound">Yumuşak DZ</td><td class="fon-tr">dz'nin yumuşak hali, dile değdirerek</td><td class="fon-example">dźwięk <span class="fon-ex-tr">ses</span></td></tr>
-          <tr><td><div class="fon-letter">dż</div><div class="fon-name">dż</div></td><td class="fon-sound">Sert C</td><td class="fon-tr">İngilizce j gibi (jump) — Türkçe yok</td><td class="fon-example">dżungla <span class="fon-ex-tr">orman</span></td></tr>
-          <tr><td><div class="fon-letter">ł</div><div class="fon-name">ł (kreska)</div></td><td class="fon-sound">İngilizce W</td><td class="fon-tr">İngilizce "w" gibi — Türkçe L DEĞİL!</td><td class="fon-example">łódka <span class="fon-ex-tr">tekne</span></td></tr>
-          <tr><td><div class="fon-letter">ch / h</div><div class="fon-name">ch = h</div></td><td class="fon-sound">Sert H</td><td class="fon-tr">Türkçe H'den biraz daha gırtlaktan — Almanca "ch" gibi</td><td class="fon-example">chleb <span class="fon-ex-tr">ekmek</span></td></tr>
-          <tr><td><div class="fon-letter">w</div><div class="fon-name">w</div></td><td class="fon-sound">V sesi</td><td class="fon-tr">Türkçe V gibi — İngilizce W değil!</td><td class="fon-example">woda <span class="fon-ex-tr">su</span></td></tr>
-          <tr><td><div class="fon-letter">j</div><div class="fon-name">j</div></td><td class="fon-sound">Y sesi</td><td class="fon-tr">Türkçe Y gibi — İngilizce J değil!</td><td class="fon-example">jeden <span class="fon-ex-tr">bir</span></td></tr>
-        </tbody>
-      </table>
-
-      <div class="fon-section-title">Ünlü Harfler — Özel Lehçe Sesleri</div>
-      <table class="fon-table">
-        <thead><tr><th>Harf</th><th>Ses Adı</th><th>Nasıl Okunur</th><th>Örnek</th></tr></thead>
-        <tbody>
-          <tr><td><div class="fon-letter">ą</div><div class="fon-name">a z ogonkiem</div></td><td class="fon-sound">Nazal O/ON</td><td class="fon-tr">Fransızca "on" — burnumdan çıkan O. Söylerken ağzı yuvarlayıp burnundan biraz hava kaçır</td><td class="fon-example">ząb <span class="fon-ex-tr">diş</span></td></tr>
-          <tr><td><div class="fon-letter">ę</div><div class="fon-name">e z ogonkiem</div></td><td class="fon-sound">Nazal E/EN</td><td class="fon-tr">Fransızca "en" — burnumdan çıkan E. Günlük konuşmada çoğu zaman düz E gibi okunur</td><td class="fon-example">ręka <span class="fon-ex-tr">el</span></td></tr>
-          <tr><td><div class="fon-letter">ó</div><div class="fon-name">o kreskowane</div></td><td class="fon-sound">U sesi</td><td class="fon-tr">Türkçe Ü değil, U gibi okunur — "u" ile özdeş</td><td class="fon-example">córka <span class="fon-ex-tr">kız</span></td></tr>
-          <tr><td><div class="fon-letter">y</div><div class="fon-name">y</div></td><td class="fon-sound">Kısa I</td><td class="fon-tr">Türkçe ı'ya benzer ama biraz daha yukarıdan, gerimden</td><td class="fon-example">ryba <span class="fon-ex-tr">balık</span></td></tr>
-        </tbody>
-      </table>
-
-      <div class="fon-section-title">Sert (Twarde) vs Yumuşak (Miękkie) Ünsüzler</div>
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.8;color:var(--text2)">
-        <p>Lehçe ünsüzlerin iki versiyonu vardır: <strong style="color:#e07070">sert (twarde)</strong> ve <strong style="color:#6dbf9a">yumuşak (miękkie)</strong>.</p>
-        <p>Yumuşak ünsüzler dile hafifçe değdirilerek söylenir ve genellikle <strong style="color:#c8b89a">i</strong> harfi veya üstündeki işaret (´) ile gösterilir:</p>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px">
-          <div style="background:var(--surface3);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:13px"><span style="color:#e07070">sz</span> → <span style="color:#6dbf9a">ś</span> &nbsp;&nbsp; <span style="color:#e07070">cz</span> → <span style="color:#6dbf9a">ć</span> &nbsp;&nbsp; <span style="color:#e07070">ż/rz</span> → <span style="color:#6dbf9a">ź</span> &nbsp;&nbsp; <span style="color:#e07070">dz</span> → <span style="color:#6dbf9a">dź</span></div>
-          <div style="background:var(--surface3);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text3)">Örn: <span style="color:#e07070">pas</span> (kemik) → <span style="color:#6dbf9a">pies</span> (köpek) — s sesi yumuşadı</div>
-        </div>
-      </div>
-    </div>
-
-        <div class="grammar-section" id="gsec-vucut">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:16px">SVG üzerinde fare ile üzerine gel — Lehçe organ adı çıkar. Tıkla → Burak Special'a ekle.</p>
-      <div class="vucut-wrap">
-        <!-- SVG Vücut -->
-        <div class="vucut-svg-area">
-          <div id="body-tooltip" class="body-tooltip">
-            <div class="body-tooltip-pl" id="tooltip-pl"></div>
-            <div class="body-tooltip-tr" id="tooltip-tr"></div>
-          </div>
-          <svg width="200" height="420" viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg" style="background:transparent">
-            <!-- Baş -->
-            <g class="body-part" data-pl="głowa" data-tr="baş" data-en="head" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="100" cy="45" rx="30" ry="38" class="body-fill" fill="#2a1a3a" stroke="#9060c0" stroke-width="1.5"/>
-              <text x="100" y="50" text-anchor="middle" font-size="9" fill="#b080e0" font-family="Syne,sans-serif">głowa</text>
-            </g>
-            <!-- Boyun -->
-            <g class="body-part" data-pl="szyja" data-tr="boyun" data-en="neck" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="88" y="80" width="24" height="20" rx="4" class="body-fill" fill="#1a1a2a" stroke="#5080c0" stroke-width="1.5"/>
-              <text x="100" y="93" text-anchor="middle" font-size="8" fill="#7090d0" font-family="Syne,sans-serif">szyja</text>
-            </g>
-            <!-- Gövde -->
-            <g class="body-part" data-pl="tułów" data-tr="gövde" data-en="torso" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="65" y="100" width="70" height="100" rx="8" class="body-fill" fill="#0d1a10" stroke="#4a9a6a" stroke-width="1.5"/>
-            </g>
-            <!-- Göğüs -->
-            <g class="body-part" data-pl="klatka piersiowa" data-tr="göğüs" data-en="chest" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="70" y="105" width="60" height="45" rx="5" class="body-fill" fill="#0d1a10" stroke="#4a9a6a" stroke-width="1" opacity="0.5"/>
-              <text x="100" y="132" text-anchor="middle" font-size="8" fill="#6dbf9a" font-family="Syne,sans-serif">klatka</text>
-            </g>
-            <!-- Karın -->
-            <g class="body-part" data-pl="brzuch" data-tr="karın" data-en="belly" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="70" y="152" width="60" height="44" rx="5" class="body-fill" fill="#1a160d" stroke="#c8a050" stroke-width="1.5"/>
-              <text x="100" y="177" text-anchor="middle" font-size="8" fill="#c8a050" font-family="Syne,sans-serif">brzuch</text>
-            </g>
-            <!-- Sol kol -->
-            <g class="body-part" data-pl="ramię" data-tr="kol / omuz" data-en="arm/shoulder" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="35" y="100" width="28" height="75" rx="12" class="body-fill" fill="#1a0d16" stroke="#c060a0" stroke-width="1.5"/>
-              <text x="49" y="140" text-anchor="middle" font-size="7" fill="#e090c0" font-family="Syne,sans-serif">ramię</text>
-            </g>
-            <!-- Sağ kol -->
-            <g class="body-part" data-pl="ramię" data-tr="kol / omuz" data-en="arm/shoulder" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="137" y="100" width="28" height="75" rx="12" class="body-fill" fill="#1a0d16" stroke="#c060a0" stroke-width="1.5"/>
-            </g>
-            <!-- Sol el -->
-            <g class="body-part" data-pl="ręka" data-tr="el" data-en="hand" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="49" cy="190" rx="16" ry="20" class="body-fill" fill="#0d1020" stroke="#7090d0" stroke-width="1.5"/>
-              <text x="49" y="193" text-anchor="middle" font-size="7" fill="#7090d0" font-family="Syne,sans-serif">ręka</text>
-            </g>
-            <!-- Sağ el -->
-            <g class="body-part" data-pl="ręka" data-tr="el" data-en="hand" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="151" cy="190" rx="16" ry="20" class="body-fill" fill="#0d1020" stroke="#7090d0" stroke-width="1.5"/>
-            </g>
-            <!-- Sol bacak -->
-            <g class="body-part" data-pl="noga" data-tr="bacak" data-en="leg" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="68" y="200" width="30" height="100" rx="12" class="body-fill" fill="#0d1515" stroke="#5dc0b0" stroke-width="1.5"/>
-              <text x="83" y="255" text-anchor="middle" font-size="7" fill="#5dc0b0" font-family="Syne,sans-serif">noga</text>
-            </g>
-            <!-- Sağ bacak -->
-            <g class="body-part" data-pl="noga" data-tr="bacak" data-en="leg" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <rect x="102" y="200" width="30" height="100" rx="12" class="body-fill" fill="#0d1515" stroke="#5dc0b0" stroke-width="1.5"/>
-            </g>
-            <!-- Sol diz -->
-            <g class="body-part" data-pl="kolano" data-tr="diz" data-en="knee" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="83" cy="265" rx="14" ry="14" class="body-fill" fill="#111" stroke="#c8a050" stroke-width="1.5"/>
-            </g>
-            <!-- Sağ diz -->
-            <g class="body-part" data-pl="kolano" data-tr="diz" data-en="knee" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="117" cy="265" rx="14" ry="14" class="body-fill" fill="#111" stroke="#c8a050" stroke-width="1.5"/>
-            </g>
-            <!-- Sol ayak -->
-            <g class="body-part" data-pl="stopa" data-tr="ayak" data-en="foot" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="78" cy="310" rx="20" ry="12" class="body-fill" fill="#1a0d0d" stroke="#e07070" stroke-width="1.5"/>
-              <text x="78" y="314" text-anchor="middle" font-size="7" fill="#e07070" font-family="Syne,sans-serif">stopa</text>
-            </g>
-            <!-- Sağ ayak -->
-            <g class="body-part" data-pl="stopa" data-tr="ayak" data-en="foot" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="122" cy="310" rx="20" ry="12" class="body-fill" fill="#1a0d0d" stroke="#e07070" stroke-width="1.5"/>
-            </g>
-            <!-- Göz -->
-            <g class="body-part" data-pl="oko" data-tr="göz" data-en="eye" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="90" cy="38" rx="8" ry="5" class="body-fill" fill="#0d1a10" stroke="#6dbf9a" stroke-width="1.5"/>
-            </g>
-            <g class="body-part" data-pl="oko" data-tr="göz" data-en="eye" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="110" cy="38" rx="8" ry="5" class="body-fill" fill="#0d1a10" stroke="#6dbf9a" stroke-width="1.5"/>
-            </g>
-            <!-- Ağız -->
-            <g class="body-part" data-pl="usta" data-tr="ağız" data-en="mouth" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="100" cy="60" rx="12" ry="5" class="body-fill" fill="#1a0d0d" stroke="#e07070" stroke-width="1.5"/>
-            </g>
-            <!-- Burun -->
-            <g class="body-part" data-pl="nos" data-tr="burun" data-en="nose" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="100" cy="50" rx="5" ry="5" class="body-fill" fill="#1a1030" stroke="#b080e0" stroke-width="1.5"/>
-            </g>
-            <!-- Kulak -->
-            <g class="body-part" data-pl="ucho" data-tr="kulak" data-en="ear" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="70" cy="45" rx="8" ry="12" class="body-fill" fill="#1a1030" stroke="#9060c0" stroke-width="1.5"/>
-            </g>
-            <g class="body-part" data-pl="ucho" data-tr="kulak" data-en="ear" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
-              <ellipse cx="130" cy="45" rx="8" ry="12" class="body-fill" fill="#1a1030" stroke="#9060c0" stroke-width="1.5"/>
-            </g>
-          </svg>
-        </div>
-
-        <!-- Kelime listesi -->
-        <div class="vucut-list">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Tüm Vücut Kelimeleri</div>
-          <div id="vucut-word-list"></div>
-        </div>
-      </div>
     </div>
 
         <div class="grammar-section" id="gsec-decl">
@@ -1490,9 +1332,173 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       </div>
       <div id="grammar-answer"></div>
     </div>
+  
+  </div>
+
+  <div class="panel" id="panel-fonetik"><div class="panel-title">🗣 Fonetik <span class="mode-badge" style="background:#110d1a;color:#b080e0;border:1px solid #9060c0">Lehçe Sesler</span></div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px">
+        Lehçe alfabesi Latin harflerini kullanır ama bazı sesler Türkçe'de yok. Bu tablo her harfin nasıl okunduğunu, Türkçe yaklaşık karşılığını ve örnek kelimeyi gösterir.
+      </p>
+      <div class="fon-section-title">Sessiz Harfler — Özel Lehçe Sesler</div>
+      <table class="fon-table">
+        <thead><tr><th>Harf</th><th>Ses Adı</th><th>Nasıl Okunur</th><th>Türkçe Karşılığı</th><th>Örnek</th></tr></thead>
+        <tbody>
+          <tr><td><div class="fon-letter">sz</div><div class="fon-name">sz</div></td><td class="fon-sound">Sert Ş</td><td class="fon-tr">İngilizce "sh" gibi — Türkçe Ş'den biraz daha sert</td><td class="fon-example">szkoła <span class="fon-ex-tr">okul</span></td></tr>
+          <tr><td><div class="fon-letter">cz</div><div class="fon-name">cz</div></td><td class="fon-sound">Sert Ç</td><td class="fon-tr">Türkçe Ç gibi ama daha geriden, dişlerden değil damaktan</td><td class="fon-example">czas <span class="fon-ex-tr">zaman</span></td></tr>
+          <tr><td><div class="fon-letter">rz</div><div class="fon-name">rz</div></td><td class="fon-sound">Sert J/Ş</td><td class="fon-tr">Fransızca j gibi — ج sesi. "ż" ile aynı okunur</td><td class="fon-example">rzeka <span class="fon-ex-tr">nehir</span></td></tr>
+          <tr><td><div class="fon-letter">ż</div><div class="fon-name">ż (kropka)</div></td><td class="fon-sound">Sert J</td><td class="fon-tr">Fransızca j = Türkçede yok, ج'ye benzer</td><td class="fon-example">żona <span class="fon-ex-tr">eş/karı</span></td></tr>
+          <tr><td><div class="fon-letter">ź</div><div class="fon-name">ź (akcent)</div></td><td class="fon-sound">Yumuşak J</td><td class="fon-tr">ż'den yumuşak, dile dokundurarak söylenir — źle</td><td class="fon-example">źródło <span class="fon-ex-tr">kaynak</span></td></tr>
+          <tr><td><div class="fon-letter">ś</div><div class="fon-name">ś (akcent)</div></td><td class="fon-sound">Yumuşak Ş</td><td class="fon-tr">sz'nin yumuşak versiyonu — dile değdirilerek</td><td class="fon-example">środa <span class="fon-ex-tr">çarşamba</span></td></tr>
+          <tr><td><div class="fon-letter">ć</div><div class="fon-name">ć (akcent)</div></td><td class="fon-sound">Yumuşak Ç</td><td class="fon-tr">cz'nin yumuşak versiyonu — dilin ucu dişe değer</td><td class="fon-example">ćma <span class="fon-ex-tr">güve</span></td></tr>
+          <tr><td><div class="fon-letter">dz</div><div class="fon-name">dz</div></td><td class="fon-sound">Sert DZ</td><td class="fon-tr">Türkçe c sesine benzer (dz birleşimi)</td><td class="fon-example">dzień <span class="fon-ex-tr">gün</span></td></tr>
+          <tr><td><div class="fon-letter">dź</div><div class="fon-name">dź (akcent)</div></td><td class="fon-sound">Yumuşak DZ</td><td class="fon-tr">dz'nin yumuşak hali, dile değdirerek</td><td class="fon-example">dźwięk <span class="fon-ex-tr">ses</span></td></tr>
+          <tr><td><div class="fon-letter">dż</div><div class="fon-name">dż</div></td><td class="fon-sound">Sert C</td><td class="fon-tr">İngilizce j gibi (jump) — Türkçe yok</td><td class="fon-example">dżungla <span class="fon-ex-tr">orman</span></td></tr>
+          <tr><td><div class="fon-letter">ł</div><div class="fon-name">ł (kreska)</div></td><td class="fon-sound">İngilizce W</td><td class="fon-tr">İngilizce "w" gibi — Türkçe L DEĞİL!</td><td class="fon-example">łódka <span class="fon-ex-tr">tekne</span></td></tr>
+          <tr><td><div class="fon-letter">ch / h</div><div class="fon-name">ch = h</div></td><td class="fon-sound">Sert H</td><td class="fon-tr">Türkçe H'den biraz daha gırtlaktan — Almanca "ch" gibi</td><td class="fon-example">chleb <span class="fon-ex-tr">ekmek</span></td></tr>
+          <tr><td><div class="fon-letter">w</div><div class="fon-name">w</div></td><td class="fon-sound">V sesi</td><td class="fon-tr">Türkçe V gibi — İngilizce W değil!</td><td class="fon-example">woda <span class="fon-ex-tr">su</span></td></tr>
+          <tr><td><div class="fon-letter">j</div><div class="fon-name">j</div></td><td class="fon-sound">Y sesi</td><td class="fon-tr">Türkçe Y gibi — İngilizce J değil!</td><td class="fon-example">jeden <span class="fon-ex-tr">bir</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="fon-section-title">Ünlü Harfler — Özel Lehçe Sesleri</div>
+      <table class="fon-table">
+        <thead><tr><th>Harf</th><th>Ses Adı</th><th>Nasıl Okunur</th><th>Örnek</th></tr></thead>
+        <tbody>
+          <tr><td><div class="fon-letter">ą</div><div class="fon-name">a z ogonkiem</div></td><td class="fon-sound">Nazal O/ON</td><td class="fon-tr">Fransızca "on" — burnumdan çıkan O. Söylerken ağzı yuvarlayıp burnundan biraz hava kaçır</td><td class="fon-example">ząb <span class="fon-ex-tr">diş</span></td></tr>
+          <tr><td><div class="fon-letter">ę</div><div class="fon-name">e z ogonkiem</div></td><td class="fon-sound">Nazal E/EN</td><td class="fon-tr">Fransızca "en" — burnumdan çıkan E. Günlük konuşmada çoğu zaman düz E gibi okunur</td><td class="fon-example">ręka <span class="fon-ex-tr">el</span></td></tr>
+          <tr><td><div class="fon-letter">ó</div><div class="fon-name">o kreskowane</div></td><td class="fon-sound">U sesi</td><td class="fon-tr">Türkçe Ü değil, U gibi okunur — "u" ile özdeş</td><td class="fon-example">córka <span class="fon-ex-tr">kız</span></td></tr>
+          <tr><td><div class="fon-letter">y</div><div class="fon-name">y</div></td><td class="fon-sound">Kısa I</td><td class="fon-tr">Türkçe ı'ya benzer ama biraz daha yukarıdan, gerimden</td><td class="fon-example">ryba <span class="fon-ex-tr">balık</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="fon-section-title">Sert (Twarde) vs Yumuşak (Miękkie) Ünsüzler</div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.8;color:var(--text2)">
+        <p>Lehçe ünsüzlerin iki versiyonu vardır: <strong style="color:#e07070">sert (twarde)</strong> ve <strong style="color:#6dbf9a">yumuşak (miękkie)</strong>.</p>
+        <p>Yumuşak ünsüzler dile hafifçe değdirilerek söylenir ve genellikle <strong style="color:#c8b89a">i</strong> harfi veya üstündeki işaret (´) ile gösterilir:</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px">
+          <div style="background:var(--surface3);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:13px"><span style="color:#e07070">sz</span> → <span style="color:#6dbf9a">ś</span> &nbsp;&nbsp; <span style="color:#e07070">cz</span> → <span style="color:#6dbf9a">ć</span> &nbsp;&nbsp; <span style="color:#e07070">ż/rz</span> → <span style="color:#6dbf9a">ź</span> &nbsp;&nbsp; <span style="color:#e07070">dz</span> → <span style="color:#6dbf9a">dź</span></div>
+          <div style="background:var(--surface3);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text3)">Örn: <span style="color:#e07070">pas</span> (kemik) → <span style="color:#6dbf9a">pies</span> (köpek) — s sesi yumuşadı</div>
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+  <div class="panel" id="panel-vucut"><div class="panel-title">🫀 Vücut <span class="mode-badge" style="background:#1a0d0d;color:#e07070;border:1px solid #c05050">Ciało</span></div>
+    <div class="grammar-section active" id="gsec-vucut">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px">SVG üzerinde fare ile üzerine gel — Lehçe organ adı çıkar. Tıkla → Burak Special'a ekle.</p>
+      <div class="vucut-wrap">
+        <!-- SVG Vücut -->
+        <div class="vucut-svg-area">
+          <div id="body-tooltip" class="body-tooltip">
+            <div class="body-tooltip-pl" id="tooltip-pl"></div>
+            <div class="body-tooltip-tr" id="tooltip-tr"></div>
+          </div>
+          <svg width="200" height="420" viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg" style="background:transparent">
+            <!-- Baş -->
+            <g class="body-part" data-pl="głowa" data-tr="baş" data-en="head" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="100" cy="45" rx="30" ry="38" class="body-fill" fill="#2a1a3a" stroke="#9060c0" stroke-width="1.5"/>
+              <text x="100" y="50" text-anchor="middle" font-size="9" fill="#b080e0" font-family="Syne,sans-serif">głowa</text>
+            </g>
+            <!-- Boyun -->
+            <g class="body-part" data-pl="szyja" data-tr="boyun" data-en="neck" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="88" y="80" width="24" height="20" rx="4" class="body-fill" fill="#1a1a2a" stroke="#5080c0" stroke-width="1.5"/>
+              <text x="100" y="93" text-anchor="middle" font-size="8" fill="#7090d0" font-family="Syne,sans-serif">szyja</text>
+            </g>
+            <!-- Gövde -->
+            <g class="body-part" data-pl="tułów" data-tr="gövde" data-en="torso" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="65" y="100" width="70" height="100" rx="8" class="body-fill" fill="#0d1a10" stroke="#4a9a6a" stroke-width="1.5"/>
+            </g>
+            <!-- Göğüs -->
+            <g class="body-part" data-pl="klatka piersiowa" data-tr="göğüs" data-en="chest" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="70" y="105" width="60" height="45" rx="5" class="body-fill" fill="#0d1a10" stroke="#4a9a6a" stroke-width="1" opacity="0.5"/>
+              <text x="100" y="132" text-anchor="middle" font-size="8" fill="#6dbf9a" font-family="Syne,sans-serif">klatka</text>
+            </g>
+            <!-- Karın -->
+            <g class="body-part" data-pl="brzuch" data-tr="karın" data-en="belly" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="70" y="152" width="60" height="44" rx="5" class="body-fill" fill="#1a160d" stroke="#c8a050" stroke-width="1.5"/>
+              <text x="100" y="177" text-anchor="middle" font-size="8" fill="#c8a050" font-family="Syne,sans-serif">brzuch</text>
+            </g>
+            <!-- Sol kol -->
+            <g class="body-part" data-pl="ramię" data-tr="kol / omuz" data-en="arm/shoulder" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="35" y="100" width="28" height="75" rx="12" class="body-fill" fill="#1a0d16" stroke="#c060a0" stroke-width="1.5"/>
+              <text x="49" y="140" text-anchor="middle" font-size="7" fill="#e090c0" font-family="Syne,sans-serif">ramię</text>
+            </g>
+            <!-- Sağ kol -->
+            <g class="body-part" data-pl="ramię" data-tr="kol / omuz" data-en="arm/shoulder" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="137" y="100" width="28" height="75" rx="12" class="body-fill" fill="#1a0d16" stroke="#c060a0" stroke-width="1.5"/>
+            </g>
+            <!-- Sol el -->
+            <g class="body-part" data-pl="ręka" data-tr="el" data-en="hand" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="49" cy="190" rx="16" ry="20" class="body-fill" fill="#0d1020" stroke="#7090d0" stroke-width="1.5"/>
+              <text x="49" y="193" text-anchor="middle" font-size="7" fill="#7090d0" font-family="Syne,sans-serif">ręka</text>
+            </g>
+            <!-- Sağ el -->
+            <g class="body-part" data-pl="ręka" data-tr="el" data-en="hand" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="151" cy="190" rx="16" ry="20" class="body-fill" fill="#0d1020" stroke="#7090d0" stroke-width="1.5"/>
+            </g>
+            <!-- Sol bacak -->
+            <g class="body-part" data-pl="noga" data-tr="bacak" data-en="leg" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="68" y="200" width="30" height="100" rx="12" class="body-fill" fill="#0d1515" stroke="#5dc0b0" stroke-width="1.5"/>
+              <text x="83" y="255" text-anchor="middle" font-size="7" fill="#5dc0b0" font-family="Syne,sans-serif">noga</text>
+            </g>
+            <!-- Sağ bacak -->
+            <g class="body-part" data-pl="noga" data-tr="bacak" data-en="leg" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <rect x="102" y="200" width="30" height="100" rx="12" class="body-fill" fill="#0d1515" stroke="#5dc0b0" stroke-width="1.5"/>
+            </g>
+            <!-- Sol diz -->
+            <g class="body-part" data-pl="kolano" data-tr="diz" data-en="knee" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="83" cy="265" rx="14" ry="14" class="body-fill" fill="#111" stroke="#c8a050" stroke-width="1.5"/>
+            </g>
+            <!-- Sağ diz -->
+            <g class="body-part" data-pl="kolano" data-tr="diz" data-en="knee" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="117" cy="265" rx="14" ry="14" class="body-fill" fill="#111" stroke="#c8a050" stroke-width="1.5"/>
+            </g>
+            <!-- Sol ayak -->
+            <g class="body-part" data-pl="stopa" data-tr="ayak" data-en="foot" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="78" cy="310" rx="20" ry="12" class="body-fill" fill="#1a0d0d" stroke="#e07070" stroke-width="1.5"/>
+              <text x="78" y="314" text-anchor="middle" font-size="7" fill="#e07070" font-family="Syne,sans-serif">stopa</text>
+            </g>
+            <!-- Sağ ayak -->
+            <g class="body-part" data-pl="stopa" data-tr="ayak" data-en="foot" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="122" cy="310" rx="20" ry="12" class="body-fill" fill="#1a0d0d" stroke="#e07070" stroke-width="1.5"/>
+            </g>
+            <!-- Göz -->
+            <g class="body-part" data-pl="oko" data-tr="göz" data-en="eye" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="90" cy="38" rx="8" ry="5" class="body-fill" fill="#0d1a10" stroke="#6dbf9a" stroke-width="1.5"/>
+            </g>
+            <g class="body-part" data-pl="oko" data-tr="göz" data-en="eye" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="110" cy="38" rx="8" ry="5" class="body-fill" fill="#0d1a10" stroke="#6dbf9a" stroke-width="1.5"/>
+            </g>
+            <!-- Ağız -->
+            <g class="body-part" data-pl="usta" data-tr="ağız" data-en="mouth" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="100" cy="60" rx="12" ry="5" class="body-fill" fill="#1a0d0d" stroke="#e07070" stroke-width="1.5"/>
+            </g>
+            <!-- Burun -->
+            <g class="body-part" data-pl="nos" data-tr="burun" data-en="nose" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="100" cy="50" rx="5" ry="5" class="body-fill" fill="#1a1030" stroke="#b080e0" stroke-width="1.5"/>
+            </g>
+            <!-- Kulak -->
+            <g class="body-part" data-pl="ucho" data-tr="kulak" data-en="ear" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="70" cy="45" rx="8" ry="12" class="body-fill" fill="#1a1030" stroke="#9060c0" stroke-width="1.5"/>
+            </g>
+            <g class="body-part" data-pl="ucho" data-tr="kulak" data-en="ear" onmouseenter="showBodyTip(event,this)" onmouseleave="hideBodyTip()" onclick="saveBodyPart(this)">
+              <ellipse cx="130" cy="45" rx="8" ry="12" class="body-fill" fill="#1a1030" stroke="#9060c0" stroke-width="1.5"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Kelime listesi -->
+        <div class="vucut-list">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Tüm Vücut Kelimeleri</div>
+          <div id="vucut-word-list"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- DERSTEN GELENLER -->
+
   <div class="panel" id="panel-lib-class">
     <div class="panel-title">🎓 Dersten Gelenler</div>
     <div class="panel-sub">Derste karşılaştığın ve seçtiğin kelimeler burada birikir.</div>
