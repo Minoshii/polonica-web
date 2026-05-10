@@ -279,7 +279,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 #profile-badge{position:fixed;top:10px;right:14px;display:none;align-items:center;gap:8px;background:#111;border:1px solid #222;padding:5px 12px 5px 8px;border-radius:99px;cursor:pointer;z-index:500;font-family:'Syne',sans-serif;font-size:12px;color:#888;}
 #profile-badge:hover{border-color:#6b5d48;color:#c8b89a;}
 /* GRAMMAR */
-.grammar-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;}
+.grammar-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;flex-wrap:wrap;}
 .gtab{padding:8px 16px;border-radius:8px 8px 0 0;border:1px solid transparent;background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
 .gtab.active{background:var(--teal-bg);border-color:var(--teal);color:#5dc0b0;}
 .gtab:hover:not(.active){background:var(--surface2);color:var(--text);}
@@ -314,6 +314,17 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .baglaç-cat{margin-bottom:20px;}
 .baglaç-cat-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:5px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;}
 .baglaç-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:border-color .15s;cursor:pointer;}
+@media(max-width:640px){
+  .baglaç-row{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;}
+  .baglaç-pl{grid-column:1/3;border-bottom:1px solid var(--border);font-size:15px!important;font-weight:900!important;}
+  .baglaç-tr{font-size:13px!important;}
+  .baglaç-en{font-size:11px!important;border-left:none!important;border-top:1px solid var(--border);}
+  .baglaç-detail{grid-column:1/3;}
+  .baglaç-cat-title{font-size:12px!important;}
+}
+@media(max-width:900px) and (min-width:641px){
+  .baglaç-row{grid-template-columns:160px 1fr 1fr;}
+}
 .baglaç-row:hover{border-color:var(--teal);}
 .baglaç-pl{font-size:14px;font-weight:800;color:#5dc0b0;padding:10px 12px;background:var(--surface2);font-family:'DM Mono',monospace;display:flex;align-items:center;}
 .baglaç-tr{font-size:12px;color:var(--text2);padding:10px 12px;border-left:1px solid var(--border);display:flex;align-items:center;}
@@ -400,6 +411,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     flex-direction:column!important;
     overflow:hidden;
     height:100dvh;
+    height:100svh;
   }
 
   #sidebar {
@@ -459,8 +471,22 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   /* Grammar tablo scroll */
   div[style*="overflow-x:auto"] { -webkit-overflow-scrolling:touch; }
-  .case-table { font-size:10px!important; }
-  .case-table th,.case-table td { padding:5px 6px!important; }
+  .case-table { font-size:9px!important; }
+  .case-table th,.case-table td { padding:4px 5px!important; }
+  /* Grammar tabs scroll */
+  .grammar-tabs { overflow-x:auto; flex-wrap:nowrap!important; padding-bottom:8px!important; }
+  .gtab { white-space:nowrap; font-size:11px!important; padding:6px 10px!important; }
+  /* Bağlaç */
+  .baglaç-search { font-size:14px!important; }
+  /* Decl tablo */
+  .decl-table { font-size:11px!important; }
+  .decl-table th,.decl-table td { padding:6px 8px!important; }
+  /* Special tabs scroll */
+  .special-tabs { overflow-x:auto; flex-wrap:nowrap!important; padding-bottom:4px; }
+  .special-tab { white-space:nowrap!important; font-size:10px!important; padding:6px 9px!important; }
+  /* Ejmala */
+  .ejmala-input { font-size:15px!important; padding:12px 14px!important; }
+  .ejmala-btn { font-size:13px!important; padding:12px 14px!important; }
 
   /* Muzyka/accordion */
   .muzyka-album-title { font-size:13px!important; }
@@ -474,6 +500,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 @media (min-width: 641px) {
   #mobile-header { display:none!important; }
   #sidebar-overlay { display:none!important; }
+}
+/* Tablet */
+@media (min-width:641px) and (max-width:1024px) {
+  #sidebar { width:180px!important; min-width:180px!important; }
+  .nav-btn { font-size:12px!important; padding:7px 10px!important; }
+  .panel { padding:18px 16px!important; }
+  .grammar-tabs { flex-wrap:wrap; gap:6px; }
+  .gtab { font-size:12px!important; padding:7px 12px!important; }
+  .special-tabs { flex-wrap:wrap; gap:5px; }
+  .special-tab { font-size:11px!important; padding:6px 10px!important; }
+  .baglaç-row { grid-template-columns:130px 1fr 1fr; }
+  .case-table { font-size:11px!important; }
+  .muzyka-album-title { font-size:13px!important; }
 }
 
 </style>
@@ -1239,7 +1278,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="baglaç-en">compared to</div>
   <div class="baglaç-detail"><div class="baglaç-example-pl">W porównaniu z nim jestem spokojny.</div><div class="baglaç-example-tr">Ona kıyasla sakinim.</div></div>
 </div></div></div>
-      <div id="baglaç-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+<div class="baglaç-cat" data-cat="Açıklama / Yani"><div class="baglaç-cat-title" style="background:#1a160d;color:#c8a050;border:1px solid #c8a05044">💡 Açıklama / Yani</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">czyli</div><div class="baglaç-tr">yani, demek ki</div><div class="baglaç-en">that is, namely</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jestem zmęczony, czyli idę spać.</div><div class="baglaç-example-tr">Yorgunum, yani uyumaya gidiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mianowicie</div><div class="baglaç-tr">şöyle ki, yani (resmi)</div><div class="baglaç-en">namely, that is to say</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mam jedno życzenie, mianowicie chcę odpocząć.</div><div class="baglaç-example-tr">Bir dileğim var, şöyle ki dinlenmek istiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">to znaczy</div><div class="baglaç-tr">yani, demek ki (gündelik)</div><div class="baglaç-en">I mean, that is</div><div class="baglaç-detail"><div class="baglaç-example-pl">Nie wiem, to znaczy... zapomnialem.</div><div class="baglaç-example-tr">Bilmiyorum, yani... unuttum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">innymi słowy</div><div class="baglaç-tr">başka bir deyişle</div><div class="baglaç-en">in other words</div><div class="baglaç-detail"><div class="baglaç-example-pl">Innymi słowy, masz rację.</div><div class="baglaç-example-tr">Başka bir deyişle, haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">tzn. (to znaczy)</div><div class="baglaç-tr">kısaca: yani</div><div class="baglaç-en">i.e.</div><div class="baglaç-detail"><div class="baglaç-example-pl">To jest trudne, tzn. wymaga czasu.</div><div class="baglaç-example-tr">Bu zor, yani zaman gerektirir.</div></div></div></div><div class="baglaç-cat" data-cat="Pekiştirme / Vurgu"><div class="baglaç-cat-title" style="background:#1a0d0d;color:#e07070;border:1px solid #e0707044">❗ Pekiştirme / Vurgu</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przecież</div><div class="baglaç-tr">zaten, halbuki, ya</div><div class="baglaç-en">after all, but</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przecież ci mówiłem!</div><div class="baglaç-example-tr">Zaten sana söyledim!</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">właśnie</div><div class="baglaç-tr">tam, işte, tam olarak</div><div class="baglaç-en">exactly, just, right</div><div class="baglaç-detail"><div class="baglaç-example-pl">Właśnie o to chodzi!</div><div class="baglaç-example-tr">İşte tam olarak bu!</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">akurat</div><div class="baglaç-tr">tam, tam o anda</div><div class="baglaç-en">exactly, precisely, just</div><div class="baglaç-detail"><div class="baglaç-example-pl">Akurat teraz nie mogę.</div><div class="baglaç-example-tr">Tam şu an yapamam.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">naprawdę</div><div class="baglaç-tr">gerçekten, sahiden</div><div class="baglaç-en">really, truly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Naprawdę tego nie wiedziałem.</div><div class="baglaç-example-tr">Bunu gerçekten bilmiyordum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">faktycznie</div><div class="baglaç-tr">aslında, gerçekten de</div><div class="baglaç-en">actually, indeed</div><div class="baglaç-detail"><div class="baglaç-example-pl">Faktycznie, masz rację.</div><div class="baglaç-example-tr">Aslında, haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">rzeczywiście</div><div class="baglaç-tr">gerçekten, hakikaten</div><div class="baglaç-en">indeed, really</div><div class="baglaç-detail"><div class="baglaç-example-pl">Rzeczywiście jest trudno.</div><div class="baglaç-example-tr">Hakikaten zor.</div></div></div></div><div class="baglaç-cat" data-cat="Sıralama / Düzenleme"><div class="baglaç-cat-title" style="background:#0d1020;color:#7090d0;border:1px solid #7090d044">🔢 Sıralama / Düzenleme</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po pierwsze</div><div class="baglaç-tr">birincisi</div><div class="baglaç-en">firstly, first of all</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po pierwsze, musimy porozmawiać.</div><div class="baglaç-example-tr">Birincisi, konuşmamız gerekiyor.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po drugie</div><div class="baglaç-tr">ikincisi</div><div class="baglaç-en">secondly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po drugie, to kosztuje dużo.</div><div class="baglaç-example-tr">İkincisi, bu çok masraflı.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po trzecie</div><div class="baglaç-tr">üçüncüsü</div><div class="baglaç-en">thirdly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po trzecie, nie mam czasu.</div><div class="baglaç-example-tr">Üçüncüsü, zamanım yok.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wreszcie</div><div class="baglaç-tr">sonunda, nihayet</div><div class="baglaç-en">finally, at last</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wreszcie skończyłem!</div><div class="baglaç-example-tr">Sonunda bitirdim!</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">następnie</div><div class="baglaç-tr">ardından, daha sonra</div><div class="baglaç-en">then, next, subsequently</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zjedz, a następnie odpocznij.</div><div class="baglaç-example-tr">Ye, ardından dinlen.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">najpierw</div><div class="baglaç-tr">önce, ilk önce</div><div class="baglaç-en">first, firstly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Najpierw pomyśl, potem mów.</div><div class="baglaç-example-tr">Önce düşün, sonra konuş.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">na koniec</div><div class="baglaç-tr">en sonunda, sonuç olarak</div><div class="baglaç-en">finally, in conclusion</div><div class="baglaç-detail"><div class="baglaç-example-pl">Na koniec chcę podziękować.</div><div class="baglaç-example-tr">En sonunda teşekkür etmek istiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">w końcu</div><div class="baglaç-tr">sonunda, nihayet</div><div class="baglaç-en">in the end, finally</div><div class="baglaç-detail"><div class="baglaç-example-pl">W końcu się udało!</div><div class="baglaç-example-tr">Sonunda başarıldı!</div></div></div></div><div class="baglaç-cat" data-cat="Belirsizlik / Tahmin"><div class="baglaç-cat-title" style="background:#110d1a;color:#b080e0;border:1px solid #b080e044">🤔 Belirsizlik / Tahmin</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">chyba</div><div class="baglaç-tr">galiba, sanırım</div><div class="baglaç-en">I think, probably, I guess</div><div class="baglaç-detail"><div class="baglaç-example-pl">Chyba masz rację.</div><div class="baglaç-example-tr">Galiba haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">podobno</div><div class="baglaç-tr">sanki, söylendiğine göre</div><div class="baglaç-en">apparently, supposedly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Podobno będzie deszcz.</div><div class="baglaç-example-tr">Söylendiğine göre yağmur yağacak.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">prawdopodobnie</div><div class="baglaç-tr">muhtemelen, büyük ihtimalle</div><div class="baglaç-en">probably, likely</div><div class="baglaç-detail"><div class="baglaç-example-pl">Prawdopodobnie wróci jutro.</div><div class="baglaç-example-tr">Muhtemelen yarın döner.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">może</div><div class="baglaç-tr">belki, olabilir</div><div class="baglaç-en">maybe, perhaps</div><div class="baglaç-detail"><div class="baglaç-example-pl">Może przyjdę, nie wiem.</div><div class="baglaç-example-tr">Belki gelirim, bilmiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">być może</div><div class="baglaç-tr">belki de, ihtimal ki</div><div class="baglaç-en">perhaps, it may be</div><div class="baglaç-detail"><div class="baglaç-example-pl">Być może masz rację.</div><div class="baglaç-example-tr">Belki de haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zdaje się</div><div class="baglaç-tr">öyle görünüyor, sanki</div><div class="baglaç-en">it seems, apparently</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zdaje się, że zapomniał.</div><div class="baglaç-example-tr">Sanki unutmuş gibi görünüyor.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">o ile wiem</div><div class="baglaç-tr">bildiğim kadarıyla</div><div class="baglaç-en">as far as I know</div><div class="baglaç-detail"><div class="baglaç-example-pl">O ile wiem, on nie przyjdzie.</div><div class="baglaç-example-tr">Bildiğim kadarıyla o gelmeyecek.</div></div></div></div><div class="baglaç-cat" data-cat="Yine de / Rağmen"><div class="baglaç-cat-title" style="background:#0d1515;color:#5dc0b0;border:1px solid #5dc0b044">💪 Yine de / Rağmen</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mimo to</div><div class="baglaç-tr">buna rağmen, yine de</div><div class="baglaç-en">despite this, even so</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mimo to nie poddaję się.</div><div class="baglaç-example-tr">Buna rağmen vazgeçmiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">niemniej</div><div class="baglaç-tr">yine de, bununla birlikte</div><div class="baglaç-en">nevertheless, nonetheless</div><div class="baglaç-detail"><div class="baglaç-example-pl">Niemniej jednak spróbuję.</div><div class="baglaç-example-tr">Yine de deneyeceğim.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">w każdym razie</div><div class="baglaç-tr">her halükarda, her neyse</div><div class="baglaç-en">anyway, in any case</div><div class="baglaç-detail"><div class="baglaç-example-pl">W każdym razie dziękuję.</div><div class="baglaç-example-tr">Her halükarda teşekkürler.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">tak czy inaczej</div><div class="baglaç-tr">her halükarda, nasıl olursa olsun</div><div class="baglaç-en">either way, regardless</div><div class="baglaç-detail"><div class="baglaç-example-pl">Tak czy inaczej, idę.</div><div class="baglaç-example-tr">Her halükarda gidiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pomimo wszystko</div><div class="baglaç-tr">her şeye rağmen</div><div class="baglaç-en">despite everything</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pomimo wszystko jestem szczęśliwy.</div><div class="baglaç-example-tr">Her şeye rağmen mutluyum.</div></div></div></div>      <div id="baglaç-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
     </div>
 
         <div class="grammar-section" id="gsec-query">
