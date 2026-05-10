@@ -1338,266 +1338,266 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="panel" id="panel-fonetik">
     <div class="panel-title">🗣 Fonetik <span class="mode-badge" style="background:#110d1a;color:#b080e0;border:1px solid #9060c0">Lehçe Sesler</span></div>
 
-    <!-- SEKMELEr -->
-    <div style="display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;">
-      <button class="gtab active" id="fon-tab-samog" onclick="switchFonTab('samog')">🔵 Samogłoski (Ünlüler)</button>
-      <button class="gtab" id="fon-tab-spol" onclick="switchFonTab('spol')">🔴 Spółgłoski (Ünsüzler)</button>
+    <div style="display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;flex-wrap:wrap;">
+      <button class="gtab active" id="fon-tab-samog" onclick="switchFonTab('samog')">🔵 Samogłoski</button>
+      <button class="gtab" id="fon-tab-spol" onclick="switchFonTab('spol')">🔴 Spółgłoski</button>
       <button class="gtab" id="fon-tab-tips" onclick="switchFonTab('tips')">💡 Okuma İpuçları</button>
     </div>
 
-    <!-- SAMOGŁOSKI (Ünlüler) -->
+    <!-- ══ SAMOGŁOSKI ══ -->
     <div id="fon-sec-samog">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.7">Lehçe'de <strong style="color:var(--accent)">8 sesli harf</strong> vardır. Bunların 6'sı Türkçe'deki gibi, 2'si nazal (burundan çıkan) sestir.</p>
 
-      <!-- Sesli harf üçgeni -->
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:24px;text-align:center">
-        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:16px">Sesli Harf Üçgeni (Trójkąt Samogłoskowy)</div>
-        <svg viewBox="0 0 400 220" style="width:100%;max-width:400px;height:auto;display:block;margin:0 auto">
-          <!-- Üçgen çizgisi -->
-          <line x1="60" y1="30" x2="340" y2="30" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/>
-          <line x1="60" y1="30" x2="200" y2="190" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/>
-          <line x1="340" y1="30" x2="200" y2="190" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/>
-          <!-- Etiketler - eksen -->
-          <text x="25" y="34" fill="#444" font-size="9" font-family="DM Mono,monospace">ÖN</text>
-          <text x="355" y="34" fill="#444" font-size="9" font-family="DM Mono,monospace">ARKA</text>
-          <text x="190" y="210" fill="#444" font-size="9" font-family="DM Mono,monospace">AŞAĞI</text>
-          <!-- YÜKSEk ön: i -->
-          <circle cx="80" cy="30" r="18" fill="#1a0d20" stroke="#b080e0" stroke-width="2"/>
-          <text x="80" y="27" text-anchor="middle" fill="#e090c0" font-size="16" font-weight="bold" font-family="DM Mono,monospace">i</text>
-          <text x="80" y="55" text-anchor="middle" fill="#888" font-size="9" font-family="Syne,sans-serif">Türkçe i</text>
-          <!-- YÜKSEK merkez: y -->
-          <circle cx="180" cy="30" r="18" fill="#1a1a0d" stroke="#c8a050" stroke-width="2"/>
-          <text x="180" y="27" text-anchor="middle" fill="#e0c060" font-size="16" font-weight="bold" font-family="DM Mono,monospace">y</text>
-          <text x="180" y="55" text-anchor="middle" fill="#888" font-size="9" font-family="Syne,sans-serif">Türkçe ı</text>
-          <!-- YÜKSEK arka: u/ó -->
-          <circle cx="320" cy="30" r="18" fill="#0d1a10" stroke="#4a9a6a" stroke-width="2"/>
-          <text x="320" y="25" text-anchor="middle" fill="#6dbf9a" font-size="14" font-weight="bold" font-family="DM Mono,monospace">u/ó</text>
-          <text x="320" y="55" text-anchor="middle" fill="#888" font-size="9" font-family="Syne,sans-serif">Türkçe u</text>
-          <!-- ORTA ön: e -->
-          <circle cx="120" cy="120" r="18" fill="#0d1020" stroke="#5080c0" stroke-width="2"/>
-          <text x="120" y="117" text-anchor="middle" fill="#7090d0" font-size="16" font-weight="bold" font-family="DM Mono,monospace">e</text>
-          <text x="120" y="145" text-anchor="middle" fill="#888" font-size="9" font-family="Syne,sans-serif">Türkçe e</text>
-          <!-- ORTA arka: o -->
-          <circle cx="280" cy="120" r="18" fill="#1a0d0d" stroke="#c05050" stroke-width="2"/>
-          <text x="280" y="117" text-anchor="middle" fill="#e07070" font-size="16" font-weight="bold" font-family="DM Mono,monospace">o</text>
-          <text x="280" y="145" text-anchor="middle" fill="#888" font-size="9" font-family="Syne,sans-serif">Türkçe o</text>
-          <!-- NAZAL: ę -->
-          <circle cx="155" cy="85" r="16" fill="#1a160d" stroke="#c8a050" stroke-width="2" stroke-dasharray="4,2"/>
-          <text x="155" y="82" text-anchor="middle" fill="#e0c060" font-size="15" font-weight="bold" font-family="DM Mono,monospace">ę</text>
-          <text x="155" y="108" text-anchor="middle" fill="#888" font-size="8" font-family="Syne,sans-serif">nazal e</text>
-          <!-- NAZAL: ą -->
-          <circle cx="245" cy="85" r="16" fill="#1a160d" stroke="#c8a050" stroke-width="2" stroke-dasharray="4,2"/>
-          <text x="245" y="82" text-anchor="middle" fill="#e0c060" font-size="15" font-weight="bold" font-family="DM Mono,monospace">ą</text>
-          <text x="245" y="108" text-anchor="middle" fill="#888" font-size="8" font-family="Syne,sans-serif">nazal o</text>
-          <!-- AŞAĞI: a -->
-          <circle cx="200" cy="190" r="18" fill="#1a0d16" stroke="#c060a0" stroke-width="2"/>
-          <text x="200" y="187" text-anchor="middle" fill="#e090c0" font-size="16" font-weight="bold" font-family="DM Mono,monospace">a</text>
-          <text x="200" y="212" text-anchor="middle" fill="#888" font-size="9" font-family="Syne,sans-serif">Türkçe a</text>
-        </svg>
-        <div style="display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap">
-          <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:2px;border:1px solid #888;border-style:dashed"></div> nazal (burundan)</div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:2px;background:#888"></div> düz sesli</div>
+      <!-- Üçgen -->
+      <div style="margin-bottom:24px">
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:14px">Trójkąt Samogłoskowy — Sesli Harf Üçgeni</div>
+        <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+          <svg viewBox="0 0 340 260" style="width:100%;max-width:340px;height:auto;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:8px;box-sizing:border-box;flex-shrink:0">
+            <!-- Eksen etiketleri -->
+            <text x="20" y="20" fill="#444" font-size="9" font-family="Syne,sans-serif" font-weight="700">ÖN</text>
+            <text x="280" y="20" fill="#444" font-size="9" font-family="Syne,sans-serif" font-weight="700">ARKA</text>
+            <text x="8" y="55" fill="#444" font-size="8" font-family="Syne,sans-serif">YÜKSEK</text>
+            <text x="8" y="225" fill="#444" font-size="8" font-family="Syne,sans-serif">ALÇAK</text>
+            <!-- Üçgen kenarları -->
+            <line x1="55" y1="45" x2="275" y2="45" stroke="#2a2a2a" stroke-width="1.5"/>
+            <line x1="55" y1="45" x2="165" y2="220" stroke="#2a2a2a" stroke-width="1.5"/>
+            <line x1="275" y1="45" x2="165" y2="220" stroke="#2a2a2a" stroke-width="1.5"/>
+            <!-- Orta yatay yardımcı çizgi -->
+            <line x1="95" y1="135" x2="245" y2="135" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="3,3"/>
+            <!-- Nazal kesik çizgiler -->
+            <line x1="130" y1="100" x2="190" y2="100" stroke="#c8a050" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+
+            <!-- i — ön, yüksek -->
+            <circle cx="55" cy="45" r="20" fill="#1a0d20" stroke="#b080e0" stroke-width="2"/>
+            <text x="55" y="41" text-anchor="middle" fill="#e090c0" font-size="18" font-weight="900" font-family="DM Mono,monospace">i</text>
+            <text x="55" y="75" text-anchor="middle" fill="#666" font-size="9" font-family="Syne,sans-serif">ön·yük.</text>
+
+            <!-- y — merkez, yüksek -->
+            <circle cx="165" cy="45" r="20" fill="#1a1a0d" stroke="#c8a050" stroke-width="2"/>
+            <text x="165" y="41" text-anchor="middle" fill="#e0c060" font-size="18" font-weight="900" font-family="DM Mono,monospace">y</text>
+            <text x="165" y="75" text-anchor="middle" fill="#666" font-size="9" font-family="Syne,sans-serif">mer.·yük.</text>
+
+            <!-- u/ó — arka, yüksek -->
+            <circle cx="275" cy="45" r="20" fill="#0d1a10" stroke="#4a9a6a" stroke-width="2"/>
+            <text x="275" y="38" text-anchor="middle" fill="#6dbf9a" font-size="14" font-weight="900" font-family="DM Mono,monospace">u</text>
+            <text x="275" y="52" text-anchor="middle" fill="#6dbf9a" font-size="13" font-weight="900" font-family="DM Mono,monospace">ó</text>
+            <text x="275" y="75" text-anchor="middle" fill="#666" font-size="9" font-family="Syne,sans-serif">arka·yük.</text>
+
+            <!-- e — ön, orta -->
+            <circle cx="95" cy="135" r="20" fill="#0d1020" stroke="#5080c0" stroke-width="2"/>
+            <text x="95" y="131" text-anchor="middle" fill="#7090d0" font-size="18" font-weight="900" font-family="DM Mono,monospace">e</text>
+            <text x="95" y="165" text-anchor="middle" fill="#666" font-size="9" font-family="Syne,sans-serif">ön·orta</text>
+
+            <!-- o — arka, orta -->
+            <circle cx="245" cy="135" r="20" fill="#1a0d0d" stroke="#c05050" stroke-width="2"/>
+            <text x="245" y="131" text-anchor="middle" fill="#e07070" font-size="18" font-weight="900" font-family="DM Mono,monospace">o</text>
+            <text x="245" y="165" text-anchor="middle" fill="#666" font-size="9" font-family="Syne,sans-serif">arka·orta</text>
+
+            <!-- ę — nazal e -->
+            <circle cx="130" cy="100" r="16" fill="#1a160d" stroke="#c8a050" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <text x="130" y="96" text-anchor="middle" fill="#e0c060" font-size="16" font-weight="900" font-family="DM Mono,monospace">ę</text>
+            <text x="130" y="125" text-anchor="middle" fill="#888" font-size="8" font-family="Syne,sans-serif">nazal·e</text>
+
+            <!-- ą — nazal o -->
+            <circle cx="210" cy="100" r="16" fill="#1a160d" stroke="#c8a050" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <text x="210" y="96" text-anchor="middle" fill="#e0c060" font-size="16" font-weight="900" font-family="DM Mono,monospace">ą</text>
+            <text x="210" y="125" text-anchor="middle" fill="#888" font-size="8" font-family="Syne,sans-serif">nazal·o</text>
+
+            <!-- a — alçak, merkez -->
+            <circle cx="165" cy="220" r="20" fill="#1a0d16" stroke="#c060a0" stroke-width="2"/>
+            <text x="165" y="216" text-anchor="middle" fill="#e090c0" font-size="18" font-weight="900" font-family="DM Mono,monospace">a</text>
+            <text x="165" y="248" text-anchor="middle" fill="#666" font-size="9" font-family="Syne,sans-serif">mer.·alç.</text>
+
+            <!-- Lejant -->
+            <rect x="10" y="235" width="10" height="2" fill="#888"/>
+            <text x="24" y="241" fill="#666" font-size="8">düz sesli</text>
+            <rect x="70" y="233" width="10" height="6" fill="none" stroke="#c8a050" stroke-width="1" stroke-dasharray="2,1"/>
+            <text x="84" y="241" fill="#666" font-size="8">nazal (burundan)</text>
+          </svg>
+
+          <!-- Açıklama kutusu -->
+          <div style="flex:1;min-width:200px">
+            <table style="width:100%;border-collapse:collapse;font-size:13px">
+              <thead><tr style="background:var(--surface2)">
+                <th style="padding:8px 10px;border:1px solid var(--border);color:var(--accent);font-size:11px;text-align:left">Harf</th>
+                <th style="padding:8px 10px;border:1px solid var(--border);color:var(--accent);font-size:11px;text-align:left">Okunuş</th>
+                <th style="padding:8px 10px;border:1px solid var(--border);color:var(--accent);font-size:11px;text-align:left">Not</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#b080e0">a</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Türkçe A</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:var(--text3)">—</td></tr>
+                <tr style="background:var(--surface2)"><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#7090d0">e</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Türkçe E</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:var(--text3)">—</td></tr>
+                <tr><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#b080e0">i</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Türkçe İ</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:var(--text3)">Ünsüzü yumuşatır</td></tr>
+                <tr style="background:var(--surface2)"><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#c8a050">y</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Türkçe I (ı)</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:var(--text3)">Sert ünsüzden sonra</td></tr>
+                <tr><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#e07070">o</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Türkçe O</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:var(--text3)">—</td></tr>
+                <tr style="background:var(--surface2)"><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#6dbf9a">u = ó</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Türkçe U</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:#c8a050">İkisi aynı ses!</td></tr>
+                <tr><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#c8a050">ę</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Nazal E/EN</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:#c8a050">Söz sonunda düz E</td></tr>
+                <tr style="background:var(--surface2)"><td style="padding:8px 10px;border:1px solid var(--border);font-family:DM Mono,monospace;font-size:17px;font-weight:900;color:#c8a050">ą</td><td style="padding:8px 10px;border:1px solid var(--border);color:var(--text2)">Nazal O/ON</td><td style="padding:8px 10px;border:1px solid var(--border);font-size:11px;color:#c8a050">Söz sonunda -om/-on</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-
-      <!-- Sesli harf tablosu -->
-      <table style="width:100%;border-collapse:collapse">
-        <thead><tr style="background:var(--surface3)">
-          <th style="padding:8px 12px;border:1px solid var(--border2);font-size:11px;color:var(--accent);text-align:left">Harf</th>
-          <th style="padding:8px 12px;border:1px solid var(--border2);font-size:11px;color:var(--accent);text-align:left">Ses</th>
-          <th style="padding:8px 12px;border:1px solid var(--border2);font-size:11px;color:var(--accent);text-align:left">Türkçe Karşılığı</th>
-          <th style="padding:8px 12px;border:1px solid var(--border2);font-size:11px;color:var(--accent);text-align:left">Örnek</th>
-          <th style="padding:8px 12px;border:1px solid var(--border2);font-size:11px;color:var(--accent);text-align:left">Not</th>
-        </tr></thead>
-        <tbody>
-          <tr><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#b080e0;font-family:DM Mono,monospace">a</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[a]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Türkçe A gibi</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">mama</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:var(--text3)">—</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#b080e0;font-family:DM Mono,monospace">e</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[ɛ]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Türkçe E gibi</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">ten</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:var(--text3)">—</td></tr>
-          <tr><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#b080e0;font-family:DM Mono,monospace">i</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[i]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Türkçe İ gibi</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">ryba → i</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:var(--text3)">Önceki ünsüzü yumuşatır</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#b080e0;font-family:DM Mono,monospace">y</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[ɨ]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Türkçe I (ı) gibi</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">ryba</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:var(--text3)">Sert ünsüzden sonra gelir</td></tr>
-          <tr><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#b080e0;font-family:DM Mono,monospace">o</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[ɔ]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Türkçe O gibi</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">dom</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:var(--text3)">—</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#b080e0;font-family:DM Mono,monospace">u / ó</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[u]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Türkçe U gibi</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">buk / córka</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:var(--text3)">u ve ó aynı sesle okunur!</td></tr>
-          <tr><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#c8a050;font-family:DM Mono,monospace">ę</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[ɛ̃]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Nazal E — burnumdan çıkar</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">ręka</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:#c8a050">Sözcük sonunda düz E gibi okunur</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:9px 12px;border:1px solid var(--border);font-size:20px;font-weight:900;color:#c8a050;font-family:DM Mono,monospace">ą</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px;color:var(--text2)">[ɔ̃]</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:13px">Nazal O — burnumdan çıkar</td><td style="padding:9px 12px;border:1px solid var(--border);font-family:DM Mono,monospace;color:#5dc0b0;font-size:13px">ząb</td><td style="padding:9px 12px;border:1px solid var(--border);font-size:12px;color:#c8a050">Sözcük sonunda -om/-on gibi okunur</td></tr>
-        </tbody>
-      </table>
     </div>
 
-    <!-- SPÓŁGŁOSKI (Ünsüzler) -->
+    <!-- ══ SPÓŁGŁOSKI ══ -->
     <div id="fon-sec-spol" style="display:none">
-      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7">
-        Kitaptaki sınıflandırma — <strong style="color:#6dbf9a">dźwięczna</strong> (tonlu, titreşen) ve <strong style="color:#e07070">bezdźwięczna</strong> (tonsuz) eşleşmeli gösterim.
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.8;background:var(--surface2);border-radius:10px;padding:12px;border:1px solid var(--border)">
+        Kitap: <strong>Tab. 4</strong> — Spółgłoski sınıflandırması. Her sütunda
+        <span style="color:#6dbf9a;font-weight:700">dźwięczne</span> (tonlu) ve
+        <span style="color:#e07070;font-weight:700">bezdźwięczne</span> (tonsuz) çift gösterilmiştir.
+        <span style="color:#7090d0;font-weight:700">nosowe</span> = burundan, <span style="color:#c8a050;font-weight:700">ustne</span> = ağızdan.
       </p>
 
       <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-      <table style="border-collapse:collapse;width:100%;min-width:650px;font-size:13px;">
-
-        <!-- BAŞLIK -->
+      <table style="border-collapse:collapse;white-space:nowrap;font-size:12px;width:100%">
         <thead>
+          <!-- Satır 1: Kolon başlıkları -->
           <tr>
-            <th style="padding:10px 12px;border:2px solid #333;background:#111;color:#888;font-size:11px;text-align:left;min-width:130px">Oluşum Biçimi</th>
-            <th style="padding:10px 12px;border:2px solid #333;background:#1a0d10;color:#e07070;font-size:11px;text-align:center" colspan="2">Wargowe<br><span style="font-weight:400;font-size:10px;color:#888">Dudak</span></th>
-            <th style="padding:10px 12px;border:2px solid #333;background:#0d1020;color:#7090d0;font-size:11px;text-align:center" colspan="2">Wargowo-<br>zębowe<br><span style="font-weight:400;font-size:10px;color:#888">Dudak-diş</span></th>
-            <th style="padding:10px 12px;border:2px solid #333;background:#0d1a10;color:#6dbf9a;font-size:11px;text-align:center" colspan="2">Przednio-językowe<br>zębowe<br><span style="font-weight:400;font-size:10px;color:#888">Ön dil–diş</span></th>
-            <th style="padding:10px 12px;border:2px solid #333;background:#1a160d;color:#c8a050;font-size:11px;text-align:center" colspan="2">Przednio-językowe<br>dziąsłowe<br><span style="font-weight:400;font-size:10px;color:#888">Ön dil–damak</span></th>
-            <th style="padding:10px 12px;border:2px solid #333;background:#110d1a;color:#b080e0;font-size:11px;text-align:center" colspan="2">Środkowo-<br>językowe<br><span style="font-weight:400;font-size:10px;color:#888">Orta dil</span></th>
-            <th style="padding:10px 12px;border:2px solid #333;background:#0d1515;color:#5dc0b0;font-size:11px;text-align:center" colspan="2">Tylno-<br>językowe<br><span style="font-weight:400;font-size:10px;color:#888">Arka dil</span></th>
+            <th rowspan="3" style="padding:10px 14px;border:2px solid #333;background:#0d0d0d;color:#aaa;font-size:11px;text-align:left;white-space:normal;min-width:120px;vertical-align:middle">
+              Sposób<br>artykulacji<br><span style="color:#555;font-weight:400;font-size:10px">Oluşum biçimi</span>
+            </th>
+            <th rowspan="3" style="padding:10px 10px;border:2px solid #333;background:#0d0d0d;color:#7090d0;font-size:10px;text-align:center;white-space:normal;min-width:60px;vertical-align:middle">
+              Udział<br>nosa<br><span style="color:#555;font-weight:400;font-size:9px">Ağız/<br>Burun</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#1a0810;color:#e07070;font-size:11px;text-align:center">
+              Wargowe<br><span style="color:#666;font-weight:400;font-size:9px">Dudak</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a0a1a;color:#7090d0;font-size:11px;text-align:center">
+              Wargowo-<br>zębowe<br><span style="color:#666;font-weight:400;font-size:9px">Dudak-diş</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a1a0a;color:#6dbf9a;font-size:11px;text-align:center">
+              Przednio-językowe<br>zębowe<br><span style="color:#666;font-weight:400;font-size:9px">Ön dil–diş</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#1a150a;color:#c8a050;font-size:11px;text-align:center">
+              Przednio-językowe<br>dziąsłowe<br><span style="color:#666;font-weight:400;font-size:9px">Ön dil–damak</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#100a1a;color:#b080e0;font-size:11px;text-align:center">
+              Środkowo-<br>językowe<br><span style="color:#666;font-weight:400;font-size:9px">Orta dil</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a1510;color:#5dc0b0;font-size:11px;text-align:center">
+              Tylno-językowe<br>twarde<br><span style="color:#666;font-weight:400;font-size:9px">Arka dil–sert</span>
+            </th>
+            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a1018;color:#60a0e0;font-size:11px;text-align:center">
+              Tylno-językowe<br>zmiękzone<br><span style="color:#666;font-weight:400;font-size:9px">Arka dil–yumuşak</span>
+            </th>
           </tr>
-          <tr style="background:#0d0d0d">
-            <th style="padding:6px 12px;border:1px solid #222;font-size:10px;color:#555"></th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#6dbf9a;font-weight:600;text-align:center">dźw.</th>
-            <th style="padding:6px 8px;border:1px solid #222;font-size:11px;color:#e07070;font-weight:600;text-align:center">bezdźw.</th>
+          <!-- Satır 2: dźw. / bezdźw. -->
+          <tr style="background:#111">
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
+            <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
           </tr>
         </thead>
-
         <tbody>
-          <!-- ZWARTE -->
-          <tr>
-            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Zwarte<br><span style="font-size:10px;font-weight:400;color:#555">Patlayıcı (stop)</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">b</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">p</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">d</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">t</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">g</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">k</td>
-          </tr>
-
-          <!-- SZCZELINOWE -->
-          <tr style="background:#0d0d0d">
-            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Szczelinowe<br><span style="font-size:10px;font-weight:400;color:#555">Süreksiz (frikativ)</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">w</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">f</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">z</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">s</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">ż<br><span style="font-size:14px;opacity:.7">rz</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070">sz</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">ź</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">ś</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:18px;font-weight:900;color:#6dbf9a">γ<br><span style="font-size:14px;opacity:.7">h</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:18px;font-weight:900;color:#e07070">ch<br><span style="font-size:14px;opacity:.7">x</span></td>
-          </tr>
-
-          <!-- ZWARTO-SZCZELINOWE -->
-          <tr>
-            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Zwarto-szczelinowe<br><span style="font-size:10px;font-weight:400;color:#555">Afrikat</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">dz</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">c</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">dż</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070">cz</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a">dź</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#e07070">ć</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-          </tr>
-
-          <!-- PÓŁOTWARTE NOSOWE -->
-          <tr style="background:#0d0d0d">
-            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Półotwarte<br><span style="font-size:10px;font-weight:600;color:#7090d0">nosowe</span><br><span style="font-size:10px;font-weight:400;color:#555">Nazal (burundan)</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">m</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">n</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">ń</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-          </tr>
-
-          <!-- PÓŁOTWARTE USTNE -->
-          <tr>
-            <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:13px;color:#fff">Półotwarte<br><span style="font-size:10px;font-weight:600;color:#c8a050">ustne</span><br><span style="font-size:10px;font-weight:400;color:#555">Lateral / Tril / Yarı-ünlü</span></td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:18px;font-weight:900;color:#6dbf9a">l<br>r<br>ł</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:22px;font-weight:900;color:#6dbf9a">j</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-            <td style="padding:10px;border:1px solid #222;text-align:center;color:#333;font-size:18px">—</td>
-          </tr>
+<tr>
+  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Zwarte<br><span style="font-size:9px;font-weight:400;color:#555">Patlayıcı (stop)</span></td>
+  <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">b</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">p</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">d</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">t</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">g</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">k</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+</tr><tr style="background:#0d0d0d">
+  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Szczelinowe<br><span style="font-size:9px;font-weight:400;color:#555">Süreksiz (frikativ)</span></td>
+  <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">w</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">f</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">z</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">s</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">ż<br><span style="font-size:13px;opacity:.6">rz</span></td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">sz</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">ź</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">ś</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">γ<br><span style="font-size:13px;opacity:.6">h</span></td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">ch</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">γ̇</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">x̊</td>
+</tr><tr>
+  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Zwarto-<br>szczelinowe<br><span style="font-size:9px;font-weight:400;color:#555">Afrikat</span></td>
+  <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">dz</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">c</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">dż</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">cz</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">dź</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">ć</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+</tr><tr style="background:#0d0d0d">
+  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Półotwarte<br><span style="font-size:9px;font-weight:400;color:#555">Nazal (burundan)</span></td>
+  <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#7090d0">nosowe</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">m</td> <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">n</td> <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">ń</td> <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+</tr><tr>
+  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Półotwarte<br><span style="font-size:9px;font-weight:400;color:#555">Sonorant (lateral/tril)</span></td>
+  <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">l<br>r<br>ł</td> <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">j</td> <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
+</tr>
         </tbody>
       </table>
       </div>
 
-      <!-- Lejant -->
-      <div style="margin-top:14px;display:flex;gap:24px;flex-wrap:wrap;padding:12px;background:var(--surface2);border-radius:8px;">
-        <div style="font-size:13px"><span style="color:#6dbf9a;font-weight:800;font-family:DM Mono,monospace">dźwięczna</span> <span style="color:var(--text3)">= tonlu / sesli (titreşen)</span></div>
-        <div style="font-size:13px"><span style="color:#e07070;font-weight:800;font-family:DM Mono,monospace">bezdźwięczna</span> <span style="color:var(--text3)">= tonsuz / sağır (titreşmeyen)</span></div>
-        <div style="font-size:13px;color:var(--text3)"><span style="color:#888">—</span> = bu kombinasyon Lehçe'de yok</div>
+      <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+        <div><span style="color:#6dbf9a;font-weight:800;font-family:DM Mono,monospace">dźwięczne</span> <span style="color:var(--text3);font-size:12px">= tonlu / sesli (titreşen)</span></div>
+        <div><span style="color:#e07070;font-weight:800;font-family:DM Mono,monospace">bezdźwięczne</span> <span style="color:var(--text3);font-size:12px">= tonsuz / sağır (titreşmeyen)</span></div>
+        <div><span style="color:#7090d0;font-weight:800;font-family:DM Mono,monospace">nosowe</span> <span style="color:var(--text3);font-size:12px">= burundan</span></div>
+        <div><span style="color:#c8a050;font-weight:800;font-family:DM Mono,monospace">ustne</span> <span style="color:var(--text3);font-size:12px">= ağızdan</span></div>
+        <div><span style="color:#2a2a2a;font-size:16px;font-weight:700">—</span> <span style="color:var(--text3);font-size:12px">= bu kombinasyon Lehçe'de yok</span></div>
       </div>
     </div>
 
-    <!-- OKUMA İPUÇLARI -->
+    <!-- ══ OKUMA İPUÇLARI ══ -->
     <div id="fon-sec-tips" style="display:none">
       <div style="display:grid;gap:10px">
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">ł = W sesi (İngilizce "w")</div>
-          <div style="font-size:12px;color:var(--text3)">łódka, Wałęsa, cały</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7">Türkçe L ile hiç ilgisi yok! Tamamen İngilizce "w" sesi. <strong style="color:#c8b89a">łódka</strong> = "wudka" gibi okunur. Çok önemli çünkü sık kullanılır.</div>
-        </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">sz / cz / rz / ż — Sert seri</div>
-          <div style="font-size:12px;color:var(--text3)">sz=Ş, cz=Ç, rz=ż=J (Fransız j)</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7"><strong>sz</strong> → İngilizce "sh" = Türkçe Ş | <strong>cz</strong> → Türkçe Ç ama daha geride | <strong>rz = ż</strong> → Fransızca j sesi (Türkçe yok, ج'ye benzer)</div>
-        </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">ś / ź / ć / dź — Yumuşak seri</div>
-          <div style="font-size:12px;color:var(--text3)">sz/cz/ż/dż'nin yumuşak versiyonları</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7">Dilin ucu dişe değerek söylenir. <strong>ś</strong>=yumuşak Ş | <strong>ć</strong>=yumuşak Ç | <strong>ź</strong>=yumuşak J | <strong>dź</strong>=yumuşak C. Önünde "i" harfi gelince ünsüz otomatik yumuşar: <strong>siostra</strong> = "śostra" gibi okunur.</div>
-        </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">w = V, j = Y, ch = H</div>
-          <div style="font-size:12px;color:var(--text3)">Türkçe mantığıyla okuma!</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7"><strong>w</strong> → Türkçe V (woda = voda) | <strong>j</strong> → Türkçe Y (jeden = yeden) | <strong>ch</strong> → Türkçe H ama daha gırtlaktan (chleb = hleb). <strong>h</strong> ve <strong>ch</strong> aynı sesi verir.</div>
-        </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">ą / ę — Nazal ünlüler</div>
-          <div style="font-size:12px;color:var(--text3)">Burundan çıkan sesler</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7"><strong>ą</strong> → burundan O/ON sesi (ząb = zomb gibi) | <strong>ę</strong> → burundan E/EN sesi. Ama dikkat: sözcük sonunda <strong>ę</strong> çoğunlukla düz E gibi okunur (robię = robiye). <strong>ą</strong> sözcük sonunda ON/OM gibi okunur.</div>
-        </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">u = ó — Aynı ses!</div>
-          <div style="font-size:12px;color:var(--text3)">buk / córka ikisi de "u" okunur</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7"><strong>u</strong> ve <strong>ó</strong> tamamen aynı sesi verir — her ikisi de Türkçe U gibi okunur. Yazımı farklı ama sesi aynı. Hangi kelimelerde ó, hangilerinde u olduğu ezber gerektirir.</div>
-        </div>
-        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="this.querySelector('.tips-detail').style.display=this.querySelector('.tips-detail').style.display==='none'?'block':'none'">
-          <div style="font-weight:800;color:#c8b89a;margin-bottom:4px">Vurgu (Akcent) — Kurala göre</div>
-          <div style="font-size:12px;color:var(--text3)">Genellikle sondan 2. hece</div>
-          <div class="tips-detail" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7">Lehçe'de vurgu genellikle <strong>sondan 2. hecededir</strong>: mu-ZY-ka, stu-DEN-t, ro-ZU-miem. İstisnalar: geçmiş zaman -liśmy/-liście = sondan 3. hece. Yabancı kelimeler bazen farklı olabilir.</div>
-        </div>
+<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">ł = W sesi</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">łódka, Wałęsa, cały</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8">Türkçe L ile hiç ilgisi yok! Tamamen İngilizce "w" sesi. <b style="color:#c8b89a">łódka</b> = "wudka" gibi okunur.</div>
+</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">sz·cz·rz·ż — Sert seri</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">sz=Ş, cz=Ç, rz=ż=J(Fransız)</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8"><b>sz</b> → İngilizce "sh" = Türkçe Ş | <b>cz</b> → Türkçe Ç ama daha geride | <b>rz = ż</b> → Fransızca j sesi (ج)</div>
+</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">ś·ź·ć·dź — Yumuşak seri</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">sz/cz/ż/dż'nin yumuşak versiyonu</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8">Dilin ucu dişe değerek. <b>ś</b>=yum.Ş | <b>ć</b>=yum.Ç | <b>ź</b>=yum.J | <b>dź</b>=yum.C. Önünde "i" gelince otomatik yumuşar: <b>siostra</b>="śostra"</div>
+</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">w=V · j=Y · ch=H</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">Türkçe mantığıyla!</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8"><b>w</b>→Türkçe V (woda=voda) | <b>j</b>→Türkçe Y (jeden=yeden) | <b>ch=h</b>→Türkçe H ama gırtlaktan (chleb=hleb)</div>
+</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">ą·ę — Nazal ünlüler</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">Burundan çıkan sesler</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8"><b>ą</b>→burundan ON/OM (ząb=zomb) | <b>ę</b>→burundan EN. Söz sonunda: <b>ę</b> düz E gibi, <b>ą</b> OM/ON gibi okunur.</div>
+</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">u = ó — Aynı ses!</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">buk / córka ikisi de "u"</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8"><b>u</b> ve <b>ó</b> tamamen aynı ses — Türkçe U. Yazım farklı, ses aynı. Hangisinin nerede kullanıldığı ezber gerektirir.</div>
+</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
+  <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">Vurgu — Sondan 2. hece</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:0">mu-ZY-ka, stu-DEN-t</div>
+  <div class="td" style="display:none;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8">Lehçe'de vurgu genellikle sondan 2. hecede. İstisna: geçmiş -liśmy/-liście = sondan 3. hece.</div>
+</div>
       </div>
     </div>
   </div>
-
 
   <div class="panel" id="panel-vucut">
     <div class="panel-title">🫀 Vücut <span class="mode-badge" style="background:#1a0d0d;color:#e07070;border:1px solid #c05050">Ciało</span></div>
