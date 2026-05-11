@@ -779,6 +779,38 @@ app.post('/api/jaksiemowi', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── CEVAP VER ─────────────────────────────────────────────
+app.post('/api/cevapver', async (req, res) => {
+  try {
+    const { phrase } = req.body;
+    if (!phrase) return res.status(400).json({ error: 'Ifade gerekli.' });
+    const prompt = [
+      'Someone said this Polish phrase to a Turkish learner: "' + phrase + '"',
+      '',
+      'Provide natural Polish responses across 5 registers.',
+      'Return ONLY valid JSON:',
+      '{',
+      '  "phrase": "' + phrase + '",',
+      '  "phrase_tr": "Turkish meaning of the phrase",',
+      '  "responses": [',
+      '    {"register":"Resmi","pl":"formal response","tr":"Turkish translation","note":"context in Turkish"},',
+      '    {"register":"Gündelik","pl":"everyday response","tr":"Turkish translation","note":"context in Turkish"},',
+      '    {"register":"Kanka","pl":"close friends response","tr":"Turkish translation","note":"context in Turkish"},',
+      '    {"register":"Slang","pl":"street/youth slang response","tr":"Turkish translation","note":"context in Turkish"},',
+      '    {"register":"Kısa","pl":"shortest natural response","tr":"Turkish translation","note":"when to use in Turkish"}',
+      '  ]',
+      '}',
+      '',
+      'Rules: all responses must be authentic natural Polish, Turkish translations natural not literal.',
+      'Return ONLY valid JSON, no markdown.'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 1200);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
