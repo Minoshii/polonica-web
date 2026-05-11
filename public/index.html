@@ -211,4 +211,1099 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .muzyka-word-pl{font-size:14px;font-weight:700;color:#c8b89a;min-width:130px;}
 .muzyka-word-tr{font-size:13px;color:var(--text2);flex:1;}
 .muzyka-word-note{font-size:11px;color:#6b4a10;font-family:'DM Mono',monospace;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.muzyka-word-badge{font-size:10px;font-weight:700;padding:1px 7px;border-
+.muzyka-word-badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;border:1px solid;white-space:nowrap;}
+.muzyka-empty{text-align:center;padding:40px 20px;color:var(--text3);}
+.special-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.special-tab.active-words{background:#2a1a08;border-color:#6b4a10;color:#c8a050;}
+.special-tab.active-idioms{background:#0d1e1c;border-color:var(--teal);color:#5dc0b0;}
+.special-tab.active-akademik{background:#0d1a2a;border-color:#5080c0;color:#7090d0;}
+.special-tab.active-muzyka{background:#1a0d30;border-color:#9060c0;color:#b080e0;}
+.special-tab.active-slang{background:#1a0d0d;border-color:#c05050;color:#e07070;}
+.special-tab:hover{background:var(--surface2);}
+/* Kompakt satır kart */
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+@keyframes accordionIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+.special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
+.special-row:hover{border-color:#c8a050;background:#1a140a;}
+.special-row.open{border-color:#c8a050;background:#1a140a;border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;}
+.special-row-pl{font-size:14px;font-weight:800;color:#c8a050;min-width:120px;}
+.special-row-tr{font-size:13px;color:var(--text);flex:1;}
+.special-row-note{font-size:11px;color:#8a6a30;font-family:'DM Mono',monospace;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.special-row-badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;border:1px solid;white-space:nowrap;}
+.special-row-arrow{font-size:11px;color:var(--text3);margin-left:4px;transition:transform .15s;}
+.special-row.open .special-row-arrow{transform:rotate(180deg);}
+/* Detay paneli */
+.special-detail{display:none;border:1px solid #c8a050;border-top:none;border-bottom-left-radius:8px;border-bottom-right-radius:8px;background:#1a140a;padding:14px 16px;margin-bottom:5px;}
+.special-detail.open{display:block;}
+.special-pl{font-size:20px;font-weight:800;color:#c8a050;margin-bottom:2px;}
+.special-inflected{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-left:6px;}
+.special-tr{font-size:15px;color:var(--text);font-weight:600;margin-bottom:2px;}
+.special-en{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.special-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #6b4a10;background:#2a1a08;color:#c8a050;margin-right:6px;}
+.special-example{font-size:11px;color:var(--text2);font-style:italic;font-family:'DM Mono',monospace;padding:7px 10px;background:var(--surface3);border-radius:6px;margin:8px 0;line-height:1.6;}
+.special-note-area{width:100%;background:var(--surface3);border:1px dashed #6b4a10;border-radius:8px;padding:9px 12px;color:#c8a050;font-family:'DM Mono',monospace;font-size:12px;resize:none;height:56px;margin-top:6px;transition:border-color .15s;}
+.special-note-area:focus{outline:none;border-color:#c8a050;border-style:solid;}
+.special-note-area::placeholder{color:var(--accent-dim);}
+.special-detail-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.special-date{font-size:10px;color:var(--text3);}
+.special-lookup-result{background:var(--accent-bg);border:1px solid var(--accent-dim);border-radius:12px;padding:18px;margin-bottom:16px;display:none;}
+.special-empty{text-align:center;padding:60px 20px;color:var(--text3);}
+.special-count{font-size:12px;color:var(--text3);margin-bottom:8px;}
+.special-search{margin-bottom:10px;}
+
+/* PROFİL SEÇİCİ */
+#profile-screen{position:fixed;inset:0;background:#0c0c0c;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9000;font-family:'Syne',sans-serif;}
+#profile-screen.hidden{display:none;}
+.profile-title{font-size:32px;font-weight:800;color:#e8e6e1;margin-bottom:48px;letter-spacing:-1px;text-align:center;}
+.profile-grid{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;}
+.profile-avatar{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:12px;transition:transform .2s;}
+.profile-avatar:hover{transform:scale(1.08);}
+.pa-circle{width:110px;height:110px;border-radius:18px;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:42px;transition:border-color .2s;position:relative;}
+.profile-avatar:hover .pa-circle{border-color:rgba(255,255,255,.7);}
+.pa-name{font-size:15px;font-weight:700;color:#aaa;}
+.profile-avatar:hover .pa-name{color:#fff;}
+.pa-stats{font-size:11px;color:#444;font-family:'DM Mono',monospace;text-align:center;}
+.pa-del{position:absolute;top:-8px;right:-8px;width:22px;height:22px;background:#c05050;border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.profile-avatar:hover .pa-del{display:flex;}
+.pa-add{width:110px;height:110px;border-radius:18px;border:3px dashed #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:36px;color:#333;cursor:pointer;transition:all .2s;}
+.pa-add:hover{border-color:#c8b89a;color:#c8b89a;}
+.profile-new-form{background:#111;border:1px solid #222;border-radius:16px;padding:24px;width:320px;display:none;flex-direction:column;gap:10px;margin-top:16px;}
+.profile-new-form.open{display:flex;}
+.pnf-input{background:#161616;border:1px solid #2a2a2a;color:#e8e6e1;border-radius:8px;padding:10px 13px;font-family:'Syne',sans-serif;font-size:14px;width:100%;}
+.pnf-input:focus{outline:none;border-color:#6b5d48;}
+.emoji-row{display:flex;gap:8px;flex-wrap:wrap;}
+.emoji-opt{font-size:22px;padding:5px 8px;border-radius:8px;cursor:pointer;border:2px solid transparent;}
+.emoji-opt:hover,.emoji-opt.selected{border-color:#c8b89a;background:#1a160e;}
+.color-dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;}
+.color-dot.selected{border-color:#fff;}
+#profile-badge{position:fixed;top:10px;right:14px;display:none;align-items:center;gap:8px;background:#111;border:1px solid #222;padding:5px 12px 5px 8px;border-radius:99px;cursor:pointer;z-index:500;font-family:'Syne',sans-serif;font-size:12px;color:#888;}
+#profile-badge:hover{border-color:#6b5d48;color:#c8b89a;}
+/* GRAMMAR */
+.grammar-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;flex-wrap:wrap;}
+.gtab{padding:8px 16px;border-radius:8px 8px 0 0;border:1px solid transparent;background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.gtab.active{background:var(--teal-bg);border-color:var(--teal);color:#5dc0b0;}
+.gtab:hover:not(.active){background:var(--surface2);color:var(--text);}
+.grammar-section{display:none;}.grammar-section.active{display:block;animation:panelIn .2s ease;}
+.case-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;}
+.case-table th{background:var(--surface3);color:var(--accent);padding:8px 10px;text-align:left;border:1px solid var(--border2);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.case-table td{padding:8px 10px;border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;}
+.case-table tr:hover td{background:var(--surface2);}
+.case-name{font-weight:700;color:#5dc0b0;white-space:nowrap;font-family:'Syne',sans-serif;}
+.case-question{font-size:10px;color:var(--text3);display:block;font-family:'Syne',sans-serif;font-style:italic;}
+.gender-m{color:#7090d0;}.gender-f{color:#e090c0;}.gender-n{color:#6dbf9a;}.gender-pl-m{color:#c8a050;}.gender-pl-nm{color:#888;}
+.aspect-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.aspect-ndk{background:var(--blue-bg);border:1px solid var(--blue);border-radius:12px;padding:16px;}
+.aspect-dk{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px;}
+.aspect-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.aspect-form{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;margin-bottom:4px;}
+.aspect-meaning{font-size:13px;color:var(--text2);margin-bottom:6px;}
+.aspect-usage{font-size:11px;color:var(--text3);font-style:italic;line-height:1.5;}
+.aspect-diff{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-bottom:14px;font-size:13px;line-height:1.7;color:var(--text2);}
+.aspect-ex{background:var(--surface3);border-radius:8px;padding:10px 13px;margin-bottom:8px;}
+.aspect-ex-pl{font-size:12px;font-family:'DM Mono',monospace;color:var(--text);font-style:italic;margin-bottom:3px;}
+.aspect-ex-tr{font-size:11px;color:var(--text3);}
+.grammar-answer{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:18px;font-size:13px;line-height:1.8;color:var(--text2);margin-top:14px;}
+.grammar-answer h2,.grammar-answer h3{color:var(--accent);margin:12px 0 6px;font-size:14px;}
+.grammar-answer strong{color:var(--text);}
+.grammar-answer p{margin-bottom:8px;}
+.grammar-quick-btn{padding:6px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:99px;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
+.grammar-quick-btn:hover{border-color:var(--teal);color:#5dc0b0;}
+/* BAĞLAÇLAR */
+.baglaç-search{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px;box-sizing:border-box;}
+.baglaç-search:focus{outline:none;border-color:var(--teal);}
+.baglaç-cat{margin-bottom:20px;}
+.baglaç-cat-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:5px 10px;border-radius:6px;display:inline-block;margin-bottom:10px;}
+.baglaç-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:border-color .15s;cursor:pointer;}
+@media(max-width:640px){
+  .baglaç-row{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;}
+  .baglaç-pl{grid-column:1/3;border-bottom:1px solid var(--border);font-size:15px!important;font-weight:900!important;}
+  .baglaç-tr{font-size:13px!important;}
+  .baglaç-en{font-size:11px!important;border-left:none!important;border-top:1px solid var(--border);}
+  .baglaç-detail{grid-column:1/3;}
+  .baglaç-cat-title{font-size:12px!important;}
+}
+@media(max-width:900px) and (min-width:641px){
+  .baglaç-row{grid-template-columns:160px 1fr 1fr;}
+}
+.baglaç-row:hover{border-color:var(--teal);}
+.baglaç-pl{font-size:14px;font-weight:800;color:#5dc0b0;padding:10px 12px;background:var(--surface2);font-family:'DM Mono',monospace;display:flex;align-items:center;}
+.baglaç-tr{font-size:12px;color:var(--text2);padding:10px 12px;border-left:1px solid var(--border);display:flex;align-items:center;}
+.baglaç-en{font-size:11px;color:var(--text3);font-style:italic;padding:10px 12px;border-left:1px solid var(--border);display:flex;align-items:center;}
+.baglaç-detail{display:none;padding:10px 12px;background:var(--surface3);border-top:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.7;grid-column:1/-1;}
+.baglaç-row.open .baglaç-detail{display:block;}
+.baglaç-example-pl{font-family:'DM Mono',monospace;color:var(--text);font-style:italic;margin-bottom:3px;}
+.baglaç-example-tr{color:var(--text3);}
+.baglaç-no-result{text-align:center;padding:30px;color:var(--text3);font-size:13px;}
+/* CÜMLE KURUCU */
+.cumle-tab-btn{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.cumle-tab-btn.active{background:#1a0d16;border-color:#c060a0;color:#e090c0;}
+.cumle-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s;cursor:pointer;position:relative;}
+.cumle-card:hover{border-color:var(--accent-dim);}
+.cumle-context{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:8px;}
+.cumle-pl{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.5;}
+.cumle-tr{font-size:13px;color:var(--text2);margin-bottom:3px;}
+.cumle-en{font-size:11px;color:var(--text3);font-style:italic;}
+.cumle-save{position:absolute;top:12px;right:12px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--border2);background:none;color:var(--text3);cursor:pointer;opacity:0;transition:opacity .15s;}
+.cumle-card:hover .cumle-save{opacity:1;}
+.cumle-save:hover{border-color:var(--accent);color:var(--accent);}
+/* JAK SIĘ MÓWI */
+.jak-card{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:border-color .15s;animation:rowIn .25s ease both;}
+.jak-card-header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface2);}
+.jak-register{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:99px;border:1px solid;}
+.jak-pl{font-size:16px;font-weight:700;color:var(--text);font-family:'DM Mono',monospace;flex:1;}
+.jak-tr{font-size:13px;color:var(--text2);margin-top:3px;}
+.jak-note{font-size:11px;color:var(--text3);font-style:italic;margin-top:4px;}
+.jak-context{font-size:11px;color:var(--text3);margin-top:3px;padding:6px 10px;background:var(--surface3);border-radius:6px;border-left:2px solid var(--border2);}
+.jak-save{font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border2);background:none;color:var(--text3);cursor:pointer;flex-shrink:0;transition:all .15s;}
+.jak-save:hover{border-color:var(--accent);color:var(--accent);}
+/* İSİM ÇEKİM */
+.decl-table{width:100%;border-collapse:collapse;margin-top:14px;}
+.decl-table th{background:var(--surface3);color:var(--accent);padding:8px 12px;text-align:left;border:1px solid var(--border2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.decl-table td{padding:9px 12px;border:1px solid var(--border);font-size:13px;}
+.decl-case{font-weight:700;color:#5dc0b0;font-family:'Syne',sans-serif;font-size:12px;}
+.decl-sg{font-family:'DM Mono',monospace;color:var(--text);}
+.decl-pl{font-family:'DM Mono',monospace;color:#c8a050;}
+.decl-table tr:hover td{background:var(--surface2);}
+/* FONETİK */
+.fon-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+.fon-table th{background:var(--surface3);color:var(--accent);padding:8px 12px;text-align:left;border:1px solid var(--border2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.fon-table td{padding:10px 12px;border:1px solid var(--border);vertical-align:top;}
+.fon-table tr:hover td{background:var(--surface2);}
+.fon-letter{font-size:22px;font-weight:900;color:#e090c0;font-family:'DM Mono',monospace;min-width:60px;}
+.fon-name{font-size:11px;color:var(--text3);margin-top:3px;}
+.fon-sound{font-size:13px;color:#c8b89a;font-style:italic;}
+.fon-tr{font-size:12px;color:var(--text2);}
+.fon-example{font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;}
+.fon-ex-tr{font-size:11px;color:var(--text3);}
+.fon-section-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin:20px 0 10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent);}
+/* VÜCUT */
+.vucut-wrap{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;}
+.vucut-svg-area{position:relative;flex-shrink:0;}
+.vucut-svg-area svg{display:block;}
+.body-part{cursor:pointer;transition:all .2s;}
+.body-part:hover .body-fill{filter:brightness(1.5);stroke-width:3;}
+.body-tooltip{position:fixed;background:#1a160e;border:1px solid #c8b89a;border-radius:10px;padding:10px 14px;z-index:9000;pointer-events:none;display:none;font-family:'Syne',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.body-tooltip.visible{display:block;}
+.body-tooltip-pl{font-size:16px;font-weight:800;color:#c8b89a;}
+.body-tooltip-tr{font-size:12px;color:var(--text3);margin-top:2px;}
+.vucut-list{flex:1;min-width:200px;max-height:500px;overflow-y:auto;}
+.vucut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .15s;border:1px solid transparent;margin-bottom:4px;}
+.vucut-item:hover{background:var(--surface2);border-color:var(--border);}
+.vucut-item-pl{font-size:14px;font-weight:700;color:var(--text);font-family:'DM Mono',monospace;}
+.vucut-item-tr{font-size:12px;color:var(--text3);}
+.vucut-save{font-size:10px;padding:3px 8px;border-radius:6px;border:1px solid var(--border2);background:none;color:var(--text3);cursor:pointer;opacity:0;transition:opacity .15s;}
+.vucut-item:hover .vucut-save{opacity:1;}
+/* HAKKINDA */
+.about-wrap{max-width:680px;margin:0 auto;padding:8px 0;}
+.about-hero{text-align:center;padding:40px 20px 32px;border-bottom:1px solid var(--border);}
+.about-logo{font-size:42px;font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#dc143c 0%,#c8b89a 50%,#e30016 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.about-tagline{font-size:13px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.15em;text-transform:uppercase;}
+.about-body{padding:32px 0;font-size:14px;line-height:1.9;color:var(--text2);}
+.about-body p{margin-bottom:16px;}
+.about-body strong{color:var(--text);font-weight:700;}
+.about-section{margin-bottom:28px;}
+.about-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--accent-dim);margin-bottom:12px;}
+.about-bullet{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;font-size:13px;color:var(--text2);}
+.about-bullet-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.about-footer{border-top:1px solid var(--border);padding-top:24px;text-align:center;}
+.about-sig{font-size:13px;color:var(--text3);font-family:'DM Mono',monospace;font-style:italic;}
+.about-motto{font-size:20px;font-weight:800;color:var(--text);margin:20px 0 8px;letter-spacing:-0.5px;}
+.idiom-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;background:#0d1e1c;color:#5dc0b0;border:1px solid var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:middle;}
+.idiom-type-badge{display:inline-block;font-size:9px;padding:2px 6px;border-radius:99px;background:#0d1a30;color:#7090d0;border:1px solid var(--blue);margin-right:4px;}
+.related-phrases{margin-top:10px;padding:10px 13px;background:var(--surface3);border-radius:8px;border-left:3px solid var(--teal);}
+.related-phrase-item{display:inline-block;padding:4px 10px;margin:3px;background:var(--surface2);border:1px solid var(--border2);border-radius:99px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace;transition:all .15s;}
+.related-phrase-item:hover{border-color:var(--teal);color:#5dc0b0;}
+.usage-note{font-size:12px;color:var(--text2);font-style:italic;padding:8px 12px;background:var(--surface3);border-radius:8px;margin-top:8px;border-left:3px solid var(--accent-dim);line-height:1.6;}
+.slang-badge{display:inline-block;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;background:#2a0d1a;color:#e060a0;border:1px solid #c060a0;letter-spacing:.06em;text-transform:uppercase;margin-right:6px;vertical-align:middle;}
+.word-card.slang-card{border-color:#c060a044;}
+.word-card.slang-card:hover{border-color:#c060a0;}
+
+/* TOKEN PICKER */
+.token-display{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0;line-height:2.4;display:none;}
+.token-display.visible{display:block;}
+.tok{display:inline;padding:3px 6px;border-radius:6px;cursor:pointer;transition:all .15s;font-size:14px;font-family:'DM Mono',monospace;margin:2px 1px;}
+.tok-word{color:var(--text);border:1px solid transparent;}
+.tok-word:hover{border-color:var(--accent-dim);background:var(--accent-bg);color:var(--accent);}
+.tok-word.tok-selected{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);font-weight:700;}
+.tok-punct{color:var(--text3);cursor:default;font-size:13px;}
+.tok-conj{color:var(--text3);font-size:13px;border:1px dashed transparent;cursor:pointer;}
+.tok-conj:hover{border-color:var(--border2);background:var(--surface3);}
+.tok-conj.tok-selected{background:var(--surface3);border-color:var(--border2);color:var(--text);}
+
+/* GENIUS */
+.genius-search-row{display:flex;gap:8px;margin-bottom:12px;}
+.genius-search-row input{flex:1;margin-bottom:0;}
+.genius-hits{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px;}
+.genius-hit{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;transition:all .15s;display:flex;gap:10px;align-items:center;}
+.genius-hit:hover{border-color:var(--purple);background:var(--purple-bg);}
+.genius-hit img{width:44px;height:44px;border-radius:6px;object-fit:cover;flex-shrink:0;}
+.genius-hit-info{min-width:0;}
+.genius-hit-title{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.genius-hit-artist{font-size:11px;color:var(--text3);}
+.genius-lyrics-loaded{background:var(--purple-bg);border:1px solid var(--purple);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+.token-actions{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+.tok-count{font-size:12px;color:var(--text2);padding:6px 12px;background:var(--surface3);border-radius:6px;}
+
+/* ── MOBİL ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  body {
+    flex-direction:column!important;
+    overflow:hidden;
+    height:100dvh;
+    height:100svh;
+  }
+
+  #sidebar {
+    position:fixed;top:0;left:0;bottom:0;z-index:800;
+    transform:translateX(-100%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    width:260px!important;min-width:260px!important;
+    box-shadow:6px 0 30px rgba(0,0,0,.6);
+  }
+  #sidebar.mobile-open { transform:translateX(0); }
+
+  #sidebar-overlay {
+    display:none;position:fixed;inset:0;
+    background:rgba(0,0,0,.55);z-index:799;
+    backdrop-filter:blur(2px);
+  }
+  #sidebar-overlay.visible { display:block; }
+
+  #mobile-header {
+    display:flex!important;align-items:center;justify-content:space-between;
+    padding:10px 16px;background:var(--surface);
+    border-bottom:1px solid var(--border);
+    width:100%;flex-shrink:0;z-index:600;
+    box-sizing:border-box;
+  }
+  #mobile-menu-btn {
+    background:none;border:none;color:var(--text);font-size:24px;
+    cursor:pointer;padding:6px 8px;border-radius:8px;line-height:1;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #mobile-menu-btn:active { background:var(--surface2); }
+  .mobile-logo { font-size:17px;font-weight:900;color:var(--accent);letter-spacing:-0.5px; }
+
+  #main {
+    flex:1;width:100%!important;min-width:0;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+
+  .panel { padding:16px!important; }
+  .panel-title { font-size:17px!important;margin-bottom:3px!important; }
+  .panel-sub { font-size:12px!important;margin-bottom:12px!important; }
+
+  .btn { padding:10px 13px!important;font-size:13px!important; }
+  input[type=text],textarea,select { font-size:15px!important;padding:11px 13px!important; }
+  textarea { height:100px!important; }
+
+  /* Profil badge */
+  #profile-badge { top:8px!important;right:10px!important; }
+
+  /* Save bar */
+  #save-bar { flex-wrap:wrap;gap:6px;padding:8px 12px; }
+  #save-name { width:100%!important;box-sizing:border-box; }
+
+  /* Burak Special sekmeler */
+  .special-tabs { gap:4px; }
+  .special-tab { padding:7px 10px!important;font-size:11px!important; }
+
+  /* Grammar tablo scroll */
+  div[style*="overflow-x:auto"] { -webkit-overflow-scrolling:touch; }
+  .case-table { font-size:9px!important; }
+  .case-table th,.case-table td { padding:4px 5px!important; }
+  /* Grammar tabs scroll */
+  .grammar-tabs { overflow-x:auto; flex-wrap:nowrap!important; padding-bottom:8px!important; }
+  .gtab { white-space:nowrap; font-size:11px!important; padding:6px 10px!important; }
+  /* Bağlaç */
+  .baglaç-search { font-size:14px!important; }
+  /* Decl tablo */
+  .decl-table { font-size:11px!important; }
+  .decl-table th,.decl-table td { padding:6px 8px!important; }
+  /* Special tabs scroll */
+  .special-tabs { overflow-x:auto; flex-wrap:nowrap!important; padding-bottom:4px; }
+  .special-tab { white-space:nowrap!important; font-size:10px!important; padding:6px 9px!important; }
+  /* Ejmala */
+  .ejmala-input { font-size:15px!important; padding:12px 14px!important; }
+  .ejmala-btn { font-size:13px!important; padding:12px 14px!important; }
+
+  /* Muzyka/accordion */
+  .muzyka-album-title { font-size:13px!important; }
+  .muzyka-word-pl { min-width:100px!important; }
+
+  /* Token picker */
+  .token-display { font-size:13px!important;line-height:2.6!important; }
+  .tok { padding:4px 7px!important; }
+}
+
+@media (min-width: 641px) {
+  #mobile-header { display:none!important; }
+  #sidebar-overlay { display:none!important; }
+}
+/* Tablet */
+@media (min-width:641px) and (max-width:1024px) {
+  #sidebar { width:180px!important; min-width:180px!important; }
+  .nav-btn { font-size:12px!important; padding:7px 10px!important; }
+  .panel { padding:18px 16px!important; }
+  .grammar-tabs { flex-wrap:wrap; gap:6px; }
+  .gtab { font-size:12px!important; padding:7px 12px!important; }
+  .special-tabs { flex-wrap:wrap; gap:5px; }
+  .special-tab { font-size:11px!important; padding:6px 10px!important; }
+  .baglaç-row { grid-template-columns:130px 1fr 1fr; }
+  .case-table { font-size:11px!important; }
+  .muzyka-album-title { font-size:13px!important; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- PROFİL SEÇİCİ EKRANI -->
+<div id="profile-screen">
+  <div class="profile-title">KİM KULLANIYOR?</div>
+  <div class="profile-grid" id="profile-grid"></div>
+  <div class="profile-new-form" id="profile-new-form">
+    <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px">Yeni Profil</div>
+    <input class="pnf-input" id="pnf-name" placeholder="İsim (örn: Burak, Bahar)" maxlength="20">
+    <div style="font-size:11px;color:var(--text3)">Emoji seç:</div>
+    <div class="emoji-row" id="pnf-emojis"></div>
+    <div style="font-size:11px;color:var(--text3)">Renk seç:</div>
+    <div class="color-row" id="pnf-colors"></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="btn btn-accent" onclick="createProfile()" style="flex:1">Oluştur</button>
+      <button class="btn" onclick="document.getElementById('profile-new-form').classList.remove('open')">İptal</button>
+    </div>
+  </div>
+</div>
+
+<!-- AKTİF PROFİL BADGE (sağ üst) -->
+<div id="profile-badge" onclick="switchProfile()" title="Profil değiştir">
+  <span id="badge-emoji" style="font-size:18px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;"></span>
+  <span id="badge-name" style="font-weight:700"></span>
+  <span style="font-size:10px;opacity:.4;margin-left:2px">▾</span>
+</div>
+
+<!-- MOBİL HEADER -->
+<div id="mobile-header" style="display:none">
+  <button id="mobile-menu-btn" onclick="toggleMobileSidebar()">☰</button>
+  <span class="mobile-logo">Polonica</span>
+  <span style="width:40px"></span>
+</div>
+<!-- Overlay -->
+<div id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
+<div id="sidebar">
+  <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica</div>
+
+  <div class="nav-section">Tara</div>
+  <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')">📚 Ders Materyali</button>
+  <button class="nav-btn" id="nav-lyrics" onclick="showPanel('lyrics')">🎵 Şarkı Sözleri</button>
+  <button class="nav-btn" id="nav-analyze" onclick="showPanel('analyze')">🔬 Metin Analizi</button>
+
+  <div class="nav-section">Materyal</div>
+  <button class="nav-btn" id="nav-pdf" onclick="showPanel('pdf')">📄 PDF Kütüphanesi</button>
+
+
+
+  <div class="nav-section">Kelime Defteri</div>
+  <button class="nav-btn" id="nav-special" onclick="showPanel('special')" style="color:#c8a050">⭐ Burak Special</button>
+
+  <div class="nav-section">Dilbilgisi</div>
+  <button class="nav-btn" id="nav-grammar" onclick="showPanel('grammar')" style="color:#5dc0b0">📖 Grammar</button>
+  <button class="nav-btn" id="nav-fonetik" onclick="showPanel('fonetik')" style="color:#b080e0">🗣 Fonetik</button>
+  <button class="nav-btn" id="nav-vucut" onclick="showPanel('vucut')" style="color:#e07070">🫀 Vücut</button>
+  <button class="nav-btn" id="nav-ejmala" onclick="showPanel('ejmala')" style="color:#e090c0;font-weight:800">✨ Ej Mała</button>
+
+  <div class="nav-section">Çalış</div>
+  <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
+  <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
+  <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px">ℹ Hakkında</button>
+
+  <div id="word-count"></div>
+
+  <div class="sidebar-footer">
+    <div class="footer-btns">
+      <button class="footer-btn" onclick="doExport()">💾 Yedek</button>
+      <button class="footer-btn" onclick="doImport()">📂 Yükle</button>
+      <button class="footer-btn" onclick="doExportCSV()">↗ CSV</button>
+    </div>
+    <div style="font-size:11px;color:var(--text3);display:flex;align-items:center;justify-content:space-between;">
+      <span><span class="ollama-dot" id="ollama-dot"></span><span id="ollama-label">Bağlanıyor...</span></span>
+      <button onclick="showSettings()" style="background:none;border:1px solid var(--border);color:var(--text3);border-radius:5px;padding:2px 7px;cursor:pointer;font-size:10px;font-family:'Syne',sans-serif;">⚙</button>
+    </div>
+  </div>
+</div>
+
+<!-- AYARLAR MODALI -->
+<div id="modal-settings" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeSettings()">
+  <div class="modal-box" style="width:420px">
+    <div class="modal-title">
+      <span>⚙ Ayarlar</span>
+      <button class="btn" onclick="closeSettings()" style="padding:4px 10px">✕</button>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px">OLLAMA DİL MODELİ</label>
+      <input type="text" id="settings-model" placeholder="qwen2.5:3b" style="margin-bottom:4px">
+      <div style="font-size:11px;color:var(--text3)">Metin analizi için. Önerilen: qwen2.5:3b, mistral, phi3</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px">VISION MODELİ (OCR için, opsiyonel)</label>
+      <input type="text" id="settings-vision" placeholder="boş bırakabilirsin (llava, minicpm-v, vs.)" style="margin-bottom:4px">
+      <div style="font-size:11px;color:var(--text3)">Screenshot yapıştırınca metne çevirir. llava veya minicpm-v gerekli.</div>
+    </div>
+    <div id="settings-ollama-status" style="margin-bottom:14px;padding:10px;background:var(--surface3);border-radius:8px;font-size:12px;"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-accent" onclick="saveSettings()">Kaydet</button>
+      <button class="btn" onclick="closeSettings()">İptal</button>
+    </div>
+  </div>
+</div>
+
+<div id="main">
+
+  <!-- DERS MATERYALİ -->
+  <div class="panel active" id="panel-lesson">
+    <div class="panel-title">Ders Kitabı Tara <span class="mode-badge badge-lesson">Akademik</span></div>
+    <div class="panel-sub">Metni yapıştır → kelimeler parçalanır → istediğin kelimelere tıkla → analiz et.</div>
+    <textarea id="lesson-text" placeholder="Lehçe metni buraya yapıştır..." oninput="tokenizeText('lesson')"></textarea>
+    <div class="token-display" id="lesson-tokens"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+      <div class="tok-count" id="lesson-sel-count">0 kelime seçildi</div>
+      <button class="btn btn-blue" id="lesson-btn" onclick="analyzeSelected('lesson')">🔍 Seçilenleri Analiz Et</button>
+      <button class="btn" onclick="selectAllTokens('lesson')" style="font-size:12px">Tümünü Seç</button>
+      <button class="btn" onclick="clearTokenSel('lesson')" style="font-size:12px">Temizle</button>
+      <button class="btn" onclick="sendToSpecial('lesson')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:#2a1a08">⭐ Burak Special</button>
+      <span id="lesson-status"></span>
+    </div>
+    <div id="lesson-results"></div>
+  </div>
+
+  <!-- ŞARKI SÖZLERİ -->
+  <div class="panel" id="panel-lyrics">
+    <div class="panel-title">Şarkı Sözleri <span class="mode-badge badge-lyrics">Sokak</span></div>
+    <div class="panel-sub">Genius'tan şarkı ara veya sözleri yapıştır → kelimelere tıkla → analiz et.</div>
+
+    <!-- Genius arama -->
+    <div style="background:var(--purple-bg);border:1px solid var(--purple);border-radius:12px;padding:14px;margin-bottom:14px;">
+      <div style="font-size:12px;font-weight:700;color:#b080e0;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:16px">♪</span> Genius'tan Şarkı Ara
+      </div>
+      <div class="genius-search-row">
+        <input type="text" id="genius-search-input" placeholder="Sanatçı veya şarkı adı... (örn: Quebonafide, Mata)" onkeydown="if(event.key==='Enter')searchGenius()" style="margin-bottom:0;border-color:var(--purple)">
+        <button class="btn btn-purple" onclick="searchGenius()" id="genius-search-btn">Ara</button>
+      </div>
+      <div id="genius-hits" style="display:none"></div>
+      <div id="genius-loaded" class="genius-lyrics-loaded" style="display:none">
+        <div>
+          <span id="genius-loaded-title" style="font-size:13px;font-weight:700;color:#b080e0"></span>
+          <span id="genius-loaded-artist" style="font-size:11px;color:var(--text3);margin-left:8px"></span>
+        </div>
+        <button class="btn" onclick="clearGeniusLyrics()" style="font-size:11px;padding:3px 10px">Temizle</button>
+      </div>
+    </div>
+
+    <textarea id="lyrics-text" placeholder="...veya şarkı sözlerini buraya yapıştır." oninput="tokenizeText('lyrics')"></textarea>
+    <div class="token-display" id="lyrics-tokens"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+      <div class="tok-count" id="lyrics-sel-count">0 kelime seçildi</div>
+      <button class="btn btn-purple" id="lyrics-btn" onclick="analyzeSelected('lyrics')">🔍 Seçilenleri Analiz Et</button>
+      <button class="btn" onclick="selectAllTokens('lyrics')" style="font-size:12px">Tümünü Seç</button>
+      <button class="btn" onclick="clearTokenSel('lyrics')" style="font-size:12px">Temizle</button>
+      <button class="btn" onclick="sendToSpecial('lyrics')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:#2a1a08">⭐ Burak Special</button>
+      <span id="lyrics-status"></span>
+    </div>
+    <div id="lyrics-results"></div>
+  </div>
+
+  <!-- METİN ANALİZİ -->
+  <div class="panel" id="panel-analyze">
+    <div class="panel-title">Metin Analizi <span class="mode-badge" style="background:var(--pink-bg);color:#e090c0;border:1px solid var(--pink)">Tam Analiz</span></div>
+    <div class="panel-sub">Tüm benzersiz kelimeler otomatik parçalara bölünerek analiz edilir — kelime sınırı yok.</div>
+    <textarea id="analyze-text" style="height:160px" placeholder="Lehçe metni yapıştır..."></textarea>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <div id="analyze-wordcount" style="font-size:12px;color:var(--text3);padding:6px 12px;background:var(--surface3);border-radius:6px;border:1px solid var(--border)">Metin gir...</div>
+      <select id="analyze-mode-sel" style="width:auto;margin-bottom:0"><option value="lesson">Akademik</option><option value="lyrics">Müzik / Slang</option></select>
+      <button class="btn btn-pink" id="analyze-btn" onclick="doAnalyzeFull()">🔬 Analiz Et</button>
+      <span id="analyze-status" style="font-size:12px;color:var(--text2)"></span>
+    </div>
+    <div id="analyze-progress" style="display:none;margin-bottom:14px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px" id="analyze-progress-label">Hazırlanıyor...</div>
+      <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden"><div id="analyze-progress-fill" style="height:100%;background:var(--pink);width:0%;transition:width .4s ease"></div></div>
+    </div>
+    <div id="analyze-results"></div>
+  </div>
+
+  <!-- PDF KÜTÜPHANESİ -->
+  <div class="panel" id="panel-pdf">
+    <div class="panel-title">PDF Kütüphanesi</div>
+    <div class="panel-sub">Ders kitapları kalıcı olarak saklanır. Sayfa seç, metni analiz et, kelimeleri kaydet.</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;">
+      <button class="btn btn-teal" onclick="addPDFs()">+ PDF Ekle</button>
+      <span id="pdf-status" style="font-size:12px;color:var(--text2)"></span>
+    </div>
+    <div class="pdf-layout">
+      <div class="pdf-list-col" id="pdf-list-col">
+        <div style="color:var(--text3);font-size:13px">Henüz kitap yok.</div>
+      </div>
+      <div class="pdf-viewer-col">
+        <div id="pdf-viewer-empty" class="pdf-empty">← Bir kitap seç</div>
+        <div id="pdf-viewer-active" style="display:none;flex-direction:column;flex:1">
+          <div class="pdf-toolbar">
+            <button class="btn" onclick="prevPage()">&#8592; Önceki</button>
+            <span class="pdf-page-info" id="pdf-page-info">— / —</span>
+            <button class="btn" onclick="nextPage()">Sonraki &#8594;</button>
+            <div style="display:flex;align-items:center;gap:4px;background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:3px 6px;">
+              <button class="btn" onclick="zoomOut()" style="padding:4px 8px;border:none;background:none;font-size:16px" title="Uzaklaştır">−</button>
+              <span id="pdf-zoom-label" style="font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;min-width:38px;text-align:center">100%</span>
+              <button class="btn" onclick="zoomIn()" style="padding:4px 8px;border:none;background:none;font-size:16px" title="Yaklaştır">+</button>
+              <button class="btn" onclick="zoomFit()" style="padding:3px 8px;border:none;background:none;font-size:10px;color:var(--text3)" title="Sayfaya Sığdır">⊡</button>
+            </div>
+            <button class="btn" id="annot-toggle-btn" onclick="toggleAnnotMode()" style="margin-left:auto;border-color:#5dc0b0;color:#5dc0b0">✏️ Not Al</button>
+            <button class="btn" id="sel-mode-btn" onclick="toggleSelMode()" style="border-color:#c8a050;color:#c8a050">✂ Kelime Seç</button>
+            <button class="btn btn-pink" onclick="analyzePDFPage()">🔬 Sayfayı Analiz Et</button>
+            <button class="btn" onclick="analyzeRange()" style="font-size:12px">Aralık...</button>
+          </div>
+          <!-- Annotation toolbar -->
+          <div class="annot-toolbar-wrap" id="annot-toolbar-wrap">
+            <div class="annot-toolbar">
+              <button class="annot-tool-btn active" id="annot-pen-btn" onclick="setAnnotTool('pen')" title="Kalem">✏️ Kalem</button>
+              <button class="annot-tool-btn" id="annot-hl-btn" onclick="setAnnotTool('highlight')" title="İşaretleme">🖌 İşaretçi</button>
+              <button class="annot-tool-btn" id="annot-eraser-btn" onclick="setAnnotTool('eraser')" title="Silgi">⌫ Silgi</button>
+              <div class="annot-sep"></div>
+              <div style="display:flex;gap:5px;align-items:center;">
+                <div class="annot-color-btn active" style="background:#e05050" onclick="setAnnotColor('#e05050',this)" title="Kırmızı"></div>
+                <div class="annot-color-btn" style="background:#c8b89a" onclick="setAnnotColor('#c8b89a',this)" title="Altın"></div>
+                <div class="annot-color-btn" style="background:#5080c0" onclick="setAnnotColor('#5080c0',this)" title="Mavi"></div>
+                <div class="annot-color-btn" style="background:#4a9a6a" onclick="setAnnotColor('#4a9a6a',this)" title="Yeşil"></div>
+                <div class="annot-color-btn" style="background:#fff" onclick="setAnnotColor('#fff',this)" title="Beyaz"></div>
+              </div>
+              <div class="annot-sep"></div>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <span style="font-size:11px;color:var(--text3)">Boyut</span>
+                <input type="range" class="annot-size-slider" id="annot-size" min="1" max="20" value="3" oninput="setAnnotSize(this.value)">
+                <span id="annot-size-lbl" style="font-size:11px;color:var(--text3);min-width:14px">3</span>
+              </div>
+              <div class="annot-sep"></div>
+              <button class="annot-tool-btn" onclick="clearAnnotPage()" style="color:#e07070" title="Bu sayfayı temizle">🗑 Temizle</button>
+              <button class="annot-tool-btn" onclick="undoAnnot()" title="Geri al">↩ Geri</button>
+            </div>
+          </div>
+
+          <div class="pdf-canvas-wrap" id="pdf-canvas-wrap">
+            <div class="pdf-page-container" id="pdf-page-container">
+              <canvas id="pdf-canvas"></canvas>
+              <div id="pdf-text-layer"></div>
+              <canvas id="pdf-annot-canvas"></canvas>
+              <canvas id="pdf-sel-canvas" style="position:absolute;top:0;left:0;pointer-events:none;display:none;border-radius:4px;"></canvas>
+            </div>
+          </div>
+          <!-- Seçim tooltip -->
+          <div class="pdf-selection-tooltip" id="pdf-sel-tooltip">
+            <span id="pdf-sel-word" style="font-size:14px;font-weight:700;color:#c8b89a;font-family:DM Mono,monospace"></span>
+            <button class="btn" style="font-size:11px;padding:4px 10px;background:#2a1a08;border-color:#c8b89a;color:#c8b89a" onclick="lookupSelectedWord()">⭐ Burak Special'a Ekle</button>
+            <button class="btn" style="font-size:11px;padding:4px 10px" onclick="hideSelTooltip()">✕</button>
+          </div>
+          <div id="pdf-page-results" style="margin-top:12px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AKADEMİK KÜTÜPHANE -->
+  <div class="panel" id="panel-lib-lesson">
+    <div class="panel-title">Akademik Kütüphane</div>
+    <div class="search-row"><input type="text" id="search-lesson" placeholder="Kelime veya ünite ara..." oninput="filterLib('lesson')" style="margin-bottom:0"></div>
+    <div id="lib-lesson-main"><div class="unit-grid" id="grid-lesson"></div></div>
+    <div id="detail-lesson" style="display:none"></div>
+  </div>
+
+  <!-- MÜZİK KÜTÜPHANESİ -->
+  <div class="panel" id="panel-lib-lyrics">
+    <div class="panel-title">Sokak / Müzik Kütüphanesi</div>
+    <div class="search-row"><input type="text" id="search-lyrics" placeholder="Kelime veya ünite ara..." oninput="filterLib('lyrics')" style="margin-bottom:0"></div>
+    <div id="lib-lyrics-main"><div class="unit-grid" id="grid-lyrics"></div></div>
+    <div id="detail-lyrics" style="display:none"></div>
+  </div>
+
+  <!-- TEST -->
+  <div class="panel" id="panel-test">
+    <div id="test-setup-view">
+      <div class="panel-title">🔁 Test</div>
+      <div class="panel-sub">Burak Special'dan kelime seç, test yap.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div>
+          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Kaynak</label>
+          <select id="test-source" onchange="updatePoolInfo()" style="margin-bottom:0">
+            <option value="all">Tümü</option>
+            <option value="words">⭐ Kelimeler</option>
+            <option value="idioms">💬 Deyimler</option>
+            <option value="akademik">📚 Akademik</option>
+            <option value="muzyka">🎵 Muzyka</option>
+            <option value="slang">🔥 Slang</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Mod</label>
+          <select id="test-mode" onchange="updatePoolInfo()" style="margin-bottom:0">
+            <option value="flashcard">Flashcard</option>
+            <option value="mc">Çoktan Seçmeli</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn btn-accent" onclick="startTestFromSpecial()">▶ Başlat</button>
+        <span id="test-pool-info" style="font-size:12px;color:var(--text2)"></span>
+      </div>
+    </div>
+    <div id="test-active" style="display:none"></div>
+  </div>
+
+  <!-- BURAK SPECIAL -->
+  <div class="panel" id="panel-special">
+    <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:#2a1a08;color:#c8a050;border:1px solid #6b4a10">Kişisel Sözlük</span></div>
+    <div class="panel-sub">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</div>
+
+    <!-- Arama + giriş -->
+    <div class="special-input-row">
+      <input type="text" id="special-word-input" placeholder="Kelime, deyim veya kalıp... (örn: chodzić, o co chodzi, nie ma sprawy)" onkeydown="if(event.key==='Enter')lookupSpecial()" style="margin-bottom:0;border-color:#6b4a10;">
+      <button class="btn" onclick="lookupSpecial()" id="special-lookup-btn" style="border-color:#c8a050;color:#c8a050;background:#2a1a08;white-space:nowrap;">🔍 Ara</button>
+    </div>
+
+    <!-- Arama sonucu (önizleme) -->
+    <div id="special-lookup-result" class="special-lookup-result">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span class="special-pl" id="slr-pl"></span>
+          <span class="special-inflected" id="slr-inflected"></span>
+          <span class="special-infl-note" id="slr-note"></span>
+        </div>
+        <span id="slr-badge" class="special-type-badge"></span>
+      </div>
+      <div class="special-tr" id="slr-tr"></div>
+      <div class="special-en" id="slr-en"></div>
+      <div class="special-example" id="slr-example"></div>
+      <div id="slr-related" style="display:none;margin-bottom:8px"></div>
+      <div style="margin-top:4px;margin-bottom:4px;font-size:11px;color:var(--text3)">⭐ BURAK NOTU</div>
+      <textarea class="special-note-area" id="slr-note-input" placeholder="örn: hoca bunu 3 kez tekrarladı / ne zaman kullanılır..."></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button class="btn btn-accent" onclick="saveSpecial()" id="slr-save-btn" style="border-color:#c8a050;color:#c8a050;">⭐ Kaydet</button>
+        <button class="btn" onclick="clearLookup()">İptal</button>
+      </div>
+    </div>
+
+    <!-- Sekmeler -->
+    <div class="special-tabs">
+      <button class="special-tab active-words" id="stab-words" onclick="switchSpecialTab('words')">⭐ Kelimeler <span id="stab-words-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-idioms" onclick="switchSpecialTab('idioms')">💬 Deyimler <span id="stab-idioms-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-akademik" onclick="switchSpecialTab('akademik')" style="border-color:#1a2a3a;color:#7090d0">📚 Akademik <span id="stab-akademik-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka');muzykaClick()" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-slang" onclick="switchSpecialTab('slang')" style="border-color:#5a1a1a;color:#e07070">🔥 Slang <span id="stab-slang-count" style="font-size:10px;opacity:.6"></span></button>
+    </div>
+
+    <input type="text" id="special-search" class="special-search" placeholder="Ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
+    <div id="special-count" class="special-count"></div>
+    <div id="special-list"></div>
+  </div>
+
+  <!-- EJ MAŁA -->
+  <div class="panel" id="panel-ejmala">
+    <div class="panel-title">🗣 Ej Mała <span class="mode-badge" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a0">Sokak Rehberi</span></div>
+
+    <!-- Sekmeler -->
+    <div style="display:flex;gap:8px;margin-bottom:18px;">
+      <button class="cumle-tab-btn active" id="ejmala-tab-main" onclick="switchEjMalaTab('main')">🗣 Kullanımlar</button>
+      <button class="cumle-tab-btn" id="ejmala-tab-cumle" onclick="switchEjMalaTab('cumle')">✍️ Cümle Kurucu</button>
+    </div>
+
+    <!-- Ana sekme -->
+    <div id="ejmala-sec-main">
+      <div class="panel-sub" style="margin-bottom:14px">Lehçe bir kelime veya ifade yaz — resmi, gündelik ve slang kullanımları gelsin.</div>
+      <div class="ejmala-input-wrap">
+        <input type="text" class="ejmala-input" id="ejmala-input" placeholder="rozumiem, zrobić, dobra..." onkeydown="if(event.key==='Enter')ejMalaSearch()">
+        <button class="ejmala-btn" onclick="ejMalaSearch()" id="ejmala-btn">Göster →</button>
+      </div>
+      <div class="ejmala-result" id="ejmala-result">
+        <div class="ejmala-base" id="ejmala-base"></div>
+        <div id="ejmala-sections"></div>
+      </div>
+    </div>
+
+    <!-- Cümle Kurucu sekmesi -->
+    <div id="ejmala-sec-cumle" style="display:none">
+      <div class="panel-sub" style="margin-bottom:14px">Bir kelime yaz — 5 farklı bağlamda doğal Lehçe cümle gelsin. Beğendiğini kaydet.</div>
+      <div class="ejmala-input-wrap">
+        <input type="text" class="ejmala-input" id="cumle-input" placeholder="Lehçe kelime veya ifade... (örn: chodzić, piękny, w końcu)" onkeydown="if(event.key==='Enter')buildSentences()" style="border-color:#5dc0b0">
+        <button class="ejmala-btn" onclick="buildSentences()" id="cumle-btn" style="border-color:#5dc0b0;color:#5dc0b0;background:#0d1515">Kur →</button>
+      </div>
+      <div id="cumle-result"></div>
+    </div>
+      <!-- Jak się mówi sekmesi -->
+      <div id="ejmala-sec-jak" style="display:none">
+        <div class="panel-sub" style="margin-bottom:14px">Bir durumu Türkçe anlat — resmi, gündelik, kanka ve slang olarak nasıl söylenir gelsin.</div>
+        <div style="margin-bottom:14px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+            <button class="grammar-quick-btn" onclick="setJakSituation('Birine teşekkür etmek istiyorum')">Teşekkür</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Özür dilemek istiyorum')">Özür</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Birini tebrik etmek istiyorum')">Tebrik</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Anlamadım, tekrar söyler misin')">Anlamadım</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Birinden kibarca bir şey istemek')">Rica</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Harika, çok iyi demek')">Harika</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Sıkıldım gitmek istiyorum')">Gitmek istiyorum</button>
+            <button class="grammar-quick-btn" onclick="setJakSituation('Hemfikir olmadığımı nazikçe belirtmek')">Katılmıyorum</button>
+          </div>
+          <div class="ejmala-input-wrap" style="margin-bottom:0">
+            <input type="text" class="ejmala-input" id="jak-input" placeholder="Durumu Türkçe anlat... (örn: Birini tebrik etmek istiyorum)" onkeydown="if(event.key===\'Enter\')jakSieMowi()" style="border-color:#5080c0">
+            <button class="ejmala-btn" onclick="jakSieMowi()" id="jak-btn" style="border-color:#5080c0;color:#7090d0;background:#0d1020">Söyle →</button>
+          </div>
+        </div>
+        <div id="jak-result"></div>
+      </div>
+  </div>
+
+  <!-- GRAMMAR -->
+  <div class="panel" id="panel-grammar"><div class="panel-title">📖 Grammar <span class="mode-badge" style="background:var(--teal-bg);color:#5dc0b0;border:1px solid var(--teal)">Dilbilgisi Rehberi</span></div><div class="panel-sub">Case tabloları, aspect kuralları ve hızlı dilbilgisi sorgusu.</div>
+    <div class="grammar-tabs">
+      <button class="gtab active" onclick="switchGTab('cases')">📋 Case Tabloları</button>
+      <button class="gtab" onclick="switchGTab('aspect')">⚡ Aspect</button>
+      <button class="gtab" onclick="switchGTab('decl')">📐 Çekim</button>
+      <button class="gtab" onclick="switchGTab('baglaç')">🔗 Bağlaçlar</button>
+      <button class="gtab" onclick="switchGTab('query')">💬 Soru</button>
+    </div>
+
+    <!-- CASE TABLOLARI -->
+    <div class="grammar-section active" id="gsec-cases">
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Hızlı referans:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;padding:3px 10px;border-radius:99px;background:var(--blue-bg);color:#7090d0;border:1px solid var(--blue)">Rodzaj męski (erkek)</span>
+          <span style="font-size:12px;padding:3px 10px;border-radius:99px;background:#1a0d16;color:#e090c0;border:1px solid var(--pink)">Rodzaj żeński (dişi)</span>
+          <span style="font-size:12px;padding:3px 10px;border-radius:99px;background:var(--green-bg);color:#6dbf9a;border:1px solid var(--green)">Rodzaj nijaki (nötr)</span>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Hal (Przypadek)</th>
+            <th>Soru</th>
+            <th class="gender-m">Erkek (-)</th>
+            <th class="gender-m">Erkek (cansız)</th>
+            <th class="gender-f">Dişi</th>
+            <th class="gender-n">Nötr</th>
+            <th class="gender-pl-m">Çoğul M.os.</th>
+            <th class="gender-pl-nm">Çoğul Niemos.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="case-name">Mianownik</span><span class="case-question">Yalın — kim/ne?</span></td><td style="color:var(--text3);font-size:11px">kto? co?</td>
+            <td class="gender-m">-∅ / -a</td><td class="gender-m">-∅</td><td class="gender-f">-a / -i</td><td class="gender-n">-o / -e / -ę</td><td class="gender-pl-m">-i / -y / -owie</td><td class="gender-pl-nm">-y / -i / -a</td></tr>
+          <tr><td><span class="case-name">Dopełniacz</span><span class="case-question">İyelik — kogo/czego?</span></td><td style="color:var(--text3);font-size:11px">kogo? czego?</td>
+            <td class="gender-m">-a / -u</td><td class="gender-m">-a / -u</td><td class="gender-f">-y / -i</td><td class="gender-n">-a</td><td class="gender-pl-m">-ów / -y</td><td class="gender-pl-nm">-∅ / -y / -i</td></tr>
+          <tr><td><span class="case-name">Celownik</span><span class="case-question">Yönelme — komu/czemu?</span></td><td style="color:var(--text3);font-size:11px">komu? czemu?</td>
+            <td class="gender-m">-owi / -u</td><td class="gender-m">-owi / -u</td><td class="gender-f">-ie / -y / -i</td><td class="gender-n">-u</td><td class="gender-pl-m">-om</td><td class="gender-pl-nm">-om</td></tr>
+          <tr><td><span class="case-name">Biernik</span><span class="case-question">Belirtme — kogo/co?</span></td><td style="color:var(--text3);font-size:11px">kogo? co?</td>
+            <td class="gender-m">-a</td><td class="gender-m">= Mian.</td><td class="gender-f">-ę / = Dopeł.</td><td class="gender-n">= Mian.</td><td class="gender-pl-m">= Dopeł.</td><td class="gender-pl-nm">= Mian.</td></tr>
+          <tr><td><span class="case-name">Narzędnik</span><span class="case-question">Araç — kim/czym?</span></td><td style="color:var(--text3);font-size:11px">kim? czym?</td>
+            <td class="gender-m">-em / -iem</td><td class="gender-m">-em</td><td class="gender-f">-ą</td><td class="gender-n">-em</td><td class="gender-pl-m">-ami / -mi</td><td class="gender-pl-nm">-ami / -mi</td></tr>
+          <tr><td><span class="case-name">Miejscownik</span><span class="case-question">Bulunma — o kim/czym?</span></td><td style="color:var(--text3);font-size:11px">o kim? o czym?</td>
+            <td class="gender-m">-ie / -u</td><td class="gender-m">-ie / -u</td><td class="gender-f">-ie / -y / -i</td><td class="gender-n">-ie / -u</td><td class="gender-pl-m">-ach</td><td class="gender-pl-nm">-ach</td></tr>
+          <tr><td><span class="case-name">Wołacz</span><span class="case-question">Seslenme — ey kim!</span></td><td style="color:var(--text3);font-size:11px">!</td>
+            <td class="gender-m">-ie / -u / -e</td><td class="gender-m">-ie / -u</td><td class="gender-f">-o / -i</td><td class="gender-n">= Mian.</td><td class="gender-pl-m">= Mian.</td><td class="gender-pl-nm">= Mian.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <!-- Sıfat ekleri -->
+      <div style="margin-top:20px;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--accent)">Sıfat Ekleri (Przymiotnik)</div>
+      <div style="overflow-x:auto">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Hal</th>
+            <th class="gender-m">Erkek</th>
+            <th class="gender-f">Dişi</th>
+            <th class="gender-n">Nötr</th>
+            <th class="gender-pl-m">Çoğul M.os.</th>
+            <th class="gender-pl-nm">Çoğul Niemos.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="case-name">Mian.</td><td class="gender-m">-y / -i</td><td class="gender-f">-a</td><td class="gender-n">-e</td><td class="gender-pl-m">-i / -y</td><td class="gender-pl-nm">-e</td></tr>
+          <tr><td class="case-name">Dopeł.</td><td class="gender-m">-ego</td><td class="gender-f">-ej</td><td class="gender-n">-ego</td><td class="gender-pl-m">-ych / -ich</td><td class="gender-pl-nm">-ych / -ich</td></tr>
+          <tr><td class="case-name">Celow.</td><td class="gender-m">-emu</td><td class="gender-f">-ej</td><td class="gender-n">-emu</td><td class="gender-pl-m">-ym / -im</td><td class="gender-pl-nm">-ym / -im</td></tr>
+          <tr><td class="case-name">Biern.</td><td class="gender-m">-ego / -y</td><td class="gender-f">-ą</td><td class="gender-n">-e</td><td class="gender-pl-m">-ych / -ich</td><td class="gender-pl-nm">-e</td></tr>
+          <tr><td class="case-name">Narzęd.</td><td class="gender-m">-ym / -im</td><td class="gender-f">-ą</td><td class="gender-n">-ym / -im</td><td class="gender-pl-m">-ymi / -imi</td><td class="gender-pl-nm">-ymi / -imi</td></tr>
+          <tr><td class="case-name">Miejscow.</td><td class="gender-m">-ym / -im</td><td class="gender-f">-ej</td><td class="gender-n">-ym / -im</td><td class="gender-pl-m">-ych / -ich</td><td class="gender-pl-nm">-ych / -ich</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- ASPECT -->
+    <div class="grammar-section" id="gsec-aspect">
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.7;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px">
+          <strong style="color:var(--accent)">Aspect nedir?</strong> Lehçe fiillerin iki formu vardır:<br>
+          <span style="color:#7090d0">Niedokonany (ndk.)</span> — devam eden, tekrarlayan, tamamlanmamış eylem<br>
+          <span style="color:#6dbf9a">Dokonany (dk.)</span> — tamamlanmış, sonuçlanan, tek seferlik eylem
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="aspect-input" placeholder="Fiil yaz... (örn: pisać, iść, robić)" style="margin-bottom:0;flex:1;border-color:var(--teal);" onkeydown="if(event.key==='Enter')lookupAspect()">
+          <button class="btn btn-teal" onclick="lookupAspect()" id="aspect-btn">Analiz Et</button>
+        </div>
+      </div>
+      <!-- Hızlı örnekler -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+        <span style="font-size:11px;color:var(--text3)">Örnekler:</span>
+        <button class="grammar-quick-btn" onclick="quickAspect('pisać')">pisać</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('czytać')">czytać</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('mówić')">mówić</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('iść')">iść</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('robić')">robić</button>
+        <button class="grammar-quick-btn" onclick="quickAspect('kupować')">kupować</button>
+      </div>
+      <div id="aspect-result"></div>
+    </div>
+
+        <div class="grammar-section" id="gsec-decl">
+      <div style="margin-bottom:14px">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;line-height:1.7">
+          <strong style="color:var(--accent)">İsim/Sıfat Çekimi</strong> — Bir Lehçe isim veya sıfat yaz, tüm 7 haldeki çekimini göster.
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="decl-input" placeholder="Kelime yaz... (örn: dom, kobieta, piękny, stary)" style="margin-bottom:0;flex:1;border-color:#5dc0b0;" onkeydown="if(event.key==='Enter')lookupDeclension()">
+          <button class="btn" onclick="lookupDeclension()" id="decl-btn" style="border-color:#5dc0b0;color:#5dc0b0;background:var(--teal-bg)">Çek</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+          <span style="font-size:11px;color:var(--text3)">Örnekler:</span>
+          <button class="grammar-quick-btn" onclick="quickDecl('dom')">dom</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('kobieta')">kobieta</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('dziecko')">dziecko</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('piękny')">piękny</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('nowy')">nowy</button>
+          <button class="grammar-quick-btn" onclick="quickDecl('Polska')">Polska</button>
+        </div>
+      </div>
+      <div id="decl-result"></div>
+    </div>
+
+        <div class="grammar-section" id="gsec-baglaç">
+      <input type="text" class="baglaç-search" id="baglaç-search" placeholder="Ara... (Türkçe, İngilizce veya Lehçe — örn: although, ancak, chociaż)" oninput="filterBaglaçlar(this.value)">
+      <div id="baglaç-list"><div class="baglaç-cat" data-cat="Karşıtlık"><div class="baglaç-cat-title" style="background:#1a0d0d;color:#e07070;border:1px solid #e0707044">↔ Karşıtlık</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ale</div>
+  <div class="baglaç-tr">ama, fakat</div>
+  <div class="baglaç-en">but</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Chcę iść, ale jestem zmęczony.</div><div class="baglaç-example-tr">Gitmek istiyorum ama yorgunum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">lecz</div>
+  <div class="baglaç-tr">ama (yazı dili)</div>
+  <div class="baglaç-en">but (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Nie jestem bogaty, lecz jestem szczęśliwy.</div><div class="baglaç-example-tr">Zengin değilim ama mutluyum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jednak</div>
+  <div class="baglaç-tr">ancak</div>
+  <div class="baglaç-en">however</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Był zmęczony, jednak pracował dalej.</div><div class="baglaç-example-tr">Yorgundu, ancak çalışmaya devam etti.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">natomiast</div>
+  <div class="baglaç-tr">oysa, öte yandan</div>
+  <div class="baglaç-en">whereas</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">On lubi sport, natomiast ona lubi muzykę.</div><div class="baglaç-example-tr">O sporu sever, oysa o müziği sever.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">chociaż</div>
+  <div class="baglaç-tr">her ne kadar</div>
+  <div class="baglaç-en">although</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Chociaż pada, wyjdę.</div><div class="baglaç-example-tr">Yağmur yağsa da çıkacağım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">choć</div>
+  <div class="baglaç-tr">her ne kadar (kısa)</div>
+  <div class="baglaç-en">though</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Choć jest trudno, nie poddaję się.</div><div class="baglaç-example-tr">Zor olsa da vazgeçmiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">mimo że</div>
+  <div class="baglaç-tr">rağmen</div>
+  <div class="baglaç-en">despite</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Mimo że jest chory, pracuje.</div><div class="baglaç-example-tr">Hasta olmasına rağmen çalışıyor.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">tymczasem</div>
+  <div class="baglaç-tr">oysa, bu arada</div>
+  <div class="baglaç-en">meanwhile</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">On śpi, tymczasem ona pracuje.</div><div class="baglaç-example-tr">O uyuyor, oysa o çalışıyor.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">zamiast</div>
+  <div class="baglaç-tr">yerine</div>
+  <div class="baglaç-en">instead of</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zamiast herbaty wypiję kawę.</div><div class="baglaç-example-tr">Çay yerine kahve içeceğim.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Eklik"><div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #6dbf9a44">+ Eklik</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">i</div>
+  <div class="baglaç-tr">ve</div>
+  <div class="baglaç-en">and</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Lubię herbatę i kawę.</div><div class="baglaç-example-tr">Çayı ve kahveyi severim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">oraz</div>
+  <div class="baglaç-tr">ve ayrıca (resmi)</div>
+  <div class="baglaç-en">as well as</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Kupię chleb oraz mleko.</div><div class="baglaç-example-tr">Ekmek ve süt alacağım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">a</div>
+  <div class="baglaç-tr">ve, oysa</div>
+  <div class="baglaç-en">and, while</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">On jest wysoki, a ona niska.</div><div class="baglaç-example-tr">O uzun, o ise kısa.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">też</div>
+  <div class="baglaç-tr">da, de, ayrıca</div>
+  <div class="baglaç-en">also, too</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ja też chcę.</div><div class="baglaç-example-tr">Ben de istiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">również</div>
+  <div class="baglaç-tr">ayrıca, da</div>
+  <div class="baglaç-en">also, likewise</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ona również była tam.</div><div class="baglaç-example-tr">O da oradaydı.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ani</div>
+  <div class="baglaç-tr">ne... ne de</div>
+  <div class="baglaç-en">neither...nor</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ani nie jem, ani nie piję.</div><div class="baglaç-example-tr">Ne yiyorum ne de içiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">dodatkowo</div>
+  <div class="baglaç-tr">ek olarak, üstelik</div>
+  <div class="baglaç-en">additionally</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Dodatkowo masz rabat.</div><div class="baglaç-example-tr">Ek olarak indirim alıyorsun.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ponadto</div>
+  <div class="baglaç-tr">bunun yanı sıra</div>
+  <div class="baglaç-en">furthermore</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ponadto jest mądry.</div><div class="baglaç-example-tr">Bunun yanı sıra akıllıdır.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">nie tylko... ale też</div>
+  <div class="baglaç-tr">sadece değil... aynı zamanda</div>
+  <div class="baglaç-en">not only... but also</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Nie tylko śpiewa, ale też tańczy.</div><div class="baglaç-example-tr">Sadece şarkı söylemez, aynı zamanda dans eder.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Sebep-Sonuç"><div class="baglaç-cat-title" style="background:#1a160d;color:#c8a050;border:1px solid #c8a05044">→ Sebep-Sonuç</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">bo</div>
+  <div class="baglaç-tr">çünkü (gündelik)</div>
+  <div class="baglaç-en">because (informal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Nie idę, bo jestem chory.</div><div class="baglaç-example-tr">Gitmiyorum, çünkü hastayım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">ponieważ</div>
+  <div class="baglaç-tr">çünkü (resmi)</div>
+  <div class="baglaç-en">because (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zostałem, ponieważ padało.</div><div class="baglaç-example-tr">Kaldım, çünkü yağmur yağıyordu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">gdyż</div>
+  <div class="baglaç-tr">zira (yazı dili)</div>
+  <div class="baglaç-en">for, since (written)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Odszedł, gdyż był zmęczony.</div><div class="baglaç-example-tr">Gitti, zira yorgundu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">dlatego</div>
+  <div class="baglaç-tr">bu yüzden</div>
+  <div class="baglaç-en">therefore</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Byłem chory, dlatego nie przyszedłem.</div><div class="baglaç-example-tr">Hasta idim, bu yüzden gelmedim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">więc</div>
+  <div class="baglaç-tr">o halde, öyleyse</div>
+  <div class="baglaç-en">so, thus</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jest późno, więc idę spać.</div><div class="baglaç-example-tr">Geç oldu, o halde uyuyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">zatem</div>
+  <div class="baglaç-tr">dolayısıyla</div>
+  <div class="baglaç-en">therefore, hence</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Kłamał, zatem mu nie ufam.</div><div class="baglaç-example-tr">Yalan söyledi, dolayısıyla güvenmiyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">skoro</div>
+  <div class="baglaç-tr">madem ki</div>
+  <div class="baglaç-en">since, given that</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Skoro tak mówisz, to masz rację.</div><div class="baglaç-example-tr">Madem öyle diyorsun, haklısın.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Zaman"><div class="baglaç-cat-title" style="background:#0d1020;color:#7090d0;border:1px solid #7090d044">⏱ Zaman</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">kiedy</div>
+  <div class="baglaç-tr">ne zaman, -diğinde</div>
+  <div class="baglaç-en">when</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Kiedy wróciłem, ona spała.</div><div class="baglaç-example-tr">Döndüğümde o uyuyordu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">gdy</div>
+  <div class="baglaç-tr">ne zaman (resmi)</div>
+  <div class="baglaç-en">when (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Gdy byłem młody, marzyłem.</div><div class="baglaç-example-tr">Gençken hayal kurardım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">dopóki</div>
+  <div class="baglaç-tr">olduğu sürece</div>
+  <div class="baglaç-en">as long as, until</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Dopóki żyję, walczę.</div><div class="baglaç-example-tr">Yaşadığım sürece mücadele ederim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">zanim</div>
+  <div class="baglaç-tr">-meden önce</div>
+  <div class="baglaç-en">before</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zanim wyjdziesz, sprawdź klucze.</div><div class="baglaç-example-tr">Çıkmadan önce anahtarları kontrol et.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">po tym jak</div>
+  <div class="baglaç-tr">-dikten sonra</div>
+  <div class="baglaç-en">after</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Po tym jak zjadł, wyszedł.</div><div class="baglaç-example-tr">Yedikten sonra çıktı.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">odkąd</div>
+  <div class="baglaç-tr">-den beri</div>
+  <div class="baglaç-en">since (time)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Odkąd cię znam, jesteś miły.</div><div class="baglaç-example-tr">Seni tanıdığımdan beri naziksin.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jak tylko</div>
+  <div class="baglaç-tr">-ir -mez</div>
+  <div class="baglaç-en">as soon as</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jak tylko wróci, zadzwonię.</div><div class="baglaç-example-tr">Döner dönmez arayacağım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">podczas gdy</div>
+  <div class="baglaç-tr">sırasında, iken</div>
+  <div class="baglaç-en">while, during</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Podczas gdy ona spała, ja pracowałem.</div><div class="baglaç-example-tr">O uyurken ben çalıştım.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Koşul"><div class="baglaç-cat-title" style="background:#110d1a;color:#b080e0;border:1px solid #b080e044">? Koşul</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jeśli</div>
+  <div class="baglaç-tr">eğer... ise</div>
+  <div class="baglaç-en">if</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jeśli chcesz, możesz zostać.</div><div class="baglaç-example-tr">Eğer istersen kalabilirsin.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">jeżeli</div>
+  <div class="baglaç-tr">eğer (resmi)</div>
+  <div class="baglaç-en">if (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Jeżeli to prawda, to poważne.</div><div class="baglaç-example-tr">Eğer bu doğruysa ciddi.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">gdyby</div>
+  <div class="baglaç-tr">eğer olsaydı</div>
+  <div class="baglaç-en">if (conditional)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Gdybyś przyszedł, byłoby lepiej.</div><div class="baglaç-example-tr">Gelseydin daha iyi olurdu.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">pod warunkiem że</div>
+  <div class="baglaç-tr">şartıyla ki</div>
+  <div class="baglaç-en">provided that</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Pomogę, pod warunkiem że będziesz grzeczny.</div><div class="baglaç-example-tr">Uslu olman şartıyla yardım ederim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">o ile</div>
+  <div class="baglaç-tr">olduğu sürece</div>
+  <div class="baglaç-en">as long as, if</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Zrobię to, o ile mam czas.</div><div class="baglaç-example-tr">Zamanım olduğu sürece yaparım.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">chyba że</div>
+  <div class="baglaç-tr">meğer ki, olmadıkça</div>
+  <div class="baglaç-en">unless</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Przyjdę, chyba że zachoruję.</div><div class="baglaç-example-tr">Gelirim, hastalanmadıkça.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">w przeciwnym razie</div>
+  <div class="baglaç-tr">aksi takdirde</div>
+  <div class="baglaç-en">otherwise</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Ucz się, w przeciwnym razie nie zdasz.</div><div class="baglaç-example-tr">Çalış, aksi takdirde geçemezsin.</div></div>
+</div></div><div class="baglaç-cat" data-cat="Amaç"><div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #e090c044">🎯 Amaç</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">żeby</div>
+  <div class="baglaç-tr">ki, -mak için</div>
+  <div class="baglaç-en">so that, in order to</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Uczę się, żeby zdać egzamin.</div><div class="baglaç-example-tr">Sınavı geçmek için çalışıyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">aby</div>
+  <div class="baglaç-tr">-mak için (resmi)</div>
+  <div class="baglaç-en">in order to (formal)</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Piszę, aby zrozumieć.</div><div class="baglaç-example-tr">Anlamak için yazıyorum.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">po to żeby</div>
+  <div class="baglaç-tr">tam bunun için</div>
+  <div class="baglaç-en">specifically so that</div>
+  <div class="baglaç-detail"><div class="baglaç-example-pl">Przyszedłem po to, żeby ci pomóc.</div><div class="baglaç-example-tr">Sana yardım etmek için geldim.</div></div>
+</div><div class="baglaç-row" onclick="this.classList.toggle('open')">
+  <div class="baglaç-pl">w celu
