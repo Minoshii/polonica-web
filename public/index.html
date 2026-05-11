@@ -243,6 +243,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 @keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
 @keyframes accordionIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
+/* KELIME KARTI */
+.word-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .15s,box-shadow .15s;cursor:pointer;}
+.word-card:hover{border-color:var(--accent-dim);box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.word-card.open{border-color:var(--accent-dim);}
+.word-card-top{display:flex;align-items:center;gap:10px;padding:12px 14px;}
+.word-card-pl{font-size:15px;font-weight:800;color:var(--text);font-family:'DM Mono',monospace;flex-shrink:0;min-width:120px;}
+.word-card-tr{font-size:13px;color:var(--text2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.word-card-badges{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+.word-card-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;border:1px solid;white-space:nowrap;}
+.word-card-aspect{font-size:10px;color:#5dc0b0;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:99px;border:1px solid #5dc0b033;background:#0d151522;white-space:nowrap;}
+.word-card-note-badge{font-size:10px;color:var(--accent-dim);padding:2px 7px;border-radius:99px;border:1px solid var(--accent-dim);background:var(--accent-bg);white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;}
+.word-card-arrow{font-size:11px;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-left:4px;}
+.word-card.open .word-card-arrow{transform:rotate(180deg);}
+.word-card-detail{display:none;border-top:1px solid var(--border);padding:14px;}
+.word-card.open .word-card-detail{display:block;animation:panelIn .2s ease;}
 .special-row:hover{border-color:#c8a050;background:#1a140a;}
 .special-row.open{border-color:#c8a050;background:#1a140a;border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;}
 .special-row-pl{font-size:14px;font-weight:800;color:#c8a050;min-width:120px;}
@@ -260,7 +275,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-en{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px;}
 .special-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #6b4a10;background:#2a1a08;color:#c8a050;margin-right:6px;}
 .special-example{font-size:11px;color:var(--text2);font-style:italic;font-family:'DM Mono',monospace;padding:7px 10px;background:var(--surface3);border-radius:6px;margin:8px 0;line-height:1.6;}
-.special-note-area{width:100%;background:var(--surface3);border:1px dashed #6b4a10;border-radius:8px;padding:9px 12px;color:#c8a050;font-family:'DM Mono',monospace;font-size:12px;resize:none;height:56px;margin-top:6px;transition:border-color .15s;}
+.special-note-area{width:100%;background:var(--surface3);border:1px dashed #6b4a10;border-radius:8px;padding:9px 12px;color:#c8a050;font-family:'DM Mono',monospace;font-size:12px;resize:none;height:56px;margin-top:6px;transition:border-color .15s;cursor:pointer;}
+.special-note-area:not([readonly]){cursor:text;border-style:solid;}
 .special-note-area:focus{outline:none;border-color:#c8a050;border-style:solid;}
 .special-note-area::placeholder{color:var(--accent-dim);}
 .special-detail-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
@@ -4588,30 +4604,45 @@ function _renderSpecialList(){
     const tl = typeLabels[e.category]||'';
     const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
     const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
-    const rowId = 'sr-'+e.id;
-    const detId = 'sd-'+e.id;
 
-    // Kompakt satır
-    const row = document.createElement('div');
-    row.className = 'special-row';
-    row.id = rowId;
-    row.style.cssText = 'animation:rowIn .22s ease both;animation-delay:'+(rowIdx*30)+'ms;';
-    row.onclick = () => toggleSpecialDetail(e.id);
-    const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
-    const sourceBadge = e.source ? '<span style="font-size:9px;color:#7090d0;font-family:DM Mono,monospace;margin-left:4px">🎵'+esc(e.source)+'</span>' : '';
-    row.innerHTML =
-      '<span class="special-row-pl">'+slangBadge+esc(e.pl)+sourceBadge+'</span>'+
-      '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
-      (e.note ? '<span class="special-row-note">⭐ '+esc(e.note)+'</span>' : '<span class="special-row-note" style="opacity:.3">not yok</span>')+
-      '<span class="special-row-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
-      '<span class="special-row-arrow">▾</span>';
+    // KART
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.id = 'sr-'+e.id;
+    card.style.animationDelay = (rowIdx*25)+'ms';
 
-    // Detay paneli
+    // Üst kısım - kompakt
+    const top = document.createElement('div');
+    top.className = 'word-card-top';
+    top.onclick = () => {
+      card.classList.toggle('open');
+      // Animasyon yenile
+      const det = card.querySelector('.word-card-detail');
+      if(card.classList.contains('open') && det) {
+        det.style.animation = 'none'; void det.offsetWidth;
+        det.style.animation = 'panelIn .2s ease';
+      }
+    };
+
+    const slangBadge = e.slang ? '<span class="slang-badge" style="flex-shrink:0">🔥</span>' : '';
+    const aspectBadge = (e.category==='verb' && e.aspect_pair) ? '<span class="word-card-aspect">'+esc(e.aspect_pair)+'</span>' : '';
+    const noteBadge = e.note ? '<span class="word-card-note-badge" title="'+esc(e.note)+'">⭐ '+esc(e.note)+'</span>' : '';
+
+    top.innerHTML =
+      '<div class="word-card-pl">'+slangBadge+esc(e.pl)+'</div>'+
+      '<div class="word-card-tr">'+esc(e.tr)+'</div>'+
+      '<div class="word-card-badges">'+
+        (noteBadge||'')+
+        (aspectBadge||'')+
+        '<span class="word-card-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
+        '<span class="word-card-arrow">▾</span>'+
+      '</div>';
+
+    // Detay kısım - tam içerik korunuyor
     const detail = document.createElement('div');
-    detail.className = 'special-detail';
-    detail.id = detId;
+    detail.className = 'word-card-detail';
     detail.innerHTML =
-      '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap;">'+
+      '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap;">'+
         '<span class="special-pl">'+esc(e.pl)+'</span>'+
         (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
         '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
@@ -4624,17 +4655,22 @@ function _renderSpecialList(){
         '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
         e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
         '</div>' : '')+
-      '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
-      '<textarea class="special-note-area" data-id="'+e.id+'" onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value)" placeholder="Notu buraya yaz...">'+esc(e.note||'')+'</textarea>'+
+      '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">⭐ BURAK NOTU</div>'+
+      '<textarea class="special-note-area" data-id="'+e.id+'" readonly '+
+      'onclick="this.removeAttribute(\'readonly\');this.focus();" '+
+      'onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value);this.setAttribute(\'readonly\',\'\');" '+
+      'placeholder="Düzenlemek için dokun..." style="cursor:pointer;">'+esc(e.note||'')+'</textarea>'+
       '<div class="special-detail-footer">'+
         '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
         '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
       '</div>';
 
-    container.appendChild(row);
-    container.appendChild(detail);
+    card.appendChild(top);
+    card.appendChild(detail);
+    container.appendChild(card);
   });
 }
+
 
 function buildDetailHTML(det, e, typeColors, typeLabels) {
   const tc = typeColors[e.category]||'#888';
@@ -4656,7 +4692,10 @@ function buildDetailHTML(det, e, typeColors, typeLabels) {
       e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
       '</div>' : '')+
     '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
-    '<textarea class="special-note-area" data-id="'+e.id+'" onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value)" placeholder="Notu buraya yaz...">'+esc(e.note||'')+'</textarea>'+
+    '<textarea class="special-note-area" data-id="'+e.id+'" readonly '+
+      'onclick="this.removeAttribute(\'readonly\');this.focus();" '+
+      'onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value);this.setAttribute(\'readonly\',\'\');" '+
+      'placeholder="Düzenlemek için dokun..." style="cursor:pointer;">'+esc(e.note||'')+'</textarea>'+
     '<div class="special-detail-footer">'+
       '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
       '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
