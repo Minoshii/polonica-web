@@ -911,9 +911,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
     <!-- Sekmeler -->
     <div style="display:flex;gap:8px;margin-bottom:18px;">
-      <button class="cumle-tab-btn active" id="ejmala-tab-main" onclick="switchEjMalaTab('main')">🗣 Kullanımlar</button>
-      <button class="cumle-tab-btn" id="ejmala-tab-jak" onclick="switchEjMalaTab('jak')" style="border-color:#5080c0;color:#7090d0">💬 Jak się mówi?</button>
-      <button class="cumle-tab-btn" id="ejmala-tab-cevap" onclick="switchEjMalaTab('cevap')" style="border-color:#4a9a6a;color:#6dbf9a">↩️ Cevap Ver</button>
+      <button class="special-tab active-words" id="ejmala-tab-main" onclick="switchEjMalaTab('main')">🗣 Kullanımlar</button>
+      <button class="special-tab" id="ejmala-tab-jak" onclick="switchEjMalaTab('jak')" style="border-color:#3a2a5a;color:#7090d0">💬 Jak się mówi?</button>
+      <button class="special-tab" id="ejmala-tab-cevap" onclick="switchEjMalaTab('cevap')" style="border-color:#1a3a2a;color:#6dbf9a">↩️ Cevap Ver</button>
 
     <!-- Ana sekme -->
     <div id="ejmala-sec-main">
@@ -3582,11 +3582,12 @@ function updateCounts(){
 
 // ── EJ MAŁA SEKME ─────────────────────────────────────────
 function switchEjMalaTab(tab) {
+  var colors = {main:'active-words', jak:'', cevap:''};
   ['main','jak','cevap'].forEach(function(t) {
     var sec = document.getElementById('ejmala-sec-'+t);
     var btn = document.getElementById('ejmala-tab-'+t);
     if(sec) sec.style.display = t===tab ? 'block' : 'none';
-    if(btn) btn.className = 'cumle-tab-btn' + (t===tab ? ' active' : '');
+    if(btn) btn.className = 'special-tab' + (t===tab ? ' active-words' : '');
   });
 }
 
