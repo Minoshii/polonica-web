@@ -912,8 +912,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <!-- Sekmeler -->
     <div style="display:flex;gap:8px;margin-bottom:18px;">
       <button class="cumle-tab-btn active" id="ejmala-tab-main" onclick="switchEjMalaTab('main')">🗣 Kullanımlar</button>
-      <button class="cumle-tab-btn" id="ejmala-tab-cumle" onclick="switchEjMalaTab('cumle')">✍️ Cümle Kurucu</button>
-    </div>
+      <button class="cumle-tab-btn" id="ejmala-tab-jak" onclick="switchEjMalaTab('jak')" style="border-color:#5080c0;color:#7090d0">💬 Jak się mówi?</button>
+      <button class="cumle-tab-btn" id="ejmala-tab-cevap" onclick="switchEjMalaTab('cevap')" style="border-color:#4a9a6a;color:#6dbf9a">↩️ Cevap Ver</button>
 
     <!-- Ana sekme -->
     <div id="ejmala-sec-main">
@@ -957,6 +957,27 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
           </div>
         </div>
         <div id="jak-result"></div>
+      </div>
+      <!-- Cevap Ver sekmesi -->
+      <div id="ejmala-sec-cevap" style="display:none">
+        <div class="panel-sub" style="margin-bottom:14px">Sana söylenen Lehçe ifadeyi yaz — nasıl cevap vereceğini resmi, gündelik, kanka ve slang olarak göster.</div>
+        <div style="margin-bottom:14px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Jak się masz?')">Jak się masz?</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Co słychać?')">Co słychać?</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Dziękuję!')">Dziękuję!</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Przepraszam!')">Przepraszam!</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Dobranoc!')">Dobranoc!</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Nie rozumiem.')">Nie rozumiem.</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Zgadzam się.')">Zgadzam się.</button>
+            <button class="grammar-quick-btn" onclick="setCevapPhrase('Co ty mówisz?')">Co ty mówisz?</button>
+          </div>
+          <div class="ejmala-input-wrap" style="margin-bottom:0">
+            <input type="text" class="ejmala-input" id="cevap-input" placeholder="Sana söylenen Lehçe ifadeyi yaz... (örn: Jak się masz?)" onkeydown="if(event.key==='Enter')cevapVer()" style="border-color:#4a9a6a">
+            <button class="ejmala-btn" onclick="cevapVer()" id="cevap-btn" style="border-color:#4a9a6a;color:#6dbf9a;background:#0d1a10">Cevapla →</button>
+          </div>
+        </div>
+        <div id="cevap-result"></div>
       </div>
   </div>
 
@@ -3561,7 +3582,7 @@ function updateCounts(){
 
 // ── EJ MAŁA SEKME ─────────────────────────────────────────
 function switchEjMalaTab(tab) {
-  ['main','cumle','jak'].forEach(function(t) {
+  ['main','jak','cevap'].forEach(function(t) {
     var sec = document.getElementById('ejmala-sec-'+t);
     var btn = document.getElementById('ejmala-tab-'+t);
     if(sec) sec.style.display = t===tab ? 'block' : 'none';
@@ -3817,6 +3838,71 @@ async function saveJakBtnClick(btn) {
     is_idiom: true, slang: isSlang,
     slang_note: isSlang ? 'argo' : '',
     source: 'Jak sie mowi', source_type: 'ejmala',
+    example_pl: '', example_tr: ''
+  });
+  btn.textContent = '✓'; btn.style.color = 'var(--green)';
+  setTimeout(function(){ btn.textContent = '⭐ Kaydet'; btn.style.color = ''; }, 1500);
+}
+
+// ── CEVAP VER ─────────────────────────────────────────────
+function setCevapPhrase(text) {
+  var inp = document.getElementById('cevap-input');
+  if(inp) { inp.value = text; cevapVer(); }
+}
+
+async function cevapVer() {
+  var phrase = (document.getElementById('cevap-input')||{}).value || '';
+  if(!phrase.trim()) return;
+  var btn = document.getElementById('cevap-btn');
+  var res = document.getElementById('cevap-result');
+  btn.disabled = true; btn.textContent = '...';
+  res.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span> Cevaplar hazırlanıyor...</div>';
+  try {
+    var data = await api.post('/api/cevapver', { phrase: phrase.trim() });
+    if(!data.responses || !data.responses.length) throw new Error('Sonuc alinamadi.');
+    res.innerHTML = '';
+    // İfade açıklaması
+    if(data.phrase_tr) {
+      var info = document.createElement('div');
+      info.style.cssText = 'background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:14px;';
+      info.innerHTML = '<span style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em">Sana söylenen:</span>' +
+        '<div style="font-size:16px;font-weight:800;color:#c8b89a;font-family:DM Mono,monospace;margin:4px 0">'+esc(phrase)+'</div>' +
+        '<div style="font-size:13px;color:var(--text2)">'+esc(data.phrase_tr)+'</div>';
+      res.appendChild(info);
+    }
+    data.responses.forEach(function(p, i) {
+      var c = JAK_COLORS[p.register] || JAK_COLORS['Gündelik'];
+      var card = document.createElement('div');
+      card.className = 'jak-card';
+      card.style.cssText = 'border-color:'+c.border+'44;animation:rowIn .25s ease both;animation-delay:'+(i*50)+'ms';
+      card.innerHTML =
+        '<div class="jak-card-header" style="background:'+c.bg+'">' +
+          '<span class="jak-register" style="color:'+c.color+';border-color:'+c.border+';background:'+c.border+'11">'+esc(p.register)+'</span>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div class="jak-pl">'+esc(p.pl)+'</div>' +
+            '<div class="jak-tr">'+esc(p.tr)+'</div>' +
+            (p.note ? '<div class="jak-note">'+esc(p.note)+'</div>' : '') +
+          '</div>' +
+          '<button class="jak-save" onclick="saveCevapPhrase(this)" title="Kaydet">⭐ Kaydet</button>' +
+        '</div>';
+      res.appendChild(card);
+    });
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:14px">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Cevapla →';
+}
+
+async function saveCevapPhrase(btn) {
+  var card = btn.closest('.jak-card');
+  var pl = card.querySelector('.jak-pl').textContent;
+  var tr = card.querySelector('.jak-tr').textContent;
+  var register = card.querySelector('.jak-register').textContent.trim();
+  await window.polonica.specialSave({
+    pl: pl, original: pl, tr: tr, en: '',
+    category: 'other', type: 'ifade',
+    is_idiom: true, slang: register === 'Slang',
+    source: 'Cevap Ver', source_type: 'ejmala',
     example_pl: '', example_tr: ''
   });
   btn.textContent = '✓'; btn.style.color = 'var(--green)';
