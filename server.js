@@ -46,7 +46,7 @@ const upload = multer({
     filename: (req,file,cb) => cb(null, Date.now()+Math.floor(Math.random()*1000)+'.pdf')
   }),
   fileFilter: (req,file,cb) => cb(null, file.mimetype==='application/pdf'),
-  limits: { fileSize: 50*1024*1024 }
+  limits: { fileSize: 200*1024*1024 }
 });
 
 async function claudeAsk(prompt, maxTokens=1024) {
@@ -54,7 +54,7 @@ async function claudeAsk(prompt, maxTokens=1024) {
   return msg.content[0].text;
 }
 
-app.use(express.json({ limit:'50mb' }));
+app.use(express.json({ limit:'200mb' }));
 app.use(express.static(path.join(__dirname,'public')));
 
 // Auth
