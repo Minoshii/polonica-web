@@ -243,7 +243,28 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 @keyframes rowIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
 @keyframes accordionIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
-/* KELIME KARTI */
+/* KELIME KARTI GRID */
+.word-card-grid{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 14px;}
+.word-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;width:160px;flex-shrink:0;position:relative;animation:rowIn .2s ease both;}
+.word-card:hover{border-color:var(--accent-dim);background:var(--surface3);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3);}
+.word-card-pl{font-size:14px;font-weight:800;color:var(--text);font-family:'DM Mono',monospace;margin-bottom:3px;word-break:break-word;}
+.word-card-tr{font-size:11px;color:var(--text2);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.word-card-foot{display:flex;align-items:center;gap:4px;margin-top:6px;}
+.word-card-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;border:1px solid;white-space:nowrap;}
+.word-card-has-note{position:absolute;top:7px;right:8px;font-size:10px;opacity:.7;}
+/* DETAY MODAL */
+#word-detail-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+#word-detail-modal.open{display:flex;animation:fadeIn .15s ease;}
+#word-detail-box{background:var(--surface);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:580px;max-height:85vh;overflow-y:auto;position:relative;}
+#word-detail-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;z-index:1;padding:4px 8px;border-radius:6px;}
+#word-detail-close:hover{background:var(--surface2);color:var(--text);}
+#word-detail-content{padding:20px;}
+@media(max-width:640px){
+  .word-card{width:calc(50% - 4px);}
+  #word-detail-box{max-height:90vh;border-radius:12px 12px 0 0;margin-top:auto;}
+  #word-detail-modal{align-items:flex-end;padding:0;}
+}
+@media(min-width:900px){.word-card{width:180px;}}
 .word-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .15s,box-shadow .15s;cursor:pointer;}
 .word-card:hover{border-color:var(--accent-dim);box-shadow:0 2px 12px rgba(0,0,0,.3);}
 .word-card.open{border-color:var(--accent-dim);}
@@ -621,6 +642,14 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button id="theme-btn-dim" onclick="setTheme('dim')" title="Loş">🌙</button>
   <button id="theme-btn-light" onclick="setTheme('light')" title="Açık">☀️</button>
 </div>
+<!-- KELIME DETAY MODAL -->
+<div id="word-detail-modal" onclick="if(event.target===this)closeWordDetail()">
+  <div id="word-detail-box">
+    <button id="word-detail-close" onclick="closeWordDetail()">✕</button>
+    <div id="word-detail-content"></div>
+  </div>
+</div>
+
 <div id="profile-badge" onclick="switchProfile()" title="Profil değiştir">
   <span id="badge-emoji" style="font-size:18px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;"></span>
   <span id="badge-name" style="font-weight:700"></span>
@@ -3983,6 +4012,54 @@ async function saveCevapPhrase(btn) {
   setTimeout(function(){ btn.textContent = '⭐ Kaydet'; btn.style.color = ''; }, 1500);
 }
 
+// ── KELIME DETAY MODAL ────────────────────────────────────
+function openWordDetail(e, tc, tl, typeColors, typeLabels) {
+  const modal = document.getElementById('word-detail-modal');
+  const box = document.getElementById('word-detail-content');
+  if(!modal || !box) return;
+
+  const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+  const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+
+  box.innerHTML =
+    '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap;">'+
+      '<span class="special-pl">'+esc(e.pl)+'</span>'+
+      (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
+      '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
+      (e.slang ? '<span class="slang-badge">🔥 argo</span>' : '')+
+    '</div>'+
+    '<div class="special-tr">'+esc(e.tr)+'</div>'+
+    '<div class="special-en">'+esc(e.en||'')+'</div>'+
+    (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+    (e.usage_note ? '<div class="usage-note">💡 '+esc(e.usage_note)+'</div>' : '')+
+    (e.related_phrases && e.related_phrases.length ?
+      '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
+      e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+');closeWordDetail()" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
+      '</div>' : '')+
+    '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">⭐ BURAK NOTU</div>'+
+    '<textarea class="special-note-area" id="modal-note-area" data-id="'+e.id+'" readonly '+
+    'onclick="this.removeAttribute(\'readonly\');this.focus();" '+
+    'onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value);this.setAttribute(\'readonly\',\'\');renderSpecialList();" '+
+    'placeholder="Düzenlemek için dokun..." style="cursor:pointer;">'+esc(e.note||'')+'</textarea>'+
+    '<div class="special-detail-footer" style="margin-top:12px">'+
+      '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
+      '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" data-id="'+e.id+'" onclick="deleteSpecial(this.dataset.id);closeWordDetail()">Sil</button>'+
+    '</div>';
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeWordDetail() {
+  const modal = document.getElementById('word-detail-modal');
+  if(modal) modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if(e.key === 'Escape') closeWordDetail();
+});
+
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
 
 function switchGTab(tab) {
@@ -4570,40 +4647,29 @@ function _renderSpecialList(){
         };
         const body = document.createElement('div');
         body.className = 'word-accordion-body';
+        const grid = document.createElement('div');
+        grid.className = 'word-card-grid';
         ciltWords.forEach((e, rowIdx) => {
           const tc = typeColors[e.category]||'#888';
           const tl = typeLabels[e.category]||'';
-          const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
-          const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
 
           const card = document.createElement('div');
           card.className = 'word-card';
-          card.style.animationDelay = (rowIdx*25)+'ms';
+          card.style.animationDelay = (rowIdx*20)+'ms';
+          card.onclick = function() { openWordDetail(e, tc, tl, typeColors, typeLabels); };
 
-          const top = document.createElement('div');
-          top.className = 'word-card-top';
-          top.onclick = () => { card.classList.toggle('open'); };
-
-          const slangBadge = e.slang ? '<span class="slang-badge" style="flex-shrink:0">🔥</span>' : '';
-          const noteBadge = e.note ? '<span class="word-card-note-badge" title="'+esc(e.note)+'">⭐ '+esc(e.note)+'</span>' : '';
-
-          top.innerHTML =
-            '<div class="word-card-pl">'+slangBadge+esc(e.pl)+'</div>'+
+          card.innerHTML =
+            (e.note ? '<span class="word-card-has-note">⭐</span>' : '')+
+            (e.slang ? '<span style="font-size:11px;position:absolute;top:7px;left:10px">🔥</span>' : '')+
+            '<div class="word-card-pl" style="'+(e.slang?'padding-left:18px':'')+'">'+(e.slang?'':'')+esc(e.pl)+'</div>'+
             '<div class="word-card-tr">'+esc(e.tr)+'</div>'+
-            '<div class="word-card-badges">'+
-              (noteBadge||'')+
-              '<span class="word-card-badge" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+tl+'</span>'+
-              '<span class="word-card-arrow">▾</span>'+
+            '<div class="word-card-foot">'+
+              '<span class="word-card-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
             '</div>';
 
-          const detail = document.createElement('div');
-          detail.className = 'word-card-detail';
-          buildDetailHTML(detail, e, typeColors, typeLabels);
-
-          card.appendChild(top);
-          card.appendChild(detail);
-          body.appendChild(card);
+          grid.appendChild(card);
         });
+        body.appendChild(grid);
         acc.appendChild(header);
         acc.appendChild(body);
         container.appendChild(acc);
