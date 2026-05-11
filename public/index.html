@@ -12,6 +12,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--bg:#0c0c0c;--surface:#111;--surface2:#161616;--surface3:#1c1c1c;--border:#222;--border2:#2a2a2a;--accent:#c8b89a;--accent-dim:#6b5d48;--accent-bg:#1a160e;--text:#e8e6e1;--text2:#888;--text3:#444;--green:#4a9a6a;--green-bg:#0d2017;--red:#c05050;--red-bg:#200d0d;--blue:#5080c0;--blue-bg:#0d1a30;--purple:#9060c0;--purple-bg:#1a0d30;--pink:#c060a0;--pink-bg:#1a0d16;--teal:#3a9a8a;--teal-bg:#0d1e1c;}
+/* ── DIM TEMA ── */
+[data-theme="dim"]{--bg:#1a1a2e;--surface:#1e2035;--surface2:#22243c;--surface3:#272944;--border:#2e3055;--border2:#383a66;--accent:#c8b89a;--accent-dim:#7a6a50;--accent-bg:#1a1828;--text:#dde1f0;--text2:#8890b8;--text3:#505878;--green:#4a9a6a;--green-bg:#0d1820;--red:#c05050;--red-bg:#1e0f10;--blue:#5080c0;--blue-bg:#0d1228;--purple:#9060c0;--purple-bg:#180d2e;--pink:#c060a0;--pink-bg:#1a0d18;--teal:#3a9a8a;--teal-bg:#0d1820;}
+/* ── LIGHT TEMA ── */
+[data-theme="light"]{--bg:#f5f3ef;--surface:#ffffff;--surface2:#f0ede8;--surface3:#e8e4dd;--border:#ddd8d0;--border2:#c8c0b0;--accent:#8a6030;--accent-dim:#c8a060;--accent-bg:#fff8e8;--text:#252018;--text2:#5a5048;--text3:#9a9088;--green:#287048;--green-bg:#e8f8ee;--red:#a03030;--red-bg:#fce8e8;--blue:#2860a0;--blue-bg:#e8f0fc;--purple:#7040a0;--purple-bg:#f0e8fc;--pink:#a04080;--pink-bg:#fce8f4;--teal:#208070;--teal-bg:#e8f8f4;}
+[data-theme="light"] .logo{color:#8a6030!important;}
+[data-theme="light"] #sidebar{background:#ffffff;border-right-color:#ddd8d0;}
+[data-theme="light"] .nav-section{color:#9a9088;}
+[data-theme="light"] .nav-btn{color:#5a5048;}
+[data-theme="light"] .nav-btn:hover{background:#f0ede8;color:#252018;}
+[data-theme="light"] .nav-btn.active{background:#e8e4dd;color:#252018;}
+[data-theme="light"] .special-tab{background:#f0ede8;}
+[data-theme="light"] .special-tab.active-words{background:#fff8e8;border-color:#c8a060;color:#8a6030;}
+[data-theme="light"] .gtab{background:#f0ede8;color:#5a5048;}
+[data-theme="light"] .gtab.active{background:#e8f8f4;color:#208070;border-color:#208070;}
+[data-theme="light"] input,[data-theme="light"] textarea,[data-theme="light"] select{background:#fff;color:#252018;border-color:#c8c0b0;}
+[data-theme="light"] .btn{background:#f0ede8;color:#252018;}
+[data-theme="light"] .mode-badge{color:#5a5048!important;}
+/* Geçiş animasyonu */
+:root,body,#sidebar,.panel,.btn,input,textarea,select,.nav-btn,.special-tab,.gtab{transition:background-color .3s ease,color .2s ease,border-color .25s ease;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;}
 #sidebar{width:210px;min-width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 10px 12px;overflow-y:auto;}
@@ -618,6 +637,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px">ℹ Hakkında</button>
+  <div class="theme-switcher" title="Tema seç">
+    <button class="theme-btn active" id="theme-btn-dark" onclick="setTheme('dark')" title="Koyu">🌑</button>
+    <button class="theme-btn" id="theme-btn-dim" onclick="setTheme('dim')" title="Loş">🌙</button>
+    <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light')" title="Açık">☀️</button>
+  </div>
 
   <div id="word-count"></div>
 
@@ -2086,6 +2110,23 @@ async function deleteProfile(key) {
 }
 
 // ── BAŞLANGIÇ ─────────────────────────────────────────────
+// ── TEMA ──────────────────────────────────────────────────
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme === 'dark' ? '' : theme);
+  localStorage.setItem('polonica_theme', theme);
+  ['dark','dim','light'].forEach(function(t) {
+    var btn = document.getElementById('theme-btn-'+t);
+    if(btn) btn.classList.toggle('active', t === theme);
+  });
+}
+
+function loadTheme() {
+  var saved = localStorage.getItem('polonica_theme') || 'dark';
+  setTheme(saved);
+}
+
+loadTheme();
+
 async function boot() {
   try {
     const profiles = await fetch('/api/profiles').then(r=>r.json());
