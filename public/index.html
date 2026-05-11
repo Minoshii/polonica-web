@@ -4571,25 +4571,38 @@ function _renderSpecialList(){
         const body = document.createElement('div');
         body.className = 'word-accordion-body';
         ciltWords.forEach((e, rowIdx) => {
-          const row = document.createElement('div');
-          row.className = 'special-row';
-          row.id = 'sr-'+e.id;
-          row.style.cssText = 'animation:rowIn .25s ease both;animation-delay:'+(rowIdx*35)+'ms;';
-          row.onclick = () => toggleSpecialDetail(e.id);
-          const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
-          const sourceBadge = e.source ? '<span style="font-size:9px;color:#7090d0;font-family:DM Mono,monospace;margin-left:4px">🎵'+esc(e.source)+'</span>' : '';
-          row.innerHTML =
-            '<span class="special-row-pl">'+slangBadge+esc(e.pl)+sourceBadge+'</span>'+
-            '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
-            (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
-            '<span class="special-row-badge" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+typeLabels[e.category]||''+'</span>'+
-            '<span class="special-row-arrow">▾</span>';
-          const det = document.createElement('div');
-          det.className = 'special-detail';
-          det.id = 'sd-'+e.id;
-          buildDetailHTML(det, e, typeColors, typeLabels);
-          body.appendChild(row);
-          body.appendChild(det);
+          const tc = typeColors[e.category]||'#888';
+          const tl = typeLabels[e.category]||'';
+          const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+          const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+
+          const card = document.createElement('div');
+          card.className = 'word-card';
+          card.style.animationDelay = (rowIdx*25)+'ms';
+
+          const top = document.createElement('div');
+          top.className = 'word-card-top';
+          top.onclick = () => { card.classList.toggle('open'); };
+
+          const slangBadge = e.slang ? '<span class="slang-badge" style="flex-shrink:0">🔥</span>' : '';
+          const noteBadge = e.note ? '<span class="word-card-note-badge" title="'+esc(e.note)+'">⭐ '+esc(e.note)+'</span>' : '';
+
+          top.innerHTML =
+            '<div class="word-card-pl">'+slangBadge+esc(e.pl)+'</div>'+
+            '<div class="word-card-tr">'+esc(e.tr)+'</div>'+
+            '<div class="word-card-badges">'+
+              (noteBadge||'')+
+              '<span class="word-card-badge" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+tl+'</span>'+
+              '<span class="word-card-arrow">▾</span>'+
+            '</div>';
+
+          const detail = document.createElement('div');
+          detail.className = 'word-card-detail';
+          buildDetailHTML(detail, e, typeColors, typeLabels);
+
+          card.appendChild(top);
+          card.appendChild(detail);
+          body.appendChild(card);
         });
         acc.appendChild(header);
         acc.appendChild(body);
