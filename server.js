@@ -725,6 +725,60 @@ app.post('/api/declension', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── JAK SIĘ MÓWI ──────────────────────────────────────────
+app.post('/api/jaksiemowi', async (req, res) => {
+  try {
+    const { situation } = req.body;
+    if (!situation) return res.status(400).json({ error: 'Durum gerekli.' });
+    const prompt = [
+      'You are a Polish language expert. A Turkish learner describes a situation and wants to know what to say in Polish.',
+      'Situation: "' + situation + '"',
+      '',
+      'Give 4-5 different ways to express this in Polish across different registers.',
+      'Return ONLY valid JSON:',
+      '{',
+      '  "situation_pl": "brief Polish description of the situation",',
+      '  "phrases": [',
+      '    {',
+      '      "register": "Resmi",',
+      '      "pl": "the Polish phrase",',
+      '      "tr": "Turkish translation",',
+      '      "note": "when/how to use this in Turkish",',
+      '      "example_context": "brief context in Turkish"',
+      '    },',
+      '    {',
+      '      "register": "Gündelik",',
+      '      "pl": "...", "tr": "...", "note": "...", "example_context": "..."',
+      '    },',
+      '    {',
+      '      "register": "Kanka",',
+      '      "pl": "...", "tr": "...", "note": "...", "example_context": "..."',
+      '    },',
+      '    {',
+      '      "register": "Slang",',
+      '      "pl": "...", "tr": "...", "note": "...", "example_context": "..."',
+      '    },',
+      '    {',
+      '      "register": "Yazılı",',
+      '      "pl": "...", "tr": "...", "note": "...", "example_context": "..."',
+      '    }',
+      '  ]',
+      '}',
+      '',
+      'Rules:',
+      '- Each phrase must be authentic natural Polish',
+      '- Registers: Resmi (formal/academic), Gündelik (everyday spoken), Kanka (between close friends, warmer), Slang (street/youth language), Yazılı (written/email)',
+      '- Turkish translations must be natural, not literal',
+      '- notes and example_context in Turkish',
+      '- Return ONLY valid JSON, no markdown'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 1400);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
