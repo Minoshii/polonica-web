@@ -910,10 +910,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="panel-title">🗣 Ej Mała <span class="mode-badge" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a0">Sokak Rehberi</span></div>
 
     <!-- Sekmeler -->
-    <div style="display:flex;gap:8px;margin-bottom:18px;">
+    <div class="special-tabs">
       <button class="special-tab active-words" id="ejmala-tab-main" onclick="switchEjMalaTab('main')">🗣 Kullanımlar</button>
       <button class="special-tab" id="ejmala-tab-jak" onclick="switchEjMalaTab('jak')" style="border-color:#3a2a5a;color:#7090d0">💬 Jak się mówi?</button>
       <button class="special-tab" id="ejmala-tab-cevap" onclick="switchEjMalaTab('cevap')" style="border-color:#1a3a2a;color:#6dbf9a">↩️ Cevap Ver</button>
+    </div>
 
     <!-- Ana sekme -->
     <div id="ejmala-sec-main">
@@ -2282,7 +2283,8 @@ function showPanel(name){
   if(name==='stats')loadStats();
   if(name==='special')renderSpecialList();
   if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
-  if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active');}
+  if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
+  if(name==='fonetik'){switchFonTab('samog');}
   if(name==='vucut'){initVucutList();}
   // Mobilde sidebar'ı kapat
   if(window.innerWidth <= 640){
