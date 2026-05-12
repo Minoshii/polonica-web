@@ -132,7 +132,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .pdf-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .pdf-canvas-wrap{flex:1;overflow:auto;background:#1a1a1a;border-radius:10px;border:1px solid var(--border);display:flex;align-items:flex-start;justify-content:center;padding:20px;min-height:500px;position:relative;}
 .pdf-page-container{position:relative;display:inline-block;box-shadow:0 4px 24px rgba(0,0,0,.6);border-radius:4px;}
-#pdf-canvas{display:block;border-radius:4px;}
+#pdf-canvas{display:block;border-radius:4px;touch-action:none;}
+#pdf-sel-canvas{touch-action:none;pointer-events:auto;}
 #pdf-text-layer{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;opacity:1;line-height:1;pointer-events:auto;}
 #pdf-text-layer span{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0% 0%;}
 #pdf-text-layer ::selection{background:rgba(200,184,154,.35);color:transparent;}
@@ -3344,9 +3345,9 @@ function setupAnnotCanvas(){
     saveAnnotPage();
   };
 
-  canvas.addEventListener('mousedown', startDraw);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('pointerdown', startDraw);
+  canvas.addEventListener('pointermove', draw);
+  canvas.addEventListener('pointerup', endDraw);
   canvas.addEventListener('mouseleave', endDraw);
   canvas.addEventListener('touchstart', startDraw, {passive:false});
   canvas.addEventListener('touchmove', draw, {passive:false});
@@ -3459,7 +3460,8 @@ function clearSelCanvas() {
 }
 
 // Mouse eventi - pdf-page-container üzerinde
-document.addEventListener('mousedown', (e) => {
+// Pointer eventi - mouse + tablet kalem + dokunmatik
+document.addEventListener('pointerdown', (e) => {
   if (!_selMode) return;
   const container = document.getElementById('pdf-page-container');
   if (!container || !container.contains(e.target)) return;
@@ -3467,9 +3469,10 @@ document.addEventListener('mousedown', (e) => {
   _selStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
   _selRect = null;
   e.preventDefault();
+  try { e.target.setPointerCapture(e.pointerId); } catch(ex) {}
 });
 
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('pointermove', (e) => {
   if (!_selMode || !_selStart) return;
   const container = document.getElementById('pdf-page-container');
   if (!container) return;
@@ -3493,7 +3496,7 @@ document.addEventListener('mousemove', (e) => {
   ctx.strokeRect(_selRect.x, _selRect.y, _selRect.w, _selRect.h);
 });
 
-document.addEventListener('mouseup', async (e) => {
+document.addEventListener('pointerup', async (e) => {
   if (!_selMode || !_selStart || !_selRect) { _selStart = null; return; }
   if (_selRect.w < 8 || _selRect.h < 8) { _selStart = null; clearSelCanvas(); return; }
 
