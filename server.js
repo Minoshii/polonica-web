@@ -812,15 +812,16 @@ app.post('/api/cevapver', async (req, res) => {
 });
 
 // ── NOTLAR ────────────────────────────────────────────────
-app.get('/api/notes', ensureProfile, (req, res) => {
-  const p = store.profiles[req.profile];
-  res.json(p.notes || []);
+app.get('/api/notes', (req, res) => {
+  const p = ensureProfile(req.headers['x-profile']);
+  if(!p.notes) p.notes = [];
+  res.json(p.notes);
 });
 
-app.post('/api/notes', ensureProfile, (req, res) => {
+app.post('/api/notes', (req, res) => {
   const { text, context } = req.body;
-  if (!text || !text.trim()) return res.status(400).json({ error: 'Not boş olamaz.' });
-  const p = store.profiles[req.profile];
+  if (!text || !text.trim()) return res.status(400).json({ error: 'Not bos olamaz.' });
+  const p = ensureProfile(req.headers['x-profile']);
   if (!p.notes) p.notes = [];
   const note = {
     id: Date.now().toString(),
@@ -833,8 +834,8 @@ app.post('/api/notes', ensureProfile, (req, res) => {
   res.json(note);
 });
 
-app.delete('/api/notes/:id', ensureProfile, (req, res) => {
-  const p = store.profiles[req.profile];
+app.delete('/api/notes/:id', (req, res) => {
+  const p = ensureProfile(req.headers['x-profile']);
   if (!p.notes) return res.json({ ok: true });
   p.notes = p.notes.filter(n => n.id !== req.params.id);
   saveStore();
