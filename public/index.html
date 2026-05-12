@@ -615,6 +615,24 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   .muzyka-album-title { font-size:13px!important; }
 }
 
+/* NOTLAR FAB */
+#note-fab{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);font-size:18px;cursor:pointer;z-index:900;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:all .2s;}
+#note-fab:hover{border-color:var(--accent-dim);color:var(--accent);transform:scale(1.08);}
+#note-popup{position:fixed;bottom:78px;right:24px;width:300px;max-width:calc(100vw - 48px);background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:16px;z-index:900;box-shadow:0 8px 32px rgba(0,0,0,.5);display:none;}
+#note-popup.open{display:block;animation:panelIn .2s ease;}
+#note-popup-title{font-size:12px;font-weight:800;color:var(--accent-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+#note-popup-context{font-size:11px;color:var(--text3);margin-bottom:8px;font-family:'DM Mono',monospace;}
+#note-popup-textarea{width:100%;height:90px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;resize:none;box-sizing:border-box;}
+#note-popup-textarea:focus{outline:none;border-color:var(--accent-dim);}
+#note-popup-actions{display:flex;gap:8px;margin-top:10px;}
+.note-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;}
+.note-item-text{font-size:14px;color:var(--text);line-height:1.6;white-space:pre-wrap;margin-bottom:8px;}
+.note-item-footer{display:flex;align-items:center;justify-content:space-between;}
+.note-item-meta{font-size:11px;color:var(--text3);}
+.note-item-context{font-size:10px;color:var(--accent-dim);font-family:'DM Mono',monospace;background:var(--accent-bg);padding:2px 7px;border-radius:99px;}
+.note-item-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;}
+.note-item-del:hover{color:var(--red);}
+@media(max-width:640px){#note-fab{bottom:70px;right:16px;}#note-popup{right:16px;bottom:124px;width:calc(100vw - 32px);}}
 </style>
 </head>
 <body>
