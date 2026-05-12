@@ -811,6 +811,36 @@ app.post('/api/cevapver', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── NOTLAR ────────────────────────────────────────────────
+app.get('/api/notes', ensureProfile, (req, res) => {
+  const p = store.profiles[req.profile];
+  res.json(p.notes || []);
+});
+
+app.post('/api/notes', ensureProfile, (req, res) => {
+  const { text, context } = req.body;
+  if (!text || !text.trim()) return res.status(400).json({ error: 'Not boş olamaz.' });
+  const p = store.profiles[req.profile];
+  if (!p.notes) p.notes = [];
+  const note = {
+    id: Date.now().toString(),
+    text: text.trim(),
+    context: context || '',
+    createdAt: new Date().toISOString()
+  };
+  p.notes.unshift(note);
+  saveStore();
+  res.json(note);
+});
+
+app.delete('/api/notes/:id', ensureProfile, (req, res) => {
+  const p = store.profiles[req.profile];
+  if (!p.notes) return res.json({ ok: true });
+  p.notes = p.notes.filter(n => n.id !== req.params.id);
+  saveStore();
+  res.json({ ok: true });
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
