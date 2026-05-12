@@ -619,6 +619,18 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </head>
 <body>
 
+<!-- NOT FAB -->
+<button id="note-fab" onclick="toggleNotePopup()" title="Hızlı Not">📝</button>
+<div id="note-popup">
+  <div id="note-popup-title">📝 Hızlı Not</div>
+  <div id="note-popup-context"></div>
+  <textarea id="note-popup-textarea" placeholder="Notunu yaz..." onkeydown="if(event.ctrlKey&&event.key==='Enter')saveNote()"></textarea>
+  <div id="note-popup-actions">
+    <button class="btn btn-accent" onclick="saveNote()" style="flex:1">Kaydet</button>
+    <button class="btn" onclick="toggleNotePopup()">İptal</button>
+  </div>
+</div>
+
 <!-- PROFİL SEÇİCİ EKRANI -->
 <div id="profile-screen">
   <div class="profile-title">KİM KULLANIYOR?</div>
@@ -691,6 +703,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
+  <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0">📝 Notlarım</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px">ℹ Hakkında</button>
 
 
@@ -1906,6 +1919,13 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div id="detail-class" style="display:none"></div>
   </div>
 
+  <!-- NOTLARIM -->
+  <div class="panel" id="panel-notes">
+    <div class="panel-title">📝 Notlarım</div>
+    <div class="panel-sub">Her yerden eklediğin hızlı notlar burada toplanır.</div>
+    <div id="notes-list"><div style="text-align:center;padding:40px;color:var(--text3)"><span class="spinner"></span></div></div>
+  </div>
+
   <!-- HAKKINDA -->
   <div class="panel" id="panel-about">
     <div class="about-wrap">
@@ -2387,6 +2407,7 @@ function showPanel(name){
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
   if(name==='fonetik'){switchFonTab('samog');}
   if(name==='vucut'){initVucutList();}
+  if(name==='notes'){loadNotes();}
   // Mobilde sidebar'ı kapat
   if(window.innerWidth <= 640){
     const sb=document.getElementById('sidebar');
@@ -4061,6 +4082,90 @@ function closeWordDetail() {
 
 document.addEventListener('keydown', function(e) {
   if(e.key === 'Escape') closeWordDetail();
+});
+
+// ── NOTLAR ────────────────────────────────────────────────
+let _notePopupOpen = false;
+
+function toggleNotePopup() {
+  _notePopupOpen = !_notePopupOpen;
+  const popup = document.getElementById('note-popup');
+  if(_notePopupOpen) {
+    popup.classList.add('open');
+    // Mevcut paneli context olarak kaydet
+    const activeNav = document.querySelector('.nav-btn.active');
+    const ctx = activeNav ? activeNav.textContent.trim() : '';
+    document.getElementById('note-popup-context').textContent = ctx ? '📍 '+ctx : '';
+    document.getElementById('note-popup-textarea').value = '';
+    setTimeout(() => document.getElementById('note-popup-textarea').focus(), 100);
+  } else {
+    popup.classList.remove('open');
+  }
+}
+
+async function saveNote() {
+  const text = document.getElementById('note-popup-textarea').value.trim();
+  if(!text) return;
+  const ctx = document.getElementById('note-popup-context').textContent.replace('📍 ','');
+  try {
+    await api.post('/api/notes', { text, context: ctx });
+    toggleNotePopup();
+    // Notlar paneli açıksa yenile
+    if(document.getElementById('panel-notes').classList.contains('active')) loadNotes();
+    // Kısa feedback
+    const fab = document.getElementById('note-fab');
+    fab.textContent = '✓';
+    fab.style.color = 'var(--green)';
+    setTimeout(() => { fab.textContent = '📝'; fab.style.color = ''; }, 1500);
+  } catch(e) { alert('Hata: '+e.message); }
+}
+
+async function loadNotes() {
+  const list = document.getElementById('notes-list');
+  if(!list) return;
+  list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span></div>';
+  try {
+    const notes = await api.get('/api/notes');
+    if(!notes.length) {
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)"><div style="font-size:36px;margin-bottom:12px">📝</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Not yok</div><div style="font-size:13px">Sağ alttaki 📝 butonuna basarak her yerden not ekleyebilirsin.</div></div>';
+      return;
+    }
+    list.innerHTML = '';
+    notes.forEach(function(n) {
+      const div = document.createElement('div');
+      div.className = 'note-item';
+      div.style.animation = 'rowIn .2s ease both';
+      const date = new Date(n.createdAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
+      div.innerHTML =
+        '<div class="note-item-text">'+esc(n.text)+'</div>'+
+        '<div class="note-item-footer">'+
+          '<div style="display:flex;align-items:center;gap:8px">'+
+            '<span class="note-item-meta">'+date+'</span>'+
+            (n.context ? '<span class="note-item-context">'+esc(n.context)+'</span>' : '')+
+          '</div>'+
+          '<button class="note-item-del" data-id="'+n.id+'" onclick="deleteNote(this.dataset.id)" title="Sil">🗑</button>'+
+        '</div>';
+      list.appendChild(div);
+    });
+  } catch(e) {
+    list.innerHTML = '<div style="color:var(--red);padding:20px">Yüklenemedi: '+esc(e.message)+'</div>';
+  }
+}
+
+async function deleteNote(id) {
+  await api.del('/api/notes/'+id);
+  loadNotes();
+}
+
+// Popup dışına tıklayınca kapat
+document.addEventListener('click', function(e) {
+  if(_notePopupOpen) {
+    const popup = document.getElementById('note-popup');
+    const fab = document.getElementById('note-fab');
+    if(popup && !popup.contains(e.target) && fab && !fab.contains(e.target)) {
+      toggleNotePopup();
+    }
+  }
 });
 
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
