@@ -1009,10 +1009,31 @@ app.post('/api/kultur', async (req, res) => {
       'bilim': 'Polish scientists, inventors, discoveries',
     };
     const focus = cats[category] || 'any aspect of Polish culture, history, art, literature or science';
+    // Her istekte farklı bir rastgele tohum oluştur - tekrarı önler
+    const seed = Math.floor(Math.random() * 10000);
+    const randomizers = [
+      'Focus on a person almost nobody knows.',
+      'Focus on a shocking or dark historical event.',
+      'Focus on something funny or ironic.',
+      'Focus on a connection to another country.',
+      'Focus on a record-breaking or first-in-the-world achievement.',
+      'Focus on something from everyday life or street culture.',
+      'Focus on a woman or minority who changed history.',
+      'Focus on something from the last 50 years.',
+      'Focus on a very specific object, place or building.',
+      'Focus on food, drink or festival tradition.',
+      'Focus on something related to language or words.',
+      'Focus on a rivalry, conflict or surprising friendship.',
+    ];
+    const randomHint = randomizers[seed % randomizers.length];
+
     const prompt = [
       'You are an expert on Polish culture and history. Give ONE fascinating, detailed cultural fact about Poland.',
       'Focus on: ' + focus,
+      'IMPORTANT DIVERSITY INSTRUCTION: ' + randomHint,
+      'Random seed for variety: ' + seed,
       'The user is a Turkish student learning Polish — make it relevant and memorable.',
+      'CRITICAL: Do NOT mention Chopin, Copernicus, Marie Curie, Adam Mickiewicz, or Wisława Szymborska unless absolutely necessary — these are overused. Find something less known but equally fascinating.',
       '',
       'Return ONLY valid JSON:',
       '{',
@@ -1020,13 +1041,13 @@ app.post('/api/kultur', async (req, res) => {
       '  "title": "name of person/work/event in Polish/original",',
       '  "title_tr": "Turkish translation or explanation of the title",',
       '  "period": "time period (e.g. 1884, 19. yüzyıl, Orta Çağ)",',
-      '  "fact": "3-5 sentence fascinating fact in Turkish. Be specific, include context, why it matters, interesting details. Write as if telling a friend something amazing.",',
+      '  "fact": "3-5 sentence fascinating fact in Turkish. Be specific, vivid, surprising. Write as if telling a friend something amazing you just discovered.",',
       '  "why_matters": "1-2 sentences: why every Polish learner should know this",',
       '  "polish_connection": "a Polish word or phrase related to this fact with Turkish meaning",',
       '  "emoji": "2-3 relevant emojis"',
       '}',
       '',
-      'Be surprising and specific. Avoid generic facts. Each response must be DIFFERENT and UNIQUE.',
+      'Be surprising and specific. Avoid the most famous clichés. Make it genuinely interesting.',
       'Return ONLY valid JSON, no markdown.'
     ].join('\n');
     const raw = await claudeAsk(prompt, 800);
