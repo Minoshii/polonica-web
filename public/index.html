@@ -2059,6 +2059,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="kultur-cat-btn" data-cat="mitoloji" onclick="selectKulturCat(this,'mitoloji')">🐉 Mitoloji</button>
       <button class="kultur-cat-btn" data-cat="bilim" onclick="selectKulturCat(this,'bilim')">🔬 Bilim</button>
       <button class="kultur-cat-btn" data-cat="halk" onclick="selectKulturCat(this,'halk')">🎭 Halk Kültürü</button>
+      <button class="kultur-cat-btn" data-cat="turkpolonya" onclick="selectKulturCat(this,'turkpolonya')" style="border-color:#c8505044;color:#e07070">🇹🇷🇵🇱 Türk-Polonya</button>
     </div>
 
     <!-- Şaşırt butonu -->
@@ -4639,20 +4640,48 @@ function renderKulturCard(d) {
   const res = document.getElementById('kultur-result');
   const card = document.createElement('div');
   card.className = 'kultur-card';
-  card.innerHTML =
-    '<div class="kultur-card-header">' +
-      '<div class="kultur-card-cat">' + esc(d.emoji||'✨') + ' ' + esc(d.category||'Kültür') + '</div>' +
-      '<div class="kultur-card-title">' + esc(d.title||'') + '</div>' +
-      (d.title_tr ? '<div class="kultur-card-title-tr">' + esc(d.title_tr) + '</div>' : '') +
-      (d.period ? '<div class="kultur-card-period">📅 ' + esc(d.period) + '</div>' : '') +
-    '</div>' +
-    '<div class="kultur-card-body">' +
-      '<div class="kultur-card-fact">' + esc(d.fact||'') + '</div>' +
-      (d.why_matters ? '<div class="kultur-card-why">💡 <strong>Neden bilmelisin?</strong><br>' + esc(d.why_matters) + '</div>' : '') +
-      (d.polish_connection ? '<div class="kultur-card-polish">🇵🇱 ' + esc(d.polish_connection) + '</div>' : '') +
-    '</div>';
+
+  const header = document.createElement('div');
+  header.className = 'kultur-card-header';
+  header.innerHTML =
+    '<div class="kultur-card-cat">' + esc(d.emoji||'✨') + ' ' + esc(d.category||'Kültür') + '</div>' +
+    '<div class="kultur-card-title">' + esc(d.title||'') + '</div>' +
+    (d.title_tr ? '<div class="kultur-card-title-tr">' + esc(d.title_tr) + '</div>' : '') +
+    (d.period ? '<div class="kultur-card-period">📅 ' + esc(d.period) + '</div>' : '');
+
+  const body = document.createElement('div');
+  body.className = 'kultur-card-body';
+  body.innerHTML =
+    '<div class="kultur-card-fact">' + esc(d.fact||'') + '</div>' +
+    (d.why_matters ? '<div class="kultur-card-why">💡 <strong>Neden bilmelisin?</strong><br>' + esc(d.why_matters) + '</div>' : '') +
+    (d.polish_connection ? '<div class="kultur-card-polish" style="margin-bottom:14px">🇵🇱 ' + esc(d.polish_connection) + '</div>' : '');
+
+  // Kaydet butonu
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'btn';
+  saveBtn.style.cssText = 'font-size:12px;margin-top:4px;width:100%;';
+  saveBtn.textContent = '📌 Notlara Kaydet';
+  saveBtn.onclick = function() {
+    const noteText = (d.emoji||'✨') + ' ' + (d.title||'') +
+      (d.period ? ' — ' + d.period : '') + '\n\n' +
+      (d.fact||'') +
+      (d.why_matters ? '\n\n💡 ' + d.why_matters : '') +
+      (d.polish_connection ? '\n\n🇵🇱 ' + d.polish_connection : '');
+    api.post('/api/notes', {
+      text: noteText,
+      context: '🏛 Kültür · ' + (d.category||'')
+    }).then(function() {
+      saveBtn.textContent = '✓ Kaydedildi!';
+      saveBtn.style.color = 'var(--green)';
+      saveBtn.style.borderColor = 'var(--green)';
+      setTimeout(function(){ saveBtn.textContent = '📌 Notlara Kaydet'; saveBtn.style.color=''; saveBtn.style.borderColor=''; }, 2000);
+    });
+  };
+  body.appendChild(saveBtn);
+
+  card.appendChild(header);
+  card.appendChild(body);
   res.appendChild(card);
-  // Scroll et
   card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
