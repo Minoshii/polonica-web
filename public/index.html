@@ -664,8 +664,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 #spotify-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0;}
 #spotify-close:hover{color:#fff;}
 /* Spotify bağla butonu */
-#spotify-connect-btn{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:#1db954;border:none;border-radius:99px;padding:8px 20px;color:#000;font-weight:700;font-size:12px;cursor:pointer;z-index:800;display:none;box-shadow:0 4px 16px rgba(29,185,84,.4);}
-#spotify-connect-btn.show{display:block;}
+#spotify-connect-btn{display:none;}
+#spotify-sidebar-btn{background:#1db954;border:none;border-radius:8px;padding:6px 12px;color:#000;font-weight:700;font-size:11px;cursor:pointer;width:100%;margin-top:4px;display:none;}
+#spotify-sidebar-btn.show{display:block;}
 </style>
 </head>
 <body>
@@ -783,6 +784,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0">📝 Notlarım</button>
+  <button id="spotify-sidebar-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px">ℹ Hakkında</button>
 
 
@@ -4282,9 +4284,11 @@ async function checkSpotify() {
     if(!data.connected) {
       // Bağlı değil - bağla butonu göster
       connectBtn.classList.add('show');
+    document.getElementById('spotify-sidebar-btn').classList.add('show');
       return;
     }
     connectBtn.classList.remove('show');
+    document.getElementById('spotify-sidebar-btn').classList.remove('show');
 
     _isPlaying = data.playing;
     const ppBtn = document.getElementById('sp-playpause');
