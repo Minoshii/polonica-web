@@ -633,9 +633,42 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .note-item-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;}
 .note-item-del:hover{color:var(--red);}
 @media(max-width:640px){#note-fab{bottom:70px;right:16px;}#note-popup{right:16px;bottom:124px;width:calc(100vw - 32px);}}
+/* SPOTIFY WIDGET */
+#spotify-widget{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800;display:none;user-select:none;}
+#spotify-widget.visible{display:block;}
+#spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;min-width:280px;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.6);cursor:grab;transition:opacity .4s ease,transform .4s ease;}
+#spotify-bar:active{cursor:grabbing;}
+#spotify-bar.hiding{opacity:0;transform:translateX(-50%) translateY(20px);}
+#spotify-cover{width:42px;height:42px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#222;}
+#spotify-info{flex:1;min-width:0;}
+#spotify-track{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#spotify-artist{font-size:11px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
+#spotify-progress-wrap{height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:6px;overflow:hidden;}
+#spotify-progress{height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .5s linear;}
+#spotify-logo{flex-shrink:0;}
+#spotify-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0;}
+#spotify-close:hover{color:#fff;}
+/* Spotify bağla butonu */
+#spotify-connect-btn{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:#1db954;border:none;border-radius:99px;padding:8px 20px;color:#000;font-weight:700;font-size:12px;cursor:pointer;z-index:800;display:none;box-shadow:0 4px 16px rgba(29,185,84,.4);}
+#spotify-connect-btn.show{display:block;}
 </style>
 </head>
 <body>
+
+<!-- SPOTIFY WIDGET -->
+<div id="spotify-widget">
+  <div id="spotify-bar">
+    <img id="spotify-cover" src="" alt="cover">
+    <div id="spotify-info">
+      <div id="spotify-track">Bağlanıyor...</div>
+      <div id="spotify-artist"></div>
+      <div id="spotify-progress-wrap"><div id="spotify-progress"></div></div>
+    </div>
+    <svg id="spotify-logo" width="20" height="20" viewBox="0 0 24 24" fill="#1db954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    <button id="spotify-close" onclick="hideSpotifyWidget()" title="Kapat">✕</button>
+  </div>
+</div>
+<button id="spotify-connect-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
 
 <!-- NOT FAB -->
 <button id="note-fab" onclick="toggleNotePopup()" title="Hızlı Not">📝</button>
@@ -4185,6 +4218,100 @@ document.addEventListener('click', function(e) {
     }
   }
 });
+
+// ── SPOTIFY ───────────────────────────────────────────────
+let _spotifyInterval = null;
+let _spotifyVisible = false;
+let _spotifyDragging = false;
+let _dragOffset = {x:0, y:0};
+
+function connectSpotify() {
+  const profile = localStorage.getItem('polonica_profile') || 'default';
+  const w = window.open('/spotify/login?profile='+profile, 'spotify_login', 'width=500,height=700');
+  window.addEventListener('message', function onMsg(e) {
+    if(e.data === 'spotify_connected') {
+      window.removeEventListener('message', onMsg);
+      w && w.close();
+      document.getElementById('spotify-connect-btn').classList.remove('show');
+      startSpotifyPolling();
+    }
+  });
+}
+
+function hideSpotifyWidget() {
+  const w = document.getElementById('spotify-widget');
+  const bar = document.getElementById('spotify-bar');
+  bar.classList.add('hiding');
+  setTimeout(() => { w.classList.remove('visible'); bar.classList.remove('hiding'); _spotifyVisible = false; }, 400);
+}
+
+async function checkSpotify() {
+  try {
+    const data = await api.get('/api/spotify/now-playing');
+    const widget = document.getElementById('spotify-widget');
+    const connectBtn = document.getElementById('spotify-connect-btn');
+
+    if(!data.connected) {
+      // Bağlı değil - bağla butonu göster
+      connectBtn.classList.add('show');
+      return;
+    }
+    connectBtn.classList.remove('show');
+
+    if(!data.playing) {
+      // Çalmıyor - widget'ı gizle
+      if(_spotifyVisible) hideSpotifyWidget();
+      return;
+    }
+
+    // Çalıyor - widget göster
+    document.getElementById('spotify-track').textContent = data.track;
+    document.getElementById('spotify-artist').textContent = data.artist;
+    const cover = document.getElementById('spotify-cover');
+    if(data.cover && cover.src !== data.cover) cover.src = data.cover;
+    const pct = data.duration_ms > 0 ? (data.progress_ms / data.duration_ms * 100) : 0;
+    document.getElementById('spotify-progress').style.width = pct + '%';
+
+    if(!_spotifyVisible) {
+      widget.classList.add('visible');
+      _spotifyVisible = true;
+    }
+  } catch(e) { /* sessizce hata */ }
+}
+
+function startSpotifyPolling() {
+  checkSpotify();
+  if(_spotifyInterval) clearInterval(_spotifyInterval);
+  _spotifyInterval = setInterval(checkSpotify, 8000);
+}
+
+// Sürükleme
+(function initDrag(){
+  const bar = document.getElementById('spotify-bar');
+  if(!bar) return;
+  bar.addEventListener('pointerdown', function(e) {
+    if(e.target.id === 'spotify-close') return;
+    _spotifyDragging = true;
+    const widget = document.getElementById('spotify-widget');
+    const rect = widget.getBoundingClientRect();
+    _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    bar.setPointerCapture(e.pointerId);
+    widget.style.left = rect.left + 'px';
+    widget.style.top = rect.top + 'px';
+    widget.style.bottom = 'auto';
+    widget.style.transform = 'none';
+  });
+  bar.addEventListener('pointermove', function(e) {
+    if(!_spotifyDragging) return;
+    const widget = document.getElementById('spotify-widget');
+    widget.style.left = (e.clientX - _dragOffset.x) + 'px';
+    widget.style.top = (e.clientY - _dragOffset.y) + 'px';
+  });
+  bar.addEventListener('pointerup', function() { _spotifyDragging = false; });
+})();
+
+// Sayfa açılınca Spotify durumunu kontrol et
+setTimeout(startSpotifyPolling, 2000);
 
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
 
