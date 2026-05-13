@@ -993,6 +993,48 @@ app.post('/api/spotify/previous', async (req, res) => {
   res.json(result);
 });
 
+// ── POLONYA KÜLTÜR ────────────────────────────────────────
+app.post('/api/kultur', async (req, res) => {
+  try {
+    const { category } = req.body;
+    const cats = {
+      'edebiyat': 'Polish literature, poets, novelists, their famous works and why they matter',
+      'tarih': 'Polish history, key events, heroes, turning points',
+      'muzik': 'Polish classical music, composers, folk music traditions',
+      'sinema': 'Polish cinema, directors, famous films, film school',
+      'sanat': 'Polish art, painters, sculptors, movements',
+      'mitoloji': 'Polish mythology, legends, folk tales, creatures',
+      'halk': 'Polish folk culture, traditions, customs, celebrations',
+      'bilim': 'Polish scientists, inventors, discoveries',
+    };
+    const focus = cats[category] || 'any aspect of Polish culture, history, art, literature or science';
+    const prompt = [
+      'You are an expert on Polish culture and history. Give ONE fascinating, detailed cultural fact about Poland.',
+      'Focus on: ' + focus,
+      'The user is a Turkish student learning Polish — make it relevant and memorable.',
+      '',
+      'Return ONLY valid JSON:',
+      '{',
+      '  "category": "category in Turkish (e.g. Edebiyat, Tarih, Müzik, Sinema, Sanat, Halk Kültürü, Bilim)",',
+      '  "title": "name of person/work/event in Polish/original",',
+      '  "title_tr": "Turkish translation or explanation of the title",',
+      '  "period": "time period (e.g. 1884, 19. yüzyıl, Orta Çağ)",',
+      '  "fact": "3-5 sentence fascinating fact in Turkish. Be specific, include context, why it matters, interesting details. Write as if telling a friend something amazing.",',
+      '  "why_matters": "1-2 sentences: why every Polish learner should know this",',
+      '  "polish_connection": "a Polish word or phrase related to this fact with Turkish meaning",',
+      '  "emoji": "2-3 relevant emojis"',
+      '}',
+      '',
+      'Be surprising and specific. Avoid generic facts. Each response must be DIFFERENT and UNIQUE.',
+      'Return ONLY valid JSON, no markdown.'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 800);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
