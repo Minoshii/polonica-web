@@ -4344,14 +4344,19 @@ function startSpotifyPolling() {
     _spotifyDragging = true;
     bar.classList.add('dragging');
     const widget = document.getElementById('spotify-widget');
+    // getBoundingClientRect her zaman doğru pixel pozisyonu verir
     const rect = widget.getBoundingClientRect();
-    _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    bar.setPointerCapture(e.pointerId);
-    widget.style.left = rect.left + 'px';
-    widget.style.top = rect.top + 'px';
+    // Önce transform/bottom'u sıfırla, sonra exact pozisyona yerleştir
+    widget.style.transition = 'none';
+    widget.style.animation = 'none';
     widget.style.bottom = 'auto';
     widget.style.transform = 'none';
+    widget.style.left = rect.left + 'px';
+    widget.style.top = rect.top + 'px';
     widget.classList.add('dragging-mode');
+    // Mouse'un widget içindeki offseti
+    _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    bar.setPointerCapture(e.pointerId);
     curX = rect.left; curY = rect.top;
     targetX = rect.left; targetY = rect.top;
     velX = 0; velY = 0; lastX = e.clientX; lastY = e.clientY; lastT = Date.now();
