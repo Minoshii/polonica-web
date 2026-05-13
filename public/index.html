@@ -4509,9 +4509,8 @@ const _spEasterMap = {
   }
 };
 
-// Sanatçı bazlı sayaç
-const _spPlayCount = {};  // { 'otsochodzi': { count: 2, lastTrack: 'xxx' } }
-let _lastSpArtist = '';
+// Oturum bazlı — F5'e kadar her sanatçı 1 kere
+const _spShownThisSession = new Set();
 let _lastSpTrack = '';
 
 function _matchArtist(artistStr) {
@@ -4521,23 +4520,6 @@ function _matchArtist(artistStr) {
     if (a.includes(key)) return key;
   }
   return null;
-}
-
-function _shouldShowEaster(key, track, isSpecial) {
-  if (isSpecial) return true;  // KinnyZimmer her zaman
-  const entry = _spPlayCount[key] || { count: 0, lastTrack: '' };
-  // Aynı şarkı tekrar oynuyorsa gösterme
-  if (entry.lastTrack === track) return false;
-  // İlk dinleme veya 3 kere döngü tamamlandıysa
-  return entry.count === 0 || entry.count % 3 === 0;
-}
-
-function _updateCount(key, track) {
-  if (!_spPlayCount[key]) _spPlayCount[key] = { count: 0, lastTrack: '' };
-  if (_spPlayCount[key].lastTrack !== track) {
-    _spPlayCount[key].count++;
-    _spPlayCount[key].lastTrack = track;
-  }
 }
 
 function spawnEasterEgg(key, track) {
@@ -4571,20 +4553,14 @@ function spawnEasterEgg(key, track) {
 
 function checkSpotifyEaster(artist, track) {
   if (!artist || !track) return;
-  // Aynı şarkı çalmaya devam ediyorsa tekrar tetikleme
   if (_lastSpTrack === track) return;
   _lastSpTrack = track;
-
-  // Sanatçı değişti mi?
   const key = _matchArtist(artist);
-  if (!key) { _lastSpArtist = artist; return; }
-
-  const cfg = _spEasterMap[key];
-  if (_shouldShowEaster(key, track, cfg.special)) {
-    setTimeout(() => spawnEasterEgg(key, track), 800);
-  }
-  _updateCount(key, track);
-  _lastSpArtist = artist;
+  if (!key) return;
+  // Bu oturumda zaten çıktıysa gösterme
+  if (_spShownThisSession.has(key)) return;
+  _spShownThisSession.add(key);
+  setTimeout(() => spawnEasterEgg(key, track), 800);
 }
 
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
