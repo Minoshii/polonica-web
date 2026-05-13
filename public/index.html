@@ -674,6 +674,16 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 #spotify-connect-btn{display:none;}
 #spotify-sidebar-btn{background:#1db954;border:none;border-radius:8px;padding:6px 12px;color:#000;font-weight:700;font-size:11px;cursor:pointer;width:100%;margin-top:4px;display:none;}
 #spotify-sidebar-btn.show{display:block;}
+/* SPOTIFY EASTER EGG */
+.sp-easter-particle{position:fixed;pointer-events:none;z-index:9999;font-size:28px;animation:spEasterFall linear forwards;}
+@keyframes spEasterFall{
+  0%  {opacity:1;transform:translateY(0) rotate(0deg) scale(1);}
+  80% {opacity:1;}
+  100%{opacity:0;transform:translateY(110vh) rotate(720deg) scale(0.5);}
+}
+.sp-easter-text{position:fixed;pointer-events:none;z-index:9999;font-family:'Syne',sans-serif;font-weight:900;text-align:center;left:50%;transform:translateX(-50%);animation:spTextPop .6s cubic-bezier(.34,1.56,.64,1) forwards, spTextFade 1.5s ease 1s forwards;}
+@keyframes spTextPop{0%{opacity:0;scale:0.3;top:30%;}100%{opacity:1;scale:1;top:35%;}}
+@keyframes spTextFade{0%{opacity:1;}100%{opacity:0;}}
 </style>
 </head>
 <body>
@@ -4307,6 +4317,7 @@ async function checkSpotify() {
     }
 
     // Çalıyor - widget göster
+    checkSpotifyEaster(data.artist, data.track);
     document.getElementById('spotify-track').textContent = data.track;
     document.getElementById('spotify-artist').textContent = data.artist;
     const cover = document.getElementById('spotify-cover');
@@ -4444,6 +4455,137 @@ async function spotifyPrev() {
 
 // Sayfa açılınca Spotify durumunu kontrol et
 setTimeout(startSpotifyPolling, 2000);
+
+// ── SPOTIFY EASTER EGGS ───────────────────────────────────
+const _spEasterMap = {
+  'otsochodzi': {
+    emojis: ['🧱','📦','🏗','⛓','🔨','🪨'],
+    text: 'ROZJEBMY TO!', color: '#ff4400', textColor: '#fff'
+  },
+  'youngigi': {
+    emojis: ['🔥','💥','⚡','🌪','🔥'],
+    text: 'YI 🔥', color: '#ff6600', textColor: '#fff'
+  },
+  'sobel': {
+    emojis: ['🌙','⭐','✨','🌟','💫'],
+    text: 'Sobel ✨', color: '#6644cc', textColor: '#e0d0ff'
+  },
+  'oki': {
+    emojis: ['🦔','🦔','47','🦔','47'],
+    text: '47 🦔', color: '#2a2a2a', textColor: '#fff'
+  },
+  'taco hemingway': {
+    emojis: ['📝','✍️','📖','🖊','📜'],
+    text: 'Taco 📝', color: '#8b4513', textColor: '#f5deb3'
+  },
+  'kinny zimmer': {
+    emojis: ['💯','💯','💯'],
+    text: '💯', color: '#000', textColor: '#fff',
+    special: true  // Her şarkıda çıkar
+  },
+  'mata': {
+    emojis: ['💎','💍','✨','👑','💎'],
+    text: 'Cartier 💎', color: '#c0a000', textColor: '#fff'
+  },
+  'pezet': {
+    emojis: ['🎤','🎧','🔊','💿','🎤'],
+    text: 'PEZET 🎤', color: '#1a1a1a', textColor: '#aaa'
+  },
+  'kizo': {
+    emojis: ['🤡','💀','🤡','😂','🤡'],
+    text: 'KIZO 🤡', color: '#ff0000', textColor: '#fff'
+  },
+  'maciek': {
+    emojis: ['👔','👕','🧥','👗','👔'],
+    text: 'MIÜ 👔', color: '#334466', textColor: '#fff'
+  },
+  'miü': {
+    emojis: ['👔','👕','🧥','👗','👔'],
+    text: 'MIÜ 👔', color: '#334466', textColor: '#fff'
+  },
+  'club 2020': {
+    emojis: ['🪩','🕺','💃','🎶','🪩'],
+    text: 'CLUB 2020 🪩', color: '#ff00ff', textColor: '#fff'
+  }
+};
+
+// Sanatçı bazlı sayaç
+const _spPlayCount = {};  // { 'otsochodzi': { count: 2, lastTrack: 'xxx' } }
+let _lastSpArtist = '';
+let _lastSpTrack = '';
+
+function _matchArtist(artistStr) {
+  if (!artistStr) return null;
+  const a = artistStr.toLowerCase();
+  for (const key of Object.keys(_spEasterMap)) {
+    if (a.includes(key)) return key;
+  }
+  return null;
+}
+
+function _shouldShowEaster(key, track, isSpecial) {
+  if (isSpecial) return true;  // KinnyZimmer her zaman
+  const entry = _spPlayCount[key] || { count: 0, lastTrack: '' };
+  // Aynı şarkı tekrar oynuyorsa gösterme
+  if (entry.lastTrack === track) return false;
+  // İlk dinleme veya 3 kere döngü tamamlandıysa
+  return entry.count === 0 || entry.count % 3 === 0;
+}
+
+function _updateCount(key, track) {
+  if (!_spPlayCount[key]) _spPlayCount[key] = { count: 0, lastTrack: '' };
+  if (_spPlayCount[key].lastTrack !== track) {
+    _spPlayCount[key].count++;
+    _spPlayCount[key].lastTrack = track;
+  }
+}
+
+function spawnEasterEgg(key, track) {
+  const cfg = _spEasterMap[key];
+  if (!cfg) return;
+
+  // Partiküller
+  for (let i = 0; i < 22; i++) {
+    const el = document.createElement('div');
+    el.className = 'sp-easter-particle';
+    el.textContent = cfg.emojis[Math.floor(Math.random() * cfg.emojis.length)];
+    el.style.cssText = [
+      'left:' + (5 + Math.random() * 90) + 'vw',
+      'top:-40px',
+      'font-size:' + (22 + Math.random() * 20) + 'px',
+      'animation-duration:' + (1.8 + Math.random() * 1.8) + 's',
+      'animation-delay:' + (Math.random() * 0.6) + 's'
+    ].join(';');
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+
+  // Yazı
+  const txt = document.createElement('div');
+  txt.className = 'sp-easter-text';
+  txt.textContent = cfg.text;
+  txt.style.cssText = 'font-size:clamp(32px,6vw,64px);color:' + cfg.textColor + ';text-shadow:0 0 30px ' + cfg.color + ';';
+  document.body.appendChild(txt);
+  setTimeout(() => txt.remove(), 3000);
+}
+
+function checkSpotifyEaster(artist, track) {
+  if (!artist || !track) return;
+  // Aynı şarkı çalmaya devam ediyorsa tekrar tetikleme
+  if (_lastSpTrack === track) return;
+  _lastSpTrack = track;
+
+  // Sanatçı değişti mi?
+  const key = _matchArtist(artist);
+  if (!key) { _lastSpArtist = artist; return; }
+
+  const cfg = _spEasterMap[key];
+  if (_shouldShowEaster(key, track, cfg.special)) {
+    setTimeout(() => spawnEasterEgg(key, track), 800);
+  }
+  _updateCount(key, track);
+  _lastSpArtist = artist;
+}
 
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
 
