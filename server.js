@@ -956,6 +956,41 @@ app.get('/api/spotify/status', (req, res) => {
   res.json({ connected: !!spotifyTokens[profile] });
 });
 
+// ── SPOTIFY PLAYER KONTROL ────────────────────────────────
+async function spotifyPlayerAction(profile, method, endpoint, body) {
+  let t = spotifyTokens[profile];
+  if (!t) return { error: 'Bağlı değil' };
+  if (Date.now() > t.expires_at - 60000) await refreshSpotifyToken(profile);
+  t = spotifyTokens[profile];
+  const opts = {
+    method,
+    headers: { 'Authorization': 'Bearer ' + t.access_token, 'Content-Type': 'application/json' }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch('https://api.spotify.com/v1/me/player' + endpoint, opts);
+  return { ok: r.status < 300 };
+}
+
+app.post('/api/spotify/play-pause', async (req, res) => {
+  const profile = req.headers['x-profile'] || 'default';
+  const { is_playing } = req.body;
+  const endpoint = is_playing ? '/pause' : '/play';
+  const result = await spotifyPlayerAction(profile, 'PUT', endpoint, null);
+  res.json(result);
+});
+
+app.post('/api/spotify/next', async (req, res) => {
+  const profile = req.headers['x-profile'] || 'default';
+  const result = await spotifyPlayerAction(profile, 'POST', '/next', null);
+  res.json(result);
+});
+
+app.post('/api/spotify/previous', async (req, res) => {
+  const profile = req.headers['x-profile'] || 'default';
+  const result = await spotifyPlayerAction(profile, 'POST', '/previous', null);
+  res.json(result);
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
