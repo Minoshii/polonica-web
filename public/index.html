@@ -634,9 +634,24 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .note-item-del:hover{color:var(--red);}
 @media(max-width:640px){#note-fab{bottom:70px;right:16px;}#note-popup{right:16px;bottom:124px;width:calc(100vw - 32px);}}
 /* SPOTIFY WIDGET */
+@keyframes floatBob {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  25%  { transform: translateY(-4px) rotate(0.3deg); }
+  50%  { transform: translateY(-7px) rotate(0deg); }
+  75%  { transform: translateY(-3px) rotate(-0.3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
 #spotify-widget{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800;display:none;user-select:none;}
 #spotify-widget.visible{display:block;}
-#spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;min-width:280px;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.6);cursor:grab;transition:opacity .4s ease,transform .4s ease;}
+#spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:300px;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05);cursor:grab;transition:opacity .5s ease,box-shadow .3s;animation:floatBob 6s ease-in-out infinite;}
+#spotify-bar.dragging{animation:none;cursor:grabbing;box-shadow:0 20px 60px rgba(0,0,0,.8);}
+#spotify-bar:active{cursor:grabbing;}
+#spotify-bar-top{display:flex;align-items:center;gap:12px;}
+#spotify-controls{display:flex;align-items:center;justify-content:center;gap:8px;padding-top:4px;border-top:1px solid rgba(255,255,255,.08);}
+.sp-ctrl{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:8px;transition:all .15s;line-height:1;}
+.sp-ctrl:hover{color:#fff;background:rgba(255,255,255,.1);}
+.sp-ctrl.play-pause{font-size:22px;color:#1db954;}
+.sp-ctrl.play-pause:hover{color:#1ed760;}
 #spotify-bar:active{cursor:grabbing;}
 #spotify-bar.hiding{opacity:0;transform:translateX(-50%) translateY(20px);}
 #spotify-cover{width:42px;height:42px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#222;}
@@ -658,14 +673,27 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <!-- SPOTIFY WIDGET -->
 <div id="spotify-widget">
   <div id="spotify-bar">
-    <img id="spotify-cover" src="" alt="cover">
-    <div id="spotify-info">
-      <div id="spotify-track">Bağlanıyor...</div>
-      <div id="spotify-artist"></div>
-      <div id="spotify-progress-wrap"><div id="spotify-progress"></div></div>
+    <!-- Üst kısım: kapak + info + kapat -->
+    <div id="spotify-bar-top">
+      <img id="spotify-cover" src="" alt="cover" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#222;">
+      <div id="spotify-info" style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#1db954" style="flex-shrink:0"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          <span id="spotify-track" style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</span>
+        </div>
+        <div id="spotify-artist" style="font-size:11px;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        <div id="spotify-progress-wrap" style="height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:7px;overflow:hidden;">
+          <div id="spotify-progress" style="height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .8s linear;"></div>
+        </div>
+      </div>
+      <button id="spotify-close" onclick="hideSpotifyWidget()" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:16px;padding:2px 4px;flex-shrink:0;" title="Kapat">✕</button>
     </div>
-    <svg id="spotify-logo" width="20" height="20" viewBox="0 0 24 24" fill="#1db954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-    <button id="spotify-close" onclick="hideSpotifyWidget()" title="Kapat">✕</button>
+    <!-- Kontroller -->
+    <div id="spotify-controls">
+      <button class="sp-ctrl" onclick="spotifyPrev()" title="Önceki">⏮</button>
+      <button class="sp-ctrl play-pause" id="sp-playpause" onclick="spotifyPlayPause()" title="Oynat/Duraklat">▶</button>
+      <button class="sp-ctrl" onclick="spotifyNext()" title="Sonraki">⏭</button>
+    </div>
   </div>
 </div>
 <button id="spotify-connect-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
@@ -4258,6 +4286,9 @@ async function checkSpotify() {
     }
     connectBtn.classList.remove('show');
 
+    _isPlaying = data.playing;
+    const ppBtn = document.getElementById('sp-playpause');
+    if(ppBtn) ppBtn.textContent = data.playing ? '⏸' : '▶';
     if(!data.playing) {
       // Çalmıyor - widget'ı gizle
       if(_spotifyVisible) hideSpotifyWidget();
@@ -4285,13 +4316,17 @@ function startSpotifyPolling() {
   _spotifyInterval = setInterval(checkSpotify, 8000);
 }
 
-// Sürükleme
+// Fizik tabanlı sürükleme + momentum
 (function initDrag(){
   const bar = document.getElementById('spotify-bar');
   if(!bar) return;
+  let velX = 0, velY = 0, lastX = 0, lastY = 0, lastT = 0;
+  let animFrame = null;
+
   bar.addEventListener('pointerdown', function(e) {
-    if(e.target.id === 'spotify-close') return;
+    if(e.target.closest('button')) return;
     _spotifyDragging = true;
+    bar.classList.add('dragging');
     const widget = document.getElementById('spotify-widget');
     const rect = widget.getBoundingClientRect();
     _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
@@ -4300,15 +4335,74 @@ function startSpotifyPolling() {
     widget.style.top = rect.top + 'px';
     widget.style.bottom = 'auto';
     widget.style.transform = 'none';
+    velX = 0; velY = 0; lastX = e.clientX; lastY = e.clientY; lastT = Date.now();
+    if(animFrame) cancelAnimationFrame(animFrame);
   });
+
   bar.addEventListener('pointermove', function(e) {
     if(!_spotifyDragging) return;
     const widget = document.getElementById('spotify-widget');
-    widget.style.left = (e.clientX - _dragOffset.x) + 'px';
-    widget.style.top = (e.clientY - _dragOffset.y) + 'px';
+    const nx = e.clientX - _dragOffset.x;
+    const ny = e.clientY - _dragOffset.y;
+    widget.style.left = nx + 'px';
+    widget.style.top = ny + 'px';
+    const now = Date.now();
+    const dt = Math.max(now - lastT, 1);
+    velX = (e.clientX - lastX) / dt * 16;
+    velY = (e.clientY - lastY) / dt * 16;
+    lastX = e.clientX; lastY = e.clientY; lastT = now;
   });
-  bar.addEventListener('pointerup', function() { _spotifyDragging = false; });
+
+  bar.addEventListener('pointerup', function() {
+    if(!_spotifyDragging) return;
+    _spotifyDragging = false;
+    bar.classList.remove('dragging');
+    // Momentum + yay etkisi
+    const widget = document.getElementById('spotify-widget');
+    function momentum() {
+      velX *= 0.88; velY *= 0.88;
+      const x = parseFloat(widget.style.left) + velX;
+      const y = parseFloat(widget.style.top) + velY;
+      // Ekran sınırları
+      const maxX = window.innerWidth - widget.offsetWidth - 10;
+      const maxY = window.innerHeight - widget.offsetHeight - 10;
+      const cx = Math.max(10, Math.min(maxX, x));
+      const cy = Math.max(10, Math.min(maxY, y));
+      if(x < 10 || x > maxX) velX *= -0.4;
+      if(y < 10 || y > maxY) velY *= -0.4;
+      widget.style.left = cx + 'px';
+      widget.style.top = cy + 'px';
+      if(Math.abs(velX) > 0.3 || Math.abs(velY) > 0.3) {
+        animFrame = requestAnimationFrame(momentum);
+      }
+    }
+    animFrame = requestAnimationFrame(momentum);
+  });
 })();
+
+// Kontrol fonksiyonları
+let _isPlaying = false;
+
+async function spotifyPlayPause() {
+  try {
+    await api.post('/api/spotify/play-pause', { is_playing: _isPlaying });
+    setTimeout(checkSpotify, 300);
+  } catch(e) {}
+}
+
+async function spotifyNext() {
+  try {
+    await api.post('/api/spotify/next', {});
+    setTimeout(checkSpotify, 500);
+  } catch(e) {}
+}
+
+async function spotifyPrev() {
+  try {
+    await api.post('/api/spotify/previous', {});
+    setTimeout(checkSpotify, 500);
+  } catch(e) {}
+}
 
 // Sayfa açılınca Spotify durumunu kontrol et
 setTimeout(startSpotifyPolling, 2000);
