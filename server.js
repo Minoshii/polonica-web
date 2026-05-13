@@ -842,6 +842,120 @@ app.delete('/api/notes/:id', (req, res) => {
   res.json({ ok: true });
 });
 
+// ── SPOTIFY ───────────────────────────────────────────────
+const SPOTIFY_CLIENT_ID     = process.env.SPOTIFY_CLIENT_ID || '';
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET || '';
+const SPOTIFY_REDIRECT      = process.env.RAILWAY_PUBLIC_DOMAIN
+  ? 'https://'+process.env.RAILWAY_PUBLIC_DOMAIN+'/spotify/callback'
+  : 'https://polonica-web-production.up.railway.app/spotify/callback';
+
+// Token'ları profil bazlı sakla
+const spotifyTokens = {};
+
+// 1. Login başlat
+app.get('/spotify/login', (req, res) => {
+  const profile = req.query.profile || 'default';
+  const scope = 'user-read-currently-playing user-read-playback-state';
+  const params = new URLSearchParams({
+    response_type: 'code',
+    client_id: SPOTIFY_CLIENT_ID,
+    scope,
+    redirect_uri: SPOTIFY_REDIRECT,
+    state: profile
+  });
+  res.redirect('https://accounts.spotify.com/authorize?' + params.toString());
+});
+
+// 2. Callback
+app.get('/spotify/callback', async (req, res) => {
+  const { code, state: profile } = req.query;
+  if (!code) return res.send('Hata: kod yok');
+  try {
+    const body = new URLSearchParams({
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: SPOTIFY_REDIRECT,
+      client_id: SPOTIFY_CLIENT_ID,
+      client_secret: SPOTIFY_CLIENT_SECRET
+    });
+    const r = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+    const data = await r.json();
+    if (data.access_token) {
+      spotifyTokens[profile] = {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        expires_at: Date.now() + (data.expires_in * 1000)
+      };
+      res.send('<script>window.close();window.opener&&window.opener.postMessage("spotify_connected","*")</script><p>Bağlandı! Bu pencereyi kapatabilirsin.</p>');
+    } else {
+      res.send('Hata: ' + JSON.stringify(data));
+    }
+  } catch(e) { res.send('Hata: ' + e.message); }
+});
+
+// 3. Token yenile
+async function refreshSpotifyToken(profile) {
+  const t = spotifyTokens[profile];
+  if (!t || !t.refresh_token) return null;
+  const body = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: t.refresh_token,
+    client_id: SPOTIFY_CLIENT_ID,
+    client_secret: SPOTIFY_CLIENT_SECRET
+  });
+  const r = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString()
+  });
+  const data = await r.json();
+  if (data.access_token) {
+    t.access_token = data.access_token;
+    t.expires_at = Date.now() + (data.expires_in * 1000);
+  }
+  return t.access_token;
+}
+
+// 4. Şu an çalan şarkı
+app.get('/api/spotify/now-playing', async (req, res) => {
+  const profile = req.headers['x-profile'] || 'default';
+  let t = spotifyTokens[profile];
+  if (!t) return res.json({ connected: false });
+  // Token süresi dolmuşsa yenile
+  if (Date.now() > t.expires_at - 60000) {
+    await refreshSpotifyToken(profile);
+    t = spotifyTokens[profile];
+  }
+  try {
+    const r = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+      headers: { 'Authorization': 'Bearer ' + t.access_token }
+    });
+    if (r.status === 204 || r.status === 404) return res.json({ connected: true, playing: false });
+    const data = await r.json();
+    if (!data.item) return res.json({ connected: true, playing: false });
+    res.json({
+      connected: true,
+      playing: data.is_playing,
+      track: data.item.name,
+      artist: data.item.artists.map(a => a.name).join(', '),
+      album: data.item.album.name,
+      cover: data.item.album.images[1]?.url || data.item.album.images[0]?.url || '',
+      progress_ms: data.progress_ms,
+      duration_ms: data.item.duration_ms
+    });
+  } catch(e) { res.json({ connected: false, error: e.message }); }
+});
+
+// 5. Bağlantı durumu
+app.get('/api/spotify/status', (req, res) => {
+  const profile = req.headers['x-profile'] || 'default';
+  res.json({ connected: !!spotifyTokens[profile] });
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
