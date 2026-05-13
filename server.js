@@ -850,7 +850,8 @@ const SPOTIFY_REDIRECT      = process.env.RAILWAY_PUBLIC_DOMAIN
   : 'https://polonica-web-production.up.railway.app/spotify/callback';
 
 // Token'ları profil bazlı sakla
-const spotifyTokens = {};
+// Spotify tokenları store'dan yükle
+function getSpotifyTokens() { return store.spotifyTokens || (store.spotifyTokens = {}); }
 
 // 1. Login başlat
 app.get('/spotify/login', (req, res) => {
@@ -885,7 +886,7 @@ app.get('/spotify/callback', async (req, res) => {
     });
     const data = await r.json();
     if (data.access_token) {
-      spotifyTokens[profile] = {
+      getSpotifyTokens()[profile] = {
         access_token: data.access_token,
         refresh_token: data.refresh_token,
         expires_at: Date.now() + (data.expires_in * 1000)
@@ -899,7 +900,7 @@ app.get('/spotify/callback', async (req, res) => {
 
 // 3. Token yenile
 async function refreshSpotifyToken(profile) {
-  const t = spotifyTokens[profile];
+  const t = getSpotifyTokens()[profile];
   if (!t || !t.refresh_token) return null;
   const body = new URLSearchParams({
     grant_type: 'refresh_token',
@@ -916,6 +917,7 @@ async function refreshSpotifyToken(profile) {
   if (data.access_token) {
     t.access_token = data.access_token;
     t.expires_at = Date.now() + (data.expires_in * 1000);
+    saveStore();
   }
   return t.access_token;
 }
@@ -923,12 +925,12 @@ async function refreshSpotifyToken(profile) {
 // 4. Şu an çalan şarkı
 app.get('/api/spotify/now-playing', async (req, res) => {
   const profile = req.headers['x-profile'] || 'default';
-  let t = spotifyTokens[profile];
+  let t = getSpotifyTokens()[profile];
   if (!t) return res.json({ connected: false });
   // Token süresi dolmuşsa yenile
   if (Date.now() > t.expires_at - 60000) {
     await refreshSpotifyToken(profile);
-    t = spotifyTokens[profile];
+    t = getSpotifyTokens()[profile];
   }
   try {
     const r = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
@@ -953,15 +955,15 @@ app.get('/api/spotify/now-playing', async (req, res) => {
 // 5. Bağlantı durumu
 app.get('/api/spotify/status', (req, res) => {
   const profile = req.headers['x-profile'] || 'default';
-  res.json({ connected: !!spotifyTokens[profile] });
+  res.json({ connected: !!getSpotifyTokens()[profile] });
 });
 
 // ── SPOTIFY PLAYER KONTROL ────────────────────────────────
 async function spotifyPlayerAction(profile, method, endpoint, body) {
-  let t = spotifyTokens[profile];
+  let t = getSpotifyTokens()[profile];
   if (!t) return { error: 'Bağlı değil' };
   if (Date.now() > t.expires_at - 60000) await refreshSpotifyToken(profile);
-  t = spotifyTokens[profile];
+  t = getSpotifyTokens()[profile];
   const opts = {
     method,
     headers: { 'Authorization': 'Bearer ' + t.access_token, 'Content-Type': 'application/json' }
