@@ -1005,6 +1005,7 @@ app.post('/api/kultur', async (req, res) => {
       'sanat': 'Polish art, painters, sculptors, movements',
       'mitoloji': 'Polish mythology, legends, folk tales, creatures',
       'halk': 'Polish folk culture, traditions, customs, celebrations',
+      'turkpolonya': 'relations between Turkey and Poland — both historical AND modern/current: Ottoman-Polish alliances, WW2 era connections, BUT ALSO modern trade, tourism, Polish people in Turkey today, Turkish people in Poland, current diplomatic relations, Polish-Turkish cultural similarities, modern pop culture crossovers, EU-Turkey-Poland dynamics, modern business ties, universities, sports connections, anything surprising and current between the two countries in 2020s',
       'bilim': 'Polish scientists, inventors, discoveries',
     };
     const focus = cats[category] || 'any aspect of Polish culture, history, art, literature or science';
