@@ -684,6 +684,24 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .sp-easter-text{position:fixed;pointer-events:none;z-index:9999;font-family:'Syne',sans-serif;font-weight:900;text-align:center;left:50%;transform:translateX(-50%);animation:spTextPop .6s cubic-bezier(.34,1.56,.64,1) forwards, spTextFade 1.5s ease 1s forwards;}
 @keyframes spTextPop{0%{opacity:0;scale:0.3;top:30%;}100%{opacity:1;scale:1;top:35%;}}
 @keyframes spTextFade{0%{opacity:1;}100%{opacity:0;}}
+/* KÜLTÜR PANELİ */
+.kultur-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.kultur-cat-btn{padding:7px 14px;border-radius:99px;border:1px solid var(--border2);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
+.kultur-cat-btn:hover{border-color:var(--accent-dim);color:var(--accent);}
+.kultur-cat-btn.active{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent);}
+.kultur-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;overflow:hidden;animation:panelIn .3s ease;}
+.kultur-card-header{padding:20px 22px 14px;border-bottom:1px solid var(--border);}
+.kultur-card-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-dim);margin-bottom:8px;}
+.kultur-card-title{font-size:24px;font-weight:900;color:var(--text);margin-bottom:4px;line-height:1.2;}
+.kultur-card-title-tr{font-size:13px;color:var(--text3);font-style:italic;}
+.kultur-card-period{font-size:11px;color:var(--text3);margin-top:6px;font-family:'DM Mono',monospace;}
+.kultur-card-body{padding:20px 22px;}
+.kultur-card-fact{font-size:15px;color:var(--text);line-height:1.85;margin-bottom:16px;}
+.kultur-card-why{font-size:13px;color:var(--text2);padding:12px 14px;background:var(--surface3);border-radius:10px;border-left:3px solid var(--accent-dim);margin-bottom:14px;line-height:1.6;}
+.kultur-card-polish{display:inline-flex;align-items:center;gap:8px;background:var(--accent-bg);border:1px solid var(--accent-dim);border-radius:8px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);}
+.kultur-surprise-btn{display:flex;align-items:center;gap:12px;width:100%;padding:16px 20px;border-radius:14px;border:2px dashed var(--border2);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;margin-bottom:20px;}
+.kultur-surprise-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);transform:scale(1.01);}
+.kultur-surprise-btn:active{transform:scale(0.98);}
 </style>
 </head>
 <body>
@@ -800,6 +818,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
+  <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:#e090c0;font-weight:800">🏛 Kültür</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0">📝 Notlarım</button>
   <button id="spotify-sidebar-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px">ℹ Hakkında</button>
@@ -2022,6 +2041,34 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="panel-title">📝 Notlarım</div>
     <div class="panel-sub">Her yerden eklediğin hızlı notlar burada toplanır.</div>
     <div id="notes-list"><div style="text-align:center;padding:40px;color:var(--text3)"><span class="spinner"></span></div></div>
+  </div>
+
+  <!-- KÜLTÜR -->
+  <div class="panel" id="panel-kultur">
+    <div class="panel-title">🏛 Polonya Kültürü <span class="mode-badge" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a0">Şaşırt Beni</span></div>
+    <div class="panel-sub">Her tıklamada Polonya edebiyatı, tarihi, müziği veya sanatından seni şaşırtacak bir bilgi gelsin.</div>
+
+    <!-- Kategori filtresi -->
+    <div class="kultur-cats">
+      <button class="kultur-cat-btn active" data-cat="" onclick="selectKulturCat(this,'')">🎲 Sürpriz</button>
+      <button class="kultur-cat-btn" data-cat="edebiyat" onclick="selectKulturCat(this,'edebiyat')">📚 Edebiyat</button>
+      <button class="kultur-cat-btn" data-cat="tarih" onclick="selectKulturCat(this,'tarih')">⚔️ Tarih</button>
+      <button class="kultur-cat-btn" data-cat="muzik" onclick="selectKulturCat(this,'muzik')">🎼 Müzik</button>
+      <button class="kultur-cat-btn" data-cat="sinema" onclick="selectKulturCat(this,'sinema')">🎬 Sinema</button>
+      <button class="kultur-cat-btn" data-cat="sanat" onclick="selectKulturCat(this,'sanat')">🖼 Sanat</button>
+      <button class="kultur-cat-btn" data-cat="mitoloji" onclick="selectKulturCat(this,'mitoloji')">🐉 Mitoloji</button>
+      <button class="kultur-cat-btn" data-cat="bilim" onclick="selectKulturCat(this,'bilim')">🔬 Bilim</button>
+      <button class="kultur-cat-btn" data-cat="halk" onclick="selectKulturCat(this,'halk')">🎭 Halk Kültürü</button>
+    </div>
+
+    <!-- Şaşırt butonu -->
+    <button class="kultur-surprise-btn" onclick="loadKultur()" id="kultur-btn">
+      <span style="font-size:28px">✨</span>
+      <span>Şaşırt Beni!</span>
+    </button>
+
+    <!-- Kart alanı -->
+    <div id="kultur-result"></div>
   </div>
 
   <!-- HAKKINDA -->
@@ -4561,6 +4608,52 @@ function checkSpotifyEaster(artist, track) {
   if (_spShownThisSession.has(key)) return;
   _spShownThisSession.add(key);
   setTimeout(() => spawnEasterEgg(key, track), 800);
+}
+
+// ── KÜLTÜR ────────────────────────────────────────────────
+let _kulturCat = '';
+
+function selectKulturCat(btn, cat) {
+  document.querySelectorAll('.kultur-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _kulturCat = cat;
+}
+
+async function loadKultur() {
+  const btn = document.getElementById('kultur-btn');
+  const res = document.getElementById('kultur-result');
+  btn.style.opacity = '0.5';
+  btn.querySelector('span:last-child').textContent = 'Yükleniyor...';
+  res.innerHTML = '';
+  try {
+    const data = await api.post('/api/kultur', { category: _kulturCat });
+    renderKulturCard(data);
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:20px">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.style.opacity = '1';
+  btn.querySelector('span:last-child').textContent = 'Bir Daha Şaşırt!';
+}
+
+function renderKulturCard(d) {
+  const res = document.getElementById('kultur-result');
+  const card = document.createElement('div');
+  card.className = 'kultur-card';
+  card.innerHTML =
+    '<div class="kultur-card-header">' +
+      '<div class="kultur-card-cat">' + esc(d.emoji||'✨') + ' ' + esc(d.category||'Kültür') + '</div>' +
+      '<div class="kultur-card-title">' + esc(d.title||'') + '</div>' +
+      (d.title_tr ? '<div class="kultur-card-title-tr">' + esc(d.title_tr) + '</div>' : '') +
+      (d.period ? '<div class="kultur-card-period">📅 ' + esc(d.period) + '</div>' : '') +
+    '</div>' +
+    '<div class="kultur-card-body">' +
+      '<div class="kultur-card-fact">' + esc(d.fact||'') + '</div>' +
+      (d.why_matters ? '<div class="kultur-card-why">💡 <strong>Neden bilmelisin?</strong><br>' + esc(d.why_matters) + '</div>' : '') +
+      (d.polish_connection ? '<div class="kultur-card-polish">🇵🇱 ' + esc(d.polish_connection) + '</div>' : '') +
+    '</div>';
+  res.appendChild(card);
+  // Scroll et
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
