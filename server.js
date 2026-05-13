@@ -856,7 +856,7 @@ function getSpotifyTokens() { return store.spotifyTokens || (store.spotifyTokens
 // 1. Login başlat
 app.get('/spotify/login', (req, res) => {
   const profile = req.query.profile || 'default';
-  const scope = 'user-read-currently-playing user-read-playback-state';
+  const scope = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
   const params = new URLSearchParams({
     response_type: 'code',
     client_id: SPOTIFY_CLIENT_ID,
