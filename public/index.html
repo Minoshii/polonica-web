@@ -663,14 +663,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 
 
-/* SNAP ANIMASYONU */
-#spotify-bar{will-change:transform,opacity;}
-#spotify-bar.snapping{
-  transition:all .7s cubic-bezier(.25,.46,.45,.94) !important;
-  opacity:0;
-  transform:scale(0.1) translate(-50vw,-50vh);
-  pointer-events:none;
-}
+
 #spotify-widget.visible{display:block;animation:spotifyPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
 #spotify-widget.dragging-mode{animation:none;}
 #spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:300px;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05);cursor:grab;transition:all .6s cubic-bezier(.25,.46,.45,.94);animation:floatBob 6s ease-in-out infinite;}
@@ -745,7 +738,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
           <div id="spotify-progress" style="height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .8s linear;"></div>
         </div>
       </div>
-      <button id="spotify-close" onclick="snapSpotify()" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:16px;padding:2px 4px;flex-shrink:0;" title="Küçült">⊟</button>
+      <button id="spotify-close" onclick="snapSpotify()" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:13px;padding:4px 6px;flex-shrink:0;border-radius:6px;" title="Küçült" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.35)'">⊟</button>
     </div>
     <!-- Kontroller -->
     <div id="spotify-controls">
@@ -788,12 +781,6 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </div>
 
 <!-- AKTİF PROFİL BADGE (sağ üst) -->
-<div id="spotify-dock-top" title="Spotify - büyütmek için tıkla" onclick="unsnapSpotify()" style="display:none;align-items:center;gap:8px;background:rgba(10,10,10,.85);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:5px 10px 5px 7px;cursor:pointer;margin-right:6px;backdrop-filter:blur(12px);">
-  <img id="spotify-dock-cover" src="" style="width:26px;height:26px;border-radius:4px;object-fit:cover;background:#1a1a1a;flex-shrink:0;">
-  <div id="spotify-dock-progress-wrap" style="width:60px;height:2px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;">
-    <div id="spotify-dock-bar" style="height:100%;background:#1db954;width:0%;transition:width .8s linear;border-radius:99px;"></div>
-  </div>
-</div>
 <div id="theme-switcher-top">
   <button id="theme-btn-dark" onclick="setTheme('dark')" title="Koyu">🌑</button>
   <button id="theme-btn-dim" onclick="setTheme('dim')" title="Loş">🌙</button>
@@ -807,6 +794,12 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   </div>
 </div>
 
+<div id="spotify-mini-pill" onclick="unsnapSpotify()" title="Spotify - tıkla büyüt" style="display:none;position:fixed;top:10px;right:170px;z-index:600;align-items:center;gap:7px;background:rgba(12,12,12,.9);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:5px 10px 5px 6px;cursor:pointer;backdrop-filter:blur(10px);">
+  <img id="spotify-pill-cover" src="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;background:#222;flex-shrink:0;">
+  <div style="width:48px;height:2px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;">
+    <div id="spotify-pill-bar" style="height:100%;background:#1db954;width:0%;transition:width .8s linear;border-radius:99px;"></div>
+  </div>
+</div>
 <div id="profile-badge" onclick="switchProfile()" title="Profil değiştir">
   <span id="badge-emoji" style="font-size:18px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;"></span>
   <span id="badge-name" style="font-weight:700"></span>
@@ -4376,34 +4369,38 @@ let _spotifySnapped = false;
 function snapSpotify() {
   if(_spotifySnapped) return;
   _spotifySnapped = true;
+
+  // Mini pill'i güncelle ve göster
+  const cover = document.getElementById('spotify-cover');
+  const pillCover = document.getElementById('spotify-pill-cover');
+  if(cover && pillCover) pillCover.src = cover.src;
+  const pct = document.getElementById('spotify-progress').style.width;
+  const pillBar = document.getElementById('spotify-pill-bar');
+  if(pillBar) pillBar.style.width = pct;
+  const pill = document.getElementById('spotify-mini-pill');
+  if(pill) pill.style.display = 'flex';
+
+  // Widget'ı gizle
   const widget = document.getElementById('spotify-widget');
   const bar = document.getElementById('spotify-bar');
-  const dock = document.getElementById('spotify-dock-top');
-
-  // Dock'u göster - kapak ve progress ile
-  const cover = document.getElementById('spotify-cover');
-  const dockCover = document.getElementById('spotify-dock-cover');
-  if(cover && dockCover) dockCover.src = cover.src;
-  const pct = document.getElementById('spotify-progress').style.width;
-  document.getElementById('spotify-dock-bar').style.width = pct;
-  dock.style.display = 'flex';
-
-  // Bar'ı yavaşça küçült ve kaybet
-  bar.classList.add('snapping');
-
+  bar.style.transition = 'opacity .5s ease, transform .5s ease';
+  bar.style.opacity = '0';
+  bar.style.transform = 'scale(0.85)';
   setTimeout(function() {
     widget.classList.remove('visible');
-    bar.classList.remove('snapping');
+    bar.style.opacity = '';
+    bar.style.transform = '';
+    bar.style.transition = '';
     _spotifyVisible = false;
-  }, 650);
+  }, 480);
 }
 
 function unsnapSpotify() {
   if(!_spotifySnapped) return;
   _spotifySnapped = false;
-  const dock = document.getElementById('spotify-dock-top');
-  dock.style.display = 'none';
-  // Bar'ı tekrar göster
+  const pill = document.getElementById('spotify-mini-pill');
+  if(pill) pill.style.display = 'none';
+  // Widget'ı tekrar göster
   const widget = document.getElementById('spotify-widget');
   widget.style.left = '50%';
   widget.style.top = 'auto';
@@ -4444,17 +4441,16 @@ async function checkSpotify() {
     // Çalıyor - widget göster
     checkSpotifyEaster(data.artist, data.track);
     document.getElementById('spotify-track').textContent = data.track;
-    // Dock kapak güncelle
     if(_spotifySnapped) {
-      const cover = document.getElementById('spotify-cover');
-      document.getElementById('spotify-dock-cover').src = cover ? cover.src : '';
+      var pc=document.getElementById('spotify-pill-cover'), cov=document.getElementById('spotify-cover');
+      if(pc&&cov) pc.src=cov.src;
     }
     document.getElementById('spotify-artist').textContent = data.artist;
     const cover = document.getElementById('spotify-cover');
     if(data.cover && cover.src !== data.cover) cover.src = data.cover;
     const pct = data.duration_ms > 0 ? (data.progress_ms / data.duration_ms * 100) : 0;
     document.getElementById('spotify-progress').style.width = pct + '%';
-    if(_spotifySnapped) document.getElementById('spotify-dock-bar').style.width = pct + '%';
+    if(_spotifySnapped) { var pb=document.getElementById('spotify-pill-bar'); if(pb) pb.style.width=pct+'%'; }
 
     if(!_spotifyVisible) {
       widget.style.left = '';
