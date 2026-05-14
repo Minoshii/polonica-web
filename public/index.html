@@ -6219,89 +6219,138 @@ function triggerMetro() {
   if (_metroActive) return;
   _metroActive = true;
 
-  // CSS inject
-  if (!document.getElementById('metro-css')) {
-    const s = document.createElement('style');
-    s.id = 'metro-css';
-    s.textContent = [
-      '@keyframes metroFlicker{0%,100%{opacity:.82}33%{opacity:.90}66%{opacity:.78}}',
-      '@keyframes metroRadPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.55}50%{transform:translate(-50%,-50%) scale(1.1);opacity:.95}}',
-      '@keyframes metroToastIn{from{opacity:0;transform:translateX(-50%) translateY(-18px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}',
-      '@keyframes metroScanRoll{from{background-position:0 0}to{background-position:0 4px}}',
-      'body.metro-cursor,body.metro-cursor *{cursor:crosshair!important}'
-    ].join('');
-    document.head.appendChild(s);
-  }
+  // CSS animations
+  const metroStyle = document.createElement('style');
+  metroStyle.id = 'metro-style';
+  metroStyle.textContent = [
+    '@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.009)}}',
+    '@keyframes metroVigPulse{0%,100%{opacity:.88}50%{opacity:.97}}',
+    '@keyframes metroFlicker{0%,94%,100%{opacity:1}95%{opacity:.15}97%{opacity:.7}98%{opacity:.25}99%{opacity:.9}}',
+    '@keyframes metroToastBlink{0%,100%{opacity:1}49%{opacity:1}50%{opacity:.1}}',
+    '@keyframes metroScan{from{background-position:0 0}to{background-position:0 4px}}',
+    'body.metro-cursor,body.metro-cursor *{cursor:crosshair!important}'
+  ].join('');
+  document.head.appendChild(metroStyle);
 
-  // Geiger sesi — Web Audio darbe gürültüsü
-  let _geigerOn = true;
+  // ── SES: Burst pattern Geiger + ambient drone ──
   try {
     const actx = new (window.AudioContext || window.webkitAudioContext)();
-    const masterGain = actx.createGain(); masterGain.gain.value = 0.35;
-    masterGain.connect(actx.destination);
-    let _clickCount = 0;
-    const MAX_CLICKS = 60;
 
-    function geigerClick() {
-      if (!_geigerOn || _clickCount >= MAX_CLICKS) return;
-      _clickCount++;
+    function geigerClick(t, vol) {
       const sr = actx.sampleRate;
-      const dur = 0.025 + Math.random() * 0.02;
-      const buf = actx.createBuffer(1, Math.ceil(sr * dur), sr);
+      const buf = actx.createBuffer(1, Math.ceil(sr * 0.028), sr);
       const d = buf.getChannelData(0);
-      for (let i = 0; i < d.length; i++) {
-        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sr * 0.006));
-      }
+      for (let i = 0; i < d.length; i++)
+        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sr * 0.004));
       const src = actx.createBufferSource();
-      src.buffer = buf;
-      const g = actx.createGain(); g.gain.value = 0.8 + Math.random() * 0.4;
-      src.connect(g); g.connect(masterGain);
-      src.start();
-      // Başta yavaş, ortada hızlanır, sonda yavaşlar
-      const progress = _clickCount / MAX_CLICKS;
-      const intensity = Math.sin(progress * Math.PI); // 0→1→0 eğrisi
-      const delay = 60 + (1 - intensity) * 280 + Math.random() * 80;
-      setTimeout(geigerClick, delay);
+      const g = actx.createGain(); g.gain.value = vol;
+      src.buffer = buf; src.connect(g); g.connect(actx.destination);
+      src.start(t);
     }
-    geigerClick();
 
-    setTimeout(() => {
-      _geigerOn = false;
-      actx.close();
-    }, 9000);
+    // Metro-style: burst clusters with gaps
+    let t = actx.currentTime + 0.2;
+    const END = actx.currentTime + 10;
+    while (t < END) {
+      const burst = 2 + Math.floor(Math.random() * 8);
+      for (let i = 0; i < burst; i++) {
+        geigerClick(t, 0.25 + Math.random() * 0.55);
+        t += 0.018 + Math.random() * 0.055;
+      }
+      t += 0.1 + Math.random() * 0.55; // gap between bursts
+    }
+
+    // Low ambient drone
+    const drone = actx.createOscillator();
+    const droneG = actx.createGain();
+    drone.type = 'sawtooth'; drone.frequency.value = 48;
+    droneG.gain.setValueAtTime(0, actx.currentTime);
+    droneG.gain.linearRampToValueAtTime(0.035, actx.currentTime + 1.2);
+    droneG.gain.linearRampToValueAtTime(0.02, actx.currentTime + 8);
+    droneG.gain.linearRampToValueAtTime(0, actx.currentTime + 10);
+    drone.connect(droneG); droneG.connect(actx.destination);
+    drone.start(); drone.stop(actx.currentTime + 10.5);
+
+    setTimeout(() => actx.close(), 11000);
   } catch(e) {}
 
-  // Vignette overlay
+  // ── VİZYON: Film grain (canvas animated) ──
+  const grain = document.createElement('canvas');
+  grain.style.cssText = 'position:fixed;inset:0;z-index:9993;pointer-events:none;width:100%;height:100%;opacity:.16;mix-blend-mode:screen;';
+  grain.width = Math.min(window.innerWidth, 800);
+  grain.height = Math.min(window.innerHeight, 600);
+  const gctx = grain.getContext('2d');
+  let grainRaf, grainAlive = true;
+  (function drawGrain() {
+    if (!grainAlive) return;
+    const img = gctx.createImageData(grain.width, grain.height);
+    const d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = Math.random() * 255;
+      d[i] = v * 0.5; d[i+1] = v; d[i+2] = v * 0.35; d[i+3] = Math.random() * 55;
+    }
+    gctx.putImageData(img, 0, 0);
+    grainRaf = requestAnimationFrame(drawGrain);
+  })();
+
+  // ── Renk tonu — hafif yeşil ──
+  const colorGrade = document.createElement('div');
+  colorGrade.style.cssText = 'position:fixed;inset:0;z-index:9992;pointer-events:none;background:rgba(0,12,4,.22);';
+
+  // ── Ağır vignette ──
   const vignette = document.createElement('div');
-  vignette.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,20,0,.75) 100%);animation:metroFlicker .18s infinite;';
+  vignette.style.cssText = 'position:fixed;inset:0;z-index:9994;pointer-events:none;background:radial-gradient(ellipse at center,transparent 18%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.93) 100%);animation:metroVigPulse 3.2s ease-in-out infinite;';
 
-  // Scanlines
-  const scanlines = document.createElement('div');
-  scanlines.style.cssText = 'position:fixed;inset:0;z-index:9997;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,60,0,.09) 2px,rgba(0,60,0,.09) 4px);animation:metroScanRoll .08s linear infinite;';
+  // ── Scanlines ──
+  const scan = document.createElement('div');
+  scan.style.cssText = 'position:fixed;inset:0;z-index:9995;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,40,0,.07) 2px,rgba(0,40,0,.07) 4px);animation:metroScan .08s linear infinite;';
 
-  // ☢ simgesi
-  const rad = document.createElement('div');
-  rad.textContent = '☢';
-  rad.style.cssText = 'position:fixed;top:50%;left:50%;z-index:9999;pointer-events:none;font-size:clamp(56px,12vw,110px);color:#00ff41;animation:metroRadPulse .9s ease-in-out infinite;filter:drop-shadow(0 0 22px #00ff41);';
+  // ── Nefes efekti (köşe sisi) ──
+  const fog = document.createElement('div');
+  fog.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;background:radial-gradient(circle at 12% 5%,rgba(180,200,180,.07) 0%,transparent 35%),radial-gradient(circle at 88% 5%,rgba(180,200,180,.07) 0%,transparent 35%),radial-gradient(ellipse 130% 60% at 50% 115%,rgba(10,20,10,.5) 0%,transparent 55%);animation:metroBreathe 3.8s ease-in-out infinite;';
 
-  // Toast
-  const toast = document.createElement('div');
-  toast.style.cssText = 'position:fixed;top:28px;left:50%;z-index:10000;pointer-events:none;background:#060f06;border:1px solid #00ff41;border-radius:8px;padding:8px 18px;font-family:"DM Mono",monospace;font-size:11px;color:#00ff41;letter-spacing:.12em;box-shadow:0 0 24px rgba(0,255,65,.25);animation:metroToastIn .3s cubic-bezier(.34,1.56,.64,1) forwards;';
-  toast.innerHTML = '☢ RADYASYON SEVİYESİ: KRİTİK &nbsp;<span style="opacity:.6">[ METRO ]</span>';
+  // ── Flicker efekti ──
+  const flicker = document.createElement('div');
+  flicker.style.cssText = 'position:fixed;inset:0;z-index:9997;pointer-events:none;background:rgba(0,20,5,.04);animation:metroFlicker 7s linear infinite;';
+
+  // ── HUD: Radyasyon sayacı ──
+  const hud = document.createElement('div');
+  hud.style.cssText = 'position:fixed;top:18px;left:18px;z-index:10001;pointer-events:none;font-family:"DM Mono",monospace;animation:metroFlicker 9s linear infinite;';
+  hud.innerHTML =
+    '<div style="font-size:9px;letter-spacing:.2em;color:#555;margin-bottom:3px;text-transform:uppercase">РАДИАЦИЯ</div>' +
+    '<div id="metro-rad" style="font-size:32px;font-weight:700;color:#ff3300;text-shadow:0 0 14px rgba(255,50,0,.7);line-height:1;letter-spacing:.03em">0.00</div>' +
+    '<div style="font-size:9px;color:#444;margin-top:3px;letter-spacing:.12em">μSv/h</div>';
+
+  let radVal = 0, radInterval = setInterval(() => {
+    radVal = Math.min(radVal + (2.5 + Math.random() * 9), 999.99);
+    const el = document.getElementById('metro-rad');
+    if (el) el.textContent = radVal.toFixed(2);
+  }, 70);
+
+  // ── Alt uyarı: Kiril + İngilizce ──
+  const warning = document.createElement('div');
+  warning.style.cssText = 'position:fixed;bottom:36px;left:50%;transform:translateX(-50%);z-index:10001;pointer-events:none;text-align:center;';
+  warning.innerHTML =
+    '<div style="font-family:\'DM Mono\',monospace;font-size:12px;letter-spacing:.2em;color:#ff3300;animation:metroToastBlink .9s infinite;text-shadow:0 0 10px rgba(255,50,0,.5)">⚠ АНОМАЛИЯ ОБНАРУЖЕНА ⚠</div>' +
+    '<div style="font-size:9px;color:#444;margin-top:5px;font-family:\'DM Mono\',monospace;letter-spacing:.12em">ANOMALY DETECTED — EVACUATE IMMEDIATELY</div>';
 
   document.body.classList.add('metro-cursor');
-  [vignette, scanlines, rad, toast].forEach(el => document.body.appendChild(el));
+  const elements = [colorGrade, grain, vignette, scan, fog, flicker, hud, warning];
+  elements.forEach(el => document.body.appendChild(el));
 
-  // Temizle
+  // ── Temizlik ──
   setTimeout(() => {
-    [vignette, scanlines, rad, toast].forEach(el => {
-      el.style.transition = 'opacity 1.8s';
+    clearInterval(radInterval);
+    grainAlive = false; cancelAnimationFrame(grainRaf);
+    elements.forEach(el => {
+      el.style.transition = 'opacity 2s ease';
       el.style.opacity = '0';
-      setTimeout(() => el.remove(), 1900);
+      setTimeout(() => el.remove(), 2100);
     });
     document.body.classList.remove('metro-cursor');
+    metroStyle.remove();
     _metroActive = false;
-  }, 8500);
+  }, 10000);
 }
 
 // ── DOBRZE EGG — küçük onay patlaması ──────────────────
