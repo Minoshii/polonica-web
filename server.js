@@ -55,7 +55,7 @@ async function claudeAsk(prompt, maxTokens=1024) {
 }
 
 app.use(express.json({ limit:'200mb' }));
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(__dirname));
 
 // Auth
 app.use((req,res,next) => {
