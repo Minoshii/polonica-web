@@ -1,201 +1,4 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
-const multer = require('multer');
-const Anthropic = require('@anthropic-ai/sdk');
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
-const DATA_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || path.join(os.homedir(), '.polonica');
-const DATA_FILE = path.join(DATA_DIR, 'polonica-data.json');
-const PDF_DIR   = path.join(DATA_DIR, 'pdfs');
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-if (!fs.existsSync(PDF_DIR))  fs.mkdirSync(PDF_DIR,  { recursive: true });
-
-let store = { profiles: {}, settings: {}, profileMeta: {} };
-
-function loadStore() {
-  try { if (fs.existsSync(DATA_FILE)) store = { ...store, ...JSON.parse(fs.readFileSync(DATA_FILE,'utf8')) }; }
-  catch(e) { console.error('Store yukleme hatasi:', e.message); }
-  if (!store.profiles)    store.profiles = {};
-  if (!store.settings)    store.settings = {};
-  if (!store.profileMeta) store.profileMeta = {};
-}
-
-function saveStore() { fs.writeFileSync(DATA_FILE, JSON.stringify(store, null, 2), 'utf8'); }
-
-function ensureProfile(key) {
-  if (!key) key = 'default';
-  if (!store.profiles[key]) store.profiles[key] = { units:[], special:[], progressLog:[], pdfs:[], createdAt:new Date().toISOString() };
-  const p = store.profiles[key];
-  if (!p.units)       p.units = [];
-  if (!p.special)     p.special = [];
-  if (!p.progressLog) p.progressLog = [];
-  if (!p.pdfs)        p.pdfs = [];
-  return p;
-}
-
-loadStore();
-
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req,file,cb) => cb(null, PDF_DIR),
-    filename: (req,file,cb) => cb(null, Date.now()+Math.floor(Math.random()*1000)+'.pdf')
-  }),
-  fileFilter: (req,file,cb) => cb(null, file.mimetype==='application/pdf'),
-  limits: { fileSize: 200*1024*1024 }
-});
-
-async function claudeAsk(prompt, maxTokens=1024) {
-  const msg = await client.messages.create({ model:'claude-haiku-4-5-20251001', max_tokens:maxTokens, messages:[{role:'user',content:prompt}] });
-  return msg.content[0].text;
-}
-
-app.use(express.json({ limit:'200mb' }));
-app.use(express.static(__dirname));
-
-// Auth
-app.use((req,res,next) => {
-  const pass = process.env.APP_PASSWORD;
-  if (!pass) return next();
-  if (req.path.startsWith('/api/login')||req.path.startsWith('/api/profiles')) return next();
-  const token = req.headers['x-auth-token'];
-  if (token===pass) return next();
-  if (req.path.startsWith('/api/')) return res.status(401).json({error:'Yetkisiz.'});
-  next();
-});
-
-app.post('/api/login', (req,res) => {
-  const pass = process.env.APP_PASSWORD;
-  if (!pass||req.body.password===pass) res.json({ok:true,token:pass||'open'});
-  else res.status(401).json({ok:false});
-});
-
-// ── PROFİLLER ─────────────────────────────────────────────
-app.get('/api/profiles', (req,res) => {
-  const list = Object.keys(store.profileMeta).map(key => ({
-    key, ...store.profileMeta[key],
-    wordCount: (store.profiles[key]?.units||[]).reduce((a,u)=>a+u.words.length,0),
-    specialCount: (store.profiles[key]?.special||[]).length,
-  }));
-  res.json(list);
-});
-
-app.post('/api/profiles', (req,res) => {
-  const { name, color, emoji } = req.body;
-  if (!name||name.trim().length<2) return res.status(400).json({error:'En az 2 karakter.'});
-  const key = name.trim().toLowerCase().replace(/[\s]+/g,'_').replace(/[^a-z0-9_]/g,'');
-  if (store.profileMeta[key]) return res.status(400).json({error:'Bu isimde profil var.'});
-  store.profileMeta[key] = { name:name.trim(), color:color||'#c8b89a', emoji:emoji||'📚', createdAt:new Date().toISOString() };
-  ensureProfile(key);
-  saveStore();
-  res.json({ key, ...store.profileMeta[key] });
-});
-
-app.delete('/api/profiles/:key', (req,res) => {
-  delete store.profileMeta[req.params.key];
-  delete store.profiles[req.params.key];
-  saveStore(); res.json({ok:true});
-});
-
-// ── STORE ─────────────────────────────────────────────────
-app.get('/api/store', (req,res) => {
-  const p = ensureProfile(req.headers['x-profile']);
-  res.json({ units:p.units, pdfs:p.pdfs, settings:store.settings, progressLog:p.progressLog, special:p.special });
-});
-
-app.post('/api/settings', (req,res) => { store.settings={...store.settings,...req.body}; saveStore(); res.json(store.settings); });
-app.get('/api/check-ollama', (req,res) => res.json({ok:true,models:['claude-haiku'],provider:'claude'}));
-
-// ── ANALİZ ────────────────────────────────────────────────
-app.post('/api/analyze', async (req,res) => {
-  try {
-    const {text,count,mode} = req.body;
-    const rawTokens = text.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g)||[];
-    const seen=new Set(); const tokens=[];
-    for(const t of rawTokens){const l=t.toLowerCase();if(!seen.has(l)){seen.add(l);tokens.push(t);}if(tokens.length>=parseInt(count))break;}
-    const CHUNK=40; const chunks=[];
-    for(let i=0;i<tokens.length;i+=CHUNK) chunks.push(tokens.slice(i,i+CHUNK));
-    const allWords=[];
-    for(let ci=0;ci<chunks.length;ci++){
-      const chunk=chunks[ci];
-      const tokenList=chunk.map((t,i)=>(i+1)+'. '+t).join('\n');
-      const isLyrics = mode === 'lyrics';
-      const modeNote = isLyrics
-        ? 'This text is from Polish song lyrics, rap, or street speech. It may contain slang, colloquialisms, vulgarisms, and non-standard spelling.'
-        : 'This text is from Polish academic/educational material.';
-      const slangRule = isLyrics
-        ? '11."slang": true if the word is slang/colloquial/vulgar/non-standard Polish, false otherwise'
-        : '11."slang": false';
-      const prompt=['You are an expert Polish linguist specializing in both standard and colloquial Polish. Analyze EVERY word. Output exactly '+chunk.length+' JSON objects in order. NEVER skip.',
-        modeNote,'RULES:',
-        '1."original":word exactly as given',
-        '2."pl":LEMMA - for slang/colloquial give the slang lemma form, NOT a standard equivalent',
-        '3."inflection_note":grammar tag if inflected else ""',
-        '4."tr":Turkish meaning 2-6w. For slang use natural Turkish slang equivalent.',
-        '5."en":English 1-4w',
-        '6."category":"verb"|"noun"|"adj"|"other"',
-        '7."type":czasownik/rzeczownik/przymiotnik etc.',
-        '8."example_pl":natural Polish sentence 8-14w using the word as-is',
-        '9."example_tr":Turkish translation',
-        '10."example_en":English translation',
-        slangRule,
-        'Return ONLY: {"words":[...]}','','WORDS:',tokenList].join('\n');
-      const raw=await claudeAsk(prompt,chunk.length*120+512);
-      const match=raw.match(/\{[\s\S]*\}/);
-      if(!match) throw new Error('Parca '+(ci+1)+' icin JSON yok.');
-      const parsed=JSON.parse(match[0]);
-      if(parsed.words) allWords.push(...parsed.words);
-    }
-    res.json({words:allWords});
-  } catch(e){console.error(e);res.status(500).json({error:e.message});}
-});
-
-// ── ÇEKİM ─────────────────────────────────────────────────
-app.post('/api/conjugation', async (req,res) => {
-  try {
-    const {word}=req.body;
-    const prompt='Conjugate Polish verb "'+word+'". Return ONLY JSON:\n{"verb":"'+word+'","present":{"ja":"","ty":"","on_ona_ono":"","my":"","wy":"","oni_one":""},"past_m":{"ja":"","ty":"","on":"","my":"","wy":"","oni":""},"past_f":{"ja":"","ty":"","ona":"","my":"","wy":"","one":""},"future":{"ja":"","ty":"","on_ona_ono":"","my":"","wy":"","oni_one":""},"imperative":{"ty":"","my":"","wy":""}}';
-    const raw=await claudeAsk(prompt,800);
-    const match=raw.match(/\{[\s\S]*\}/);
-    if(!match) throw new Error('JSON yok.');
-    res.json(JSON.parse(match[0]));
-  } catch(e){res.status(500).json({error:e.message});}
-});
-
-// ── DISTRACTOR ────────────────────────────────────────────
-app.post('/api/distractors', async (req,res) => {
-  try {
-    const {word,tr,category,count}=req.body;
-    const raw=await claudeAsk('Generate '+count+' WRONG plausible Turkish translations for Polish '+category+' "'+word+'". Correct="'+tr+'" do NOT use. Capital letters. Under 5 words. JSON only: {"distractors":[...]}',200);
-    const match=raw.match(/\{[\s\S]*\}/);
-    res.json(match?{distractors:(JSON.parse(match[0]).distractors||[]).slice(0,count)}:{distractors:[]});
-  } catch(e){res.json({distractors:[]});}
-});
-
-// ── BURAK SPECIAL ─────────────────────────────────────────
-app.post('/api/special/lookup', async (req,res) => {
-  try {
-    const {word, mode} = req.body;
-    const isSlangMode = mode === 'lyrics';
-
-    // Deyim/kalip tespiti - birden fazla kelimeyse veya bilinen kalip ise
-    const wordCount = word.trim().split(/\s+/).length;
-    const isLikelyIdiom = wordCount >= 2;
-
-    const contextNote = isSlangMode
-      ? 'This may be Polish slang, colloquial speech, or rap language.'
-      : 'This is standard Polish.';
-
-    const idiomFields = isLikelyIdiom ? [
-      '- "is_idiom": true if this is a fixed expression/idiom/collocation/phrase, false if just words',
-      '- "idiom_type": "deyim" (idiom with non-literal meaning) | "kalip" (fixed phrase/collocation) | "soyleys" (common saying/expression) | "" if not idiom',
-      '- "register": "resmi" (formal) | "gundelik" (everyday) | "sokak" (street/slang) | "yazi" (written) - language register in Turkish',
-      '- "usage_note": in Turkish, when and how to use this expression (1-2 sentences)',
-      '- "related_phrases": array of 3-5 related Polish phrases/idioms with Turkish meanings, e.g. [{"pl":"po co","tr":"ne icin/neden"}]',
+co","tr":"ne icin/neden"}]',
     ] : [
       '- "is_idiom": false',
       '- "idiom_type": ""',
@@ -1009,31 +812,10 @@ app.post('/api/kultur', async (req, res) => {
       'bilim': 'Polish scientists, inventors, discoveries',
     };
     const focus = cats[category] || 'any aspect of Polish culture, history, art, literature or science';
-    // Her istekte farklı bir rastgele tohum oluştur - tekrarı önler
-    const seed = Math.floor(Math.random() * 10000);
-    const randomizers = [
-      'Focus on a person almost nobody knows.',
-      'Focus on a shocking or dark historical event.',
-      'Focus on something funny or ironic.',
-      'Focus on a connection to another country.',
-      'Focus on a record-breaking or first-in-the-world achievement.',
-      'Focus on something from everyday life or street culture.',
-      'Focus on a woman or minority who changed history.',
-      'Focus on something from the last 50 years.',
-      'Focus on a very specific object, place or building.',
-      'Focus on food, drink or festival tradition.',
-      'Focus on something related to language or words.',
-      'Focus on a rivalry, conflict or surprising friendship.',
-    ];
-    const randomHint = randomizers[seed % randomizers.length];
-
     const prompt = [
       'You are an expert on Polish culture and history. Give ONE fascinating, detailed cultural fact about Poland.',
       'Focus on: ' + focus,
-      'IMPORTANT DIVERSITY INSTRUCTION: ' + randomHint,
-      'Random seed for variety: ' + seed,
       'The user is a Turkish student learning Polish — make it relevant and memorable.',
-      'CRITICAL: Do NOT mention Chopin, Copernicus, Marie Curie, Adam Mickiewicz, or Wisława Szymborska unless absolutely necessary — these are overused. Find something less known but equally fascinating.',
       '',
       'Return ONLY valid JSON:',
       '{',
@@ -1041,13 +823,13 @@ app.post('/api/kultur', async (req, res) => {
       '  "title": "name of person/work/event in Polish/original",',
       '  "title_tr": "Turkish translation or explanation of the title",',
       '  "period": "time period (e.g. 1884, 19. yüzyıl, Orta Çağ)",',
-      '  "fact": "3-5 sentence fascinating fact in Turkish. Be specific, vivid, surprising. Write as if telling a friend something amazing you just discovered.",',
+      '  "fact": "3-5 sentence fascinating fact in Turkish. Be specific, include context, why it matters, interesting details. Write as if telling a friend something amazing.",',
       '  "why_matters": "1-2 sentences: why every Polish learner should know this",',
       '  "polish_connection": "a Polish word or phrase related to this fact with Turkish meaning",',
       '  "emoji": "2-3 relevant emojis"',
       '}',
       '',
-      'Be surprising and specific. Avoid the most famous clichés. Make it genuinely interesting.',
+      'Be surprising and specific. Avoid generic facts. Each response must be DIFFERENT and UNIQUE.',
       'Return ONLY valid JSON, no markdown.'
     ].join('\n');
     const raw = await claudeAsk(prompt, 800);
@@ -1055,10 +837,6 @@ app.post('/api/kultur', async (req, res) => {
     if (!match) throw new Error('JSON parse hatasi.');
     res.json(JSON.parse(match[0]));
   } catch(e) { res.status(500).json({ error: e.message }); }
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT,'0.0.0.0',()=>{
