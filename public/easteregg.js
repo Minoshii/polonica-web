@@ -19,7 +19,7 @@ document.addEventListener('keydown', (e) => {
     if (typedMetroKeys === secretMetroWord) {
         geigerSound.play();
         // Senin kestiğin png dosyasının adı
-        document.body.style.cursor = "url('cursor1-removebg-preview (2).png'), auto"; 
+        document.body.style.cursor = "url('cursorkesin.png'), auto"; 
         
         setTimeout(() => {
             document.body.style.cursor = "default";
