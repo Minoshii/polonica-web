@@ -6188,6 +6188,148 @@ function animateFox() {
 }
 
 startAfkTimer();
+
+// ── 4. TYPED EASTER EGGS ──────────────────────────────
+// Input/textarea dışında yazılan kelimeleri yakalar
+let _typeBuf = '';
+
+document.addEventListener('keydown', function(e) {
+  const tag = document.activeElement ? document.activeElement.tagName : '';
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) return;
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+  if (e.key.length === 1) {
+    _typeBuf = (_typeBuf + e.key.toLowerCase()).slice(-24);
+    _checkTypedTriggers();
+  } else if (e.key === 'Escape') {
+    _typeBuf = '';
+  }
+});
+
+function _checkTypedTriggers() {
+  if (_typeBuf.endsWith('metro'))    { _typeBuf = ''; triggerMetro(); }
+  else if (_typeBuf.endsWith('polska'))  { _typeBuf = ''; showFlagAnimation(); playNationalAnthems(); }
+  else if (_typeBuf.endsWith('mazurek')) { _typeBuf = ''; playMelody(); }
+  else if (_typeBuf.endsWith('dobrze'))  { _typeBuf = ''; triggerDobrze(); }
+  else if (_typeBuf.endsWith('cumartesi')) { _typeBuf = ''; triggerSobota(); }
+}
+
+// ── METRO EGG ──────────────────────────────────────────
+let _metroActive = false;
+function triggerMetro() {
+  if (_metroActive) return;
+  _metroActive = true;
+
+  // CSS inject
+  if (!document.getElementById('metro-css')) {
+    const s = document.createElement('style');
+    s.id = 'metro-css';
+    s.textContent = [
+      '@keyframes metroFlicker{0%,100%{opacity:.82}33%{opacity:.90}66%{opacity:.78}}',
+      '@keyframes metroRadPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.55}50%{transform:translate(-50%,-50%) scale(1.1);opacity:.95}}',
+      '@keyframes metroToastIn{from{opacity:0;transform:translateX(-50%) translateY(-18px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}',
+      '@keyframes metroScanRoll{from{background-position:0 0}to{background-position:0 4px}}',
+      'body.metro-cursor,body.metro-cursor *{cursor:crosshair!important}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+
+  // Geiger sesi — Web Audio darbe gürültüsü
+  let _geigerOn = true;
+  try {
+    const actx = new (window.AudioContext || window.webkitAudioContext)();
+    const masterGain = actx.createGain(); masterGain.gain.value = 0.35;
+    masterGain.connect(actx.destination);
+    let _clickCount = 0;
+    const MAX_CLICKS = 60;
+
+    function geigerClick() {
+      if (!_geigerOn || _clickCount >= MAX_CLICKS) return;
+      _clickCount++;
+      const sr = actx.sampleRate;
+      const dur = 0.025 + Math.random() * 0.02;
+      const buf = actx.createBuffer(1, Math.ceil(sr * dur), sr);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sr * 0.006));
+      }
+      const src = actx.createBufferSource();
+      src.buffer = buf;
+      const g = actx.createGain(); g.gain.value = 0.8 + Math.random() * 0.4;
+      src.connect(g); g.connect(masterGain);
+      src.start();
+      // Başta yavaş, ortada hızlanır, sonda yavaşlar
+      const progress = _clickCount / MAX_CLICKS;
+      const intensity = Math.sin(progress * Math.PI); // 0→1→0 eğrisi
+      const delay = 60 + (1 - intensity) * 280 + Math.random() * 80;
+      setTimeout(geigerClick, delay);
+    }
+    geigerClick();
+
+    setTimeout(() => {
+      _geigerOn = false;
+      actx.close();
+    }, 9000);
+  } catch(e) {}
+
+  // Vignette overlay
+  const vignette = document.createElement('div');
+  vignette.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,20,0,.75) 100%);animation:metroFlicker .18s infinite;';
+
+  // Scanlines
+  const scanlines = document.createElement('div');
+  scanlines.style.cssText = 'position:fixed;inset:0;z-index:9997;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,60,0,.09) 2px,rgba(0,60,0,.09) 4px);animation:metroScanRoll .08s linear infinite;';
+
+  // ☢ simgesi
+  const rad = document.createElement('div');
+  rad.textContent = '☢';
+  rad.style.cssText = 'position:fixed;top:50%;left:50%;z-index:9999;pointer-events:none;font-size:clamp(56px,12vw,110px);color:#00ff41;animation:metroRadPulse .9s ease-in-out infinite;filter:drop-shadow(0 0 22px #00ff41);';
+
+  // Toast
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;top:28px;left:50%;z-index:10000;pointer-events:none;background:#060f06;border:1px solid #00ff41;border-radius:8px;padding:8px 18px;font-family:"DM Mono",monospace;font-size:11px;color:#00ff41;letter-spacing:.12em;box-shadow:0 0 24px rgba(0,255,65,.25);animation:metroToastIn .3s cubic-bezier(.34,1.56,.64,1) forwards;';
+  toast.innerHTML = '☢ RADYASYON SEVİYESİ: KRİTİK &nbsp;<span style="opacity:.6">[ METRO ]</span>';
+
+  document.body.classList.add('metro-cursor');
+  [vignette, scanlines, rad, toast].forEach(el => document.body.appendChild(el));
+
+  // Temizle
+  setTimeout(() => {
+    [vignette, scanlines, rad, toast].forEach(el => {
+      el.style.transition = 'opacity 1.8s';
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 1900);
+    });
+    document.body.classList.remove('metro-cursor');
+    _metroActive = false;
+  }, 8500);
+}
+
+// ── DOBRZE EGG — küçük onay patlaması ──────────────────
+function triggerDobrze() {
+  const emojis = ['✅','💚','⭐','🎉','✨','💯','👍'];
+  for (let i = 0; i < 14; i++) {
+    const el = document.createElement('div');
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.cssText = 'position:fixed;z-index:9999;pointer-events:none;font-size:' + (20 + Math.random() * 18) + 'px;left:' + (5 + Math.random() * 90) + 'vw;top:-30px;animation:spEasterFall ' + (1.4 + Math.random() * 1.2) + 's linear ' + (Math.random() * 0.4) + 's forwards;';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+  const t = document.createElement('div');
+  t.className = 'sp-easter-text';
+  t.textContent = 'Bardzo dobrze! ✅';
+  t.style.cssText = 'font-size:clamp(28px,5vw,52px);color:#6dbf9a;text-shadow:0 0 24px #3a9a5a;';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2800);
+}
+
+// ── CUMARTESI / SOBOTA EGG ──────────────────────────────
+function triggerSobota() {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;inset:0;z-index:9998;pointer-events:none;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:rgba(0,0,0,.55);';
+  el.innerHTML = '<div style="font-size:clamp(48px,12vw,100px);animation:metroRadPulse .6s ease-in-out infinite">🎉</div><div style="font-family:Syne,sans-serif;font-size:clamp(22px,5vw,48px);font-weight:900;color:#c8b89a;text-shadow:0 0 30px #c8b89a88">Sobota! Nie uczysz się!</div>';
+  document.body.appendChild(el);
+  setTimeout(() => { el.style.transition='opacity .8s'; el.style.opacity='0'; setTimeout(()=>el.remove(),900); }, 2800);
+}
 </script>
 </body>
 </html>
