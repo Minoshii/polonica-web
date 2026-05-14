@@ -1,3 +1,4 @@
+console.log("Burak, Easter Egg dosyası başarıyla yüklendi!");
 let typedMetroKeys = '';
 const secretMetroWord = 'metro';
 const geigerSound = new Audio('./geiger.mp3'); // Başına ./ ekleyerek "tam buradaki klasörde" diyoruz. 
