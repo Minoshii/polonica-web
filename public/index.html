@@ -1209,6 +1209,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="gtab" onclick="switchGTab('baglaç')">🔗 Bağlaçlar</button>
       <button class="gtab" onclick="switchGTab('query')">💬 Soru</button>
       <button class="gtab" onclick="switchGTab('zamirler')">🗂 Zamirler</button>
+      <button class="gtab" onclick="switchGTab('edatlar')">📍 Edatlar</button>
+      <button class="gtab" onclick="switchGTab('sayilar')">🔢 Sayılar</button>
+      <button class="gtab" onclick="switchGTab('zamanlar')">🕐 Fiil Zamanları</button>
     </div>
 
     <!-- CASE TABLOLARI -->
@@ -1863,6 +1866,296 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       </div><!-- end zamir-list -->
       <div id="zamir-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+    <!-- EDATLAR -->
+    <div class="grammar-section" id="gsec-edatlar">
+      <input type="text" class="zamir-search" id="edat-search" placeholder="Ara... (Türkçe, Lehçe veya hal — örn: do, ile, Dopełniacz, with)" oninput="filterEdatlar(this.value)">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+        <span style="font-size:11px;color:var(--text3);align-self:center">Hızlı filtre:</span>
+        <button class="grammar-quick-btn" onclick="filterEdatlarByCase('Dopełniacz')">Dopełniacz</button>
+        <button class="grammar-quick-btn" onclick="filterEdatlarByCase('Biernik')">Biernik</button>
+        <button class="grammar-quick-btn" onclick="filterEdatlarByCase('Narzędnik')">Narzędnik</button>
+        <button class="grammar-quick-btn" onclick="filterEdatlarByCase('Miejscownik')">Miejscownik</button>
+        <button class="grammar-quick-btn" onclick="filterEdatlarByCase('Celownik')">Celownik</button>
+        <button class="grammar-quick-btn" onclick="filterEdatlarByCase('')">Tümü</button>
+      </div>
+      <div id="edat-list">
+
+        <!-- DOPEŁNIACZlı edatlar -->
+        <div class="baglaç-cat" data-edat-cat="Dopełniacz">
+          <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">📘 Dopełniacz (kogo? czego?) alan edatlar</div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">do</div><div class="baglaç-tr">-e, -a doğru; kadar</div><div class="baglaç-en">to, into, until</div><div class="baglaç-detail"><div class="baglaç-example-pl">Idę do sklepu. · Do zobaczenia!</div><div class="baglaç-example-tr">Markete gidiyorum. · Görüşürüz!</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span> — en sık kullanılan edat, yön + hedef belirtir</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">z / ze</div><div class="baglaç-tr">-den, -dan (kaynak)</div><div class="baglaç-en">from, out of</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jestem z Polski. · Wychodzę z domu.</div><div class="baglaç-example-tr">Polonya'danım. · Evden çıkıyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span> — ⚠ z + Narzędnik = "ile birlikte" anlamı verir!</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">bez</div><div class="baglaç-tr">-siz, -sız; olmadan</div><div class="baglaç-en">without</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kawa bez cukru. · Bez ciebie nie mogę.</div><div class="baglaç-example-tr">Şekersiz kahve. · Sensiz yapamam.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dla</div><div class="baglaç-tr">için</div><div class="baglaç-en">for (someone's benefit)</div><div class="baglaç-detail"><div class="baglaç-example-pl">To jest dla ciebie. · Zrobiłem to dla niej.</div><div class="baglaç-example-tr">Bu senin için. · Bunu onun için yaptım.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span> — kişi yararı için. Hedef için <strong>na</strong> kullanılır.</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">od</div><div class="baglaç-tr">-den beri; -dan (gönderen)</div><div class="baglaç-en">from (person/time), since</div><div class="baglaç-detail"><div class="baglaç-example-pl">List od mamy. · Od rana pracuję.</div><div class="baglaç-example-tr">Anneden mektup. · Sabahtan beri çalışıyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span> — <strong>od</strong> (kişiden/zamandan) vs <strong>z</strong> (yerden)</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">u</div><div class="baglaç-tr">yanında; -de, -da (birinin evinde)</div><div class="baglaç-en">at someone's place, by</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jestem u dentysty. · Byłem u Marka.</div><div class="baglaç-example-tr">Dişçideyim. · Marek'in evine gitmiştim.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span> — her zaman canlı varlıklarla kullanılır</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">koło / obok</div><div class="baglaç-tr">yanında, yakınında</div><div class="baglaç-en">near, next to, beside</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mieszkam koło parku. · Usiądź obok mnie.</div><div class="baglaç-example-tr">Parkın yanında oturuyorum. · Yanıma otur.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">podczas</div><div class="baglaç-tr">-esnasında, sırasında</div><div class="baglaç-en">during, while</div><div class="baglaç-detail"><div class="baglaç-example-pl">Podczas lekcji nie rozmawiamy.</div><div class="baglaç-example-tr">Ders sırasında konuşmuyoruz.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wśród</div><div class="baglaç-tr">arasında (içinde)</div><div class="baglaç-en">among, amid</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wśród przyjaciół czuję się dobrze.</div><div class="baglaç-example-tr">Arkadaşların arasında iyi hissediyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zamiast</div><div class="baglaç-tr">yerine, -in yerine</div><div class="baglaç-en">instead of, in place of</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zamiast kawy wypiję herbatę.</div><div class="baglaç-example-tr">Kahve yerine çay içeceğim.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#7090d0">Dopełniacz</span></div></div></div>
+        </div>
+
+        <!-- BİERNİKli edatlar -->
+        <div class="baglaç-cat" data-edat-cat="Biernik">
+          <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a044">🎯 Biernik (kogo? co?) alan edatlar</div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:var(--text2);line-height:1.7">
+            <strong style="color:#e090c0">💡 na / w / przez / za</strong> — bu edatlar hem Biernik hem Miejscownik alır. Biernik = hareket, Miejscownik = konum.
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">na + Biernik</div><div class="baglaç-tr">-e (hareket; amaç)</div><div class="baglaç-en">onto, to (surface/event)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Idę na koncert. · Połóż to na stół.</div><div class="baglaç-example-tr">Konsere gidiyorum. · Bunu masaya koy.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#e090c0">na + Biernik</span> = hareket <span style="color:#888">·</span> <span style="color:#5dc0b0">na + Miejscownik</span> = konum (na stole)</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">w + Biernik</div><div class="baglaç-tr">-e içine (hareket)</div><div class="baglaç-en">into (movement)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wchodzę w las. · Uderzył w ścianę.</div><div class="baglaç-example-tr">Ormana giriyorum. · Duvara çarptı.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#e090c0">w + Biernik</span> = içe hareket <span style="color:#888">·</span> <span style="color:#5dc0b0">w + Miejscownik</span> = içinde konum (w lesie)</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przez</div><div class="baglaç-tr">boyunca; -den geçerek; -yüzünden</div><div class="baglaç-en">through, across, because of</div><div class="baglaç-detail"><div class="baglaç-example-pl">Idę przez park. · Przez ciebie się spóźniłem.</div><div class="baglaç-example-tr">Parktan geçiyorum. · Senin yüzünden geç kaldım.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#e090c0">Biernik</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">za + Biernik</div><div class="baglaç-tr">karşılığında; için (fiyat)</div><div class="baglaç-en">for (price/exchange), in exchange</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kupiłem za 10 złotych. · Dziękuję za pomoc.</div><div class="baglaç-example-tr">10 zloti karşılığı aldım. · Yardım için teşekkürler.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#e090c0">za + Biernik</span> = fiyat/teşekkür <span style="color:#888">·</span> <span style="color:#5dc0b0">za + Narzędnik</span> = arkasında</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">o + Biernik</div><div class="baglaç-tr">için (dileme, soru)</div><div class="baglaç-en">for (request/question), about</div><div class="baglaç-detail"><div class="baglaç-example-pl">Proszę o wodę. · Pytam o cenę.</div><div class="baglaç-example-tr">Su istiyorum. · Fiyatı soruyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#e090c0">o + Biernik</span> = istek/soru <span style="color:#888">·</span> <span style="color:#5dc0b0">o + Miejscownik</span> = hakkında</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po + Biernik</div><div class="baglaç-tr">almaya (gitmek için)</div><div class="baglaç-en">to fetch, to get</div><div class="baglaç-detail"><div class="baglaç-example-pl">Idę po chleb. · Przyjdź po mnie.</div><div class="baglaç-example-tr">Ekmek almaya gidiyorum. · Beni almaya gel.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#e090c0">Biernik</span> — "almak için gitmek" anlamında</div></div></div>
+        </div>
+
+        <!-- NARZĘDNİKli edatlar -->
+        <div class="baglaç-cat" data-edat-cat="Narzędnik">
+          <div class="baglaç-cat-title" style="background:#0d1a1c;color:#5dc0b0;border:1px solid #3a9a8a44">🔧 Narzędnik (kim? czym?) alan edatlar</div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">z / ze + Narzędnik</div><div class="baglaç-tr">ile, birlikte</div><div class="baglaç-en">with, together with</div><div class="baglaç-detail"><div class="baglaç-example-pl">Idę z tobą. · Kawa z mlekiem.</div><div class="baglaç-example-tr">Seninle gidiyorum. · Sütlü kahve.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#5dc0b0">z + Narzędnik</span> = birliktelik <span style="color:#888">·</span> <span style="color:#7090d0">z + Dopełniacz</span> = kaynak/köken</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przed + Narzędnik</div><div class="baglaç-tr">önünde; -den önce (süre)</div><div class="baglaç-en">in front of, before (time)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Stoi przed domem. · Przed chwilą wyszedł.</div><div class="baglaç-example-tr">Evin önünde duruyor. · Az önce çıktı.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#5dc0b0">przed + Narzędnik</span> = konum/geçmiş zaman <span style="color:#888">·</span> <span style="color:#e090c0">przed + Biernik</span> = öne hareket</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">nad + Narzędnik</div><div class="baglaç-tr">üzerinde, üstünde</div><div class="baglaç-en">above, over (location)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Obraz wisi nad łóżkiem.</div><div class="baglaç-example-tr">Tablo yatağın üzerinde asılı.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#5dc0b0">Narzędnik</span> — konum. Hareket için <span style="color:#e090c0">nad + Biernik</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pod + Narzędnik</div><div class="baglaç-tr">altında</div><div class="baglaç-en">under, below (location)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kot śpi pod stołem.</div><div class="baglaç-example-tr">Kedi masanın altında uyuyor.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#5dc0b0">Narzędnik</span> — konum. Hareket için <span style="color:#e090c0">pod + Biernik</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">za + Narzędnik</div><div class="baglaç-tr">arkasında</div><div class="baglaç-en">behind (location)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Schował się za drzewem.</div><div class="baglaç-example-tr">Ağacın arkasına saklandı.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#5dc0b0">za + Narzędnik</span> = arkasında <span style="color:#888">·</span> <span style="color:#e090c0">za + Biernik</span> = fiyat/teşekkür</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">między + Narzędnik</div><div class="baglaç-tr">arasında (konum)</div><div class="baglaç-en">between, among (location)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Siedzę między Tomkiem a Anią.</div><div class="baglaç-example-tr">Tomek ile Ania'nın arasında oturuyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#5dc0b0">Narzędnik</span> — konum. Hareket için <span style="color:#e090c0">między + Biernik</span></div></div></div>
+        </div>
+
+        <!-- MİEJSCOWNİKli edatlar -->
+        <div class="baglaç-cat" data-edat-cat="Miejscownik">
+          <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #4a9a6a44">📍 Miejscownik (o kim? o czym?) alan edatlar</div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:var(--text2);line-height:1.7">
+            <strong style="color:#6dbf9a">💡 Kural:</strong> Miejscownik <strong style="color:var(--text)">her zaman edat ile gelir</strong> — edatsız hiçbir zaman kullanılmaz!
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">w + Miejscownik</div><div class="baglaç-tr">-de, -da (içinde, konum)</div><div class="baglaç-en">in, inside (location)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mieszkam w Warszawie. · Jestem w domu.</div><div class="baglaç-example-tr">Varşova'da yaşıyorum. · Evdeyim.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#6dbf9a">w + Miejscownik</span> = içinde <span style="color:#888">·</span> <span style="color:#e090c0">w + Biernik</span> = içe hareket</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">na + Miejscownik</div><div class="baglaç-tr">üzerinde (konum)</div><div class="baglaç-en">on (location, surface)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Książka leży na stole. · Jestem na koncercie.</div><div class="baglaç-example-tr">Kitap masada yatıyor. · Konserdeyim.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#6dbf9a">na + Miejscownik</span> = üzerinde/etkinlikte <span style="color:#888">·</span> <span style="color:#e090c0">na + Biernik</span> = hareket</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">o + Miejscownik</div><div class="baglaç-tr">hakkında</div><div class="baglaç-en">about, concerning</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mówię o tobie. · Czytam o historii.</div><div class="baglaç-example-tr">Senden bahsediyorum. · Tarih okuyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)"><span style="color:#6dbf9a">o + Miejscownik</span> = konu <span style="color:#888">·</span> <span style="color:#e090c0">o + Biernik</span> = istek/soru</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przy</div><div class="baglaç-tr">yanında; -iken (aynı anda)</div><div class="baglaç-en">next to, by, while</div><div class="baglaç-detail"><div class="baglaç-example-pl">Siedzę przy oknie. · Przy okazji zapomnij.</div><div class="baglaç-example-tr">Pencerenin yanında oturuyorum. · Bu arada unut.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#6dbf9a">Miejscownik</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po + Miejscownik</div><div class="baglaç-tr">-den sonra; boyunca</div><div class="baglaç-en">after, along, throughout</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po lekcji idę do domu. · Chodzę po mieście.</div><div class="baglaç-example-tr">Dersten sonra eve gidiyorum. · Şehirde geziyorum.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#6dbf9a">Miejscownik</span> — <strong>po + Biernik</strong> = "almak için gitmek"</div></div></div>
+        </div>
+
+        <!-- CELOWNİKli edatlar -->
+        <div class="baglaç-cat" data-edat-cat="Celownik">
+          <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">➡ Celownik (komu? czemu?) alan edatlar</div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dzięki</div><div class="baglaç-tr">sayesinde</div><div class="baglaç-en">thanks to, owing to</div><div class="baglaç-detail"><div class="baglaç-example-pl">Dzięki tobie zdałem egzamin.</div><div class="baglaç-example-tr">Sayende sınavı geçtim.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#c8a050">Celownik</span> — olumlu sonuç için. Olumsuz için <strong style="color:#e07070">z powodu + Dopełniacz</strong></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">ku</div><div class="baglaç-tr">-e doğru (mecazi)</div><div class="baglaç-en">toward(s), in the direction of</div><div class="baglaç-detail"><div class="baglaç-example-pl">Ku pamięci. · Ku mojemu zaskoczeniu.</div><div class="baglaç-example-tr">Anısına. · Beni şaşırtacak şekilde.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#c8a050">Celownik</span> — çoğunlukla yazı dilinde / kalıp ifadelerde</div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wbrew</div><div class="baglaç-tr">karşın, rağmen</div><div class="baglaç-en">contrary to, despite, against</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wbrew zasadom. · Wbrew mnie to zrobił.</div><div class="baglaç-example-tr">Kurallara rağmen. · Bana rağmen yaptı.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#c8a050">Celownik</span></div></div></div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przeciwko</div><div class="baglaç-tr">karşı</div><div class="baglaç-en">against (opposition)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jestem przeciwko temu. · Walczyć przeciwko złu.</div><div class="baglaç-example-tr">Buna karşıyım. · Kötülüğe karşı savaşmak.</div><div style="margin-top:6px;font-size:11px;color:var(--text3)">HAL: <span style="color:#c8a050">Celownik</span></div></div></div>
+        </div>
+
+      </div>
+      <div id="edat-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+    <!-- SAYILAR -->
+    <div class="grammar-section" id="gsec-sayilar">
+      <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:10px;padding:14px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.85">
+        <strong style="color:#e07070;font-size:13px">⚠ Lehçe Sayı Kuralı — En Önemli Şey</strong><br>
+        Sayı + isim kuralı karmaşık görünür ama temeli basit:<br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">1</span> → Mian. tekil &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">2–4</span> → Mian. çoğul &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">5+</span> → <strong style="color:var(--text)">Dopełniacz çoğul</strong> &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#c8a050">12–14</span> → Dopełniacz çoğul (istisnasız!)
+      </div>
+
+      <!-- Temel sayılar -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">🔢 Temel Sayılar (Liczebniki główne)</div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr>
+            <th>Sayı</th><th>Erkek (M)</th><th>Dişi (F)</th><th>Nötr (N)</th><th>Çoğul (Mos.)</th><th>Kullanım notu</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="case-name">1</td><td class="z-form">jeden</td><td class="z-form">jedna</td><td class="z-form">jedno</td><td class="z-form">jedni / jedne</td><td style="font-size:11px;color:var(--text3)">Mianownik tekil</td></tr>
+            <tr><td class="case-name">2</td><td class="z-form">dwa</td><td class="z-form">dwie</td><td class="z-form">dwa</td><td class="z-form">dwaj / dwie</td><td style="font-size:11px;color:var(--text3)">2–4 → Mian. çoğul</td></tr>
+            <tr><td class="case-name">3</td><td class="z-form">trzy</td><td class="z-form">trzy</td><td class="z-form">trzy</td><td class="z-form">trzej / trzy</td><td style="font-size:11px;color:var(--text3)"></td></tr>
+            <tr><td class="case-name">4</td><td class="z-form">cztery</td><td class="z-form">cztery</td><td class="z-form">cztery</td><td class="z-form">czterej / cztery</td><td style="font-size:11px;color:var(--text3)"></td></tr>
+            <tr><td class="case-name">5</td><td class="z-form" colspan="4" style="color:#e07070">pięć</td><td style="font-size:11px;color:#e07070">5+ → Dopeł. çoğul!</td></tr>
+            <tr><td class="case-name">6–9</td><td class="z-form" colspan="4">sześć · siedem · osiem · dziewięć</td><td style="font-size:11px;color:var(--text3)">Dopełniacz çoğul</td></tr>
+            <tr><td class="case-name">10–19</td><td class="z-form" colspan="4">dziesięć · jedenaście · dwanaście · trzynaście...</td><td style="font-size:11px;color:#e07070">Hepsi Dopeł. çoğul</td></tr>
+            <tr><td class="case-name">20–21</td><td class="z-form" colspan="4">dwadzieścia · dwadzieścia jeden</td><td style="font-size:11px;color:var(--text3)">21 → tek gibi: Mian.</td></tr>
+            <tr><td class="case-name">22–24</td><td class="z-form" colspan="4">dwadzieścia dwa/dwie/dwaj...</td><td style="font-size:11px;color:var(--text3)">2-4 gibi: Mian. çoğul</td></tr>
+            <tr><td class="case-name">100</td><td class="z-form" colspan="4">sto</td><td style="font-size:11px;color:var(--text3)">5+ gibi: Dopeł. çoğul</td></tr>
+            <tr><td class="case-name">1000</td><td class="z-form" colspan="4">tysiąc</td><td style="font-size:11px;color:var(--text3)">Dopeł. çoğul</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- pięć çekimi -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">📐 pięć Çekimi (5-9 arası benzer)</div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr><th>Hal</th><th>pięć (5)</th><th>sześć (6)</th><th>osiem (8)</th><th>dziesięć (10)</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">Mian.</td><td class="z-form">pięć</td><td class="z-form">sześć</td><td class="z-form">osiem</td><td class="z-form">dziesięć</td></tr>
+            <tr><td class="case-name">Dopeł.</td><td class="z-form" style="color:#e07070">pięciu</td><td class="z-form" style="color:#e07070">sześciu</td><td class="z-form" style="color:#e07070">ośmiu</td><td class="z-form" style="color:#e07070">dziesięciu</td></tr>
+            <tr><td class="case-name">Celow.</td><td class="z-form" style="color:#e07070">pięciu</td><td class="z-form" style="color:#e07070">sześciu</td><td class="z-form" style="color:#e07070">ośmiu</td><td class="z-form" style="color:#e07070">dziesięciu</td></tr>
+            <tr><td class="case-name">Biern.</td><td class="z-form">pięć / pięciu</td><td class="z-form">sześć / sześciu</td><td class="z-form">osiem / ośmiu</td><td class="z-form">dziesięć</td></tr>
+            <tr><td class="case-name">Narzęd.</td><td class="z-form">pięcioma</td><td class="z-form">sześcioma</td><td class="z-form">ośmioma</td><td class="z-form">dziesięcioma</td></tr>
+            <tr><td class="case-name">Miejscow.</td><td class="z-form" style="color:#e07070">pięciu</td><td class="z-form" style="color:#e07070">sześciu</td><td class="z-form" style="color:#e07070">ośmiu</td><td class="z-form" style="color:#e07070">dziesięciu</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sıra sayıları -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">🥇 Sıra Sayıları (Liczebniki porządkowe)</div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr><th>Sayı</th><th>Erkek</th><th>Dişi</th><th>Nötr</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">1.</td><td class="z-form">pierwszy</td><td class="z-form">pierwsza</td><td class="z-form">pierwsze</td></tr>
+            <tr><td class="case-name">2.</td><td class="z-form">drugi</td><td class="z-form">druga</td><td class="z-form">drugie</td></tr>
+            <tr><td class="case-name">3.</td><td class="z-form">trzeci</td><td class="z-form">trzecia</td><td class="z-form">trzecie</td></tr>
+            <tr><td class="case-name">4.</td><td class="z-form">czwarty</td><td class="z-form">czwarta</td><td class="z-form">czwarte</td></tr>
+            <tr><td class="case-name">5.</td><td class="z-form">piąty</td><td class="z-form">piąta</td><td class="z-form">piąte</td></tr>
+            <tr><td class="case-name">6.</td><td class="z-form">szósty</td><td class="z-form">szósta</td><td class="z-form">szóste</td></tr>
+            <tr><td class="case-name">7.</td><td class="z-form">siódmy</td><td class="z-form">siódma</td><td class="z-form">siódme</td></tr>
+            <tr><td class="case-name">10.</td><td class="z-form">dziesiąty</td><td class="z-form">dziesiąta</td><td class="z-form">dziesiąte</td></tr>
+            <tr><td class="case-name">100.</td><td class="z-form">setny</td><td class="z-form">setna</td><td class="z-form">setne</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Kolektif sayılar -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">👥 Kolektif Sayılar (Liczebniki zbiorowe)</div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.85">
+        Çocuklar, karışık cinsiyet grupları ve çift nesneler için kullanılır:<br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">dwoje dzieci</span> = iki çocuk &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">troje przyjaciół</span> = üç arkadaş &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">pięcioro rodzeństwa</span> = beş kardeş
+      </div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr><th>Sayı</th><th>Kolektif form</th><th>Ne zaman?</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">2</td><td class="z-form">dwoje</td><td style="font-size:11px;color:var(--text3)">2 çocuk / karışık çift</td></tr>
+            <tr><td class="case-name">3</td><td class="z-form">troje</td><td style="font-size:11px;color:var(--text3)">3 çocuk / karışık grup</td></tr>
+            <tr><td class="case-name">4</td><td class="z-form">czworo</td><td style="font-size:11px;color:var(--text3)"></td></tr>
+            <tr><td class="case-name">5</td><td class="z-form">pięcioro</td><td style="font-size:11px;color:var(--text3)"></td></tr>
+            <tr><td class="case-name">6</td><td class="z-form">sześcioro</td><td style="font-size:11px;color:var(--text3)"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pratik kullanım -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">🎯 Pratik Kullanım</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Yaş</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;line-height:2">mam <strong>1 rok</strong><br>mam <strong>2/3/4 lata</strong><br>mam <strong>5+ lat</strong><br>mam <strong>21 lat</strong></div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Saat</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;line-height:2">jest <strong>godzina 1</strong><br>jest <strong>godzina 2/3/4</strong><br>jest <strong>godzina 5+</strong><br><strong>o której?</strong> → Dopeł.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FİİL ZAMANLARI -->
+    <div class="grammar-section" id="gsec-zamanlar">
+      <!-- GENİŞ ZAMAN -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">⏳ Geniş Zaman (Czas Teraźniejszy) — sadece ndk. fiiller</div>
+      <div style="background:var(--blue-bg);border:1px solid var(--blue);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7">
+        <strong style="color:#7090d0">⚠ Kural:</strong> Geniş zaman yalnızca <strong style="color:var(--text)">niedokonany (ndk.)</strong> fiillerle kullanılır. Dokonany (dk.) fiilin geniş zamanı yoktur — onun geniş zaman çekimi <strong>gelecek zaman</strong> anlamı verir!
+      </div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr><th>Kişi</th><th>robić (yapmak)</th><th>mówić (konuşmak)</th><th>pisać (yazmak)</th><th>być (olmak)</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">ja</td><td class="z-form">robię</td><td class="z-form">mówię</td><td class="z-form">piszę</td><td class="z-form" style="color:#c8a050">jestem</td></tr>
+            <tr><td class="case-name">ty</td><td class="z-form">robisz</td><td class="z-form">mówisz</td><td class="z-form">piszesz</td><td class="z-form" style="color:#c8a050">jesteś</td></tr>
+            <tr><td class="case-name">on/ona/ono</td><td class="z-form">robi</td><td class="z-form">mówi</td><td class="z-form">pisze</td><td class="z-form" style="color:#c8a050">jest</td></tr>
+            <tr><td class="case-name">my</td><td class="z-form">robimy</td><td class="z-form">mówimy</td><td class="z-form">piszemy</td><td class="z-form" style="color:#c8a050">jesteśmy</td></tr>
+            <tr><td class="case-name">wy</td><td class="z-form">robicie</td><td class="z-form">mówicie</td><td class="z-form">piszecie</td><td class="z-form" style="color:#c8a050">jesteście</td></tr>
+            <tr><td class="case-name">oni/one</td><td class="z-form">robią</td><td class="z-form">mówią</td><td class="z-form">piszą</td><td class="z-form" style="color:#c8a050">są</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GEÇMİŞ ZAMAN -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">⏮ Geçmiş Zaman (Czas Przeszły)</div>
+      <div style="background:var(--green-bg);border:1px solid var(--green);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7">
+        <strong style="color:#6dbf9a">Kural:</strong> Geçmiş zaman eki <strong style="color:var(--text)">cinsiyete göre değişir!</strong> Erkek: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-ł</span> · Dişi: <span style="font-family:'DM Mono',monospace;color:#e090c0">-ła</span> · Nötr: <span style="font-family:'DM Mono',monospace;color:#6dbf9a">-ło</span> · Erk.çoğul(mos.): <span style="font-family:'DM Mono',monospace;color:#c8a050">-li</span> · Diğer çoğul: <span style="font-family:'DM Mono',monospace;color:#888">-ły</span>
+      </div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr><th>Kişi</th><th style="color:#7090d0">robić (E)</th><th style="color:#e090c0">robić (D)</th><th>mówić (E)</th><th>pisać (E)</th><th>być (E/D)</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">ja</td><td class="z-form" style="color:#7090d0">robiłem</td><td class="z-form" style="color:#e090c0">robiłam</td><td class="z-form">mówiłem/am</td><td class="z-form">pisałem/am</td><td class="z-form" style="color:#c8a050">byłem/am</td></tr>
+            <tr><td class="case-name">ty</td><td class="z-form" style="color:#7090d0">robiłeś</td><td class="z-form" style="color:#e090c0">robiłaś</td><td class="z-form">mówiłeś/aś</td><td class="z-form">pisałeś/aś</td><td class="z-form" style="color:#c8a050">byłeś/aś</td></tr>
+            <tr><td class="case-name">on</td><td class="z-form" style="color:#7090d0">robił</td><td></td><td class="z-form">mówił</td><td class="z-form">pisał</td><td class="z-form" style="color:#c8a050">był</td></tr>
+            <tr><td class="case-name">ona</td><td></td><td class="z-form" style="color:#e090c0">robiła</td><td class="z-form">mówiła</td><td class="z-form">pisała</td><td class="z-form" style="color:#c8a050">była</td></tr>
+            <tr><td class="case-name">ono</td><td class="z-form" colspan="2" style="color:#6dbf9a">robiło</td><td class="z-form">mówiło</td><td class="z-form">pisało</td><td class="z-form" style="color:#c8a050">było</td></tr>
+            <tr><td class="case-name">my (E)</td><td class="z-form" colspan="2" style="color:#c8a050">robiliśmy</td><td class="z-form">mówiliśmy</td><td class="z-form">pisaliśmy</td><td class="z-form" style="color:#c8a050">byliśmy</td></tr>
+            <tr><td class="case-name">my (D/N)</td><td class="z-form" colspan="2" style="color:#888">robiłyśmy</td><td class="z-form">mówiłyśmy</td><td class="z-form">pisałyśmy</td><td class="z-form">byłyśmy</td></tr>
+            <tr><td class="case-name">oni</td><td class="z-form" colspan="2" style="color:#c8a050">robili</td><td class="z-form">mówili</td><td class="z-form">pisali</td><td class="z-form" style="color:#c8a050">byli</td></tr>
+            <tr><td class="case-name">one</td><td class="z-form" colspan="2" style="color:#888">robiły</td><td class="z-form">mówiły</td><td class="z-form">pisały</td><td class="z-form">były</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GELECEK ZAMAN -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">⏭ Gelecek Zaman (Czas Przyszły)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div style="background:var(--blue-bg);border:1px solid var(--blue);border-radius:10px;padding:12px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7090d0;margin-bottom:8px">Dokonany (dk.) — Basit Gelecek</div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:8px">dk. fiilin geniş zaman çekimi = gelecek zaman</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;line-height:2">
+            zrobię / zrobisz<br>zrobi / zrobimy<br>zrobicie / zrobią
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px;font-style:italic">Zrobię to jutro. — Bunu yarın yapacağım.</div>
+        </div>
+        <div style="background:var(--green-bg);border:1px solid var(--green);border-radius:10px;padding:12px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#6dbf9a;margin-bottom:8px">Niedokonany (ndk.) — Bileşik Gelecek</div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:8px">będę + infinitif <strong>veya</strong> będę + geçmiş participle</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;line-height:2">
+            będę robić / będę robił<br>będziesz robić / będziesz robił<br>będzie robić / będziemy
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px;font-style:italic">Będę robić zadanie. — Ödev yapıyor olacağım.</div>
+        </div>
+      </div>
+
+      <!-- KOŞULLU KİP -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">🔀 Koşullu Kip (Tryb Warunkowy)</div>
+      <div style="background:var(--purple-bg);border:1px solid var(--purple);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7">
+        <strong style="color:#b080e0">Yapı:</strong> geçmiş zaman formu + <strong style="color:var(--text)">by + kişi eki</strong><br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">robił + bym → robiłbym</span> (yapardım) &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#5dc0b0">gdybym wiedział...</span> (bilseydim...)
+      </div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="case-table">
+          <thead><tr><th>Kişi</th><th style="color:#7090d0">E. tekil</th><th style="color:#e090c0">D. tekil</th><th>Çoğul (Mos.)</th><th>Çoğul (Niemos.)</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">ja</td><td class="z-form" style="color:#7090d0">robiłbym</td><td class="z-form" style="color:#e090c0">robiłabym</td><td colspan="2"></td></tr>
+            <tr><td class="case-name">ty</td><td class="z-form" style="color:#7090d0">robiłbyś</td><td class="z-form" style="color:#e090c0">robiłabyś</td><td colspan="2"></td></tr>
+            <tr><td class="case-name">on/ona/ono</td><td class="z-form" style="color:#7090d0">robiłby</td><td class="z-form" style="color:#e090c0">robiłaby / robiłoby</td><td colspan="2"></td></tr>
+            <tr><td class="case-name">my</td><td colspan="2"></td><td class="z-form" style="color:#c8a050">robilibyśmy</td><td class="z-form" style="color:#888">robiłybyśmy</td></tr>
+            <tr><td class="case-name">wy</td><td colspan="2"></td><td class="z-form" style="color:#c8a050">robilibyście</td><td class="z-form" style="color:#888">robiłybyście</td></tr>
+            <tr><td class="case-name">oni/one</td><td colspan="2"></td><td class="z-form" style="color:#c8a050">robiliby</td><td class="z-form" style="color:#888">robiłyby</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- EMİR KİPİ -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">❗ Emir Kipi (Tryb Rozkazujący)</div>
+      <div style="overflow-x:auto;margin-bottom:10px">
+        <table class="case-table">
+          <thead><tr><th>Kişi</th><th>robić (yap-)</th><th>mówić (konuş-)</th><th>pisać (yaz-)</th><th>iść (git-)</th></tr></thead>
+          <tbody>
+            <tr><td class="case-name">ty (sen)</td><td class="z-form" style="color:#e07070">rób!</td><td class="z-form" style="color:#e07070">mów!</td><td class="z-form" style="color:#e07070">pisz!</td><td class="z-form" style="color:#e07070">idź!</td></tr>
+            <tr><td class="case-name">my (hadi)</td><td class="z-form">róbmy!</td><td class="z-form">mówmy!</td><td class="z-form">piszmy!</td><td class="z-form">chodźmy!</td></tr>
+            <tr><td class="case-name">wy (siz)</td><td class="z-form">róbcie!</td><td class="z-form">mówcie!</td><td class="z-form">piszcie!</td><td class="z-form">idźcie!</td></tr>
+            <tr><td class="case-name">on/ona (o)</td><td class="z-form">niech robi</td><td class="z-form">niech mówi</td><td class="z-form">niech pisze</td><td class="z-form">niech idzie</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.9;background:var(--surface2);border-radius:8px;padding:10px 13px">
+        <strong style="color:#c8b89a">💡 Özet:</strong><br>
+        • <strong style="color:var(--text)">ndk. geniş zaman</strong> = şu an yapıyor / genelde yapıyor<br>
+        • <strong style="color:var(--text)">dk. "geniş" zaman</strong> = gelecekte yapacak (tek seferlik)<br>
+        • <strong style="color:var(--text)">ndk. geçmiş</strong> = yapıyordu / yapardı &nbsp;·&nbsp; <strong style="color:var(--text)">dk. geçmiş</strong> = yaptı (tamamlandı)<br>
+        • Koşullu: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Chciałbym...</span> (isterdim) — kibarca rica için de kullanılır!
+      </div>
     </div>
 
         <div class="grammar-section" id="gsec-query">
@@ -4989,10 +5282,34 @@ function renderKulturCard(d) {
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  const idx = ['cases','aspect','decl','baglaç','query','zamirler'].indexOf(tab);
+  const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar'].indexOf(tab);
   if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
   const sec = document.getElementById('gsec-'+tab);
   if(sec) sec.classList.add('active');
+}
+
+function filterEdatlar(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('edat-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('#edat-list .baglaç-cat').forEach(cat => {
+    const catTitle = (cat.querySelector('.baglaç-cat-title')||{}).textContent||'';
+    let catVisible = !q || catTitle.toLowerCase().includes(q);
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const match = !q || text.includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if(catVisible) anyVisible = true;
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
+}
+function filterEdatlarByCase(hal) {
+  const inp = document.getElementById('edat-search');
+  if(inp) inp.value = hal;
+  filterEdatlar(hal);
 }
 
 function filterZamirler(q) {
@@ -6219,138 +6536,297 @@ function triggerMetro() {
   if (_metroActive) return;
   _metroActive = true;
 
-  // CSS animations
-  const metroStyle = document.createElement('style');
-  metroStyle.id = 'metro-style';
-  metroStyle.textContent = [
-    '@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.009)}}',
-    '@keyframes metroVigPulse{0%,100%{opacity:.88}50%{opacity:.97}}',
-    '@keyframes metroFlicker{0%,94%,100%{opacity:1}95%{opacity:.15}97%{opacity:.7}98%{opacity:.25}99%{opacity:.9}}',
-    '@keyframes metroToastBlink{0%,100%{opacity:1}49%{opacity:1}50%{opacity:.1}}',
-    '@keyframes metroScan{from{background-position:0 0}to{background-position:0 4px}}',
-    'body.metro-cursor,body.metro-cursor *{cursor:crosshair!important}'
-  ].join('');
-  document.head.appendChild(metroStyle);
+  // CSS
+  if (!document.getElementById('metro-style')) {
+    const st = document.createElement('style');
+    st.id = 'metro-style';
+    st.textContent = [
+      '@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.007)}}',
+      '@keyframes metroVigPulse{0%,100%{opacity:.85}50%{opacity:.97}}',
+      '@keyframes metroFlicker{0%,93%,100%{opacity:1}94%{opacity:.1}96%{opacity:.6}97%{opacity:.2}99%{opacity:.85}}',
+      '@keyframes metroToastBlink{0%,100%{opacity:1}49%{opacity:1}50%{opacity:.08}}',
+      '@keyframes metroScan{from{background-position:0 0}to{background-position:0 4px}}',
+      '@keyframes metroDoseIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}',
+      'body.metro-cursor,body.metro-cursor *{cursor:crosshair!important}'
+    ].join('');
+    document.head.appendChild(st);
+  }
 
-  // ── SES: Burst pattern Geiger + ambient drone ──
+  // ── SES: Keskin "tık" darbeleri, radyasyona bağlı hız ──
+  let _audioCtx = null, _geigerAlive = true, _radLevel = 0;
   try {
-    const actx = new (window.AudioContext || window.webkitAudioContext)();
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function geigerClick(t, vol) {
-      const sr = actx.sampleRate;
-      const buf = actx.createBuffer(1, Math.ceil(sr * 0.028), sr);
+    // Bandpass filtreli keskin darbe — Metro'nun o kuru "tık" sesi
+    function fireClick(vol) {
+      if (!_audioCtx || !_geigerAlive) return;
+      const sr = _audioCtx.sampleRate;
+      const len = Math.ceil(sr * 0.012); // 12ms — çok kısa ve keskin
+      const buf = _audioCtx.createBuffer(1, len, sr);
       const d = buf.getChannelData(0);
-      for (let i = 0; i < d.length; i++)
-        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sr * 0.004));
-      const src = actx.createBufferSource();
-      const g = actx.createGain(); g.gain.value = vol;
-      src.buffer = buf; src.connect(g); g.connect(actx.destination);
-      src.start(t);
+      // Kısa attack, hızlı exponential decay — tık sesi
+      for (let i = 0; i < len; i++)
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 8) * (i < 3 ? i / 3 : 1);
+
+      const src = _audioCtx.createBufferSource();
+      // Bandpass: ~2kHz civarı — metalik tık
+      const bp = _audioCtx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 1800 + Math.random() * 800; bp.Q.value = 0.8;
+      const g = _audioCtx.createGain(); g.gain.value = vol * 1.2;
+      src.buffer = buf;
+      src.connect(bp); bp.connect(g); g.connect(_audioCtx.destination);
+      src.start();
     }
 
-    // Metro-style: burst clusters with gaps
-    let t = actx.currentTime + 0.2;
-    const END = actx.currentTime + 10;
-    while (t < END) {
-      const burst = 2 + Math.floor(Math.random() * 8);
-      for (let i = 0; i < burst; i++) {
-        geigerClick(t, 0.25 + Math.random() * 0.55);
-        t += 0.018 + Math.random() * 0.055;
+    // Radyasyon seviyesine göre dinamik tıkırtı
+    let _nextClick = performance.now();
+    function geigerLoop() {
+      if (!_geigerAlive) return;
+      const now = performance.now();
+      if (now >= _nextClick) {
+        // _radLevel 0-1 arası → interval 600ms-30ms
+        const minInterval = 28, maxInterval = 580;
+        const interval = maxInterval - (_radLevel * (maxInterval - minInterval));
+        const vol = 0.3 + _radLevel * 0.5;
+        // Burst etkisi: zirvedeyken bazen çift/üçlü tık
+        const burst = _radLevel > 0.7 && Math.random() < 0.35 ? Math.floor(Math.random() * 3) + 2 : 1;
+        for (let b = 0; b < burst; b++) {
+          setTimeout(() => fireClick(vol * (0.7 + Math.random() * 0.3)), b * 15);
+        }
+        _nextClick = now + interval + (Math.random() * interval * 0.4);
       }
-      t += 0.1 + Math.random() * 0.55; // gap between bursts
+      requestAnimationFrame(geigerLoop);
     }
+    geigerLoop();
 
-    // Low ambient drone
-    const drone = actx.createOscillator();
-    const droneG = actx.createGain();
-    drone.type = 'sawtooth'; drone.frequency.value = 48;
-    droneG.gain.setValueAtTime(0, actx.currentTime);
-    droneG.gain.linearRampToValueAtTime(0.035, actx.currentTime + 1.2);
-    droneG.gain.linearRampToValueAtTime(0.02, actx.currentTime + 8);
-    droneG.gain.linearRampToValueAtTime(0, actx.currentTime + 10);
-    drone.connect(droneG); droneG.connect(actx.destination);
-    drone.start(); drone.stop(actx.currentTime + 10.5);
-
-    setTimeout(() => actx.close(), 11000);
+    // Ambient drone
+    const drone = _audioCtx.createOscillator();
+    const droneG = _audioCtx.createGain();
+    drone.type = 'sawtooth'; drone.frequency.value = 52;
+    droneG.gain.setValueAtTime(0, _audioCtx.currentTime);
+    droneG.gain.linearRampToValueAtTime(0.03, _audioCtx.currentTime + 1.5);
+    droneG.gain.linearRampToValueAtTime(0, _audioCtx.currentTime + 12);
+    drone.connect(droneG); droneG.connect(_audioCtx.destination);
+    drone.start(); drone.stop(_audioCtx.currentTime + 12.5);
   } catch(e) {}
 
-  // ── VİZYON: Film grain (canvas animated) ──
+  // ── VİZYON ──────────────────────────────────────────────
   const grain = document.createElement('canvas');
-  grain.style.cssText = 'position:fixed;inset:0;z-index:9993;pointer-events:none;width:100%;height:100%;opacity:.16;mix-blend-mode:screen;';
-  grain.width = Math.min(window.innerWidth, 800);
-  grain.height = Math.min(window.innerHeight, 600);
+  grain.style.cssText = 'position:fixed;inset:0;z-index:9993;pointer-events:none;width:100%;height:100%;opacity:.15;mix-blend-mode:screen;';
+  grain.width = Math.min(window.innerWidth, 700);
+  grain.height = Math.min(window.innerHeight, 500);
   const gctx = grain.getContext('2d');
-  let grainRaf, grainAlive = true;
-  (function drawGrain() {
+  let grainAlive = true;
+  (function dg() {
     if (!grainAlive) return;
     const img = gctx.createImageData(grain.width, grain.height);
     const d = img.data;
     for (let i = 0; i < d.length; i += 4) {
       const v = Math.random() * 255;
-      d[i] = v * 0.5; d[i+1] = v; d[i+2] = v * 0.35; d[i+3] = Math.random() * 55;
+      d[i] = v * 0.45; d[i+1] = v; d[i+2] = v * 0.3; d[i+3] = Math.random() * 50;
     }
     gctx.putImageData(img, 0, 0);
-    grainRaf = requestAnimationFrame(drawGrain);
+    requestAnimationFrame(dg);
   })();
 
-  // ── Renk tonu — hafif yeşil ──
   const colorGrade = document.createElement('div');
-  colorGrade.style.cssText = 'position:fixed;inset:0;z-index:9992;pointer-events:none;background:rgba(0,12,4,.22);';
+  colorGrade.style.cssText = 'position:fixed;inset:0;z-index:9992;pointer-events:none;background:rgba(0,10,3,.2);';
 
-  // ── Ağır vignette ──
   const vignette = document.createElement('div');
-  vignette.style.cssText = 'position:fixed;inset:0;z-index:9994;pointer-events:none;background:radial-gradient(ellipse at center,transparent 18%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.93) 100%);animation:metroVigPulse 3.2s ease-in-out infinite;';
+  vignette.style.cssText = 'position:fixed;inset:0;z-index:9994;pointer-events:none;background:radial-gradient(ellipse at center,transparent 15%,rgba(0,0,0,.5) 55%,rgba(0,0,0,.94) 100%);animation:metroVigPulse 3.5s ease-in-out infinite;';
 
-  // ── Scanlines ──
   const scan = document.createElement('div');
-  scan.style.cssText = 'position:fixed;inset:0;z-index:9995;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,40,0,.07) 2px,rgba(0,40,0,.07) 4px);animation:metroScan .08s linear infinite;';
+  scan.style.cssText = 'position:fixed;inset:0;z-index:9995;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,35,0,.06) 2px,rgba(0,35,0,.06) 4px);animation:metroScan .08s linear infinite;';
 
-  // ── Nefes efekti (köşe sisi) ──
   const fog = document.createElement('div');
-  fog.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;background:radial-gradient(circle at 12% 5%,rgba(180,200,180,.07) 0%,transparent 35%),radial-gradient(circle at 88% 5%,rgba(180,200,180,.07) 0%,transparent 35%),radial-gradient(ellipse 130% 60% at 50% 115%,rgba(10,20,10,.5) 0%,transparent 55%);animation:metroBreathe 3.8s ease-in-out infinite;';
+  fog.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;background:radial-gradient(circle at 10% 5%,rgba(160,190,160,.07) 0%,transparent 35%),radial-gradient(circle at 90% 5%,rgba(160,190,160,.07) 0%,transparent 35%);animation:metroBreathe 4s ease-in-out infinite;';
 
-  // ── Flicker efekti ──
   const flicker = document.createElement('div');
-  flicker.style.cssText = 'position:fixed;inset:0;z-index:9997;pointer-events:none;background:rgba(0,20,5,.04);animation:metroFlicker 7s linear infinite;';
+  flicker.style.cssText = 'position:fixed;inset:0;z-index:9997;pointer-events:none;background:rgba(0,15,4,.03);animation:metroFlicker 8s linear infinite;';
 
-  // ── HUD: Radyasyon sayacı ──
-  const hud = document.createElement('div');
-  hud.style.cssText = 'position:fixed;top:18px;left:18px;z-index:10001;pointer-events:none;font-family:"DM Mono",monospace;animation:metroFlicker 9s linear infinite;';
-  hud.innerHTML =
-    '<div style="font-size:9px;letter-spacing:.2em;color:#555;margin-bottom:3px;text-transform:uppercase">РАДИАЦИЯ</div>' +
-    '<div id="metro-rad" style="font-size:32px;font-weight:700;color:#ff3300;text-shadow:0 0 14px rgba(255,50,0,.7);line-height:1;letter-spacing:.03em">0.00</div>' +
-    '<div style="font-size:9px;color:#444;margin-top:3px;letter-spacing:.12em">μSv/h</div>';
+  // ── DOZİMETRE — Artyom'un bilekteki ──────────────────────
+  const dosi = document.createElement('div');
+  dosi.id = 'metro-dosimeter';
+  dosi.style.cssText = 'position:fixed;bottom:22px;right:22px;z-index:10001;pointer-events:none;animation:metroDoseIn .5s cubic-bezier(.34,1.3,.64,1) forwards;';
 
-  let radVal = 0, radInterval = setInterval(() => {
-    radVal = Math.min(radVal + (2.5 + Math.random() * 9), 999.99);
-    const el = document.getElementById('metro-rad');
-    if (el) el.textContent = radVal.toFixed(2);
-  }, 70);
+  // SVG gauge: 180° yarım daire göstergesi
+  dosi.innerHTML = `
+    <svg width="170" height="110" viewBox="0 0 170 110">
+      <defs>
+        <filter id="metro-glow">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Arka plan — eskimiş metal görünümü -->
+      <rect x="2" y="2" width="166" height="106" rx="8" ry="8"
+        fill="#0a0d08" stroke="#2a3020" stroke-width="1.5"/>
+      <rect x="6" y="6" width="158" height="98" rx="6" ry="6"
+        fill="none" stroke="#1a2015" stroke-width="1"/>
 
-  // ── Alt uyarı: Kiril + İngilizce ──
+      <!-- Başlık -->
+      <text x="85" y="20" text-anchor="middle" font-family="DM Mono,monospace"
+        font-size="8" fill="#3a4a30" letter-spacing="2">ДОЗИМЕТР</text>
+
+      <!-- Arka plan yayı (gri) -->
+      <path d="M25,90 A60,60 0 0,1 145,90"
+        fill="none" stroke="#1a2010" stroke-width="10" stroke-linecap="round"/>
+
+      <!-- Yeşil bölge (0–40%) -->
+      <path id="metro-arc-g" d="M25,90 A60,60 0 0,1 145,90"
+        fill="none" stroke="#1a6020" stroke-width="10" stroke-linecap="round"
+        stroke-dasharray="0 188"/>
+
+      <!-- Sarı bölge (40–70%) -->
+      <path id="metro-arc-y" d="M25,90 A60,60 0 0,1 145,90"
+        fill="none" stroke="#5a5000" stroke-width="10" stroke-linecap="round"
+        stroke-dasharray="0 188"/>
+
+      <!-- Kırmızı bölge (70–100%) -->
+      <path id="metro-arc-r" d="M25,90 A60,60 0 0,1 145,90"
+        fill="none" stroke="#4a0000" stroke-width="10" stroke-linecap="round"
+        stroke-dasharray="0 188"/>
+
+      <!-- Zone etiketleri -->
+      <text x="18" y="100" font-family="DM Mono,monospace" font-size="7" fill="#1a4010">НОРМ</text>
+      <text x="140" y="100" text-anchor="end" font-family="DM Mono,monospace" font-size="7" fill="#4a0010">КРИТ</text>
+
+      <!-- İğne -->
+      <line id="metro-needle" x1="85" y1="90" x2="25" y2="90"
+        stroke="#c8b89a" stroke-width="2" stroke-linecap="round"
+        filter="url(#metro-glow)"
+        transform="rotate(0,85,90)"/>
+      <!-- İğne merkez noktası -->
+      <circle cx="85" cy="90" r="4" fill="#c8b89a" filter="url(#metro-glow)"/>
+      <circle cx="85" cy="90" r="2" fill="#0a0d08"/>
+
+      <!-- Sayısal değer -->
+      <text id="metro-dose-val" x="85" y="75" text-anchor="middle"
+        font-family="DM Mono,monospace" font-size="11" font-weight="700"
+        fill="#c8b89a" filter="url(#metro-glow)">0.00</text>
+      <text x="85" y="83" text-anchor="middle" font-family="DM Mono,monospace"
+        font-size="6" fill="#3a4a30">μSv/h</text>
+
+      <!-- Durum metni -->
+      <text id="metro-status" x="85" y="106" text-anchor="middle"
+        font-family="DM Mono,monospace" font-size="8" letter-spacing="1"
+        fill="#2a6020">НОРМА</text>
+    </svg>`;
+
+  // ── Üst uyarı ──
   const warning = document.createElement('div');
-  warning.style.cssText = 'position:fixed;bottom:36px;left:50%;transform:translateX(-50%);z-index:10001;pointer-events:none;text-align:center;';
+  warning.style.cssText = 'position:fixed;bottom:36px;left:50%;transform:translateX(-50%);z-index:10001;pointer-events:none;text-align:center;opacity:0;transition:opacity .4s;';
   warning.innerHTML =
-    '<div style="font-family:\'DM Mono\',monospace;font-size:12px;letter-spacing:.2em;color:#ff3300;animation:metroToastBlink .9s infinite;text-shadow:0 0 10px rgba(255,50,0,.5)">⚠ АНОМАЛИЯ ОБНАРУЖЕНА ⚠</div>' +
-    '<div style="font-size:9px;color:#444;margin-top:5px;font-family:\'DM Mono\',monospace;letter-spacing:.12em">ANOMALY DETECTED — EVACUATE IMMEDIATELY</div>';
+    '<div style="font-family:\'DM Mono\',monospace;font-size:11px;letter-spacing:.2em;color:#ff3300;animation:metroToastBlink .85s infinite;text-shadow:0 0 10px rgba(255,50,0,.5)">⚠ АНОМАЛИЯ ОБНАРУЖЕНА ⚠</div>' +
+    '<div style="font-size:9px;color:#444;margin-top:4px;font-family:\'DM Mono\',monospace;letter-spacing:.1em">ANOMALY DETECTED — EVACUATE IMMEDIATELY</div>';
 
   document.body.classList.add('metro-cursor');
-  const elements = [colorGrade, grain, vignette, scan, fog, flicker, hud, warning];
+  const elements = [colorGrade, grain, vignette, scan, fog, flicker, dosi, warning];
   elements.forEach(el => document.body.appendChild(el));
+
+  // ── Radyasyon animasyonu: yüksel → zirve → düş ──
+  // Faz: 0–3.5s yükseliş, 3.5–8s zirve, 8–11s düşüş
+  const TOTAL = 11000, RISE_END = 3500, PEAK_END = 8000;
+  const ARC_LEN = 188; // yarım daire toplam uzunluğu px
+
+  function setGauge(level) { // level 0.0 → 1.0
+    _radLevel = level;
+    const angle = level * 180; // 0° → 180°
+    const arcFill = level * ARC_LEN;
+
+    // İğne rotasyonu: başlangıç -90°, bitiş +90°
+    const needle = document.getElementById('metro-needle');
+    if (needle) needle.setAttribute('transform', `rotate(${-90 + angle},85,90)`);
+
+    // Değer
+    const maxVal = 999.99;
+    const val = (level * maxVal).toFixed(2);
+    const valEl = document.getElementById('metro-dose-val');
+    if (valEl) valEl.textContent = val;
+
+    // Renk bölgeleri (dasharray offset ile sıralı boyama)
+    const gEl = document.getElementById('metro-arc-g');
+    const yEl = document.getElementById('metro-arc-y');
+    const rEl = document.getElementById('metro-arc-r');
+
+    const greenMax = ARC_LEN * 0.4;
+    const yellowMax = ARC_LEN * 0.7;
+
+    const greenFill = Math.min(arcFill, greenMax);
+    const yellowFill = Math.max(0, Math.min(arcFill - greenMax, yellowMax - greenMax));
+    const redFill = Math.max(0, arcFill - yellowMax);
+
+    if (gEl) {
+      const gCol = level < 0.4 ? '#2a9030' : '#1a6020';
+      gEl.setAttribute('stroke', gCol);
+      gEl.setAttribute('stroke-dasharray', `${greenFill} ${ARC_LEN - greenFill}`);
+    }
+    if (yEl) {
+      yEl.setAttribute('stroke-dasharray', `${yellowFill} ${ARC_LEN - yellowFill}`);
+      yEl.setAttribute('stroke-dashoffset', `-${greenMax}`);
+      yEl.setAttribute('stroke', level > 0.4 ? '#c8a010' : '#5a5000');
+    }
+    if (rEl) {
+      rEl.setAttribute('stroke-dasharray', `${redFill} ${ARC_LEN - redFill}`);
+      rEl.setAttribute('stroke-dashoffset', `-${yellowMax}`);
+      rEl.setAttribute('stroke', level > 0.7 ? '#cc2010' : '#4a0000');
+    }
+
+    // Durum metni + renk
+    const statusEl = document.getElementById('metro-status');
+    if (statusEl) {
+      if (level < 0.35) { statusEl.textContent = 'НОРМА'; statusEl.setAttribute('fill', '#2a8030'); }
+      else if (level < 0.65) { statusEl.textContent = 'ОПАСНО'; statusEl.setAttribute('fill', '#b89010'); }
+      else if (level < 0.85) { statusEl.textContent = 'ОПАСНО!'; statusEl.setAttribute('fill', '#cc4010'); }
+      else { statusEl.textContent = 'КРИТИЧНО'; statusEl.setAttribute('fill', '#ff2010'); }
+    }
+
+    // Uyarı banner
+    if (level > 0.5 && warning.style.opacity === '0') warning.style.opacity = '1';
+    else if (level <= 0.3) warning.style.opacity = '0';
+  }
+
+  // Animasyon döngüsü
+  const startTime = performance.now();
+  let animRaf;
+  function animDose() {
+    const elapsed = performance.now() - startTime;
+    let level;
+    if (elapsed < RISE_END) {
+      // Yükseliş: ease-in
+      const t = elapsed / RISE_END;
+      level = t * t * t; // cubic ease-in
+    } else if (elapsed < PEAK_END) {
+      // Zirve: hafif titreme
+      const base = 0.88 + Math.random() * 0.12;
+      level = base;
+    } else if (elapsed < TOTAL) {
+      // Düşüş: ease-out
+      const t = (elapsed - PEAK_END) / (TOTAL - PEAK_END);
+      level = (1 - t) * (1 - t) * 0.95; // quadratic ease-out
+    } else {
+      setGauge(0);
+      return;
+    }
+    setGauge(Math.max(0, Math.min(1, level)));
+    animRaf = requestAnimationFrame(animDose);
+  }
+  animRaf = requestAnimationFrame(animDose);
 
   // ── Temizlik ──
   setTimeout(() => {
-    clearInterval(radInterval);
-    grainAlive = false; cancelAnimationFrame(grainRaf);
+    _geigerAlive = false;
+    grainAlive = false;
+    cancelAnimationFrame(animRaf);
+    if (_audioCtx) _audioCtx.close();
     elements.forEach(el => {
       el.style.transition = 'opacity 2s ease';
       el.style.opacity = '0';
       setTimeout(() => el.remove(), 2100);
     });
     document.body.classList.remove('metro-cursor');
-    metroStyle.remove();
     _metroActive = false;
-  }, 10000);
+  }, TOTAL + 500);
 }
 
 // ── DOBRZE EGG — küçük onay patlaması ──────────────────
