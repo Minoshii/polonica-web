@@ -1058,7 +1058,16 @@ app.post('/api/kultur', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const rootPath = path.join(__dirname, 'index.html');
+  const publicPath = path.join(__dirname, 'public', 'index.html');
+
+  if (fs.existsSync(rootPath)) {
+    res.sendFile(rootPath);
+  } else if (fs.existsSync(publicPath)) {
+    res.sendFile(publicPath);
+  } else {
+    res.status(404).send("ben malım sikin beni");
+  }
 });
 
 app.listen(PORT,'0.0.0.0',()=>{
