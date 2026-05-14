@@ -659,153 +659,16 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   80%  { transform:translateX(-50%) translateY(3px); }
   100% { opacity:1; transform:translateX(-50%) translateY(0); }
 }
-/* ── SPOTIFY DRAWER ──────────────────────────────────── */
-#spotify-drawer{
-  position:fixed;
-  bottom:120px;
-  right:0;
-  z-index:850;
-  display:none;
-  align-items:flex-end;
-  gap:0;
-  pointer-events:none;
-}
-#spotify-drawer.active{ display:flex; }
 
-/* Bar - sağdan kayar */
-#spotify-widget{
-  pointer-events:all;
-  transform:translateX(calc(100% + 4px));
-  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
-  opacity:0;
-  position:relative;
-}
-#spotify-drawer.open #spotify-widget{
-  transform:translateX(0);
-  opacity:1;
-}
-
-/* Kenar tab - her zaman görünür */
-#spotify-tab{
-  pointer-events:all;
-  width:28px;
-  background:rgba(12,12,12,.92);
-  border:1px solid rgba(255,255,255,.1);
-  border-right:none;
-  border-radius:10px 0 0 10px;
-  padding:14px 6px;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  backdrop-filter:blur(12px);
-  transition:background .2s,width .2s;
-  flex-shrink:0;
-  align-self:stretch;
-}
-#spotify-tab:hover{ background:rgba(30,30,30,.95); }
-#spotify-tab-icon{ font-size:13px; }
-#spotify-tab-bar-wrap{
-  width:3px;
-  flex:1;
-  background:rgba(255,255,255,.1);
-  border-radius:99px;
-  overflow:hidden;
-  min-height:30px;
-}
-#spotify-tab-progress{
-  width:100%;
-  background:#1db954;
-  border-radius:99px;
-  height:0%;
-  transition:height .8s linear;
-}
-#spotify-widget{display:none;}
-#spotify-drawer.active #spotify-widget{ display:block; }
-
-
-
-
+#spotify-drawer.active #spotify-widget{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800;display:none;user-select:none;}
 #spotify-widget.visible{display:block;animation:spotifyPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
 #spotify-widget.dragging-mode{animation:none;}
 #spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:300px;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05);cursor:grab;animation:floatBob 6s ease-in-out infinite;transition:border-radius .4s ease,padding .4s ease,min-width .4s ease,box-shadow .3s ease;}
-/* SNAPPED - küçük pill */
-#spotify-widget.snapped{transition:left .5s cubic-bezier(.25,.46,.45,.94),top .5s cubic-bezier(.25,.46,.45,.94),transform .5s cubic-bezier(.25,.46,.45,.94) !important;}
-#spotify-widget.snapped #spotify-bar{border-radius:99px;padding:6px 10px;min-width:0;gap:6px;cursor:pointer;animation:none;box-shadow:0 4px 20px rgba(0,0,0,.6);}
-#spotify-widget.snapped #spotify-bar-top{gap:8px;}
-#spotify-widget.snapped #spotify-cover{width:28px;height:28px;border-radius:50%;flex-shrink:0;}
-#spotify-widget.snapped #spotify-info{display:none;}
-#spotify-widget.snapped #spotify-controls{display:none;}
-#spotify-widget.snapped #spotify-close{display:none;}
-#spotify-widget.snapped #sp-pill-progress{display:flex;}
-/* Progress pill içi */
-#sp-pill-progress{display:none;align-items:center;gap:0;}
-#sp-pill-bar-wrap{width:52px;height:3px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;}
-#sp-pill-bar{height:100%;background:#1db954;width:0%;transition:width .8s linear;border-radius:99px;}
-#spotify-bar.dragging{animation:none;cursor:grabbing;box-shadow:0 20px 60px rgba(0,0,0,.8);}
-#spotify-bar:active{cursor:grabbing;}
-#spotify-bar-top{display:flex;align-items:center;gap:12px;}
-#spotify-controls{display:flex;align-items:center;justify-content:center;gap:8px;padding-top:4px;border-top:1px solid rgba(255,255,255,.08);}
-.sp-ctrl{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:8px;transition:all .15s;line-height:1;}
-.sp-ctrl:hover{color:#fff;background:rgba(255,255,255,.1);}
-.sp-ctrl.play-pause{font-size:22px;color:#1db954;}
-.sp-ctrl.play-pause:hover{color:#1ed760;}
-#spotify-bar:active{cursor:grabbing;}
-#spotify-bar.hiding{opacity:0;transform:translateX(-50%) translateY(20px);}
-#spotify-cover{width:42px;height:42px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#222;}
-#spotify-info{flex:1;min-width:0;}
-#spotify-track{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-#spotify-artist{font-size:11px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
-#spotify-progress-wrap{height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:6px;overflow:hidden;}
-#spotify-progress{height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .5s linear;}
-#spotify-logo{flex-shrink:0;}
-#spotify-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0;}
-#spotify-close:hover{color:#fff;}
-/* Spotify bağla butonu */
-#spotify-connect-btn{display:none;}
-#spotify-sidebar-btn{background:#1db954;border:none;border-radius:8px;padding:6px 12px;color:#000;font-weight:700;font-size:11px;cursor:pointer;width:100%;margin-top:4px;display:none;}
-#spotify-sidebar-btn.show{display:block;}
-/* SPOTIFY EASTER EGG */
-.sp-easter-particle{position:fixed;pointer-events:none;z-index:9999;font-size:28px;animation:spEasterFall linear forwards;}
-@keyframes spEasterFall{
-  0%  {opacity:1;transform:translateY(0) rotate(0deg) scale(1);}
-  80% {opacity:1;}
-  100%{opacity:0;transform:translateY(110vh) rotate(720deg) scale(0.5);}
-}
-.sp-easter-text{position:fixed;pointer-events:none;z-index:9999;font-family:'Syne',sans-serif;font-weight:900;text-align:center;left:50%;transform:translateX(-50%);animation:spTextPop .6s cubic-bezier(.34,1.56,.64,1) forwards, spTextFade 1.5s ease 1s forwards;}
-@keyframes spTextPop{0%{opacity:0;scale:0.3;top:30%;}100%{opacity:1;scale:1;top:35%;}}
-@keyframes spTextFade{0%{opacity:1;}100%{opacity:0;}}
-/* KÜLTÜR PANELİ */
-.kultur-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
-.kultur-cat-btn{padding:7px 14px;border-radius:99px;border:1px solid var(--border2);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
-.kultur-cat-btn:hover{border-color:var(--accent-dim);color:var(--accent);}
-.kultur-cat-btn.active{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent);}
-.kultur-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;overflow:hidden;animation:panelIn .3s ease;}
-.kultur-card-header{padding:20px 22px 14px;border-bottom:1px solid var(--border);}
-.kultur-card-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-dim);margin-bottom:8px;}
-.kultur-card-title{font-size:24px;font-weight:900;color:var(--text);margin-bottom:4px;line-height:1.2;}
-.kultur-card-title-tr{font-size:13px;color:var(--text3);font-style:italic;}
-.kultur-card-period{font-size:11px;color:var(--text3);margin-top:6px;font-family:'DM Mono',monospace;}
-.kultur-card-body{padding:20px 22px;}
-.kultur-card-fact{font-size:15px;color:var(--text);line-height:1.85;margin-bottom:16px;}
-.kultur-card-why{font-size:13px;color:var(--text2);padding:12px 14px;background:var(--surface3);border-radius:10px;border-left:3px solid var(--accent-dim);margin-bottom:14px;line-height:1.6;}
-.kultur-card-polish{display:inline-flex;align-items:center;gap:8px;background:var(--accent-bg);border:1px solid var(--accent-dim);border-radius:8px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);}
-.kultur-surprise-btn{display:flex;align-items:center;gap:12px;width:100%;padding:16px 20px;border-radius:14px;border:2px dashed var(--border2);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;margin-bottom:20px;}
-.kultur-surprise-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);transform:scale(1.01);}
-.kultur-surprise-btn:active{transform:scale(0.98);}
-</style>
-</head>
-<body>
 
-<!-- SPOTIFY DRAWER -->
-<div id="spotify-drawer">
-  <div id="spotify-tab" onclick="toggleSpotifyDrawer()" title="Spotify">
-    <span id="spotify-tab-icon">🎵</span>
-    <div id="spotify-tab-bar-wrap"><div id="spotify-tab-progress"></div></div>
-  </div>
-  <div id="spotify-widget">
-    <div id="spotify-bar">
+
+<!-- SPOTIFY WIDGET -->
+<div id="spotify-widget">
+  <div id="spotify-bar">
       <div id="spotify-bar-top">
         <img id="spotify-cover" src="" alt="" style="width:40px;height:40px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#222;">
         <div id="spotify-info" style="flex:1;min-width:0;">
@@ -824,7 +687,6 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <button class="sp-ctrl play-pause" id="sp-playpause" onclick="spotifyPlayPause()">▶</button>
         <button class="sp-ctrl" onclick="spotifyNext()" title="Sonraki">⏭</button>
       </div>
-    </div>
   </div>
 </div>
 <button id="spotify-connect-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
@@ -4425,6 +4287,76 @@ let _spotifyVisible = false;
 let _spotifyDragging = false;
 let _dragOffset = {x:0, y:0};
 
+// Fizik sürükleme
+(function(){
+  function getBar(){ return document.getElementById('spotify-bar'); }
+  function getWidget(){ return document.getElementById('spotify-widget'); }
+  let velX=0,velY=0,lastX=0,lastY=0,lastT=0,curX=0,curY=0,targetX=0,targetY=0,lagFrame=null,animFrame=null;
+
+  document.addEventListener('pointerdown', function(e){
+    const bar = getBar();
+    if(!bar || !bar.contains(e.target)) return;
+    if(e.target.closest('button')) return;
+    _spotifyDragging = true;
+    bar.classList.add('dragging');
+    const widget = getWidget();
+    const rect = widget.getBoundingClientRect();
+    widget.style.transition = 'none';
+    widget.style.animation = 'none';
+    widget.style.bottom = 'auto';
+    widget.style.transform = 'none';
+    widget.style.left = rect.left + 'px';
+    widget.style.top = rect.top + 'px';
+    widget.classList.add('dragging-mode');
+    _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    bar.setPointerCapture(e.pointerId);
+    curX=rect.left; curY=rect.top; targetX=rect.left; targetY=rect.top;
+    velX=0; velY=0; lastX=e.clientX; lastY=e.clientY; lastT=Date.now();
+    if(animFrame) cancelAnimationFrame(animFrame);
+    lagFrame=null;
+  });
+
+  document.addEventListener('pointermove', function(e){
+    if(!_spotifyDragging) return;
+    targetX = e.clientX - _dragOffset.x;
+    targetY = e.clientY - _dragOffset.y;
+    const now=Date.now(), dt=Math.max(now-lastT,1);
+    velX=(e.clientX-lastX)/dt*8; velY=(e.clientY-lastY)/dt*8;
+    lastX=e.clientX; lastY=e.clientY; lastT=now;
+    if(!lagFrame) lagFrame=requestAnimationFrame(lagFollow);
+  });
+
+  function lagFollow(){
+    if(!_spotifyDragging){lagFrame=null;return;}
+    const widget=getWidget();
+    curX+=(targetX-curX)*0.18; curY+=(targetY-curY)*0.18;
+    widget.style.left=curX+'px'; widget.style.top=curY+'px';
+    lagFrame=requestAnimationFrame(lagFollow);
+  }
+
+  document.addEventListener('pointerup', function(e){
+    if(!_spotifyDragging) return;
+    _spotifyDragging=false; lagFrame=null;
+    const bar=getBar(); if(bar) bar.classList.remove('dragging');
+    const widget=getWidget(); if(widget) widget.classList.remove('dragging-mode');
+    // Momentum
+    function momentum(){
+      velX*=0.88; velY*=0.88;
+      const x=parseFloat(widget.style.left)+velX;
+      const y=parseFloat(widget.style.top)+velY;
+      const maxX=window.innerWidth-widget.offsetWidth-10;
+      const maxY=window.innerHeight-widget.offsetHeight-10;
+      const cx=Math.max(10,Math.min(maxX,x));
+      const cy=Math.max(10,Math.min(maxY,y));
+      if(x<10||x>maxX) velX*=-0.4;
+      if(y<10||y>maxY) velY*=-0.4;
+      widget.style.left=cx+'px'; widget.style.top=cy+'px';
+      if(Math.abs(velX)>0.3||Math.abs(velY)>0.3) animFrame=requestAnimationFrame(momentum);
+    }
+    animFrame=requestAnimationFrame(momentum);
+  });
+})();
+
 function connectSpotify() {
   const profile = localStorage.getItem('polonica_profile') || 'default';
   const w = window.open('/spotify/login?profile='+profile, 'spotify_login', 'width=500,height=700');
@@ -4454,8 +4386,7 @@ function snapSpotify() {
     if(e.target.closest('button') && e.target.id !== 'sp-pill-progress') return;
     unsnapSpotify();
   };
-  var rb = document.getElementById('spotify-restore-btn');
-  if(rb) rb.style.display = 'none';
+
 }
 
 function unsnapSpotify() {
@@ -4464,8 +4395,7 @@ function unsnapSpotify() {
   const widget = document.getElementById('spotify-widget');
   widget.classList.remove('snapped');
   widget.querySelector('#spotify-bar').onclick = null;
-  var rb = document.getElementById('spotify-restore-btn');
-  if(rb) rb.style.display = 'none';
+
 }
 
 function hideSpotifyWidget() {
@@ -4492,7 +4422,7 @@ async function checkSpotify() {
     if(ppBtn) ppBtn.textContent = data.playing ? '⏸' : '▶';
     if(!data.playing) {
       // Çalmıyor - widget'ı gizle
-      closeSpotifyDrawer();
+      if(_spotifyVisible) hideSpotifyWidget();
       return;
     }
 
@@ -4505,19 +4435,18 @@ async function checkSpotify() {
     if(data.cover && cover.src !== data.cover) cover.src = data.cover;
     const pct = data.duration_ms > 0 ? (data.progress_ms / data.duration_ms * 100) : 0;
     document.getElementById('spotify-progress').style.width = pct + '%';
-    // Tab progress güncelle
-    var tp = document.getElementById('spotify-tab-progress');
-    if(tp) tp.style.height = pct + '%';
 
 
-    // Drawer'ı aktif et (ilk kez şarkı çalınca)
-    const drawer = document.getElementById('spotify-drawer');
-    if(drawer && !drawer.classList.contains('active')) {
-      drawer.classList.add('active');
-      // İlk kez otomatik aç
-      setTimeout(openSpotifyDrawer, 300);
+
+    if(!_spotifyVisible) {
+      const widget = document.getElementById('spotify-widget');
+      widget.style.left = '50%';
+      widget.style.top = 'auto';
+      widget.style.bottom = '24px';
+      widget.style.transform = '';
+      widget.classList.add('visible');
+      _spotifyVisible = true;
     }
-    if(!_spotifyVisible) _spotifyVisible = true;
   } catch(e) { /* sessizce hata */ }
 }
 
@@ -4527,27 +4456,13 @@ function startSpotifyPolling() {
   _spotifyInterval = setInterval(checkSpotify, 8000);
 }
 
-// ── SPOTIFY DRAWER ────────────────────────────────────────
-let _drawerOpen = false;
-
-function toggleSpotifyDrawer() {
-  _drawerOpen ? closeSpotifyDrawer() : openSpotifyDrawer();
+// ── SPOTIFY GİZLE/GÖSTER ──────────────────────────────────
+function hideSpotifyWidget() {
+  const w = document.getElementById('spotify-widget');
+  if(w) { w.classList.remove('visible'); _spotifyVisible = false; }
 }
-
-function openSpotifyDrawer() {
-  _drawerOpen = true;
-  document.getElementById('spotify-drawer').classList.add('open');
-}
-
-function closeSpotifyDrawer() {
-  _drawerOpen = false;
-  document.getElementById('spotify-drawer').classList.remove('open');
-}
-
-// Eski snap fonksiyonları - drawer kullan
-function snapSpotify() { closeSpotifyDrawer(); }
-function unsnapSpotify() { openSpotifyDrawer(); }
-function hideSpotifyWidget() { closeSpotifyDrawer(); }
+function snapSpotify() { hideSpotifyWidget(); }
+function unsnapSpotify() {}
 
 // Kontrol fonksiyonları
 let _isPlaying = false;
