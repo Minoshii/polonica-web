@@ -394,6 +394,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .baglaç-example-pl{font-family:'DM Mono',monospace;color:var(--text);font-style:italic;margin-bottom:3px;}
 .baglaç-example-tr{color:var(--text3);}
 .baglaç-no-result{text-align:center;padding:30px;color:var(--text3);font-size:13px;}
+/* ZAMİRLER */
+.zamir-search{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px;box-sizing:border-box;}
+.zamir-search:focus{outline:none;border-color:var(--teal);}
+.zamir-mini-table{width:100%;border-collapse:collapse;margin:8px 0 4px;font-size:11px;}
+.zamir-mini-table th{background:var(--surface2);color:var(--text3);padding:5px 8px;border:1px solid var(--border);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.04em;}
+.zamir-mini-table td{padding:5px 8px;border:1px solid var(--border);}
+.z-hal{color:#5dc0b0;font-weight:700;font-family:'Syne',sans-serif;font-size:10px;white-space:nowrap;}
+.z-form{color:var(--text);font-family:'DM Mono',monospace;}
+.zamir-kisi-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:11px;}
+.zamir-kisi-table th{background:var(--surface3);padding:7px 10px;text-align:left;border:1px solid var(--border2);font-weight:700;font-size:10px;letter-spacing:.04em;}
+.zamir-kisi-table td{padding:7px 10px;border:1px solid var(--border);font-family:'DM Mono',monospace;font-size:11px;color:var(--text);}
+.zamir-kisi-table tr:hover td{background:var(--surface2);}
+.zamir-kisi-table .z-hal{font-family:'Syne',sans-serif;color:#5dc0b0;}
 /* CÜMLE KURUCU */
 .special-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
 .special-tab.active{background:#1a0d16;border-color:#c060a0;color:#e090c0;}
@@ -1195,6 +1208,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="gtab" onclick="switchGTab('decl')">📐 Çekim</button>
       <button class="gtab" onclick="switchGTab('baglaç')">🔗 Bağlaçlar</button>
       <button class="gtab" onclick="switchGTab('query')">💬 Soru</button>
+      <button class="gtab" onclick="switchGTab('zamirler')">🗂 Zamirler</button>
     </div>
 
     <!-- CASE TABLOLARI -->
@@ -1564,6 +1578,291 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="baglaç-detail"><div class="baglaç-example-pl">W porównaniu z nim jestem spokojny.</div><div class="baglaç-example-tr">Ona kıyasla sakinim.</div></div>
 </div></div></div>
 <div class="baglaç-cat" data-cat="Açıklama / Yani"><div class="baglaç-cat-title" style="background:#1a160d;color:#c8a050;border:1px solid #c8a05044">💡 Açıklama / Yani</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">czyli</div><div class="baglaç-tr">yani, demek ki</div><div class="baglaç-en">that is, namely</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jestem zmęczony, czyli idę spać.</div><div class="baglaç-example-tr">Yorgunum, yani uyumaya gidiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mianowicie</div><div class="baglaç-tr">şöyle ki, yani (resmi)</div><div class="baglaç-en">namely, that is to say</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mam jedno życzenie, mianowicie chcę odpocząć.</div><div class="baglaç-example-tr">Bir dileğim var, şöyle ki dinlenmek istiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">to znaczy</div><div class="baglaç-tr">yani, demek ki (gündelik)</div><div class="baglaç-en">I mean, that is</div><div class="baglaç-detail"><div class="baglaç-example-pl">Nie wiem, to znaczy... zapomnialem.</div><div class="baglaç-example-tr">Bilmiyorum, yani... unuttum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">innymi słowy</div><div class="baglaç-tr">başka bir deyişle</div><div class="baglaç-en">in other words</div><div class="baglaç-detail"><div class="baglaç-example-pl">Innymi słowy, masz rację.</div><div class="baglaç-example-tr">Başka bir deyişle, haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">tzn. (to znaczy)</div><div class="baglaç-tr">kısaca: yani</div><div class="baglaç-en">i.e.</div><div class="baglaç-detail"><div class="baglaç-example-pl">To jest trudne, tzn. wymaga czasu.</div><div class="baglaç-example-tr">Bu zor, yani zaman gerektirir.</div></div></div></div><div class="baglaç-cat" data-cat="Pekiştirme / Vurgu"><div class="baglaç-cat-title" style="background:#1a0d0d;color:#e07070;border:1px solid #e0707044">❗ Pekiştirme / Vurgu</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przecież</div><div class="baglaç-tr">zaten, halbuki, ya</div><div class="baglaç-en">after all, but</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przecież ci mówiłem!</div><div class="baglaç-example-tr">Zaten sana söyledim!</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">właśnie</div><div class="baglaç-tr">tam, işte, tam olarak</div><div class="baglaç-en">exactly, just, right</div><div class="baglaç-detail"><div class="baglaç-example-pl">Właśnie o to chodzi!</div><div class="baglaç-example-tr">İşte tam olarak bu!</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">akurat</div><div class="baglaç-tr">tam, tam o anda</div><div class="baglaç-en">exactly, precisely, just</div><div class="baglaç-detail"><div class="baglaç-example-pl">Akurat teraz nie mogę.</div><div class="baglaç-example-tr">Tam şu an yapamam.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">naprawdę</div><div class="baglaç-tr">gerçekten, sahiden</div><div class="baglaç-en">really, truly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Naprawdę tego nie wiedziałem.</div><div class="baglaç-example-tr">Bunu gerçekten bilmiyordum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">faktycznie</div><div class="baglaç-tr">aslında, gerçekten de</div><div class="baglaç-en">actually, indeed</div><div class="baglaç-detail"><div class="baglaç-example-pl">Faktycznie, masz rację.</div><div class="baglaç-example-tr">Aslında, haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">rzeczywiście</div><div class="baglaç-tr">gerçekten, hakikaten</div><div class="baglaç-en">indeed, really</div><div class="baglaç-detail"><div class="baglaç-example-pl">Rzeczywiście jest trudno.</div><div class="baglaç-example-tr">Hakikaten zor.</div></div></div></div><div class="baglaç-cat" data-cat="Sıralama / Düzenleme"><div class="baglaç-cat-title" style="background:#0d1020;color:#7090d0;border:1px solid #7090d044">🔢 Sıralama / Düzenleme</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po pierwsze</div><div class="baglaç-tr">birincisi</div><div class="baglaç-en">firstly, first of all</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po pierwsze, musimy porozmawiać.</div><div class="baglaç-example-tr">Birincisi, konuşmamız gerekiyor.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po drugie</div><div class="baglaç-tr">ikincisi</div><div class="baglaç-en">secondly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po drugie, to kosztuje dużo.</div><div class="baglaç-example-tr">İkincisi, bu çok masraflı.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">po trzecie</div><div class="baglaç-tr">üçüncüsü</div><div class="baglaç-en">thirdly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Po trzecie, nie mam czasu.</div><div class="baglaç-example-tr">Üçüncüsü, zamanım yok.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wreszcie</div><div class="baglaç-tr">sonunda, nihayet</div><div class="baglaç-en">finally, at last</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wreszcie skończyłem!</div><div class="baglaç-example-tr">Sonunda bitirdim!</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">następnie</div><div class="baglaç-tr">ardından, daha sonra</div><div class="baglaç-en">then, next, subsequently</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zjedz, a następnie odpocznij.</div><div class="baglaç-example-tr">Ye, ardından dinlen.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">najpierw</div><div class="baglaç-tr">önce, ilk önce</div><div class="baglaç-en">first, firstly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Najpierw pomyśl, potem mów.</div><div class="baglaç-example-tr">Önce düşün, sonra konuş.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">na koniec</div><div class="baglaç-tr">en sonunda, sonuç olarak</div><div class="baglaç-en">finally, in conclusion</div><div class="baglaç-detail"><div class="baglaç-example-pl">Na koniec chcę podziękować.</div><div class="baglaç-example-tr">En sonunda teşekkür etmek istiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">w końcu</div><div class="baglaç-tr">sonunda, nihayet</div><div class="baglaç-en">in the end, finally</div><div class="baglaç-detail"><div class="baglaç-example-pl">W końcu się udało!</div><div class="baglaç-example-tr">Sonunda başarıldı!</div></div></div></div><div class="baglaç-cat" data-cat="Belirsizlik / Tahmin"><div class="baglaç-cat-title" style="background:#110d1a;color:#b080e0;border:1px solid #b080e044">🤔 Belirsizlik / Tahmin</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">chyba</div><div class="baglaç-tr">galiba, sanırım</div><div class="baglaç-en">I think, probably, I guess</div><div class="baglaç-detail"><div class="baglaç-example-pl">Chyba masz rację.</div><div class="baglaç-example-tr">Galiba haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">podobno</div><div class="baglaç-tr">sanki, söylendiğine göre</div><div class="baglaç-en">apparently, supposedly</div><div class="baglaç-detail"><div class="baglaç-example-pl">Podobno będzie deszcz.</div><div class="baglaç-example-tr">Söylendiğine göre yağmur yağacak.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">prawdopodobnie</div><div class="baglaç-tr">muhtemelen, büyük ihtimalle</div><div class="baglaç-en">probably, likely</div><div class="baglaç-detail"><div class="baglaç-example-pl">Prawdopodobnie wróci jutro.</div><div class="baglaç-example-tr">Muhtemelen yarın döner.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">może</div><div class="baglaç-tr">belki, olabilir</div><div class="baglaç-en">maybe, perhaps</div><div class="baglaç-detail"><div class="baglaç-example-pl">Może przyjdę, nie wiem.</div><div class="baglaç-example-tr">Belki gelirim, bilmiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">być może</div><div class="baglaç-tr">belki de, ihtimal ki</div><div class="baglaç-en">perhaps, it may be</div><div class="baglaç-detail"><div class="baglaç-example-pl">Być może masz rację.</div><div class="baglaç-example-tr">Belki de haklısın.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zdaje się</div><div class="baglaç-tr">öyle görünüyor, sanki</div><div class="baglaç-en">it seems, apparently</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zdaje się, że zapomniał.</div><div class="baglaç-example-tr">Sanki unutmuş gibi görünüyor.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">o ile wiem</div><div class="baglaç-tr">bildiğim kadarıyla</div><div class="baglaç-en">as far as I know</div><div class="baglaç-detail"><div class="baglaç-example-pl">O ile wiem, on nie przyjdzie.</div><div class="baglaç-example-tr">Bildiğim kadarıyla o gelmeyecek.</div></div></div></div><div class="baglaç-cat" data-cat="Yine de / Rağmen"><div class="baglaç-cat-title" style="background:#0d1515;color:#5dc0b0;border:1px solid #5dc0b044">💪 Yine de / Rağmen</div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mimo to</div><div class="baglaç-tr">buna rağmen, yine de</div><div class="baglaç-en">despite this, even so</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mimo to nie poddaję się.</div><div class="baglaç-example-tr">Buna rağmen vazgeçmiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">niemniej</div><div class="baglaç-tr">yine de, bununla birlikte</div><div class="baglaç-en">nevertheless, nonetheless</div><div class="baglaç-detail"><div class="baglaç-example-pl">Niemniej jednak spróbuję.</div><div class="baglaç-example-tr">Yine de deneyeceğim.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">w każdym razie</div><div class="baglaç-tr">her halükarda, her neyse</div><div class="baglaç-en">anyway, in any case</div><div class="baglaç-detail"><div class="baglaç-example-pl">W każdym razie dziękuję.</div><div class="baglaç-example-tr">Her halükarda teşekkürler.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">tak czy inaczej</div><div class="baglaç-tr">her halükarda, nasıl olursa olsun</div><div class="baglaç-en">either way, regardless</div><div class="baglaç-detail"><div class="baglaç-example-pl">Tak czy inaczej, idę.</div><div class="baglaç-example-tr">Her halükarda gidiyorum.</div></div></div><div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pomimo wszystko</div><div class="baglaç-tr">her şeye rağmen</div><div class="baglaç-en">despite everything</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pomimo wszystko jestem szczęśliwy.</div><div class="baglaç-example-tr">Her şeye rağmen mutluyum.</div></div></div></div>      <div id="baglaç-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+    <!-- ZAMİRLER -->
+    <div class="grammar-section" id="gsec-zamirler">
+      <input type="text" class="zamir-search" id="zamir-search" placeholder="Ara... (Türkçe, Lehçe veya İngilizce — örn: kim, gdzieś, olumsuz, someone)" oninput="filterZamirler(this.value)">
+      <div id="zamir-list">
+
+        <!-- SORU ZAMİRLERİ -->
+        <div class="baglaç-cat" data-zamir-cat="soru">
+          <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">🔍 Soru Zamirleri (Pytajne)</div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">kto</div><div class="baglaç-tr">kim? (kişiler için)</div><div class="baglaç-en">who?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Kto to jest? · Kto przyszedł?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:8px">Bu kim? · Kim geldi?</div>
+              <table class="zamir-mini-table"><thead><tr><th>Hal</th><th>Form</th><th>Hal</th><th>Form</th></tr></thead><tbody>
+                <tr><td class="z-hal">Mian.</td><td class="z-form">kto</td><td class="z-hal">Narzęd.</td><td class="z-form">kim</td></tr>
+                <tr><td class="z-hal">Dopeł.</td><td class="z-form">kogo</td><td class="z-hal">Miejscow.</td><td class="z-form">kim</td></tr>
+                <tr><td class="z-hal">Celow.</td><td class="z-form">komu</td><td class="z-hal">Biern.</td><td class="z-form">kogo</td></tr>
+              </tbody></table>
+              <div style="font-size:11px;color:var(--text3);margin-top:6px">⚠ Yalnızca kişiler için. Nesneler için <strong style="color:#5dc0b0">co</strong> kullanılır.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">co</div><div class="baglaç-tr">ne? (nesneler için)</div><div class="baglaç-en">what?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Co to jest? · Co robisz?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:8px">Bu ne? · Ne yapıyorsun?</div>
+              <table class="zamir-mini-table"><thead><tr><th>Hal</th><th>Form</th><th>Hal</th><th>Form</th></tr></thead><tbody>
+                <tr><td class="z-hal">Mian.</td><td class="z-form">co</td><td class="z-hal">Narzęd.</td><td class="z-form">czym</td></tr>
+                <tr><td class="z-hal">Dopeł.</td><td class="z-form">czego</td><td class="z-hal">Miejscow.</td><td class="z-form">czym</td></tr>
+                <tr><td class="z-hal">Celow.</td><td class="z-form">czemu</td><td class="z-hal">Biern.</td><td class="z-form">co</td></tr>
+              </tbody></table>
+              <div style="font-size:11px;color:var(--text3);margin-top:6px">⚠ Kişi dışındaki her şey için kullanılır.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">jaki / jaka / jakie</div><div class="baglaç-tr">nasıl? ne türlü?</div><div class="baglaç-en">what kind of?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Jaki jest ten film? · Jaka to muzyka?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Bu film nasıl? · Bu nasıl bir müzik?</div>
+              <div style="font-size:11px;color:var(--text3)">Özellik / nitelik sorar. Sıfat gibi çekimlenir → <span style="font-family:'DM Mono',monospace;color:#5dc0b0">jaki</span> (erkek) / <span style="font-family:'DM Mono',monospace;color:#e090c0">jaka</span> (dişi) / <span style="font-family:'DM Mono',monospace;color:#6dbf9a">jakie</span> (nötr/çoğul)</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">który / która / które</div><div class="baglaç-tr">hangi? (seçimde)</div><div class="baglaç-en">which?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Który autobus jedzie do centrum? · Którą książkę chcesz?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Hangi otobüs merkeze gidiyor? · Hangi kitabı istiyorsun?</div>
+              <div style="font-size:11px;color:var(--text3)">Belirli seçenekler arasından seçim sorar. <strong style="color:#c8b89a">jaki</strong> = genel özellik · <strong style="color:#c8b89a">który</strong> = grup içinden hangisi?</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">gdzie</div><div class="baglaç-tr">nerede?</div><div class="baglaç-en">where?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Gdzie mieszkasz? · Gdzie jest toaleta?</div>
+              <div class="baglaç-example-tr">Nerede yaşıyorsun? · Tuvalet nerede?</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">kiedy</div><div class="baglaç-tr">ne zaman?</div><div class="baglaç-en">when?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Kiedy przyjeżdżasz? · Kiedy to było?</div>
+              <div class="baglaç-example-tr">Ne zaman geliyorsun? · Bu ne zamandı?</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">jak</div><div class="baglaç-tr">nasıl?</div><div class="baglaç-en">how?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Jak się czujesz? · Jak to zrobić?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Nasıl hissediyorsun? · Bu nasıl yapılır?</div>
+              <div style="font-size:11px;color:var(--text3)">Klasik selamlama: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Jak się masz?</span> = Nasılsın?</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">ile</div><div class="baglaç-tr">kaç? ne kadar?</div><div class="baglaç-en">how many / much?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Ile to kosztuje? · Ile masz lat?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Bu ne kadar? · Kaç yaşındasın?</div>
+              <div style="font-size:11px;color:var(--text3)"><span style="font-family:'DM Mono',monospace;color:#5dc0b0">ile</span> = ne kadar (genel) · <span style="font-family:'DM Mono',monospace;color:#5dc0b0">ilu</span> = kaç kişi (erkek çoğul için)</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">dlaczego / czemu</div><div class="baglaç-tr">neden? niçin?</div><div class="baglaç-en">why?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Dlaczego płaczesz? · Czemu się śmiejesz?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Neden ağlıyorsun? · Neden gülüyorsun?</div>
+              <div style="font-size:11px;color:var(--text3)"><strong style="color:#c8b89a">dlaczego</strong> — resmi / nötr &nbsp;·&nbsp; <strong style="color:#c8b89a">czemu</strong> — gündelik konuşma dili</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">skąd</div><div class="baglaç-tr">nereden?</div><div class="baglaç-en">where from?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Skąd jesteś? · Skąd to wiesz?</div>
+              <div class="baglaç-example-tr">Nerelisin? · Bunu nereden biliyorsun?</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">dokąd</div><div class="baglaç-tr">nereye?</div><div class="baglaç-en">where to?</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Dokąd idziesz?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Nereye gidiyorsun?</div>
+              <div style="font-size:11px;color:var(--text3)"><span style="font-family:'DM Mono',monospace;color:#5dc0b0">gdzie</span> = nerede (konum) &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#5dc0b0">dokąd</span> = nereye (yön)</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">czy</div><div class="baglaç-tr">mi? mı? (evet/hayır sorusu)</div><div class="baglaç-en">do/is/are...? whether</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Czy mówisz po polsku? · Czy to prawda?</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Lehçe konuşuyor musun? · Bu doğru mu?</div>
+              <div style="font-size:11px;color:var(--text3)">Evet/hayır sorusu başlatır, cümle başına gelir. İntonasyonla da soru yapılabilir ama <strong style="color:#c8b89a">czy</strong> daha net ve resmidir.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BELİRSİZ ZAMİRLER -->
+        <div class="baglaç-cat" data-zamir-cat="belirsiz">
+          <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">✨ Belirsiz Zamirler (Nieokreślone)</div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">ktoś</div><div class="baglaç-tr">biri, birisi</div><div class="baglaç-en">someone, somebody</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Ktoś puka do drzwi. · Widziałem kogoś.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Biri kapıyı çalıyor. · Birini gördüm.</div>
+              <div style="font-size:11px;color:var(--text3)">kto + <strong>-ś</strong> eki. Çekim: ktoś / kogoś / komuś / kogoś / kimś / kimś</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">coś</div><div class="baglaç-tr">bir şey</div><div class="baglaç-en">something</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Coś się stało. · Chcę coś zjeść.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Bir şey oldu. · Bir şeyler yemek istiyorum.</div>
+              <div style="font-size:11px;color:var(--text3)">co + <strong>-ś</strong> eki. Çekim: coś / czegoś / czemuś / coś / czymś / czymś</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">jakiś / jakaś / jakieś</div><div class="baglaç-tr">herhangi bir, bir tür</div><div class="baglaç-en">some kind of, a certain</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Czytam jakąś książkę. · Jakiś mężczyzna dzwonił.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Bir kitap okuyorum. · Bir adam aradı.</div>
+              <div style="font-size:11px;color:var(--text3)">jaki + <strong>-ś</strong> eki. Sıfat gibi çekimlenir: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">jakiś</span> (E) / <span style="font-family:'DM Mono',monospace;color:#e090c0">jakaś</span> (D) / <span style="font-family:'DM Mono',monospace;color:#6dbf9a">jakieś</span> (N/Ç)</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">któryś / któraś / któreś</div><div class="baglaç-tr">hangisi olursa olsun</div><div class="baglaç-en">one of them, some</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Któryś z was to zrobił.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">İçinizden biri bunu yaptı.</div>
+              <div style="font-size:11px;color:var(--text3)">który + <strong>-ś</strong> eki. Belirli bir grup içinden belirsiz birini belirtir.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">gdzieś</div><div class="baglaç-tr">bir yerde, bir yerlerde</div><div class="baglaç-en">somewhere</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Gdzieś to widziałem.</div>
+              <div class="baglaç-example-tr">Bunu bir yerde görmüştüm.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">kiedyś</div><div class="baglaç-tr">bir zamanlar / bir gün</div><div class="baglaç-en">once, someday, formerly</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Kiedyś tu mieszkałem. · Kiedyś to zrozumiesz.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Bir zamanlar burada yaşadım. · Bir gün bunu anlayacaksın.</div>
+              <div style="font-size:11px;color:var(--text3)">Geçmiş bağlamda = "bir zamanlar" · Gelecek bağlamda = "bir gün"</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">jakoś</div><div class="baglaç-tr">bir şekilde, nasılsa</div><div class="baglaç-en">somehow, in some way</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Jakoś to będzie. · Jakoś sobie poradzę.</div>
+              <div class="baglaç-example-tr">Nasılsa olur. · Bir şekilde üstesinden gelirim.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">skądś</div><div class="baglaç-tr">bir yerden</div><div class="baglaç-en">from somewhere</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Skądś go znam, ale nie wiem skąd.</div>
+              <div class="baglaç-example-tr">Onu bir yerden tanıyorum ama nereden bilmiyorum.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">dokądś</div><div class="baglaç-tr">bir yere (yön)</div><div class="baglaç-en">somewhere (direction)</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Idzie dokądś, ale nie wiem gdzie.</div>
+              <div class="baglaç-example-tr">Bir yere gidiyor ama nereye bilmiyorum.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OLUMSUZ ZAMİRLER -->
+        <div class="baglaç-cat" data-zamir-cat="olumsuz">
+          <div class="baglaç-cat-title" style="background:#200d0d;color:#e07070;border:1px solid #e0707044">❌ Olumsuz Zamirler (Przeczące)</div>
+          <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:var(--text2);line-height:1.7">
+            <strong style="color:#e07070">⚠ Altın Kural:</strong> Olumsuz zamirle fiil <strong style="color:var(--text)">her zaman nie alır</strong> — çift olumsuz Lehçe'de <em>doğrudur</em>!<br>
+            <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Nikt nie przyszedł.</span> <span style="color:var(--text3)">= Hiç kimse gelmedi.</span>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">nikt</div><div class="baglaç-tr">hiç kimse</div><div class="baglaç-en">nobody, no one</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Nikt nie zadzwonił. · Nikomu nie powiem.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Hiç kimse aramadı. · Hiç kimseye söylemeyeceğim.</div>
+              <div style="font-size:11px;color:var(--text3)">kto'nun olumsuz hali. Çekim: nikt / nikogo / nikomu / nikogo / nikim / nikim</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">nic</div><div class="baglaç-tr">hiçbir şey</div><div class="baglaç-en">nothing</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Nic nie rozumiem. · Niczego nie chcę.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Hiçbir şey anlamıyorum. · Hiçbir şey istemiyorum.</div>
+              <div style="font-size:11px;color:var(--text3)">co'nun olumsuz hali. Çekim: nic / niczego / niczemu / nic / niczym / niczym</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">żaden / żadna / żadne</div><div class="baglaç-tr">hiçbir</div><div class="baglaç-en">no, none, not any</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Żaden problem. · Żadna z nich nie przyszła.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Hiçbir sorun yok. · İçlerinden hiçbiri gelmedi.</div>
+              <div style="font-size:11px;color:var(--text3)">Sıfat gibi çekimlenir: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">żaden</span> (E) / <span style="font-family:'DM Mono',monospace;color:#e090c0">żadna</span> (D) / <span style="font-family:'DM Mono',monospace;color:#6dbf9a">żadne</span> (N)</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">nigdzie</div><div class="baglaç-tr">hiçbir yerde / yere</div><div class="baglaç-en">nowhere</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Nigdzie nie idę. · Nigdzie tego nie znajdziesz.</div>
+              <div class="baglaç-example-tr">Hiçbir yere gitmiyorum. · Bunu hiçbir yerde bulamazsın.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">nigdy</div><div class="baglaç-tr">hiçbir zaman, asla</div><div class="baglaç-en">never</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Nigdy tego nie zapomnę. · Nigdy w życiu!</div>
+              <div class="baglaç-example-tr">Bunu asla unutmayacağım. · Hayatta olmaz!</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">nijak</div><div class="baglaç-tr">hiçbir şekilde</div><div class="baglaç-en">in no way, not at all</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Nijak nie mogę tego zrozumieć.</div>
+              <div class="baglaç-example-tr" style="margin-bottom:6px">Bunu hiçbir şekilde anlayamıyorum.</div>
+              <div style="font-size:11px;color:var(--text3)">jakoś'ın olumsuz hali. Gündelik dilde nadir kullanılır.</div>
+            </div>
+          </div>
+          <div class="baglaç-row" onclick="this.classList.toggle('open')">
+            <div class="baglaç-pl">nikąd</div><div class="baglaç-tr">hiçbir yerden / yere</div><div class="baglaç-en">from/to nowhere</div>
+            <div class="baglaç-detail">
+              <div class="baglaç-example-pl">Nikąd nie jadę. · Znikąd nie przyszedł.</div>
+              <div class="baglaç-example-tr">Hiçbir yere gitmiyorum. · Hiçbir yerden gelmedi.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KİŞİ ZAMİRLERİ -->
+        <div class="baglaç-cat" data-zamir-cat="kisi">
+          <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">👤 Kişi Zamirleri (Zaimki Osobowe)</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px">
+            Lehçe'de özne zamirleri sıkça <strong style="color:var(--text)">düşürülür</strong> — fiil çekimi zaten kişiyi gösterir. Ama vurgu için kullanılır:<br>
+            <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Ja tego nie zrobiłem.</span> <span style="color:var(--text3)">= Bunu yapan <em>ben</em> değildim.</span>
+          </div>
+          <div style="overflow-x:auto;margin-bottom:12px">
+            <table class="zamir-kisi-table">
+              <thead><tr>
+                <th style="min-width:72px">Hal</th>
+                <th style="color:#7090d0">ja</th><th style="color:#7090d0">ty</th>
+                <th style="color:#6dbf9a">on</th><th style="color:#e090c0">ona</th><th style="color:#c8a050">ono</th>
+                <th style="color:#7090d0">my</th><th style="color:#7090d0">wy</th><th style="color:#6dbf9a">oni / one</th>
+              </tr></thead>
+              <tbody>
+                <tr><td class="z-hal">Mian.</td><td>ja</td><td>ty</td><td>on</td><td>ona</td><td>ono</td><td>my</td><td>wy</td><td>oni / one</td></tr>
+                <tr><td class="z-hal">Dopeł.</td><td>mnie</td><td>ciebie / <span style="color:#5dc0b0">cię</span></td><td>jego / <span style="color:#5dc0b0">go</span> / niego</td><td>jej / niej</td><td>jego / <span style="color:#5dc0b0">go</span></td><td>nas</td><td>was</td><td>ich / nich</td></tr>
+                <tr><td class="z-hal">Celow.</td><td>mnie / <span style="color:#5dc0b0">mi</span></td><td>tobie / <span style="color:#5dc0b0">ci</span></td><td>jemu / <span style="color:#5dc0b0">mu</span> / niemu</td><td>jej / niej</td><td>jemu / <span style="color:#5dc0b0">mu</span></td><td>nam</td><td>wam</td><td>im / nim</td></tr>
+                <tr><td class="z-hal">Biern.</td><td>mnie</td><td>ciebie / <span style="color:#5dc0b0">cię</span></td><td>jego / <span style="color:#5dc0b0">go</span> / niego</td><td>ją / nią</td><td>je / nie</td><td>nas</td><td>was</td><td>ich / je / nich</td></tr>
+                <tr><td class="z-hal">Narzęd.</td><td>mną</td><td>tobą</td><td>nim</td><td>nią</td><td>nim</td><td>nami</td><td>wami</td><td>nimi</td></tr>
+                <tr><td class="z-hal">Miejscow.</td><td>mnie</td><td>tobie</td><td>nim</td><td>niej</td><td>nim</td><td>nas</td><td>was</td><td>nich</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:11px;color:var(--text3);line-height:1.9;background:var(--surface2);border-radius:8px;padding:10px 13px">
+            <strong style="color:#c8b89a">💡 İpuçları:</strong><br>
+            • Kısa formlar (<span style="font-family:'DM Mono',monospace;color:#5dc0b0">mi, ci, mu, go, cię</span>) — cümle ortasında, vurgusuz kullanılır<br>
+            • <strong>ni-</strong> önekli formlar (<span style="font-family:'DM Mono',monospace;color:#5dc0b0">niego, niej, nich, nim</span>) — <strong style="color:var(--text)">edat (preposition) sonrasında</strong> zorunlu<br>
+            <span style="font-family:'DM Mono',monospace;color:var(--text3)">do niego</span> ✓ &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:var(--red)">do jego</span> ✗ &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:var(--text3)">widzę go</span> ✓ &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:var(--text3)">widzę jego</span> (vurgulu) ✓
+          </div>
+        </div>
+
+      </div><!-- end zamir-list -->
+      <div id="zamir-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
     </div>
 
         <div class="grammar-section" id="gsec-query">
@@ -4690,10 +4989,32 @@ function renderKulturCard(d) {
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  const idx = ['cases','aspect','decl','baglaç','query'].indexOf(tab);
+  const idx = ['cases','aspect','decl','baglaç','query','zamirler'].indexOf(tab);
   if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
   const sec = document.getElementById('gsec-'+tab);
   if(sec) sec.classList.add('active');
+}
+
+function filterZamirler(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('zamir-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('#zamir-list .baglaç-cat').forEach(cat => {
+    const catTitle = (cat.querySelector('.baglaç-cat-title')||{}).textContent||'';
+    let catVisible = !q || catTitle.toLowerCase().includes(q);
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const pl = (row.querySelector('.baglaç-pl')||{}).textContent||'';
+      const tr = (row.querySelector('.baglaç-tr')||{}).textContent||'';
+      const en = (row.querySelector('.baglaç-en')||{}).textContent||'';
+      const ex = (row.querySelector('.baglaç-detail')||{}).textContent||'';
+      const match = !q || pl.toLowerCase().includes(q) || tr.toLowerCase().includes(q) || en.toLowerCase().includes(q) || ex.toLowerCase().includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if(catVisible) anyVisible = true;
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
 }
 
 function filterBaglaçlar(q) {
