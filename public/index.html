@@ -2741,7 +2741,7 @@ async function sendToSpecial(mode) {
   clearTokenSel(mode);
 
   // Kısa animasyon sonra Special'a git
-  setTimeout(() => { showPanel('special'); }, 1200);
+  setTimeout(() => { showPanel('special'); switchSpecialTab('muzyka'); }, 1200);
 }
 
 async function analyzeSelected(mode) {
@@ -2949,7 +2949,16 @@ async function saveSelectedWithMode(){
     const unitName = nameEl ? nameEl.value.trim() : '';
     const isMuzyka = chosenMode === 'muzyka';
     const srcType = isMuzyka ? 'muzyka' : 'akademik';
-    const src = unitName || (isMuzyka ? 'Şarkı Sözleri' : 'Ders Materyali');
+    // Lyrics modunda şarkı adını genius başlığından al
+    let geniusSrc = '';
+    if (isMuzyka && scanMode === 'lyrics') {
+      const titleEl = document.getElementById('genius-loaded-title');
+      const artistEl = document.getElementById('genius-loaded-artist');
+      if (titleEl && titleEl.textContent.trim()) {
+        geniusSrc = titleEl.textContent.trim() + (artistEl ? ' · ' + artistEl.textContent.split(' · ')[0] : '');
+      }
+    }
+    const src = unitName || geniusSrc || (isMuzyka ? 'Şarkı Sözleri' : 'Ders Materyali');
     const st = document.getElementById(scanMode+'-status');
     if(st) st.innerHTML = '<span class="spinner"></span> Kaydediliyor...';
     // Paralel kaydet - timeout önleme
@@ -3045,7 +3054,7 @@ function getSpecialPool(source) {
   if(source === 'words') return specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source && e.source_type !== 'akademik' && e.source_type !== 'lesson');
   if(source === 'idioms') return specialList.filter(e => e.is_idiom);
   if(source === 'akademik') return specialList.filter(e => e.source_type === 'akademik' || e.source_type === 'lesson');
-  if(source === 'muzyka') return specialList.filter(e => e.source_type === 'lyrics' || (e.source && e.source_type !== 'akademik'));
+  if(source === 'muzyka') return specialList.filter(e => e.source_type === 'lyrics' || e.source_type === 'muzyka');
   if(source === 'slang') return specialList.filter(e => e.slang && e.source_type !== 'lyrics');
   return specialList;
 }
@@ -5044,7 +5053,7 @@ function _renderSpecialList(){
   if(!container) return;
 
   // Kategoriler
-  const muzykaAll = specialList.filter(e => e.source_type === 'lyrics' || (e.source && e.source_type !== 'akademik'));
+  const muzykaAll = specialList.filter(e => e.source_type === 'lyrics' || e.source_type === 'muzyka');
   const akademikAll = specialList.filter(e => e.source_type === 'akademik' || e.source_type === 'lesson');
   const words = specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source && e.source_type !== 'akademik' && e.source_type !== 'lesson');
   const idioms = specialList.filter(e => e.is_idiom && e.source_type !== 'akademik' && e.source_type !== 'lesson');
