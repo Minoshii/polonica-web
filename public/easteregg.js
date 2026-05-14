@@ -1,6 +1,6 @@
 let typedMetroKeys = '';
 const secretMetroWord = 'metro';
-const geigerSound = new Audio('geiger.mp3'); 
+const geigerSound = new Audio('./geiger.mp3'); // Başına ./ ekleyerek "tam buradaki klasörde" diyoruz. 
 geigerSound.volume = 0.5;
 
 document.addEventListener('keydown', (e) => {
