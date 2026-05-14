@@ -73,6 +73,10 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .btn-teal{border-color:var(--teal);color:#5dc0b0;background:var(--teal-bg);}
 .category-section{margin-top:16px;margin-bottom:20px;}
 .category-title{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:10px;border-bottom:1px solid var(--border2);padding-bottom:8px;text-transform:uppercase;display:flex;align-items:center;}
+.scan-card{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;margin-bottom:5px;cursor:pointer;transition:all .15s;}
+.scan-card:hover{border-color:var(--accent-dim);}
+.scan-card.selected{background:var(--accent-bg);border-color:var(--accent-dim);}
+.scan-card.slang-card{border-color:#c0504033;}
 .word-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:6px;cursor:pointer;transition:all .15s;}
 .word-card:hover{border-color:var(--border2);background:var(--surface3);}
 .word-card.selected{border-color:var(--accent-dim);background:var(--accent-bg);}
@@ -246,6 +250,10 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
 /* KELIME KARTI GRID */
 .word-card-grid{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 14px;}
+.scan-card{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;margin-bottom:5px;cursor:pointer;transition:all .15s;}
+.scan-card:hover{border-color:var(--accent-dim);}
+.scan-card.selected{background:var(--accent-bg);border-color:var(--accent-dim);}
+.scan-card.slang-card{border-color:#c0504033;}
 .word-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .15s;width:160px;flex-shrink:0;position:relative;animation:rowIn .2s ease both;}
 .word-card:hover{border-color:var(--accent-dim);background:var(--surface3);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3);}
 .word-card-pl{font-size:14px;font-weight:800;color:var(--text);font-family:'DM Mono',monospace;margin-bottom:3px;word-break:break-word;}
@@ -266,6 +274,10 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   #word-detail-modal{align-items:flex-end;padding:0;}
 }
 @media(min-width:900px){.word-card{width:180px;}}
+.scan-card{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;margin-bottom:5px;cursor:pointer;transition:all .15s;}
+.scan-card:hover{border-color:var(--accent-dim);}
+.scan-card.selected{background:var(--accent-bg);border-color:var(--accent-dim);}
+.scan-card.slang-card{border-color:#c0504033;}
 .word-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .15s,box-shadow .15s;cursor:pointer;}
 .word-card:hover{border-color:var(--accent-dim);box-shadow:0 2px 12px rgba(0,0,0,.3);}
 .word-card.open{border-color:var(--accent-dim);}
@@ -2178,6 +2190,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <input type="text" id="save-name" placeholder="Ünite adı (örn: Ders 4 - Hafta 3)..." style="margin-bottom:0;width:220px">
   <select id="save-mode-sel" style="margin-bottom:0;width:auto;padding:9px 12px">
     <option value="special">⭐ Burak Special</option>
+    <option value="muzyka">🎵 Muzyka</option>
     <option value="lesson">📚 Akademik (ünite)</option>
   </select>
   <button class="btn btn-green" onclick="saveSelectedWithMode()">Kaydet</button>
@@ -2821,6 +2834,11 @@ async function sendToSpecial(mode) {
 }
 
 async function analyzeSelected(mode) {
+  // Lyrics modunda save-bar'da Muzyka'yı default yap
+  if(mode === 'lyrics') {
+    const sel = document.getElementById('save-mode-sel');
+    if(sel) sel.value = 'muzyka';
+  }
   const sel = _tokenSel[mode] || new Set();
   if (sel.size === 0) { alert('Önce kelime seç!'); return; }
 
@@ -2893,7 +2911,7 @@ function renderWordList(elId,words,mode){
 
 function makeWordCard(w){
   const d=document.createElement('div');
-  d.className='word-card'+(selected.has(w._sid)?' selected':'');
+  d.className='scan-card'+(selected.has(w._sid)?' selected':'');
   d.onclick=()=>{
     if(selected.has(w._sid))selected.delete(w._sid);else selected.add(w._sid);
     d.classList.toggle('selected',selected.has(w._sid));updateSaveBar();
@@ -3013,32 +3031,35 @@ async function saveSelected(){
 async function saveSelectedWithMode(){
   const modeEl = document.getElementById('save-mode-sel');
   const chosenMode = modeEl ? modeEl.value : 'special';
-  if(chosenMode === 'special') {
-    // Direkt Burak Special'a gönder
+  if(chosenMode === 'special' || chosenMode === 'muzyka') {
     const toSave = scanned.filter(w => selected.has(w._sid));
     if(!toSave.length) { alert('Kelime sec!'); return; }
     const nameEl = document.getElementById('save-name');
     const unitName = nameEl ? nameEl.value.trim() : '';
-    let savedCount = 0;
-    for(const w of toSave) {
-      await window.polonica.specialSave({
-        ...w, is_idiom:false,
-        source: unitName || 'Ders Materyali',
-        source_type: 'akademik'
-      });
-      savedCount++;
+    const isMuzyka = chosenMode === 'muzyka';
+    const srcType = isMuzyka ? 'muzyka' : 'akademik';
+    const src = unitName || (isMuzyka ? 'Şarkı Sözleri' : 'Ders Materyali');
+    const st = document.getElementById(scanMode+'-status');
+    if(st) st.innerHTML = '<span class="spinner"></span> Kaydediliyor...';
+    // Paralel kaydet - timeout önleme
+    try {
+      await Promise.all(toSave.map(w => window.polonica.specialSave({
+        ...w, is_idiom: false, source: src, source_type: srcType
+      })));
+    } catch(e) {
+      if(st) st.textContent = 'Hata: ' + e.message; return;
     }
     clearSel();
-    setTimeout(() => { showPanel('special'); switchSpecialTab('akademik'); }, 300);
-    const st = document.getElementById(scanMode+'-status');
-    if(st) st.textContent = savedCount + ' kelime eklendi!';
+    const tab = isMuzyka ? 'muzyka' : 'akademik';
+    setTimeout(() => { showPanel('special'); switchSpecialTab(tab); }, 300);
+    if(st) st.textContent = toSave.length + ' kelime eklendi!';
   } else {
     if(chosenMode === 'class') scanMode = 'class';
     saveSelected();
   }
 }
 
-function clearSel(){selected.clear();updateSaveBar();document.querySelectorAll('.word-card').forEach(c=>c.classList.remove('selected'));}
+function clearSel(){selected.clear();updateSaveBar();document.querySelectorAll('.scan-card').forEach(c=>c.classList.remove('selected'));}
 
 // ── KÜTÜPHANELER ─────────────────────────────────
 function renderLib(mode){
