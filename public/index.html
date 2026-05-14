@@ -659,7 +659,70 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   80%  { transform:translateX(-50%) translateY(3px); }
   100% { opacity:1; transform:translateX(-50%) translateY(0); }
 }
-#spotify-widget{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800;display:none;user-select:none;}
+/* ── SPOTIFY DRAWER ──────────────────────────────────── */
+#spotify-drawer{
+  position:fixed;
+  bottom:120px;
+  right:0;
+  z-index:850;
+  display:none;
+  align-items:flex-end;
+  gap:0;
+  pointer-events:none;
+}
+#spotify-drawer.active{ display:flex; }
+
+/* Bar - sağdan kayar */
+#spotify-widget{
+  pointer-events:all;
+  transform:translateX(calc(100% + 4px));
+  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+  opacity:0;
+  position:relative;
+}
+#spotify-drawer.open #spotify-widget{
+  transform:translateX(0);
+  opacity:1;
+}
+
+/* Kenar tab - her zaman görünür */
+#spotify-tab{
+  pointer-events:all;
+  width:28px;
+  background:rgba(12,12,12,.92);
+  border:1px solid rgba(255,255,255,.1);
+  border-right:none;
+  border-radius:10px 0 0 10px;
+  padding:14px 6px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  backdrop-filter:blur(12px);
+  transition:background .2s,width .2s;
+  flex-shrink:0;
+  align-self:stretch;
+}
+#spotify-tab:hover{ background:rgba(30,30,30,.95); }
+#spotify-tab-icon{ font-size:13px; }
+#spotify-tab-bar-wrap{
+  width:3px;
+  flex:1;
+  background:rgba(255,255,255,.1);
+  border-radius:99px;
+  overflow:hidden;
+  min-height:30px;
+}
+#spotify-tab-progress{
+  width:100%;
+  background:#1db954;
+  border-radius:99px;
+  height:0%;
+  transition:height .8s linear;
+}
+#spotify-widget{display:none;}
+#spotify-drawer.active #spotify-widget{ display:block; }
 
 
 
@@ -735,40 +798,37 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </head>
 <body>
 
-<!-- SPOTIFY WIDGET -->
-<div id="spotify-widget">
-  <div id="spotify-bar">
-    <!-- Üst kısım: kapak + info + kapat -->
-    <div id="spotify-bar-top">
-      <img id="spotify-cover" src="" alt="cover" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#222;">
-      <div id="spotify-info" style="flex:1;min-width:0;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="#1db954" style="flex-shrink:0"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-          <span id="spotify-track" style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</span>
-        </div>
-        <div id="spotify-artist" style="font-size:11px;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-        <div id="spotify-progress-wrap" style="height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:7px;overflow:hidden;">
-          <div id="spotify-progress" style="height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .8s linear;"></div>
+<!-- SPOTIFY DRAWER -->
+<div id="spotify-drawer">
+  <div id="spotify-tab" onclick="toggleSpotifyDrawer()" title="Spotify">
+    <span id="spotify-tab-icon">🎵</span>
+    <div id="spotify-tab-bar-wrap"><div id="spotify-tab-progress"></div></div>
+  </div>
+  <div id="spotify-widget">
+    <div id="spotify-bar">
+      <div id="spotify-bar-top">
+        <img id="spotify-cover" src="" alt="" style="width:40px;height:40px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#222;">
+        <div id="spotify-info" style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#1db954" style="flex-shrink:0"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            <span id="spotify-track" style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</span>
+          </div>
+          <div id="spotify-artist" style="font-size:11px;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+          <div id="spotify-progress-wrap" style="height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-top:7px;overflow:hidden;">
+            <div id="spotify-progress" style="height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .8s linear;"></div>
+          </div>
         </div>
       </div>
-      <button id="spotify-close" onclick="snapSpotify()" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:13px;padding:4px 6px;flex-shrink:0;border-radius:6px;" title="Küçült" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.35)'">⊟</button>
-    </div>
-    <!-- Pill progress (snapped modda görünür) -->
-    <div id="sp-pill-progress">
-      <div id="sp-pill-bar-wrap"><div id="sp-pill-bar"></div></div>
-    </div>
-    <!-- Kontroller -->
-    <div id="spotify-controls">
-      <button class="sp-ctrl" onclick="spotifyPrev()" title="Önceki">⏮</button>
-      <button class="sp-ctrl play-pause" id="sp-playpause" onclick="spotifyPlayPause()" title="Oynat/Duraklat">▶</button>
-      <button class="sp-ctrl" onclick="spotifyNext()" title="Sonraki">⏭</button>
+      <div id="spotify-controls">
+        <button class="sp-ctrl" onclick="spotifyPrev()" title="Önceki">⏮</button>
+        <button class="sp-ctrl play-pause" id="sp-playpause" onclick="spotifyPlayPause()">▶</button>
+        <button class="sp-ctrl" onclick="spotifyNext()" title="Sonraki">⏭</button>
+      </div>
     </div>
   </div>
 </div>
 <button id="spotify-connect-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
 
-<!-- SPOTIFY RESTORE -->
-<button id="spotify-restore-btn" onclick="unsnapSpotify()" title="Spotify'ı göster" style="display:none;position:fixed;bottom:78px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(12,12,12,.9);border:1px solid rgba(29,185,84,.3);cursor:pointer;z-index:800;align-items:center;justify-content:center;font-size:16px;backdrop-filter:blur(10px);">🎵</button>
 
 <!-- NOT FAB -->
 <button id="note-fab" onclick="toggleNotePopup()" title="Hızlı Not">📝</button>
@@ -4432,7 +4492,7 @@ async function checkSpotify() {
     if(ppBtn) ppBtn.textContent = data.playing ? '⏸' : '▶';
     if(!data.playing) {
       // Çalmıyor - widget'ı gizle
-      if(_spotifyVisible) hideSpotifyWidget();
+      closeSpotifyDrawer();
       return;
     }
 
@@ -4445,18 +4505,19 @@ async function checkSpotify() {
     if(data.cover && cover.src !== data.cover) cover.src = data.cover;
     const pct = data.duration_ms > 0 ? (data.progress_ms / data.duration_ms * 100) : 0;
     document.getElementById('spotify-progress').style.width = pct + '%';
-    if(_spotifySnapped) document.getElementById('sp-pill-bar').style.width = pct + '%';
+    // Tab progress güncelle
+    var tp = document.getElementById('spotify-tab-progress');
+    if(tp) tp.style.height = pct + '%';
 
 
-    if(!_spotifyVisible) {
-      widget.style.left = '';
-      widget.style.top = '';
-      widget.style.bottom = '24px';
-      widget.style.transform = '';
-      widget.classList.remove('dragging-mode');
-      widget.classList.add('visible');
-      _spotifyVisible = true;
+    // Drawer'ı aktif et (ilk kez şarkı çalınca)
+    const drawer = document.getElementById('spotify-drawer');
+    if(drawer && !drawer.classList.contains('active')) {
+      drawer.classList.add('active');
+      // İlk kez otomatik aç
+      setTimeout(openSpotifyDrawer, 300);
     }
+    if(!_spotifyVisible) _spotifyVisible = true;
   } catch(e) { /* sessizce hata */ }
 }
 
@@ -4466,107 +4527,27 @@ function startSpotifyPolling() {
   _spotifyInterval = setInterval(checkSpotify, 8000);
 }
 
-// Fizik tabanlı sürükleme + momentum
-(function initDrag(){
-  const bar = document.getElementById('spotify-bar');
-  if(!bar) return;
-  let velX = 0, velY = 0, lastX = 0, lastY = 0, lastT = 0;
-  let animFrame = null;
+// ── SPOTIFY DRAWER ────────────────────────────────────────
+let _drawerOpen = false;
 
-  bar.addEventListener('pointerdown', function(e) {
-    if(e.target.closest('button')) return;
-    _spotifyDragging = true;
-    bar.classList.add('dragging');
-    const widget = document.getElementById('spotify-widget');
-    // getBoundingClientRect her zaman doğru pixel pozisyonu verir
-    const rect = widget.getBoundingClientRect();
-    // Önce transform/bottom'u sıfırla, sonra exact pozisyona yerleştir
-    widget.style.transition = 'none';
-    widget.style.animation = 'none';
-    widget.style.bottom = 'auto';
-    widget.style.transform = 'none';
-    widget.style.left = rect.left + 'px';
-    widget.style.top = rect.top + 'px';
-    widget.classList.add('dragging-mode');
-    // Mouse'un widget içindeki offseti
-    _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    bar.setPointerCapture(e.pointerId);
-    curX = rect.left; curY = rect.top;
-    targetX = rect.left; targetY = rect.top;
-    velX = 0; velY = 0; lastX = e.clientX; lastY = e.clientY; lastT = Date.now();
-    if(animFrame) cancelAnimationFrame(animFrame);
-    lagFrame = null;
-  });
+function toggleSpotifyDrawer() {
+  _drawerOpen ? closeSpotifyDrawer() : openSpotifyDrawer();
+}
 
-  let targetX = 0, targetY = 0, curX = 0, curY = 0;
-  let lagFrame = null;
+function openSpotifyDrawer() {
+  _drawerOpen = true;
+  document.getElementById('spotify-drawer').classList.add('open');
+}
 
-  bar.addEventListener('pointermove', function(e) {
-    if(!_spotifyDragging) return;
+function closeSpotifyDrawer() {
+  _drawerOpen = false;
+  document.getElementById('spotify-drawer').classList.remove('open');
+}
 
-    targetX = e.clientX - _dragOffset.x;
-    targetY = e.clientY - _dragOffset.y;
-    const now = Date.now();
-    const dt = Math.max(now - lastT, 1);
-    velX = (e.clientX - lastX) / dt * 8;  // daha yavaş
-    velY = (e.clientY - lastY) / dt * 8;
-    lastX = e.clientX; lastY = e.clientY; lastT = now;
-    // Geriden takip - lazy follow
-    if(!lagFrame) lagFrame = requestAnimationFrame(lagFollow);
-  });
-
-  function lagFollow() {
-    if(!_spotifyDragging) { lagFrame = null; return; }
-    const widget = document.getElementById('spotify-widget');
-    curX += (targetX - curX) * 0.18;
-    curY += (targetY - curY) * 0.18;
-    widget.style.left = curX + 'px';
-    widget.style.top = curY + 'px';
-    // Üst 80px'e yaklaşınca snap hint
-    const bar = document.getElementById('spotify-bar');
-    if(curY < 80) {
-      bar.style.borderColor = 'rgba(255,255,255,.35)';
-    } else {
-      bar.style.borderColor = '';
-    }
-    lagFrame = requestAnimationFrame(lagFollow);
-  }
-
-  bar.addEventListener('pointerup', function() {
-    if(!_spotifyDragging) return;
-    _spotifyDragging = false;
-    lagFrame = null;
-    bar.classList.remove('dragging');
-    bar.style.borderColor = '';
-    const widget = document.getElementById('spotify-widget');
-    widget.classList.remove('dragging-mode');
-    // Üstte bırakıldıysa snap
-    const wRect = widget.getBoundingClientRect();
-    if(wRect.top < 80) {
-      snapSpotify();
-      return;
-    }
-
-    function momentum() {
-      velX *= 0.88; velY *= 0.88;
-      const x = parseFloat(widget.style.left) + velX;
-      const y = parseFloat(widget.style.top) + velY;
-      // Ekran sınırları
-      const maxX = window.innerWidth - widget.offsetWidth - 10;
-      const maxY = window.innerHeight - widget.offsetHeight - 10;
-      const cx = Math.max(10, Math.min(maxX, x));
-      const cy = Math.max(10, Math.min(maxY, y));
-      if(x < 10 || x > maxX) velX *= -0.4;
-      if(y < 10 || y > maxY) velY *= -0.4;
-      widget.style.left = cx + 'px';
-      widget.style.top = cy + 'px';
-      if(Math.abs(velX) > 0.3 || Math.abs(velY) > 0.3) {
-        animFrame = requestAnimationFrame(momentum);
-      }
-    }
-    animFrame = requestAnimationFrame(momentum);
-  });
-})();
+// Eski snap fonksiyonları - drawer kullan
+function snapSpotify() { closeSpotifyDrawer(); }
+function unsnapSpotify() { openSpotifyDrawer(); }
+function hideSpotifyWidget() { closeSpotifyDrawer(); }
 
 // Kontrol fonksiyonları
 let _isPlaying = false;
