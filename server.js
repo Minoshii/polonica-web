@@ -1057,18 +1057,10 @@ app.post('/api/kultur', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// server.js dosyasının en altındaki o kısmı bununla değiştir:
-app.get('*', (req, res) => {
-  const filePath = path.join(__dirname, req.path);
-  
-  // Eğer istenen şey gerçekten varsa ve bir dosyaysa (easteregg.js gibi)
-  if (fs.existsSync(filePath) && fs.lstatSync(filePath).isFile()) {
-    return res.sendFile(filePath);
-  }
-  
-  // Yoksa ana sayfayı gönder
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
