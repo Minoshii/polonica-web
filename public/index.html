@@ -1212,6 +1212,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="gtab" onclick="switchGTab('edatlar')">📍 Edatlar</button>
       <button class="gtab" onclick="switchGTab('sayilar')">🔢 Sayılar</button>
       <button class="gtab" onclick="switchGTab('zamanlar')">🕐 Fiil Zamanları</button>
+      <button class="gtab" onclick="switchGTab('fiilgr')">🎯 Fiil Grupları</button>
+      <button class="gtab" onclick="switchGTab('emirki')">❗ Emir Kipi</button>
     </div>
 
     <!-- CASE TABLOLARI -->
@@ -2155,6 +2157,455 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         • <strong style="color:var(--text)">dk. "geniş" zaman</strong> = gelecekte yapacak (tek seferlik)<br>
         • <strong style="color:var(--text)">ndk. geçmiş</strong> = yapıyordu / yapardı &nbsp;·&nbsp; <strong style="color:var(--text)">dk. geçmiş</strong> = yaptı (tamamlandı)<br>
         • Koşullu: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Chciałbym...</span> (isterdim) — kibarca rica için de kullanılır!
+      </div>
+    </div>
+
+    <!-- FİİL GRUPLARI -->
+    <div class="grammar-section" id="gsec-fiilgr">
+
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:var(--text);font-size:13px">Lehçe Fiil Grupları</strong> — Lehçe'de bir fiilin nasıl çekimleneceğini öğrenmek için önce hangi gruba girdiğini bilmek yeterli. İnfinitif sonuna bak, grubu bul, kuralı uygula.<br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-ować</span> → A Grubu &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#e090c0">-ić/-yć</span> → B Grubu &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#6dbf9a">-ać (-am)</span> → C Grubu &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#c8a050">-ać (-ę)</span> → D Grubu &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#b080e0">-eć/-ieć</span> → E Grubu &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#e07070">-nąć</span> → F Grubu
+      </div>
+
+      <!-- GRUP A: -ować -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">
+          🔵 A Grubu — <span style="font-family:'DM Mono',monospace">-ować</span> → <span style="font-family:'DM Mono',monospace">-uję / -ujesz</span>
+        </div>
+        <div style="background:var(--blue-bg);border:1px solid var(--blue);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#7090d0">Kural:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-ować</span> ekini düşür, yerine <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-uję / -ujesz / -uje / -ujemy / -ujecie / -ują</span> ekle.<br>
+          Lehçe'ye giren yabancı kelimeler neredeyse her zaman bu gruba girer! (parkować, startować, mailować...)
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th>Ek</th><th>pracować örneği</th><th>studiować örneği</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form" style="color:#7090d0">-uję</td><td class="z-form">pracuję</td><td class="z-form">studiuję</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form" style="color:#7090d0">-ujesz</td><td class="z-form">pracujesz</td><td class="z-form">studiujesz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form" style="color:#7090d0">-uje</td><td class="z-form">pracuje</td><td class="z-form">studiuje</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form" style="color:#7090d0">-ujemy</td><td class="z-form">pracujemy</td><td class="z-form">studiujemy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form" style="color:#7090d0">-ujecie</td><td class="z-form">pracujecie</td><td class="z-form">studiujecie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form" style="color:#7090d0">-ują</td><td class="z-form">pracują</td><td class="z-form">studiują</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8">
+          <strong style="color:#c8b89a">Geçmiş zaman:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">pracował / pracowała / pracowało / pracowali / pracowały</span> — düzenli, -ow- korunur<br>
+          <strong style="color:#c8b89a">Emir kipi:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">pracuj! pracujcie! pracujmy!</span>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pracować</div><div class="baglaç-tr">çalışmak</div><div class="baglaç-en">to work</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Pracuję w biurze. · Pracujemy razem.</div><div class="baglaç-example-tr">Ofiste çalışıyorum. · Birlikte çalışıyoruz.</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">studiować</div><div class="baglaç-tr">okumak (üniversite)</div><div class="baglaç-en">to study</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Studiuję polonistykę. · Co studiujesz?</div><div class="baglaç-example-tr">Polonistik okuyorum. · Ne okuyorsun?</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kupować / kupić (dk.)</div><div class="baglaç-tr">satın almak</div><div class="baglaç-en">to buy</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Kupuję chleb. · Kupiłem bilet. (dk.)</div><div class="baglaç-example-tr">Ekmek alıyorum. · Bilet aldım.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">dk. kupić: kupię/kupisz/kupi (B grubuna geçer!)</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">gotować</div><div class="baglaç-tr">pişirmek</div><div class="baglaç-en">to cook</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Gotuję obiad. · Kto gotuje dziś?</div><div class="baglaç-example-tr">Öğle yemeği pişiriyorum. · Bugün kim pişiriyor?</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">podróżować</div><div class="baglaç-tr">seyahat etmek</div><div class="baglaç-en">to travel</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Lubię podróżować. · Podróżujemy po Europie.</div><div class="baglaç-example-tr">Seyahat etmeyi seviyorum. · Avrupa'yı geziyoruz.</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rezerwować</div><div class="baglaç-tr">rezervasyon yapmak</div><div class="baglaç-en">to reserve</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Rezerwuję stolik. · Czy można zarezerwować?</div><div class="baglaç-example-tr">Masa rezervasyonu yapıyorum. · Rezervasyon yapabilir miyim?</div></div>
+        </div>
+      </div>
+
+      <!-- GRUP B: -ić/-yć -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #e090c044">
+          🟣 B Grubu — <span style="font-family:'DM Mono',monospace">-ić / -yć</span> → <span style="font-family:'DM Mono',monospace">-ię / -isz</span>
+        </div>
+        <div style="background:var(--red-bg);border:1px solid #c060a0;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#e090c0">Kural:</strong> Kökü bul (infinitiften -ić/-yć düşür), <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-ię / -isz / -i / -imy / -icie / -ią</span> ekle.<br>
+          <strong style="color:#e07070">⚠ Dikkat:</strong> Bazı fiillerde <strong>1. tekil + 3. çoğul</strong>'da sessiz harf değişimi olur: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">s→sz, z→ż, ść→szcz</span>
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th>robić (düzenli)</th><th>nosić (s→sz)</th><th>wozić (z→ż)</th><th>prosić (s→sz)</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form">robię</td><td class="z-form" style="color:#e07070">noszę ⚡</td><td class="z-form" style="color:#e07070">wożę ⚡</td><td class="z-form" style="color:#e07070">proszę ⚡</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form">robisz</td><td class="z-form">nosisz</td><td class="z-form">wozisz</td><td class="z-form">prosisz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form">robi</td><td class="z-form">nosi</td><td class="z-form">wozi</td><td class="z-form">prosi</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form">robimy</td><td class="z-form">nosimy</td><td class="z-form">wozimy</td><td class="z-form">prosimy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form">robicie</td><td class="z-form">nosicie</td><td class="z-form">wozicie</td><td class="z-form">prosicie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form">robią</td><td class="z-form" style="color:#e07070">noszą ⚡</td><td class="z-form" style="color:#e07070">wożą ⚡</td><td class="z-form" style="color:#e07070">proszą ⚡</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8">
+          <strong style="color:#c8b89a">Geçmiş zaman:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">robił / robiła / robiło / robili / robiły</span> — düzenli<br>
+          <strong style="color:#c8b89a">Emir kipi:</strong> 2sg'den -isz düş → <span style="font-family:'DM Mono',monospace;color:#5dc0b0">rob → rób!</span> (o→ó!) · <span style="font-family:'DM Mono',monospace;color:#5dc0b0">mów! noś! wóź!</span>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">robić</div><div class="baglaç-tr">yapmak</div><div class="baglaç-en">to do, make</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Co robisz? · Robię zadanie domowe.</div><div class="baglaç-example-tr">Ne yapıyorsun? · Ev ödevi yapıyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Tam çekim: robię / robisz / robi / robimy / robicie / robią</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">mówić</div><div class="baglaç-tr">konuşmak, söylemek</div><div class="baglaç-en">to speak, say</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Mówię po polsku. · Co mówisz?</div><div class="baglaç-example-tr">Lehçe konuşuyorum. · Ne diyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">mówię / mówisz / mówi / mówimy / mówicie / mówią — düzenli, değişim yok</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">lubić</div><div class="baglaç-tr">sevmek, hoşlanmak</div><div class="baglaç-en">to like</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Lubię kawę. · Co lubisz robić?</div><div class="baglaç-example-tr">Kahveyi seviyorum. · Ne yapmayı seviyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">lubię / lubisz / lubi / lubimy / lubicie / lubią — düzenli</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">uczyć (się)</div><div class="baglaç-tr">öğretmek / öğrenmek</div><div class="baglaç-en">to teach / to learn</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Uczę się polskiego. · Uczę matematyki.</div><div class="baglaç-example-tr">Lehçe öğreniyorum. · Matematik öğretiyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">uczę / uczysz / uczy / uczymy / uczycie / uczą (-yć versiyonu: -ę/-ysz)</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">nosić ⚡</div><div class="baglaç-tr">taşımak (yürüyerek)</div><div class="baglaç-en">to carry, wear</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Noszę okulary. · Co nosisz w torbie?</div><div class="baglaç-example-tr">Gözlük takıyorum. · Çantanda ne taşıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">⚡ <strong style="color:#e07070">noszę</strong> / nosisz / nosi / nosimy / nosicie / <strong style="color:#e07070">noszą</strong> (s→sz: 1sg + 3pl)</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">prosić ⚡</div><div class="baglaç-tr">rica etmek, istemek</div><div class="baglaç-en">to ask, request</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Proszę o wodę. · Proszę, usiądź.</div><div class="baglaç-example-tr">Su istiyorum. · Lütfen oturun.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">⚡ <strong style="color:#e07070">proszę</strong> / prosisz / prosi / prosimy / prosicie / <strong style="color:#e07070">proszą</strong></div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">chodzić</div><div class="baglaç-tr">yürümek, gitmek (alışkanlık)</div><div class="baglaç-en">to walk, go (habitually)</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Chodzę do szkoły. · Chodzę piechotą.</div><div class="baglaç-example-tr">Okula gidiyorum. · Yürüyerek gidiyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">chodzę / chodzisz / chodzi / chodzimy / chodzicie / chodzą — dz değişmez</div></div>
+        </div>
+      </div>
+
+      <!-- GRUP C: -ać Type I (-am/-asz) -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #6dbf9a44">
+          🟢 C Grubu — <span style="font-family:'DM Mono',monospace">-ać</span> → <span style="font-family:'DM Mono',monospace">-am / -asz</span>  <span style="font-size:10px;opacity:.7">(en düzenli grup!)</span>
+        </div>
+        <div style="background:var(--green-bg);border:1px solid var(--green);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#6dbf9a">Kural:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-ać</span> ekini düşür, <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-am / -asz / -a / -amy / -acie / -ają</span> ekle. <strong>Hiçbir değişim yok!</strong><br>
+          Nasıl anlarım? 1. tekil kişi <strong style="color:var(--text)">-am</strong> ile bitiyor (robię gibi -ę değil).
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th>Ek</th><th>czytać</th><th>kochać</th><th>słuchać</th><th>znać</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form" style="color:#6dbf9a">-am</td><td class="z-form">czytam</td><td class="z-form">kocham</td><td class="z-form">słucham</td><td class="z-form">znam</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form" style="color:#6dbf9a">-asz</td><td class="z-form">czytasz</td><td class="z-form">kochasz</td><td class="z-form">słuchasz</td><td class="z-form">znasz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form" style="color:#6dbf9a">-a</td><td class="z-form">czyta</td><td class="z-form">kocha</td><td class="z-form">słucha</td><td class="z-form">zna</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form" style="color:#6dbf9a">-amy</td><td class="z-form">czytamy</td><td class="z-form">kochamy</td><td class="z-form">słuchamy</td><td class="z-form">znamy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form" style="color:#6dbf9a">-acie</td><td class="z-form">czytacie</td><td class="z-form">kochacie</td><td class="z-form">słuchacie</td><td class="z-form">znacie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form" style="color:#6dbf9a">-ają</td><td class="z-form">czytają</td><td class="z-form">kochają</td><td class="z-form">słuchają</td><td class="z-form">znają</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8">
+          <strong style="color:#c8b89a">Geçmiş zaman:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">czytał / czytała / czytało / czytali / czytały</span> — düzenli<br>
+          <strong style="color:#c8b89a">Emir kipi:</strong> 3sg'ye -j ekle → <span style="font-family:'DM Mono',monospace;color:#5dc0b0">czyta → czytaj! czytajcie! czytajmy!</span>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">czytać</div><div class="baglaç-tr">okumak</div><div class="baglaç-en">to read</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Czytam książkę. · Czytasz dużo?</div><div class="baglaç-example-tr">Kitap okuyorum. · Çok okur musun?</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kochać</div><div class="baglaç-tr">sevmek (aşk)</div><div class="baglaç-en">to love</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Kocham cię. · Kocham Polskę.</div><div class="baglaç-example-tr">Seni seviyorum. · Polonya'yı seviyorum.</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">słuchać</div><div class="baglaç-tr">dinlemek</div><div class="baglaç-en">to listen</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Słucham muzyki. · Słuchaj!</div><div class="baglaç-example-tr">Müzik dinliyorum. · Dinle!</div><div style="font-size:11px;color:var(--text3);margin-top:6px">słuchać + Dopełniacz: słucham <strong>muzyki</strong> (not muzyka!)</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">szukać</div><div class="baglaç-tr">aramak</div><div class="baglaç-en">to look for, search</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Szukam klucza. · Czego szukasz?</div><div class="baglaç-example-tr">Anahtarı arıyorum. · Ne arıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">szukać + Dopełniacz: szukam <strong>klucza</strong></div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">grać</div><div class="baglaç-tr">oynamak, çalmak (müzik)</div><div class="baglaç-en">to play</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Gram na gitarze. · Grasz w szachy?</div><div class="baglaç-example-tr">Gitar çalıyorum. · Satranç oynar mısın?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">na + Miejscownik (enstrüman) / w + Biernik (oyun)</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">znać</div><div class="baglaç-tr">tanımak, bilmek (kişi/şey)</div><div class="baglaç-en">to know (person/thing)</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Znam go. · Znam ten film.</div><div class="baglaç-example-tr">Onu tanıyorum. · O filmi biliyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">znać (tanımak/bilmek) vs <span style="color:#5dc0b0">wiedzieć</span> (bir bilgiyi bilmek: Wiem, że...)</div></div>
+        </div>
+      </div>
+
+      <!-- GRUP D: -ać Type II (-ę/-esz) -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">
+          🟡 D Grubu — <span style="font-family:'DM Mono',monospace">-ać</span> → <span style="font-family:'DM Mono',monospace">-ę / -esz</span> <span style="font-size:10px;opacity:.7">(sessiz harf değişimiyle!)</span>
+        </div>
+        <div style="background:var(--yellow-bg,#1a1200);border:1px solid #c8a05044;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#c8a050">Kural:</strong> 1. tekil <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-ę</span> ile biter, ancak kök sessize harf değişimi eşlik eder.<br>
+          <strong style="color:#c8a050">Nasıl anlarım?</strong> -ać ile bitiyor ama 1. tekil -am değil <strong>-ę</strong> ise D grubu. Sözlükte C grubuyla karıştırılır — dikkat!
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th>pisać (s→sz)</th><th>płakać (k→cz)</th><th>skakać (k→cz)</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form" style="color:#e07070">piszę ⚡</td><td class="z-form" style="color:#e07070">płaczę ⚡</td><td class="z-form" style="color:#e07070">skaczę ⚡</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form" style="color:#e07070">piszesz ⚡</td><td class="z-form" style="color:#e07070">płaczesz ⚡</td><td class="z-form" style="color:#e07070">skaczesz ⚡</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form" style="color:#e07070">pisze ⚡</td><td class="z-form" style="color:#e07070">płacze ⚡</td><td class="z-form" style="color:#e07070">skacze ⚡</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form" style="color:#e07070">piszemy ⚡</td><td class="z-form" style="color:#e07070">płaczemy ⚡</td><td class="z-form" style="color:#e07070">skaczemy ⚡</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form" style="color:#e07070">piszecie ⚡</td><td class="z-form" style="color:#e07070">płaczecie ⚡</td><td class="z-form" style="color:#e07070">skaczecie ⚡</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form" style="color:#e07070">piszą ⚡</td><td class="z-form" style="color:#e07070">płaczą ⚡</td><td class="z-form" style="color:#e07070">skaczą ⚡</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8;color:var(--text3)">
+          <strong style="color:#c8b89a">Geçmiş zaman:</strong> değişim yok → <span style="font-family:'DM Mono',monospace;color:#5dc0b0">pisał / pisała / pisało / pisali / pisały</span><br>
+          <strong style="color:#c8b89a">Emir kipi:</strong> 3sg'den -e düş → <span style="font-family:'DM Mono',monospace;color:#5dc0b0">pisze → pisz! piszcie! piszmy!</span>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pisać ⚡</div><div class="baglaç-tr">yazmak</div><div class="baglaç-en">to write</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Piszę list. · Co piszesz?</div><div class="baglaç-example-tr">Mektup yazıyorum. · Ne yazıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">⚡ Tüm çekimde s→sz: piszę/piszesz/pisze/piszemy/piszecie/piszą</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">płakać ⚡</div><div class="baglaç-tr">ağlamak</div><div class="baglaç-en">to cry</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Płaczę ze szczęścia. · Dlaczego płaczesz?</div><div class="baglaç-example-tr">Mutluluktan ağlıyorum. · Neden ağlıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">⚡ k→cz: płaczę/płaczesz/płacze/płaczemy/płaczecie/płaczą</div></div>
+        </div>
+      </div>
+
+      <!-- GRUP E: -eć/-ieć -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#100d1a;color:#b080e0;border:1px solid #b080e044">
+          🟤 E Grubu — <span style="font-family:'DM Mono',monospace">-eć / -ieć</span> → <span style="font-family:'DM Mono',monospace">-iem / -iesz</span>
+        </div>
+        <div style="background:#100d1a;border:1px solid #b080e033;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#b080e0">Dikkat:</strong> Bu grupta iki farklı çekim paterni var! <span style="font-family:'DM Mono',monospace;color:#5dc0b0">rozumieć</span> (-iem/-iesz) ve <span style="font-family:'DM Mono',monospace;color:#e07070">widzieć / siedzieć</span> (görünüşe rağmen B grubu gibi çekimlenir!).
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th style="color:#b080e0">rozumieć (-iem)</th><th style="color:#b080e0">umieć (-iem)</th><th style="color:#e07070">widzieć (B gibi!)</th><th style="color:#e07070">siedzieć (B gibi!)</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form" style="color:#b080e0">rozumiem</td><td class="z-form" style="color:#b080e0">umiem</td><td class="z-form" style="color:#e07070">widzę</td><td class="z-form" style="color:#e07070">siedzę</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form" style="color:#b080e0">rozumiesz</td><td class="z-form" style="color:#b080e0">umiesz</td><td class="z-form" style="color:#e07070">widzisz</td><td class="z-form" style="color:#e07070">siedzisz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form" style="color:#b080e0">rozumie</td><td class="z-form" style="color:#b080e0">umie</td><td class="z-form" style="color:#e07070">widzi</td><td class="z-form" style="color:#e07070">siedzi</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form" style="color:#b080e0">rozumiemy</td><td class="z-form" style="color:#b080e0">umiemy</td><td class="z-form" style="color:#e07070">widzimy</td><td class="z-form" style="color:#e07070">siedzimy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form" style="color:#b080e0">rozumiecie</td><td class="z-form" style="color:#b080e0">umiecie</td><td class="z-form" style="color:#e07070">widzicie</td><td class="z-form" style="color:#e07070">siedzicie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form" style="color:#b080e0">rozumieją</td><td class="z-form" style="color:#b080e0">umieją</td><td class="z-form" style="color:#e07070">widzą</td><td class="z-form" style="color:#e07070">siedzą</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rozumieć</div><div class="baglaç-tr">anlamak</div><div class="baglaç-en">to understand</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Rozumiem po polsku. · Nie rozumiem.</div><div class="baglaç-example-tr">Lehçe anlıyorum. · Anlamıyorum.</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">umieć</div><div class="baglaç-tr">yapabilmek, bilmek (beceri)</div><div class="baglaç-en">to be able to, know how</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Umiem pływać. · Czy umiesz gotować?</div><div class="baglaç-example-tr">Yüzebiliyorum. · Yemek pişirebilir misin?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">umieć = öğrenilmiş beceri / móc = dış imkân ("yapabiliyorum ortam elverdiği için")</div></div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">widzieć ⚠</div><div class="baglaç-tr">görmek</div><div class="baglaç-en">to see</div>
+          <div class="baglaç-detail"><div class="baglaç-example-pl">Widzę cię! · Widzisz tamten dom?</div><div class="baglaç-example-tr">Seni görüyorum! · Şu evi görüyor musun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">⚠ -eć ile bitmesine rağmen B grubu gibi çekimlenir: widzę/widzisz/widzi...</div></div>
+        </div>
+      </div>
+
+      <!-- GRUP F: -nąć -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#200d0d;color:#e07070;border:1px solid #e0707044">
+          🔴 F Grubu — <span style="font-family:'DM Mono',monospace">-nąć</span> → <span style="font-family:'DM Mono',monospace">-nę / -niesz</span> <span style="font-size:10px;opacity:.7">(geçmişte -nął/-nęła!)</span>
+        </div>
+        <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#e07070">⚠ Kritik kural:</strong> Geçmiş zamanda diğer gruplardan farklı! Erkek: <span style="font-family:'DM Mono',monospace;color:#e07070">-nął</span>, Kadın: <span style="font-family:'DM Mono',monospace;color:#e07070">-nęła</span> (NOT: -nał/-nała!).<br>
+          Bu grup çoğunlukla <strong>dokonany (dk.)</strong> fiillerdir — tek seferlik, anlık eylemler.
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th>krzyknąć (bağırmak)</th><th>stanąć (durmak)</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form">krzyknę</td><td class="z-form">stanę</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form">krzykniesz</td><td class="z-form">staniesz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form">krzyknie</td><td class="z-form">stanie</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form">krzykniemy</td><td class="z-form">staniemy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form">krzykniecie</td><td class="z-form">staniecie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form">krzykną</td><td class="z-form">staną</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;background:var(--red-bg);border:1px solid var(--red);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8;color:var(--text2)">
+          <strong style="color:#e07070">Geçmiş zaman — DİKKAT:</strong><br>
+          krzyknąć: <span style="font-family:'DM Mono',monospace;color:#e07070">krzyknął / krzyknęła / krzyknęło / krzyknęli / krzyknęły</span><br>
+          <span style="color:#888">✗ Yanlış:</span> <span style="font-family:'DM Mono',monospace;color:#888;text-decoration:line-through">kryknałem</span> &nbsp;·&nbsp; <span style="color:#6dbf9a">✓ Doğru:</span> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">krzyknąłem / krzyknęłam</span>
+        </div>
+      </div>
+
+      <!-- GRUP G: Düzensiz -->
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#c8b89a;border:1px solid #c8b89a44">
+          ⭐ G Grubu — Düzensiz Fiiller (En Önemliler)</div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th style="color:#c8a050">być</th><th style="color:#c8a050">mieć</th><th style="color:#6dbf9a">iść</th><th style="color:#6dbf9a">jechać</th><th style="color:#e090c0">jeść</th><th style="color:#7090d0">móc</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form" style="color:#c8a050">jestem</td><td class="z-form" style="color:#c8a050">mam</td><td class="z-form" style="color:#6dbf9a">idę</td><td class="z-form" style="color:#6dbf9a">jadę</td><td class="z-form" style="color:#e090c0">jem</td><td class="z-form" style="color:#7090d0">mogę</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form" style="color:#c8a050">jesteś</td><td class="z-form" style="color:#c8a050">masz</td><td class="z-form" style="color:#6dbf9a">idziesz</td><td class="z-form" style="color:#6dbf9a">jedziesz</td><td class="z-form" style="color:#e090c0">jesz</td><td class="z-form" style="color:#7090d0">możesz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form" style="color:#c8a050">jest</td><td class="z-form" style="color:#c8a050">ma</td><td class="z-form" style="color:#6dbf9a">idzie</td><td class="z-form" style="color:#6dbf9a">jedzie</td><td class="z-form" style="color:#e090c0">je</td><td class="z-form" style="color:#7090d0">może</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form" style="color:#c8a050">jesteśmy</td><td class="z-form" style="color:#c8a050">mamy</td><td class="z-form" style="color:#6dbf9a">idziemy</td><td class="z-form" style="color:#6dbf9a">jedziemy</td><td class="z-form" style="color:#e090c0">jemy</td><td class="z-form" style="color:#7090d0">możemy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form" style="color:#c8a050">jesteście</td><td class="z-form" style="color:#c8a050">macie</td><td class="z-form" style="color:#6dbf9a">idziecie</td><td class="z-form" style="color:#6dbf9a">jedziecie</td><td class="z-form" style="color:#e090c0">jecie</td><td class="z-form" style="color:#7090d0">możecie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form" style="color:#c8a050">są</td><td class="z-form" style="color:#c8a050">mają</td><td class="z-form" style="color:#6dbf9a">idą</td><td class="z-form" style="color:#6dbf9a">jadą</td><td class="z-form" style="color:#e090c0">jedzą</td><td class="z-form" style="color:#7090d0">mogą</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="overflow-x:auto;margin-bottom:10px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Kişi</th><th style="color:#7090d0">wiedzieć</th><th style="color:#e07070">chcieć</th><th style="color:#6dbf9a">dać</th><th style="color:#b080e0">wziąć</th></tr></thead>
+            <tbody>
+              <tr><td class="z-hal">ja</td><td class="z-form" style="color:#7090d0">wiem</td><td class="z-form" style="color:#e07070">chcę</td><td class="z-form" style="color:#6dbf9a">dam</td><td class="z-form" style="color:#b080e0">wezmę</td></tr>
+              <tr><td class="z-hal">ty</td><td class="z-form" style="color:#7090d0">wiesz</td><td class="z-form" style="color:#e07070">chcesz</td><td class="z-form" style="color:#6dbf9a">dasz</td><td class="z-form" style="color:#b080e0">weźmiesz</td></tr>
+              <tr><td class="z-hal">on/ona/ono</td><td class="z-form" style="color:#7090d0">wie</td><td class="z-form" style="color:#e07070">chce</td><td class="z-form" style="color:#6dbf9a">da</td><td class="z-form" style="color:#b080e0">weźmie</td></tr>
+              <tr><td class="z-hal">my</td><td class="z-form" style="color:#7090d0">wiemy</td><td class="z-form" style="color:#e07070">chcemy</td><td class="z-form" style="color:#6dbf9a">damy</td><td class="z-form" style="color:#b080e0">weźmiemy</td></tr>
+              <tr><td class="z-hal">wy</td><td class="z-form" style="color:#7090d0">wiecie</td><td class="z-form" style="color:#e07070">chcecie</td><td class="z-form" style="color:#6dbf9a">dacie</td><td class="z-form" style="color:#b080e0">weźmiecie</td></tr>
+              <tr><td class="z-hal">oni/one</td><td class="z-form" style="color:#7090d0">wiedzą</td><td class="z-form" style="color:#e07070">chcą</td><td class="z-form" style="color:#6dbf9a">dadzą</td><td class="z-form" style="color:#b080e0">wezmą</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:10px 12px;line-height:1.9">
+          <strong style="color:#c8b89a">Geçmiş zaman — kritik düzensizlikler:</strong><br>
+          być: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">byłem/byłam · był/była/było · byliśmy/byłyśmy · byli/były</span><br>
+          iść: <span style="font-family:'DM Mono',monospace;color:#e07070">szedłem / szłam</span> (tamamen değişir!) · wziąć: <span style="font-family:'DM Mono',monospace;color:#e07070">wziąłem / wzięłam</span><br>
+          mieć: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">miałem / miałam</span> (düzenli!) · dać: <span style="font-family:'DM Mono',monospace;color:#5dc0b0">dałem / dałam</span> (düzenli!)
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EMİR KİPİ -->
+    <div class="grammar-section" id="gsec-emirki">
+
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:var(--text);font-size:13px">Tryb Rozkazujący — Emir Kipi</strong><br>
+        Emir kipi oluşturma kuralı fiil grubuna göre değişir. Doğru formu bulmak için önce hangi gruba girdiğini belirle, ardından aşağıdaki kurala uygula.<br>
+        <strong style="color:#c8b89a">Çoğul eki:</strong> ty formu + <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-cie</span> (wy) · ty formu + <span style="font-family:'DM Mono',monospace;color:#5dc0b0">-my</span> (my)
+      </div>
+
+      <!-- Gruba göre kurallar -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">📐 Gruba Göre Emir Kipi Oluşturma</div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="zamir-kisi-table">
+          <thead><tr><th>Grup</th><th>Kural</th><th style="color:#7090d0">ty (sen)</th><th style="color:#7090d0">wy (siz)</th><th style="color:#7090d0">my (biz)</th><th>Örnek fiil</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="z-hal" style="color:#7090d0">A (-ować)</td>
+              <td style="font-size:11px;color:var(--text3)">2sg'den -sz düş</td>
+              <td class="z-form" style="color:#5dc0b0">pracuj!</td>
+              <td class="z-form" style="color:#5dc0b0">pracujcie!</td>
+              <td class="z-form" style="color:#5dc0b0">pracujmy!</td>
+              <td style="font-size:11px;color:var(--text3)">pracujesz → pracuj</td>
+            </tr>
+            <tr>
+              <td class="z-hal" style="color:#6dbf9a">C (-ać/-am)</td>
+              <td style="font-size:11px;color:var(--text3)">3sg'ye -j ekle</td>
+              <td class="z-form" style="color:#5dc0b0">czytaj!</td>
+              <td class="z-form" style="color:#5dc0b0">czytajcie!</td>
+              <td class="z-form" style="color:#5dc0b0">czytajmy!</td>
+              <td style="font-size:11px;color:var(--text3)">czyta → czytaj</td>
+            </tr>
+            <tr>
+              <td class="z-hal" style="color:#c8a050">D (-ać/-ę)</td>
+              <td style="font-size:11px;color:var(--text3)">3sg'den -e düş</td>
+              <td class="z-form" style="color:#5dc0b0">pisz!</td>
+              <td class="z-form" style="color:#5dc0b0">piszcie!</td>
+              <td class="z-form" style="color:#5dc0b0">piszmy!</td>
+              <td style="font-size:11px;color:var(--text3)">pisze → pisz</td>
+            </tr>
+            <tr>
+              <td class="z-hal" style="color:#e090c0">B (-ić/-yć)</td>
+              <td style="font-size:11px;color:var(--text3)">2sg'den -isz düş<br><span style="color:#e07070">± sesli uzama</span></td>
+              <td class="z-form" style="color:#5dc0b0">mów! / rób!<br>noś! / wóź!</td>
+              <td class="z-form" style="color:#5dc0b0">mówcie! / róbcie!<br>noście! / wóźcie!</td>
+              <td class="z-form" style="color:#5dc0b0">mówmy! / róbmy!<br>nośmy! / wóźmy!</td>
+              <td style="font-size:11px;color:var(--text3)">mówisz→mów<br>robisz→rób (o→ó!)</td>
+            </tr>
+            <tr>
+              <td class="z-hal" style="color:#b080e0">E (-eć/-iem)</td>
+              <td style="font-size:11px;color:var(--text3)">3sg'ye -j ekle</td>
+              <td class="z-form" style="color:#5dc0b0">rozumiej!</td>
+              <td class="z-form" style="color:#5dc0b0">rozumiejcie!</td>
+              <td class="z-form" style="color:#5dc0b0">rozumiejmy!</td>
+              <td style="font-size:11px;color:var(--text3)">rozumie → rozumiej</td>
+            </tr>
+            <tr>
+              <td class="z-hal" style="color:#e07070">F (-nąć)</td>
+              <td style="font-size:11px;color:var(--text3)">2sg'den -sz düş,<br>-ij ekle</td>
+              <td class="z-form" style="color:#5dc0b0">krzyknij!</td>
+              <td class="z-form" style="color:#5dc0b0">krzyknijcie!</td>
+              <td class="z-form" style="color:#5dc0b0">krzyknijmy!</td>
+              <td style="font-size:11px;color:var(--text3)">krzykniesz→krzyknij</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sesli harf değişimleri -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">⚡ B Grubu Sesli Uzamaları (o→ó, e→ie)</div>
+      <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:#e07070">Kural:</strong> B grubu (-ić/-yć) fiillerde emir kipi oluştururken kök <strong style="color:var(--text)">kapalı hecede stres altındaysa</strong> sesli harf uzar.<br>
+        Bu değişim ezberlenmesi gereken bir özelliktir — sözlüklerde belirtilir.
+      </div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="zamir-kisi-table">
+          <thead><tr><th>İnfinitif</th><th>2sg (geniş)</th><th style="color:#e07070">Değişim</th><th style="color:#5dc0b0">Emir (ty)</th><th style="color:#5dc0b0">Emir (wy)</th><th>Türkçe</th></tr></thead>
+          <tbody>
+            <tr><td class="z-form">robić</td><td class="z-form">robisz</td><td style="font-size:11px;color:#e07070">o → ó</td><td class="z-form" style="color:#5dc0b0">rób!</td><td class="z-form" style="color:#5dc0b0">róbcie!</td><td style="font-size:11px;color:var(--text3)">yap!</td></tr>
+            <tr><td class="z-form">chodzić</td><td class="z-form">chodzisz</td><td style="font-size:11px;color:#e07070">o → ó + dz→dź</td><td class="z-form" style="color:#5dc0b0">chodź!</td><td class="z-form" style="color:#5dc0b0">chodźcie!</td><td style="font-size:11px;color:var(--text3)">yürü! / gel!</td></tr>
+            <tr><td class="z-form">nosić</td><td class="z-form">nosisz</td><td style="font-size:11px;color:#c8a050">s → ś</td><td class="z-form" style="color:#5dc0b0">noś!</td><td class="z-form" style="color:#5dc0b0">noście!</td><td style="font-size:11px;color:var(--text3)">taşı!</td></tr>
+            <tr><td class="z-form">prosić</td><td class="z-form">prosisz</td><td style="font-size:11px;color:#c8a050">s → ś</td><td class="z-form" style="color:#5dc0b0">proś!</td><td class="z-form" style="color:#5dc0b0">proście!</td><td style="font-size:11px;color:var(--text3)">iste! rica et!</td></tr>
+            <tr><td class="z-form">wozić</td><td class="z-form">wozisz</td><td style="font-size:11px;color:#e07070">o→ó + z→ź</td><td class="z-form" style="color:#5dc0b0">wóź!</td><td class="z-form" style="color:#5dc0b0">wóźcie!</td><td style="font-size:11px;color:var(--text3)">taşı! (araçla)</td></tr>
+            <tr><td class="z-form">mówić</td><td class="z-form">mówisz</td><td style="font-size:11px;color:var(--text3)">değişim yok</td><td class="z-form" style="color:#5dc0b0">mów!</td><td class="z-form" style="color:#5dc0b0">mówcie!</td><td style="font-size:11px;color:var(--text3)">konuş!</td></tr>
+            <tr><td class="z-form">lubić</td><td class="z-form">lubisz</td><td style="font-size:11px;color:var(--text3)">-ij eklenir</td><td class="z-form" style="color:#5dc0b0">lubij! / lubiaj!</td><td class="z-form" style="color:#5dc0b0">lubijcie!</td><td style="font-size:11px;color:var(--text3)">sev! (nadir kullanılır)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Düzensiz emirler -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">⭐ Düzensiz Emir Kipi Formları</div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="zamir-kisi-table">
+          <thead><tr><th>İnfinitif</th><th style="color:#e07070">ty</th><th style="color:#e07070">wy</th><th style="color:#e07070">my</th><th>Not</th></tr></thead>
+          <tbody>
+            <tr><td class="z-form" style="color:#c8a050">być</td><td class="z-form" style="color:#5dc0b0">bądź!</td><td class="z-form" style="color:#5dc0b0">bądźcie!</td><td class="z-form" style="color:#5dc0b0">bądźmy!</td><td style="font-size:11px;color:var(--text3)">Bądź spokojny! (Sakin ol!)</td></tr>
+            <tr><td class="z-form" style="color:#c8a050">mieć</td><td class="z-form" style="color:#5dc0b0">miej!</td><td class="z-form" style="color:#5dc0b0">miejcie!</td><td class="z-form" style="color:#5dc0b0">miejmy!</td><td style="font-size:11px;color:var(--text3)">Miej nadzieję! (Umut et!)</td></tr>
+            <tr><td class="z-form" style="color:#6dbf9a">iść</td><td class="z-form" style="color:#5dc0b0">idź!</td><td class="z-form" style="color:#5dc0b0">idźcie!</td><td class="z-form" style="color:#e07070">chodźmy! ⚠</td><td style="font-size:11px;color:var(--text3)">1pl özel form: chodźmy (gidelim)</td></tr>
+            <tr><td class="z-form" style="color:#6dbf9a">jechać</td><td class="z-form" style="color:#5dc0b0">jedź!</td><td class="z-form" style="color:#5dc0b0">jedźcie!</td><td class="z-form" style="color:#5dc0b0">jedźmy!</td><td style="font-size:11px;color:var(--text3)">Jedź szybciej! (Daha hızlı git!)</td></tr>
+            <tr><td class="z-form" style="color:#e090c0">jeść</td><td class="z-form" style="color:#5dc0b0">jedz!</td><td class="z-form" style="color:#5dc0b0">jedzcie!</td><td class="z-form" style="color:#5dc0b0">jedzmy!</td><td style="font-size:11px;color:var(--text3)">Jedz więcej! (Daha çok ye!)</td></tr>
+            <tr><td class="z-form" style="color:#b080e0">wziąć</td><td class="z-form" style="color:#5dc0b0">weź!</td><td class="z-form" style="color:#5dc0b0">weźcie!</td><td class="z-form" style="color:#5dc0b0">weźmy!</td><td style="font-size:11px;color:var(--text3)">Weź parasol! (Şemsiye al!)</td></tr>
+            <tr><td class="z-form" style="color:#6dbf9a">dać</td><td class="z-form" style="color:#5dc0b0">daj!</td><td class="z-form" style="color:#5dc0b0">dajcie!</td><td class="z-form" style="color:#5dc0b0">dajmy!</td><td style="font-size:11px;color:var(--text3)">Daj mi to! (Bunu bana ver!)</td></tr>
+            <tr><td class="z-form" style="color:#7090d0">wiedzieć</td><td class="z-form" style="color:#5dc0b0">wiedz!</td><td class="z-form" style="color:#5dc0b0">wiedzcie!</td><td class="z-form" style="color:#5dc0b0">wiedzmy!</td><td style="font-size:11px;color:var(--text3)">Wiedz, że… (Şunu bil ki…)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Kullanım notları -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">💬 Kullanım Notları</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Olumsuz Emir</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;line-height:2">nie + emir kipi</div>
+          <div style="font-size:11px;color:var(--text3);line-height:1.8;margin-top:6px">
+            Nie rób tego! — Bunu yapma!<br>
+            Nie mów tak! — Böyle konuşma!<br>
+            Nie idź tam! — Oraya gitme!
+          </div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">3. Şahıs Emir (niech)</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#5dc0b0;line-height:2">niech + 3sg/3pl geniş</div>
+          <div style="font-size:11px;color:var(--text3);line-height:1.8;margin-top:6px">
+            Niech przyjdzie! — Gelsin!<br>
+            Niech mówią! — Konuşsunlar!<br>
+            Niech będzie! — Olsun!
+          </div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:10px 13px;line-height:1.9">
+        <strong style="color:#c8b89a">💡 Kibarca Rica:</strong> Emir kipi doğrudan ve kaba gelebilir. Daha kibar alternatifler:<br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Proszę usiąść.</span> (Oturun lütfen.) &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Czy mógłbyś...?</span> (... yapabilir misiniz?) &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Mógłbyś mi pomóc?</span> (Bana yardım edebilir misin?)
       </div>
     </div>
 
@@ -5282,7 +5733,7 @@ function renderKulturCard(d) {
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar'].indexOf(tab);
+  const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar','fiilgr','emirki'].indexOf(tab);
   if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
   const sec = document.getElementById('gsec-'+tab);
   if(sec) sec.classList.add('active');
