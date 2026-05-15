@@ -6957,44 +6957,75 @@ function triggerCyber() {
       });
     }
 
-    // I Really Wanna Stay at Your House — opening synth melody approximation
-    // Key: F minor (F=349, G=392, Ab=415, Bb=466, C=523, Db=554, Eb=622, F5=698)
-    const BPM = 82;
+    // I Really Wanna Stay at Your House — Rosa Walton
+    // Key: E minor | BPM: 92
+    // E4=330 F#4=370 G4=392 A4=440 B4=494 C5=523 D5=587 E5=659 F#5=740 G5=784 A5=880
+    const BPM = 92;
     const B = 60 / BPM;
 
-    const melody = [
-      // Açılış - atmospheric, yavaş
-      [554, 2.0], [523, 0.75], [466, 1.25],  // Db5-C5-Bb4
-      [415, 1.5], [466, 0.5],  [523, 1.0],   // Ab4-Bb4-C5
-      [554, 3.0], [0, 0.5],
-      // İkinci cümle
-      [622, 1.0], [554, 0.75], [523, 0.75],  // Eb5-Db5-C5
-      [466, 1.5], [415, 0.5],  [392, 1.0],   // Bb4-Ab4-G4
-      [415, 3.0], [0, 0.5],
-      // Yükselen cümle
-      [349, 0.5], [415, 0.5], [466, 0.5], [523, 0.5], // F4-Ab4-Bb4-C5
-      [554, 1.5], [523, 0.5], [466, 1.0],   // Db5-C5-Bb4
-      [415, 2.5], [0, 0.5],
-      // Final cümle
-      [622, 1.0], [554, 0.5], [523, 0.5],   // Eb5-Db5-C5
-      [466, 0.75],[523, 0.25],[554, 1.0],    // Bb4-C5-Db5
-      [622, 1.5], [554, 0.5], [466, 1.0],   // Eb5-Db5-Bb4
-      [415, 3.5],
+    // Synth lead: sawtooth filtered + sine sub — parlak ama ılık
+    function playNote(freq, t, dur, vol) {
+      if (freq <= 0) return;
+      // Lead: sawtooth + slight detune
+      [[1,0,'sawtooth',0.42],[1.005,7,'sawtooth',0.22],[0.5,0,'sine',0.20]].forEach(([mult,det,type,v]) => {
+        const osc = actx.createOscillator();
+        const lp  = actx.createBiquadFilter();
+        const g   = actx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq * mult;
+        osc.detune.value = det;
+        lp.type = 'lowpass';
+        lp.frequency.setValueAtTime(600, t);
+        lp.frequency.linearRampToValueAtTime(4000, t + 0.05);
+        lp.Q.value = 0.9;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(vol * v, t + 0.04);
+        g.gain.setValueAtTime(vol * v, t + dur * 0.6);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.96);
+        osc.connect(lp); lp.connect(g);
+        g.connect(dry); g.connect(wet);
+        osc.start(t); osc.stop(t + dur + 0.05);
+      });
+    }
+
+    // E minor — melodik cümleler (singable, net hook)
+    // E4=330 G4=392 A4=440 B4=494 C5=523 D5=587 E5=659 G5=784
+    const mel = [
+      // Cümle 1 — yüksekten iniş, ana hook
+      [659,0.5],[587,0.5],[523,0.75],[494,0.25], // E5-D5-C5-B4
+      [440,0.5],[494,0.5],[523,1.25],             // A4-B4-C5
+      [587,1.75],[0,0.25],
+
+      // Cümle 2 — benzer ama biraz farklı son
+      [659,0.5],[587,0.5],[523,0.75],[494,0.25], // E5-D5-C5-B4
+      [440,0.75],[392,0.25],[440,0.5],[494,0.5], // A4-G4-A4-B4
+      [523,2.25],[0,0.25],
+
+      // Cümle 3 — yükseliş
+      [330,0.5],[392,0.5],[440,0.5],[523,0.5],   // E4-G4-A4-C5
+      [587,0.75],[523,0.25],[494,0.5],[440,0.5], // D5-C5-B4-A4
+      [392,2.5],[0,0.25],
+
+      // Cümle 4 — zirve ve iniş
+      [784,0.5],[659,0.5],[587,0.5],[523,0.5],   // G5-E5-D5-C5
+      [494,0.5],[523,0.5],[587,0.75],[523,0.25], // B4-C5-D5-C5
+      [494,0.75],[440,0.25],[392,0.5],[330,0.5], // B4-A4-G4-E4
+      [440,1.5],[330,2.0],
     ];
 
-    // Bas pad — alt katman
-    const bass = [
-      [175, 4],[175, 4],[207, 4],[207, 4],   // F2-F2-Ab2-Ab2 (yaklaşık)
-      [175, 4],[175, 4],[207, 4],[196, 4],
+    // Bas — E minor: Em-C-G-D
+    const bassNotes = [
+      [165,4],[131,4],[196,4],[147,4], // E2-C2-G2-D2
+      [165,4],[131,4],[196,4],[147,4],
     ];
 
-    let t = actx.currentTime + 0.5;
-    melody.forEach(([f,b]) => { playNote(f, t, b*B*0.92, 0.8); t += b*B; });
+    let t = actx.currentTime + 0.35;
+    mel.forEach(([f,b]) => { playNote(f, t, b*B*0.88, 0.85); t += b*B; });
 
-    let tb = actx.currentTime + 0.5;
-    bass.forEach(([f,b]) => { playNote(f, tb, b*B*0.88, 0.35); tb += b*B; });
+    let tb = actx.currentTime + 0.35;
+    bassNotes.forEach(([f,b]) => { playNote(f, tb, b*B*0.85, 0.25); tb += b*B; });
 
-    setTimeout(() => actx.close(), 26000);
+    setTimeout(() => actx.close(), 24000);
   } catch(e) {}
 
   // ── 20sn sonra çıkış ──────────────────────────────────
