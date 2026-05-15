@@ -6553,62 +6553,57 @@ function triggerMetro() {
     document.head.appendChild(st);
   }
 
-  // ── SES: Keskin "tık" darbeleri, radyasyona bağlı hız ──
+  // ── SES: Saf Geiger sayacı — sadece kuru "tık", bas yok, drone yok ──
   let _audioCtx = null, _geigerAlive = true, _radLevel = 0;
   try {
     _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    // Bandpass filtreli keskin darbe — Metro'nun o kuru "tık" sesi
-    function fireClick(vol) {
+    function fireClick() {
       if (!_audioCtx || !_geigerAlive) return;
       const sr = _audioCtx.sampleRate;
-      const len = Math.ceil(sr * 0.012); // 12ms — çok kısa ve keskin
+
+      // 1) Çok kısa beyaz gürültü patlaması (~6ms)
+      const len = Math.ceil(sr * 0.006);
       const buf = _audioCtx.createBuffer(1, len, sr);
       const d = buf.getChannelData(0);
-      // Kısa attack, hızlı exponential decay — tık sesi
       for (let i = 0; i < len; i++)
-        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 8) * (i < 3 ? i / 3 : 1);
+        d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (sr * 0.0008));
 
       const src = _audioCtx.createBufferSource();
-      // Bandpass: ~2kHz civarı — metalik tık
-      const bp = _audioCtx.createBiquadFilter();
-      bp.type = 'bandpass'; bp.frequency.value = 1800 + Math.random() * 800; bp.Q.value = 0.8;
-      const g = _audioCtx.createGain(); g.gain.value = vol * 1.2;
       src.buffer = buf;
-      src.connect(bp); bp.connect(g); g.connect(_audioCtx.destination);
+
+      // 2) Highpass → alçak frekansları tamamen kes, sadece "tık" kalır
+      const hp = _audioCtx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.value = 2200;
+      hp.Q.value = 0.5;
+
+      // 3) Çok kısa gain — gerçek sayaç gibi sert ve kısa
+      const g = _audioCtx.createGain();
+      g.gain.value = 0.55 + Math.random() * 0.25;
+
+      src.connect(hp); hp.connect(g); g.connect(_audioCtx.destination);
       src.start();
     }
 
-    // Radyasyon seviyesine göre dinamik tıkırtı
+    // Radyasyon seviyesine göre interval — başta yavaş, zirveye koşar
     let _nextClick = performance.now();
     function geigerLoop() {
       if (!_geigerAlive) return;
       const now = performance.now();
       if (now >= _nextClick) {
-        // _radLevel 0-1 arası → interval 600ms-30ms
-        const minInterval = 28, maxInterval = 580;
-        const interval = maxInterval - (_radLevel * (maxInterval - minInterval));
-        const vol = 0.3 + _radLevel * 0.5;
-        // Burst etkisi: zirvedeyken bazen çift/üçlü tık
-        const burst = _radLevel > 0.7 && Math.random() < 0.35 ? Math.floor(Math.random() * 3) + 2 : 1;
-        for (let b = 0; b < burst; b++) {
-          setTimeout(() => fireClick(vol * (0.7 + Math.random() * 0.3)), b * 15);
+        fireClick();
+        // _radLevel 0→1: 700ms → 35ms arası
+        const interval = 700 - (_radLevel * 665);
+        // Zirvedeyken ara sıra çift tık (gerçek sayaçta olur)
+        if (_radLevel > 0.75 && Math.random() < 0.28) {
+          setTimeout(fireClick, 18 + Math.random() * 20);
         }
-        _nextClick = now + interval + (Math.random() * interval * 0.4);
+        _nextClick = now + interval * (0.7 + Math.random() * 0.6);
       }
       requestAnimationFrame(geigerLoop);
     }
     geigerLoop();
-
-    // Ambient drone
-    const drone = _audioCtx.createOscillator();
-    const droneG = _audioCtx.createGain();
-    drone.type = 'sawtooth'; drone.frequency.value = 52;
-    droneG.gain.setValueAtTime(0, _audioCtx.currentTime);
-    droneG.gain.linearRampToValueAtTime(0.03, _audioCtx.currentTime + 1.5);
-    droneG.gain.linearRampToValueAtTime(0, _audioCtx.currentTime + 12);
-    drone.connect(droneG); droneG.connect(_audioCtx.destination);
-    drone.start(); drone.stop(_audioCtx.currentTime + 12.5);
   } catch(e) {}
 
   // ── VİZYON ──────────────────────────────────────────────
