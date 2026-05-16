@@ -1214,6 +1214,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="gtab" onclick="switchGTab('zamanlar')">🕐 Fiil Zamanları</button>
       <button class="gtab" onclick="switchGTab('fiilgr')">🎯 Fiil Grupları</button>
       <button class="gtab" onclick="switchGTab('emirki')">❗ Emir Kipi</button>
+      <button class="gtab" onclick="switchGTab('rejim')">🔗 Fiil Rejimleri</button>
+      <button class="gtab" onclick="switchGTab('asplist')">⚡ Aspect Çiftleri</button>
     </div>
 
     <!-- CASE TABLOLARI -->
@@ -2606,6 +2608,1796 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Proszę usiąść.</span> (Oturun lütfen.) &nbsp;·&nbsp;
         <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Czy mógłbyś...?</span> (... yapabilir misiniz?) &nbsp;·&nbsp;
         <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Mógłbyś mi pomóc?</span> (Bana yardım edebilir misin?)
+      </div>
+    </div>
+
+    <!-- FİİL REJİMLERİ -->
+    <div class="grammar-section" id="gsec-fiilrej">
+      <input type="text" class="zamir-search" id="fiilrej-search" placeholder="Ara... (Türkçe veya Lehçe — örn: sevmek, szukać, Celownik, dative)" oninput="filterFiilrej(this.value)">
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:var(--text);font-size:13px">Fiil Rejimleri (Rekcja Czasownika)</strong><br>
+        Türkçe'de fiil rejimi kavramı yok — bir fiil nesnesini her zaman -i/-ı/-u/-ü eki alır. Lehçe'de ise <strong style="color:var(--text)">hangi fiil hangi hali istediğini ayrı ayrı öğrenmek gerekir.</strong><br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">lubić</span> → Biernik &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#7090d0">szukać</span> → Dopełniacz &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#c8a050">dziękować</span> → Celownik &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#b080e0">interesować się</span> → Narzędnik
+      </div>
+
+      <div id="fiilrej-list">
+
+      <!-- BİERNİK -->
+      <div class="baglaç-cat" data-rej-cat="Biernik">
+        <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #e090c044">🎯 Biernik (kogo? co?) alan fiiller — en yaygın</div>
+        <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8">
+          <strong style="color:#e07070">⚠ Olumsuzda Dopełniacz'a döner!</strong> &nbsp; Lubię <strong style="color:#e090c0">kawę</strong> (B) → Nie lubię <strong style="color:#7090d0">kawy</strong> (D) · Czytam <strong style="color:#e090c0">książkę</strong> (B) → Nie czytam <strong style="color:#7090d0">książki</strong> (D)
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">lubić + Biernik</div><div class="baglaç-tr">sevmek, hoşlanmak</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Lubię kawę. · Lubię cię.</div><div class="baglaç-example-tr">Kahveyi seviyorum. · Seni seviyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Olumsuz: Nie lubię <strong>kawy</strong> (Dopeł.!)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">kochać + Biernik</div><div class="baglaç-tr">sevmek (derin, aşk)</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kocham cię. · Kocham muzykę.</div><div class="baglaç-example-tr">Seni seviyorum. · Müziği seviyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mieć + Biernik</div><div class="baglaç-tr">sahip olmak, -i var</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mam czas. · Mam psa.</div><div class="baglaç-example-tr">Zamanım var. · Bir köpeğim var.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Olumsuz: Nie mam <strong>czasu</strong> (Dopeł.!) / Nie mam <strong>psa</strong> (Dopeł.!)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">widzieć + Biernik</div><div class="baglaç-tr">görmek</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Widzę cię. · Widzę ten dom.</div><div class="baglaç-example-tr">Seni görüyorum. · O evi görüyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">czytać + Biernik</div><div class="baglaç-tr">okumak</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Czytam książkę. · Czytam gazetę.</div><div class="baglaç-example-tr">Kitap okuyorum. · Gazete okuyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">rozumieć + Biernik</div><div class="baglaç-tr">anlamak</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Rozumiem cię. · Rozumiem problem.</div><div class="baglaç-example-tr">Seni anlıyorum. · Sorunu anlıyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">znać + Biernik</div><div class="baglaç-tr">tanımak, bilmek (kişi/şey)</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Znam go. · Znam ten film.</div><div class="baglaç-example-tr">Onu tanıyorum. · O filmi biliyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">znać (tanımak) ≠ wiedzieć (bir bilgiyi bilmek: Wiem, że...)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pamiętać + Biernik</div><div class="baglaç-tr">hatırlamak</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pamiętam cię. · Pamiętam tamten dzień.</div><div class="baglaç-example-tr">Seni hatırlıyorum. · O günü hatırlıyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">pamiętać o + Miejscownik = bir şeyi düşünmek / unutmamak</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">słyszeć + Biernik</div><div class="baglaç-tr">duymak</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Słyszę cię. · Czy mnie słyszysz?</div><div class="baglaç-example-tr">Seni duyuyorum. · Beni duyuyor musun?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przepraszać + Biernik (kişi) + za + Biernik (sebep)</div><div class="baglaç-tr">özür dilemek</div><div class="baglaç-en">Biernik + za + Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przepraszam cię za spóźnienie.</div><div class="baglaç-example-tr">Geç kaldığım için senden özür diliyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">kişi: Biernik · sebep: za + Biernik</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pytać + Biernik (kişi) + o + Biernik (konu)</div><div class="baglaç-tr">sormak</div><div class="baglaç-en">Biernik + o + Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pytam cię o coś. · Pytam o cenę.</div><div class="baglaç-example-tr">Sana bir şey soruyorum. · Fiyatı soruyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">prosić + Biernik (kişi) + o + Biernik (şey)</div><div class="baglaç-tr">rica etmek, istemek</div><div class="baglaç-en">Biernik + o + Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Proszę cię o pomoc. · Proszę o wodę.</div><div class="baglaç-example-tr">Senden yardım istiyorum. · Su istiyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">woleć + Biernik</div><div class="baglaç-tr">tercih etmek</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wolę kawę (niż herbatę). · Wolę zostać.</div><div class="baglaç-example-tr">Kahveyi (çaydan çok) tercih ederim. · Kalmayı tercih ederim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">interesować + Biernik</div><div class="baglaç-tr">ilgilendirmek (ilgimi çekmek)</div><div class="baglaç-en">Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">To mnie interesuje. · Nic mnie nie interesuje.</div><div class="baglaç-example-tr">Bu beni ilgilendiriyor. · Hiçbir şey ilgimi çekmiyor.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">interesować (ilgilendirmek) ≠ interesować się + Narzędnik (ilgi duymak)</div></div></div>
+      </div>
+
+      <!-- DOPEŁNİACZ -->
+      <div class="baglaç-cat" data-rej-cat="Dopełniacz">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">📘 Dopełniacz (kogo? czego?) alan fiiller</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">szukać + Dopełniacz</div><div class="baglaç-tr">aramak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Szukam klucza. · Czego szukasz?</div><div class="baglaç-example-tr">Anahtar arıyorum. · Ne arıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">dk. znaleźć (bulmak) da Dopełniacz alır: Znalazłem <strong>klucza</strong>? Hayır: znaleźć + Biernik: Znalazłem <strong>klucz</strong>!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">słuchać + Dopełniacz</div><div class="baglaç-tr">dinlemek</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Słucham muzyki. · Słucham radia.</div><div class="baglaç-example-tr">Müzik dinliyorum. · Radyo dinliyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">słuchać (dinlemek) + Dopełniacz ≠ słyszeć (duymak) + Biernik</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">używać + Dopełniacz</div><div class="baglaç-tr">kullanmak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Używam słownika. · Używam tej metody.</div><div class="baglaç-example-tr">Sözlük kullanıyorum. · Bu yöntemi kullanıyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">potrzebować + Dopełniacz</div><div class="baglaç-tr">ihtiyaç duymak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Potrzebuję pomocy. · Potrzebuję czasu.</div><div class="baglaç-example-tr">Yardıma ihtiyacım var. · Zamana ihtiyacım var.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">uczyć się + Dopełniacz</div><div class="baglaç-tr">öğrenmek</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Uczę się polskiego. · Uczę się języków.</div><div class="baglaç-example-tr">Lehçe öğreniyorum. · Dil öğreniyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">uczyć się + Dopeł. (öğrenmek) ≠ uczyć + Biernik (öğretmek)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">bać się + Dopełniacz</div><div class="baglaç-tr">korkmak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Boję się pająków. · Boisz się ciemności?</div><div class="baglaç-example-tr">Örümceklerden korkuyorum. · Karanlıktan korkuyor musun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Çekim: boję się / boisz się / boi się / boimy się / boicie się / boją się</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wymagać + Dopełniacz</div><div class="baglaç-tr">gerektirmek</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">To wymaga czasu. · Praca wymaga skupienia.</div><div class="baglaç-example-tr">Bu zaman gerektiriyor. · İş konsantrasyon gerektiriyor.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">unikać + Dopełniacz</div><div class="baglaç-tr">kaçınmak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Unikam problemów. · Unikam tłumu.</div><div class="baglaç-example-tr">Sorunlardan kaçınıyorum. · Kalabalıktan kaçınıyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">spodziewać się + Dopełniacz</div><div class="baglaç-tr">beklemek, ummak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Spodziewam się gości. · Czego się spodziewasz?</div><div class="baglaç-example-tr">Misafir bekliyorum. · Ne bekliyorsun?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dotyczyć + Dopełniacz</div><div class="baglaç-tr">ilgilendirmek, ilgili olmak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">To dotyczy nas. · Czego to dotyczy?</div><div class="baglaç-example-tr">Bu bizi ilgilendiriyor. · Bu ne ile ilgili?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">gratulować + Celownik (kişi) + Dopełniacz (şey)</div><div class="baglaç-tr">tebrik etmek</div><div class="baglaç-en">Celownik + Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Gratuluję ci sukcesu! · Gratuluję wam ślubu!</div><div class="baglaç-example-tr">Başarını tebrik ediyorum! · Düğününüzü tebrik ediyoruz!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zazdrościć + Celownik (kişi) + Dopełniacz (şey)</div><div class="baglaç-tr">kıskanmak</div><div class="baglaç-en">Celownik + Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zazdroszczę ci sukcesu. · Zazdroszczę mu mieszkania.</div><div class="baglaç-example-tr">Başarını kıskanıyorum. · Dairesini kıskanıyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">żałować + Dopełniacz</div><div class="baglaç-tr">pişman olmak</div><div class="baglaç-en">Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Żałuję błędu. · Nie żałuję tej decyzji.</div><div class="baglaç-example-tr">Hatamdan pişmanım. · Bu kararımdan pişman değilim.</div></div></div>
+      </div>
+
+      <!-- CELOWNİK -->
+      <div class="baglaç-cat" data-rej-cat="Celownik">
+        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">➡ Celownik (komu? czemu?) alan fiiller</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dziękować + Celownik</div><div class="baglaç-tr">teşekkür etmek</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Dziękuję ci. · Dziękuję panu za pomoc.</div><div class="baglaç-example-tr">Sana teşekkür ediyorum. · Yardımınız için teşekkür ederim (Bay/Bayan).</div><div style="font-size:11px;color:var(--text3);margin-top:6px">dziękować komuś (C) za coś (za + B)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pomagać + Celownik</div><div class="baglaç-tr">yardım etmek</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pomagam mamie. · Czy mogę ci pomóc?</div><div class="baglaç-example-tr">Anneme yardım ediyorum. · Sana yardımcı olabilir miyim?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przeszkadzać + Celownik</div><div class="baglaç-tr">rahatsız etmek, engel olmak</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przeszkadzasz mi. · Czy przeszkadzam?</div><div class="baglaç-example-tr">Beni rahatsız ediyorsun. · Rahatsız ediyor muyum?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wierzyć + Celownik</div><div class="baglaç-tr">inanmak (birine)</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wierzę ci. · Nie wierzę mu.</div><div class="baglaç-example-tr">Sana inanıyorum. · Ona inanmıyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">wierzyć komuś (C) = birine inanmak / wierzyć w coś (w + B) = bir şeye inanmak</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">ufać + Celownik</div><div class="baglaç-tr">güvenmek</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Ufam ci. · Nie ufam mu.</div><div class="baglaç-example-tr">Sana güveniyorum. · Ona güvenmiyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">podobać się + Celownik</div><div class="baglaç-tr">hoşa gitmek, beğenmek</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Podoba mi się ten film. · Czy podoba ci się Polska?</div><div class="baglaç-example-tr">Bu filmi beğeniyorum. · Polonya'yı beğendin mi?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Özne film, beğenen kişi Celownik'te! mi → mi się podoba</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wydawać się + Celownik</div><div class="baglaç-tr">öyle görünmek, sanmak</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wydaje mi się, że masz rację. · Wydaje ci się!</div><div class="baglaç-example-tr">Bana haklı gibi görünüyorsun. · Sana öyle geliyor! (yanılıyorsun)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">brakować + Celownik (kişi) + Dopełniacz (şey)</div><div class="baglaç-tr">eksik olmak, -i olmamak</div><div class="baglaç-en">Celownik + Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Brakuje mi czasu. · Czego ci brakuje?</div><div class="baglaç-example-tr">Zamanım yok / Zamanım eksik. · Neyin eksik?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Sadece 3. tekil kullanılır: brakuje (not: brakuję!)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">udać się + Celownik</div><div class="baglaç-tr">başarmak (bir şeyin olması)</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Udało mi się! · Czy udało ci się zdać?</div><div class="baglaç-example-tr">Başardım! · Sınavı geçmeyi başardın mı?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Sadece geçmiş/gelecek kullanılır: udało się / uda się + becerinf.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">życzyć + Celownik (kişi) + Dopełniacz (şey)</div><div class="baglaç-tr">dilemek</div><div class="baglaç-en">Celownik + Dopełniacz</div><div class="baglaç-detail"><div class="baglaç-example-pl">Życzę ci szczęścia! · Życzę wam powodzenia!</div><div class="baglaç-example-tr">Mutluluklar diliyorum! · Başarılar diliyoruz!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">szkodzić + Celownik</div><div class="baglaç-tr">zarar vermek, sağlıksız olmak</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Palenie szkodzi zdrowiu. · To ci nie szkodzi.</div><div class="baglaç-example-tr">Sigara içmek sağlığa zararlı. · Bu sana zarar vermez.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">odpowiadać + Celownik</div><div class="baglaç-tr">cevap vermek; uymak</div><div class="baglaç-en">Celownik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Odpowiadam ci. · To mi odpowiada.</div><div class="baglaç-example-tr">Sana cevap veriyorum. · Bu bana uyuyor.</div></div></div>
+      </div>
+
+      <!-- NARZĘDNİK -->
+      <div class="baglaç-cat" data-rej-cat="Narzędnik">
+        <div class="baglaç-cat-title" style="background:#0d1a1c;color:#5dc0b0;border:1px solid #3a9a8a44">🔧 Narzędnik (kim? czym?) alan fiiller — özellikle się'li fiiller</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">interesować się + Narzędnik</div><div class="baglaç-tr">ilgi duymak, merak etmek</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Interesuję się muzyką. · Czym się interesujesz?</div><div class="baglaç-example-tr">Müzikle ilgileniyorum. · Nelerle ilgileniyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">interesować się (ilgi duymak) + N ≠ interesować (ilgilendirmek) + Biernik</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zajmować się + Narzędnik</div><div class="baglaç-tr">uğraşmak, ilgilenmek (iş olarak)</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zajmuję się sportem. · Czym się zajmujesz?</div><div class="baglaç-example-tr">Sporla uğraşıyorum. · Nelerle ilgileniyorsun? / Ne iş yapıyorsun?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">opiekować się + Narzędnik</div><div class="baglaç-tr">bakmak, gözetmek</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Opiekuję się dzieckiem. · Kto się tobą opiekuje?</div><div class="baglaç-example-tr">Çocuğa bakıyorum. · Sana kim bakıyor?</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">martwić się + Narzędnik / o + Biernik</div><div class="baglaç-tr">endişelenmek</div><div class="baglaç-en">Narzędnik / o + Biernik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Martwię się pracą. · Martwię się o ciebie.</div><div class="baglaç-example-tr">İş konusunda endişeleniyorum. · Senin için endişeleniyorum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">martwić się czymś (N) = bir şey endişe kaynağı / martwić się o kogoś (o+B) = birinin için endişe</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">być + Narzędnik</div><div class="baglaç-tr">olmak (meslek/kimlik)</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jestem nauczycielem. · Ona jest lekarką.</div><div class="baglaç-example-tr">Öğretmenim. · O doktor.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Kimlik/meslek = Narzędnik. Sıfat hali: Jest zmęczony (yorgun) = Mianownik</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zostać + Narzędnik</div><div class="baglaç-tr">olmak (dönüşüm)</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zostanę lekarzem. · Stał się bohaterem.</div><div class="baglaç-example-tr">Doktor olacağım. · Kahraman oldu.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">posługiwać się + Narzędnik</div><div class="baglaç-tr">kullanmak (dil/araç)</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Posługuję się angielskim. · Posługuje się słownikiem.</div><div class="baglaç-example-tr">İngilizce kullanıyorum. · Sözlük kullanıyor.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">chwalić się + Narzędnik</div><div class="baglaç-tr">övünmek</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Chwali się sukcesem. · Chwalę się nową pracą.</div><div class="baglaç-example-tr">Başarısıyla övünüyor. · Yeni işimle övünüyorum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zachwycać się + Narzędnik</div><div class="baglaç-tr">hayran kalmak</div><div class="baglaç-en">Narzędnik</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zachwycam się jej głosem. · Wszyscy się zachwycają.</div><div class="baglaç-example-tr">Sesine hayran kalıyorum. · Herkes hayran kalıyor.</div></div></div>
+      </div>
+
+      </div><!-- end fiilrej-list -->
+      <div id="fiilrej-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+    <!-- ASPECT ÇİFTLERİ -->
+    <div class="grammar-section" id="gsec-asppar">
+      <input type="text" class="zamir-search" id="asppar-search" placeholder="Ara... (Türkçe veya Lehçe — örn: yazmak, pisać, zadzwonić, telefon)" oninput="filterAsppar(this.value)">
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:var(--text);font-size:13px">Aspect Çiftleri (Pary Aspektowe)</strong> — Her satırda: sol = ndk. (niedokonany / devam eden), sağ = dk. (dokonany / tamamlanan). dk. nasıl oluşturulduğu renkle gösterilir:<br>
+        <span style="font-family:'DM Mono',monospace;color:#7090d0">önek eklendi</span> &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#c8a050">ek/son değişti</span> &nbsp;·&nbsp;
+        <span style="font-family:'DM Mono',monospace;color:#e07070">kök değişti — ezberle!</span>
+      </div>
+      <div id="asppar-list">
+
+      <!-- GÜNLÜK YAŞAM -->
+      <div class="baglaç-cat" data-asp-cat="Günlük Yaşam">
+        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #6dbf9a44">🏠 Günlük Yaşam</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">jeść</div><div class="baglaç-tr">zjeść</div><div class="baglaç-en">yemek · z- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jem obiad. (şu an yiyorum) · Zjedłem obiad. (yedim, bitti)</div><div class="baglaç-example-tr">Öğle yemeği yiyorum. · Öğle yemeğini yedim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pić</div><div class="baglaç-tr">wypić</div><div class="baglaç-en">içmek · wy- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Piję kawę. (içiyorum) · Wypiłem kawę. (içtim, bitti)</div><div class="baglaç-example-tr">Kahve içiyorum. · Kahveyi içtim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">gotować</div><div class="baglaç-tr">ugotować</div><div class="baglaç-en">pişirmek · u- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Gotuję obiad. · Ugotowałam zupę.</div><div class="baglaç-example-tr">Yemek pişiriyorum. · Çorba pişirdim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">myć</div><div class="baglaç-tr">umyć</div><div class="baglaç-en">yıkamak · u- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Myję ręce. · Umyłem naczynia.</div><div class="baglaç-example-tr">Ellerimi yıkıyorum. · Bulaşıkları yıkadım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">myć się</div><div class="baglaç-tr">umyć się</div><div class="baglaç-en">yıkanmak · u- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Myję się rano. · Umyłem się przed wyjściem.</div><div class="baglaç-example-tr">Sabahları yıkanıyorum. · Çıkmadan önce yıkandım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">sprzątać</div><div class="baglaç-tr">posprzątać</div><div class="baglaç-en">temizlemek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Sprzątam pokój. · Posprzątałem mieszkanie.</div><div class="baglaç-example-tr">Odayı temizliyorum. · Evi temizledim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">ubierać się</div><div class="baglaç-tr">ubrać się</div><div class="baglaç-en">giyinmek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Ubieram się szybko. · Ubrałem się i wyszedłem.</div><div class="baglaç-example-tr">Hızlı giyiniyorum. · Giyindim ve çıktım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wstawać</div><div class="baglaç-tr">wstać</div><div class="baglaç-en">kalkmak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wstaję o 7. · Wstałem wcześnie.</div><div class="baglaç-example-tr">Saat 7'de kalkıyorum. · Erkenden kalktım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">kłaść się</div><div class="baglaç-tr">położyć się</div><div class="baglaç-en">yatmak · kök değişimi ⚠</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kładę się spać o 23. · Położyłem się wcześnie.</div><div class="baglaç-example-tr">Saat 23'te uyumaya yatıyorum. · Erken yattım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">otwierać</div><div class="baglaç-tr">otworzyć</div><div class="baglaç-en">açmak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Otwieram okno. · Otworzyłem drzwi.</div><div class="baglaç-example-tr">Pencereyi açıyorum. · Kapıyı açtım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zamykać</div><div class="baglaç-tr">zamknąć</div><div class="baglaç-en">kapatmak · -nąć</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zamykam sklep o 20. · Zamknij drzwi!</div><div class="baglaç-example-tr">Dükkanı 20'de kapatıyorum. · Kapıyı kapat!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">malować</div><div class="baglaç-tr">pomalować / namalować</div><div class="baglaç-en">boyamak/resim yapmak · po-/na-</div><div class="baglaç-detail"><div class="baglaç-example-pl">Maluję ścianę. (boyuyorum) · Namalowałem obraz. (resim yaptım)</div><div class="baglaç-example-tr">Duvarı boyuyorum. · Tablo yaptım.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">pomalować = bir yüzeyi boyamak / namalować = resim yapmak</div></div></div>
+      </div>
+
+      <!-- İLETİŞİM -->
+      <div class="baglaç-cat" data-asp-cat="İletişim">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">💬 İletişim</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mówić</div><div class="baglaç-tr">powiedzieć</div><div class="baglaç-en">konuşmak/söylemek · kök değişimi ⚠</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mówię po polsku. · Powiedz mi, co się stało.</div><div class="baglaç-example-tr">Lehçe konuşuyorum. · Bana ne olduğunu söyle.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">mówić (konuşmak, genel) ≠ powiedzieć (söylemek, tek seferlik ifade)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pisać</div><div class="baglaç-tr">napisać</div><div class="baglaç-en">yazmak · na- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Piszę list. · Napisałem email.</div><div class="baglaç-example-tr">Mektup yazıyorum. · E-posta yazdım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">czytać</div><div class="baglaç-tr">przeczytać</div><div class="baglaç-en">okumak · prze- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Czytam książkę. · Przeczytałem artykuł.</div><div class="baglaç-example-tr">Kitap okuyorum. · Makaleyi okudum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dzwonić</div><div class="baglaç-tr">zadzwonić</div><div class="baglaç-en">aramak (telefon) · za- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Dzwonię do mamy. · Zadzwonię do ciebie.</div><div class="baglaç-example-tr">Annemi arıyorum. · Seni arayacağım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">słuchać</div><div class="baglaç-tr">posłuchać</div><div class="baglaç-en">dinlemek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Słucham muzyki. · Posłuchaj tego!</div><div class="baglaç-example-tr">Müzik dinliyorum. · Şunu dinle!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pytać</div><div class="baglaç-tr">zapytać</div><div class="baglaç-en">sormak · za- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pytam nauczyciela. · Zapytałem o drogę.</div><div class="baglaç-example-tr">Öğretmene soruyorum. · Yolu sordum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">odpowiadać</div><div class="baglaç-tr">odpowiedzieć</div><div class="baglaç-en">cevap vermek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Odpowiadam na pytania. · Odpowiedziałem od razu.</div><div class="baglaç-example-tr">Soruları cevaplıyorum. · Hemen cevapladım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">rozmawiać</div><div class="baglaç-tr">porozmawiać</div><div class="baglaç-en">konuşmak (sohbet) · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Rozmawiamy godzinami. · Porozmawiajmy o tym.</div><div class="baglaç-example-tr">Saatlerce konuşuyoruz. · Bunu konuşalım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">tłumaczyć</div><div class="baglaç-tr">przetłumaczyć</div><div class="baglaç-en">çevirmek · prze- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Tłumaczę tekst. · Przetłumaczyłem zdanie.</div><div class="baglaç-example-tr">Metni çeviriyorum. · Cümleyi çevirdim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">śpiewać</div><div class="baglaç-tr">zaśpiewać</div><div class="baglaç-en">şarkı söylemek · za- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Śpiewam w chórze. · Zaśpiewaj coś!</div><div class="baglaç-example-tr">Koroda şarkı söylüyorum. · Bir şeyler söyle!</div></div></div>
+      </div>
+
+      <!-- HAREKET -->
+      <div class="baglaç-cat" data-asp-cat="Hareket">
+        <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #e090c044">🚶 Hareket Fiilleri</div>
+        <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8">
+          <strong style="color:#c8b89a">Hareket fiillerinde ek kural:</strong> ndk. fiillerin iki formu var — <span style="font-family:'DM Mono',monospace;color:#5dc0b0">iść</span> (tek yönlü, o an gidiyor) vs <span style="font-family:'DM Mono',monospace;color:#5dc0b0">chodzić</span> (alışkanlık, gidip geliyor). dk. her ikisi için de <span style="font-family:'DM Mono',monospace;color:#5dc0b0">pójść</span>.
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">iść / chodzić</div><div class="baglaç-tr">pójść</div><div class="baglaç-en">gitmek (yürüyerek) · po- öneki ⚠</div><div class="baglaç-detail"><div class="baglaç-example-pl">Idę do sklepu. (şu an gidiyorum) · Chodzę do szkoły. (her gün gidiyorum) · Pójdę jutro. (gideceğim)</div><div class="baglaç-example-tr">Markete gidiyorum. · Okula gidiyorum (alışkanlık). · Yarın gideceğim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">jechać / jeździć</div><div class="baglaç-tr">pojechać</div><div class="baglaç-en">gitmek (araçla) · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Jadę do Warszawy. · Jeżdżę do pracy autem. · Pojadę w weekend.</div><div class="baglaç-example-tr">Varşova'ya gidiyorum. · İşe arabayla gidiyorum. · Hafta sonu gideceğim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przychodzić</div><div class="baglaç-tr">przyjść</div><div class="baglaç-en">gelmek (yürüyerek) · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przychodzę na czas. · Przyjdź do mnie!</div><div class="baglaç-example-tr">Zamanında geliyorum. · Bana gel!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przyjeżdżać</div><div class="baglaç-tr">przyjechać</div><div class="baglaç-en">gelmek (araçla) · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przyjeżdżam w piątek. · Przyjechałem wczoraj.</div><div class="baglaç-example-tr">Cuma günü geliyorum. · Dün geldim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wychodzić</div><div class="baglaç-tr">wyjść</div><div class="baglaç-en">çıkmak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wychodzę o 8. · Wyszedłem przed chwilą.</div><div class="baglaç-example-tr">Saat 8'de çıkıyorum. · Az önce çıktım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">wracać</div><div class="baglaç-tr">wrócić</div><div class="baglaç-en">dönmek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Wracam do domu. · Wróciłem późno.</div><div class="baglaç-example-tr">Eve dönüyorum. · Geç döndüm.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">biec / biegać</div><div class="baglaç-tr">pobiec</div><div class="baglaç-en">koşmak · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Biegnę na autobus! · Pobiegłem za nim.</div><div class="baglaç-example-tr">Otobüse koşuyorum! · Onun peşinden koştum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zostawać</div><div class="baglaç-tr">zostać</div><div class="baglaç-en">kalmak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zostaję w domu. · Zostanę na kolację.</div><div class="baglaç-example-tr">Evde kalıyorum. · Akşam yemeğine kalacağım.</div></div></div>
+      </div>
+
+      <!-- SIK KULLANILANLAR -->
+      <div class="baglaç-cat" data-asp-cat="Sık Kullanılan">
+        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #6dbf9a44">⭐ Çok Kullanılan Fiil Çiftleri</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">robić</div><div class="baglaç-tr">zrobić</div><div class="baglaç-en">yapmak · z- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Robię zadanie. · Zrobiłem wszystko.</div><div class="baglaç-example-tr">Ödev yapıyorum. · Her şeyi yaptım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">kupować</div><div class="baglaç-tr">kupić</div><div class="baglaç-en">satın almak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kupuję chleb co dzień. · Kupiłem bilet.</div><div class="baglaç-example-tr">Her gün ekmek alıyorum. · Bilet aldım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">płacić</div><div class="baglaç-tr">zapłacić</div><div class="baglaç-en">ödemek · za- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Płacę kartą. · Zapłaciłem rachunek.</div><div class="baglaç-example-tr">Kartla ödüyorum. · Hesabı ödedim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">sprzedawać</div><div class="baglaç-tr">sprzedać</div><div class="baglaç-en">satmak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Sprzedaję samochód. · Sprzedałem mieszkanie.</div><div class="baglaç-example-tr">Araba satıyorum. · Dairemi sattım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zamawiać</div><div class="baglaç-tr">zamówić</div><div class="baglaç-en">sipariş vermek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zamawiam pizzę. · Zamówiłem stolik.</div><div class="baglaç-example-tr">Pizza sipariş ediyorum. · Masa rezervasyonu yaptım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zaczynać</div><div class="baglaç-tr">zacząć</div><div class="baglaç-en">başlamak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zaczynam pracę o 9. · Zacząłem naukę.</div><div class="baglaç-example-tr">İşe saat 9'da başlıyorum. · Öğrenmeye başladım.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">kończyć</div><div class="baglaç-tr">skończyć</div><div class="baglaç-en">bitirmek · s- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kończę pracę o 17. · Skończyłem książkę.</div><div class="baglaç-example-tr">İşi saat 17'de bitiriyorum. · Kitabı bitirdim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zmieniać</div><div class="baglaç-tr">zmienić</div><div class="baglaç-en">değiştirmek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Zmieniam zdanie. · Zmieniłem pracę.</div><div class="baglaç-example-tr">Fikrimi değiştiriyorum. · İşimi değiştirdim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">powtarzać</div><div class="baglaç-tr">powtórzyć</div><div class="baglaç-en">tekrarlamak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Powtarzam słówka. · Powtórz to, proszę.</div><div class="baglaç-example-tr">Kelimeleri tekrarlıyorum. · Lütfen tekrar et.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">uczyć</div><div class="baglaç-tr">nauczyć</div><div class="baglaç-en">öğretmek · na- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Uczę języka polskiego. · Nauczyłem go grać.</div><div class="baglaç-example-tr">Lehçe öğretiyorum. · Ona çalmayı öğrettim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">uczyć się</div><div class="baglaç-tr">nauczyć się</div><div class="baglaç-en">öğrenmek · na- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Uczę się polskiego. · Nauczyłem się pływać.</div><div class="baglaç-example-tr">Lehçe öğreniyorum. · Yüzmeyi öğrendim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">czekać</div><div class="baglaç-tr">poczekać</div><div class="baglaç-en">beklemek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Czekam na ciebie. · Poczekaj chwilę!</div><div class="baglaç-example-tr">Seni bekliyorum. · Bir dakika bekle!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">myśleć</div><div class="baglaç-tr">pomyśleć</div><div class="baglaç-en">düşünmek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Myślę o tobie. · Pomyślę o tym.</div><div class="baglaç-example-tr">Seni düşünüyorum. · Bunu düşüneceğim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">czuć</div><div class="baglaç-tr">poczuć</div><div class="baglaç-en">hissetmek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Czuję się dobrze. · Poczułem ból.</div><div class="baglaç-example-tr">İyi hissediyorum. · Ağrı hissettim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pamiętać</div><div class="baglaç-tr">zapamiętać</div><div class="baglaç-en">hatırlamak/aklında tutmak · za- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pamiętam cię. · Zapamiętaj to!</div><div class="baglaç-example-tr">Seni hatırlıyorum. · Bunu aklında tut!</div><div style="font-size:11px;color:var(--text3);margin-top:6px">pamiętać (hatırlamak, süregelen) / zapamiętać (aklında kalıcı olarak tutmak)</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">zapominać</div><div class="baglaç-tr">zapomnieć</div><div class="baglaç-en">unutmak · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Ciągle zapominam. · Zapomniałem hasła.</div><div class="baglaç-example-tr">Sürekli unutuyorum. · Şifreyi unuttum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dziękować</div><div class="baglaç-tr">podziękować</div><div class="baglaç-en">teşekkür etmek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Dziękuję ci. · Podziękowałem za pomoc.</div><div class="baglaç-example-tr">Teşekkür ediyorum. · Yardımı için teşekkür ettim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">przepraszać</div><div class="baglaç-tr">przeprosić</div><div class="baglaç-en">özür dilemek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Przepraszam za spóźnienie. · Przeprosiłem ją.</div><div class="baglaç-example-tr">Geç kaldığım için özür dilerim. · Ondan özür diledim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">prosić</div><div class="baglaç-tr">poprosić</div><div class="baglaç-en">rica etmek · po- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Proszę o wodę. · Poprosiłem o pomoc.</div><div class="baglaç-example-tr">Su istiyorum. · Yardım istedim.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">dawać</div><div class="baglaç-tr">dać</div><div class="baglaç-en">vermek · kök değişimi ⚠</div><div class="baglaç-detail"><div class="baglaç-example-pl">Daję ci szansę. · Daj mi to!</div><div class="baglaç-example-tr">Sana şans veriyorum. · Bunu bana ver!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pokazywać</div><div class="baglaç-tr">pokazać</div><div class="baglaç-en">göstermek · ek değişimi</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pokazuję ci drogę. · Pokaż mi zdjęcie.</div><div class="baglaç-example-tr">Sana yolu gösteriyorum. · Bana fotoğrafı göster.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">grać</div><div class="baglaç-tr">zagrać</div><div class="baglaç-en">oynamak/çalmak · za- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Gram na gitarze. · Zagraj coś!</div><div class="baglaç-example-tr">Gitar çalıyorum. · Bir şeyler çal!</div></div></div>
+      </div>
+
+      <!-- KÖK DEĞİŞİMİ — EZBERLE -->
+      <div class="baglaç-cat" data-asp-cat="Kök Değişimi">
+        <div class="baglaç-cat-title" style="background:#200d0d;color:#e07070;border:1px solid #e0707044">⚠ Kök Değişimi — Mutlaka Ezberle!</div>
+        <div style="font-size:11px;color:var(--text3);background:var(--red-bg);border:1px solid var(--red);border-radius:8px;padding:8px 12px;margin-bottom:10px;line-height:1.8">
+          Bu çiftlerde ndk. ve dk. form arasında <strong style="color:#e07070">hiçbir mantıksal bağ yok</strong> — tamamen farklı köklerden geliyorlar. Tek yol: ezbere!
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">mówić</div><div class="baglaç-tr">powiedzieć</div><div class="baglaç-en">konuşmak / söylemek</div><div class="baglaç-detail"><div class="baglaç-example-pl">Mówię wolno. · Powiedz prawdę!</div><div class="baglaç-example-tr">Yavaş konuşuyorum. · Gerçeği söyle!</div><div style="font-size:11px;color:var(--text3);margin-top:6px">powiedzieć çekimi: powiem/powiesz/powie/powiemy/powiecie/powiedzą</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">brać</div><div class="baglaç-tr">wziąć</div><div class="baglaç-en">almak</div><div class="baglaç-detail"><div class="baglaç-example-pl">Biorę udział. · Weź parasol!</div><div class="baglaç-example-tr">Katılıyorum. · Şemsiye al!</div><div style="font-size:11px;color:var(--text3);margin-top:6px">wziąć: wezmę/weźmiesz/weźmie... Geçmiş: wziąłem/wzięłam</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">widzieć</div><div class="baglaç-tr">zobaczyć</div><div class="baglaç-en">görmek</div><div class="baglaç-detail"><div class="baglaç-example-pl">Widzę cię. · Zobaczysz, będzie dobrze!</div><div class="baglaç-example-tr">Seni görüyorum. · Görürsün, iyi olacak!</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">oglądać</div><div class="baglaç-tr">obejrzeć</div><div class="baglaç-en">seyretmek, izlemek</div><div class="baglaç-detail"><div class="baglaç-example-pl">Oglądam film. · Obejrzałem serial.</div><div class="baglaç-example-tr">Film seyrediyorum. · Diziyi izledim.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">obejrzeć: obejrzę/obejrzysz/obejrzy...</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">szukać</div><div class="baglaç-tr">znaleźć</div><div class="baglaç-en">aramak / bulmak</div><div class="baglaç-detail"><div class="baglaç-example-pl">Szukam klucza. · Znalazłem pracę!</div><div class="baglaç-example-tr">Anahtar arıyorum. · İş buldum!</div><div style="font-size:11px;color:var(--text3);margin-top:6px">znaleźć: znajdę/znajdziesz/znajdzie... Anlamca zıt: aramak → bulmak</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">kłaść</div><div class="baglaç-tr">położyć</div><div class="baglaç-en">koymak, yatırmak</div><div class="baglaç-detail"><div class="baglaç-example-pl">Kładę książkę. · Połóż to na stole.</div><div class="baglaç-example-tr">Kitabı koyuyorum. · Onu masaya koy.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">pomagać</div><div class="baglaç-tr">pomóc</div><div class="baglaç-en">yardım etmek</div><div class="baglaç-detail"><div class="baglaç-example-pl">Pomagam ci. · Pomożesz mi?</div><div class="baglaç-example-tr">Sana yardım ediyorum. · Bana yardım eder misin?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">pomóc: pomogę/pomożesz/pomoże/pomożemy/pomożecie/pomogą</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">słyszeć</div><div class="baglaç-tr">usłyszeć</div><div class="baglaç-en">duymak · u- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Słyszę muzykę. · Usłyszałem hałas.</div><div class="baglaç-example-tr">Müzik duyuyorum. · Gürültü duydum.</div></div></div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">rozumieć</div><div class="baglaç-tr">zrozumieć</div><div class="baglaç-en">anlamak · z- öneki</div><div class="baglaç-detail"><div class="baglaç-example-pl">Rozumiem. · Zrozumiałem w końcu!</div><div class="baglaç-example-tr">Anlıyorum. · Sonunda anladım!</div></div></div>
+      </div>
+
+      <!-- PREFİKS REFERANSI -->
+      <div class="baglaç-cat" data-asp-cat="Prefiks">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#c8b89a;border:1px solid #c8b89a44">📋 Prefiks Referansı — Hangi önek ne anlam katar?</div>
+        <div style="overflow-x:auto;margin-bottom:6px">
+          <table class="zamir-kisi-table">
+            <thead><tr><th>Önek</th><th>Sık eşleşme</th><th>Örnek çift</th><th>Not</th></tr></thead>
+            <tbody>
+              <tr><td class="z-form" style="color:#7090d0">na-</td><td style="font-size:11px;color:var(--text3)">yazma, doldurma, öğretme</td><td class="z-form" style="font-size:11px">pisać → napisać<br>uczyć → nauczyć</td><td style="font-size:11px;color:var(--text3)">En nötr "tamamlandı" öneki</td></tr>
+              <tr><td class="z-form" style="color:#7090d0">z-/s-/ś-</td><td style="font-size:11px;color:var(--text3)">yapma, inşa, oluşturma</td><td class="z-form" style="font-size:11px">robić → zrobić<br>kończyć → skończyć</td><td style="font-size:11px;color:var(--text3)">z- veya s- (söylenişe göre)</td></tr>
+              <tr><td class="z-form" style="color:#7090d0">po-</td><td style="font-size:11px;color:var(--text3)">kısa süre, biraz yapma</td><td class="z-form" style="font-size:11px">czytać → przeczytać<br>myśleć → pomyśleć</td><td style="font-size:11px;color:var(--text3)">Bazen "biraz" nüansı katar</td></tr>
+              <tr><td class="z-form" style="color:#7090d0">za-</td><td style="font-size:11px;color:var(--text3)">başlama, kapatma, iletişim</td><td class="z-form" style="font-size:11px">dzwonić → zadzwonić<br>płacić → zapłacić</td><td style="font-size:11px;color:var(--text3)">Telefon fiilleriyle çok sık</td></tr>
+              <tr><td class="z-form" style="color:#7090d0">u-</td><td style="font-size:11px;color:var(--text3)">yıkama, pişirme, duyma</td><td class="z-form" style="font-size:11px">myć → umyć<br>gotować → ugotować</td><td style="font-size:11px;color:var(--text3)">Temizlik/yemek fiilleriyle</td></tr>
+              <tr><td class="z-form" style="color:#7090d0">prze-</td><td style="font-size:11px;color:var(--text3)">okuma, çevirme, geçme</td><td class="z-form" style="font-size:11px">czytać → przeczytać<br>tłumaczyć → przetłumaczyć</td><td style="font-size:11px;color:var(--text3)">"Boydan boya" nüansı</td></tr>
+              <tr><td class="z-form" style="color:#7090d0">wy-</td><td style="font-size:11px;color:var(--text3)">içme, çıkma, kazanma</td><td class="z-form" style="font-size:11px">pić → wypić<br>chodzić → wyjść</td><td style="font-size:11px;color:var(--text3)">"Dışarı" yönü taşır</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      </div><!-- end asppar-list -->
+      <div id="asppar-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+    <!-- FİİL REJİMLERİ -->
+    <div class="grammar-section" id="gsec-rejim">
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:var(--text);font-size:13px">Fiil Rejimleri (Rekcja Czasownika)</strong><br>
+        Türkçe'de fiil rejimi yoktur — fiil hangi durumda olursa olsun nesneyi değiştirmez. Lehçe'de ise her fiil <strong style="color:var(--text)">hangi hali aldığını belirtir</strong> ve bu değişmez. <span style="font-family:'DM Mono',monospace;color:#5dc0b0">lubić</span> her zaman Biernik, <span style="font-family:'DM Mono',monospace;color:#7090d0">szukać</span> her zaman Dopełniacz ister.<br>
+        <strong style="color:#e07070">⚠ Olumsuzda her zaman:</strong> Biernik nesnesi → Dopełniacz'e döner. <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Mam kawę</span> → <span style="font-family:'DM Mono',monospace;color:#e07070">Nie mam kawy</span>
+      </div>
+      <input type="text" class="zamir-search" id="rejim-search" placeholder="Ara... (Türkçe veya Lehçe — örn: sevmek, szukać, Celownik)" oninput="filterRejim(this.value)">
+      <div id="rejim-list">
+
+      <!-- BİERNİK -->
+      <div class="baglaç-cat" data-rejim-cat="Biernik">
+        <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a044">🎯 Biernik (kogo? co?) alan fiiller — doğrudan nesne</div>
+        <div style="background:var(--red-bg);border:1px solid #c060a044;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:var(--text2);line-height:1.7">
+          <strong style="color:#e090c0">Olumsuzda Dopełniacz!</strong> — <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Lubię kawę</span> → <span style="font-family:'DM Mono',monospace;color:#e07070">Nie lubię kawy</span> &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Mam czas</span> → <span style="font-family:'DM Mono',monospace;color:#e07070">Nie mam czasu</span>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">lubić + <strong>B</strong></div>
+          <div class="baglaç-tr">sevmek, hoşlanmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Lubię kawę. · Lubię cię.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Kahveyi seviyorum. · Seni seviyorum.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kochać + <strong>B</strong></div>
+          <div class="baglaç-tr">sevmek (aşk)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Kocham Polskę. · Kocham cię.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Polonya'yı seviyorum. · Seni seviyorum.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">mieć + <strong>B</strong></div>
+          <div class="baglaç-tr">sahip olmak, olmak (bir şeyi)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Mam samochód. · Masz czas?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Arabam var. · Vaktın var mı?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">widzieć + <strong>B</strong></div>
+          <div class="baglaç-tr">görmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Widzę cię. · Widziałem ten film.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni görüyorum. · O filmi gördüm.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">znać + <strong>B</strong></div>
+          <div class="baglaç-tr">tanımak, bilmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Znam go. · Znasz ten utwór?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Onu tanıyorum. · Bu parçayı biliyor musun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">znać + B (kişi/şey) vs wiedzieć + że... (bilgi/fakt)</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rozumieć + <strong>B</strong></div>
+          <div class="baglaç-tr">anlamak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Rozumiem cię. · Nie rozumiem tego słowa.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni anlıyorum. · Bu kelimeyi anlamıyorum.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">czytać + <strong>B</strong></div>
+          <div class="baglaç-tr">okumak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Czytam książkę. · Czytasz gazetę?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Kitap okuyorum. · Gazete okuyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pamiętać + <strong>B</strong></div>
+          <div class="baglaç-tr">hatırlamak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Pamiętam cię. · Pamiętasz ten dzień?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni hatırlıyorum. · O günü hatırlıyor musun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">spotykać + <strong>B</strong></div>
+          <div class="baglaç-tr">karşılaşmak, buluşmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Spotykam przyjaciela. · Spotykamy się w kawiarni.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Arkadaşımla buluşuyorum. · Kafede buluşuyoruz.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">czekać na + <strong>B</strong></div>
+          <div class="baglaç-tr">beklemek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Czekam na ciebie. · Czekamy na autobus.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni bekliyorum. · Otobüs bekliyoruz.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">na + Biernik: yön/hedef anlamı</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pytać + <strong>B</strong> o + <strong>B</strong></div>
+          <div class="baglaç-tr">sormak (birine bir şeyi)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#e090c0;letter-spacing:.08em">Biernik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Pytam cię o radę. · Zapytał mnie o drogę.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Sana tavsiye soruyorum. · Bana yol sordu.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOPEŁNIACZlı rejim -->
+      <div class="baglaç-cat" data-rejim-cat="Dopełniacz">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">📘 Dopełniacz (kogo? czego?) alan fiiller</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">szukać + <strong>D</strong></div>
+          <div class="baglaç-tr">aramak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Szukam klucza. · Czego szukasz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Anahtarı arıyorum. · Ne arıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Dikkat: szukam <em>klucza</em> (D), not klucz!</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">słuchać + <strong>D</strong></div>
+          <div class="baglaç-tr">dinlemek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Słucham muzyki. · Słuchasz radia?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Müzik dinliyorum. · Radyo dinliyor musun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Dikkat: słucham <em>muzyki</em> (D), not muzyka!</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">uczyć się + <strong>D</strong></div>
+          <div class="baglaç-tr">öğrenmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Uczę się polskiego. · Uczysz się czego?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Lehçe öğreniyorum. · Ne öğreniyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">uczyć się + D (öğrenmek) vs uczyć + B (öğretmek)</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">potrzebować + <strong>D</strong></div>
+          <div class="baglaç-tr">ihtiyaç duymak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Potrzebuję pomocy. · Czego potrzebujesz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Yardıma ihtiyacım var. · Neye ihtiyacın var?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">używać + <strong>D</strong></div>
+          <div class="baglaç-tr">kullanmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Używam słownika. · Jakiego słownika używasz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Sözlük kullanıyorum. · Hangi sözlüğü kullanıyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">bać się + <strong>D</strong></div>
+          <div class="baglaç-tr">korkmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Boję się pająków. · Czego się boisz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Örümceklerden korkuyorum. · Neden korkuyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">boję się / boisz się / boi się / boimy się / boicie się / boją się</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">żałować + <strong>D</strong></div>
+          <div class="baglaç-tr">pişman olmak, üzülmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Żałuję tego. · Żałujesz czego?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Bunun için pişmanım. · Ne için pişmansın?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">nienawidzić + <strong>D</strong></div>
+          <div class="baglaç-tr">nefret etmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Nienawidzę kłamstwa. · Nienawidzę go.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Yalandan nefret ediyorum. · Ondan nefret ediyorum.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zapomnieć + <strong>D</strong></div>
+          <div class="baglaç-tr">unutmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Zapomniałem hasła. · Zapomniałam jego imienia.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Parolayı unuttum. · Adını unuttum.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">zapomnieć o + Miejscownik de mümkün: zapomniałem o spotkaniu</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">oczekiwać + <strong>D</strong></div>
+          <div class="baglaç-tr">beklemek, ummak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Oczekuję odpowiedzi. · Czego oczekujesz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Yanıt bekliyorum. · Ne bekliyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pilnować + <strong>D</strong></div>
+          <div class="baglaç-tr">gözetmek, korumak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#7090d0;letter-spacing:.08em">Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Pilnuję dziecka. · Pilnuj swoich rzeczy.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Çocuğu gözetiyorum. · Eşyalarına dikkat et.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CELOWNİKlı rejim -->
+      <div class="baglaç-cat" data-rejim-cat="Celownik">
+        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">➡ Celownik (komu? czemu?) alan fiiller</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pomagać + <strong>C</strong></div>
+          <div class="baglaç-tr">yardım etmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Pomagam mamie. · Pomóż mi!</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Anneme yardım ediyorum. · Bana yardım et!</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">dziękować + <strong>C</strong></div>
+          <div class="baglaç-tr">teşekkür etmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Dziękuję ci. · Dziękuję panu/pani.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Sana teşekkür ederim. · Size teşekkür ederim.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Kibarca: Dziękuję panu (Bay'a) / pani (Bayan'a) — Celownik!</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">ufać + <strong>C</strong></div>
+          <div class="baglaç-tr">güvenmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Ufam ci. · Nie ufam mu.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Sana güveniyorum. · Ona güvenmiyorum.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wierzyć + <strong>C</strong></div>
+          <div class="baglaç-tr">inanmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Wierzę ci. · Czy wierzysz mi?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Sana inanıyorum. · Bana inanıyor musun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">wierzyć komuś (birine inanmak) vs wierzyć w coś (bir şeye inanmak → Biernik)</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">przeszkadzać + <strong>C</strong></div>
+          <div class="baglaç-tr">rahatsız etmek, engel olmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Przeszkadzam ci? · Muzyka mi przeszkadza.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni rahatsız ediyor muyum? · Müzik beni rahatsız ediyor.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">podobać się + <strong>C</strong></div>
+          <div class="baglaç-tr">güzel gelmek, hoşa gitmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Podoba mi się ten film. · Podoba ci się?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Bu film hoşuma gitti. · Hoşuna gitti mi?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Türkçeden fark: özne şey, Celownik'te kişi var — <em>Bana hoşa gidiyor</em> değil <em>Benim hoşuma gidiyor</em></div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zazdrościć + <strong>C</strong> + <strong>D</strong></div>
+          <div class="baglaç-tr">kıskanmak (birine bir şeyi)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik + Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Zazdroszczę ci talentu. · Czego mi zazdroszczysz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Yeteneğini kıskanıyorum. · Bende neyi kıskanıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Çift hal: zazdrościć <em>komuś</em> (C) <em>czegoś</em> (D)</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">gratulować + <strong>C</strong> + <strong>D</strong></div>
+          <div class="baglaç-tr">kutlamak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik + Dopełniacz</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Gratuluję ci sukcesu! · Gratuluję zwycięstwa!</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Başarını kutluyorum! · Zaferini kutluyorum!</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pozwolić + <strong>C</strong></div>
+          <div class="baglaç-tr">izin vermek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Pozwól mi mówić. · Mama nie pozwala mi wychodzić.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Beni konuşturun. · Annem dışarı çıkmama izin vermiyor.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kibicować + <strong>C</strong></div>
+          <div class="baglaç-tr">tarafını tutmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#c8a050;letter-spacing:.08em">Celownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Kibicuję Polsce. · Komu kibicujesz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Polonya'yı tutuyorum. · Kimi tutuyorsun?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NARZĘDNİKlı rejim -->
+      <div class="baglaç-cat" data-rejim-cat="Narzędnik">
+        <div class="baglaç-cat-title" style="background:#0d1a1c;color:#5dc0b0;border:1px solid #3a9a8a44">🔧 Narzędnik (kim? czym?) alan fiiller</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:var(--text2);line-height:1.7">
+          <strong style="color:#5dc0b0">💡 Önemli kural:</strong> <span style="font-family:'DM Mono',monospace;color:#5dc0b0">być / zostać + Narzędnik</span> — meslek, ünvan, kimlik belirtmek için. <span style="font-family:'DM Mono',monospace;color:#5dc0b0">Jestem studentem.</span> (Öğrenciyim.)
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">interesować się + <strong>N</strong></div>
+          <div class="baglaç-tr">ilgilenmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Interesuję się muzyką. · Czym się interesujesz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Müzikle ilgileniyorum. · Neyle ilgileniyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zajmować się + <strong>N</strong></div>
+          <div class="baglaç-tr">uğraşmak, meşgul olmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Zajmuję się fotografią. · Czym się zajmujesz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Fotoğrafçılıkla uğraşıyorum. · Ne iş yapıyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Meslek sorarken de kullanılır</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">martwić się + <strong>N</strong></div>
+          <div class="baglaç-tr">endişelenmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Martwię się tobą. · Czym się martwisz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Senin için endişeleniyorum. · Ne için endişeleniyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">bawić się + <strong>N</strong></div>
+          <div class="baglaç-tr">oynamak (bir şeyle)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Bawię się piłką. · Dziecko bawi się zabawkami.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Topla oynuyorum. · Çocuk oyuncaklarla oynuyor.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">cieszyć się + <strong>N</strong></div>
+          <div class="baglaç-tr">sevinmek, memnun olmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Cieszę się sukcesem. · Cieszy się nowym samochodem.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Başarımdan mutluyum. · Yeni arabasından mutlu.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">być + <strong>N</strong></div>
+          <div class="baglaç-tr">olmak (meslek/kimlik)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Jestem studentem. · Jest nauczycielką.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Öğrenciyim. · O öğretmen (dişi).</div><div style="font-size:11px;color:var(--text3);margin-top:6px">Kalıcı kimlik için Narzędnik! To jest student (Bu bir öğrenci) → Biernik, Jestem studentem → Narzędnik</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zostać + <strong>N</strong></div>
+          <div class="baglaç-tr">olmak (dönüşüm)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Zostałem lekarzem. · Chcę zostać aktorem.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Doktor oldum. · Aktör olmak istiyorum.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">chwalić się + <strong>N</strong></div>
+          <div class="baglaç-tr">övünmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Chwali się swoim samochodem. · Czym się chwalisz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Arabasıyla övünüyor. · Neyle övünüyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pachnieć + <strong>N</strong></div>
+          <div class="baglaç-tr">kokmak (bir koku)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#5dc0b0;letter-spacing:.08em">Narzędnik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Pachnie kawą. · Czym pachnie?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Kahve kokuyor. · Ne kokuyor?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MİEJSCOWNİKlı rejim -->
+      <div class="baglaç-cat" data-rejim-cat="Miejscownik">
+        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #4a9a6a44">📍 Miejscownik (o kim? o czym?) — her zaman edat ile</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">myśleć o + <strong>M</strong></div>
+          <div class="baglaç-tr">düşünmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Myślę o tobie. · O czym myślisz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni düşünüyorum. · Ne düşünüyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">mówić o + <strong>M</strong></div>
+          <div class="baglaç-tr">bahsetmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Mówimy o pogodzie. · O czym mówisz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Havadan bahsediyoruz. · Neden bahsediyorsun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">marzyć o + <strong>M</strong></div>
+          <div class="baglaç-tr">hayal etmek, arzulamak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Marzę o wakacjach. · O czym marzysz?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Tatil hayal ediyorum. · Ne hayal ediyorsun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">marzyć o (hayalindeki şey) vs śnić o (rüyada görmek)</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zapomnieć o + <strong>M</strong></div>
+          <div class="baglaç-tr">unutmak (bir şeyi, konuyu)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Zapomniałem o spotkaniu. · O czym zapomniałeś?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Toplantıyı unuttum. · Neyi unuttun?</div><div style="font-size:11px;color:var(--text3);margin-top:6px">zapomnieć + D (şifre/isim gibi somut) vs zapomnieć o + M (randevu/konu gibi)</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wiedzieć o + <strong>M</strong></div>
+          <div class="baglaç-tr">bilmek, haberdar olmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Wiem o tym. · Wiedziałeś o tym?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Bunu biliyorum. · Bunu biliyor muydun?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rozmawiać o + <strong>M</strong></div>
+          <div class="baglaç-tr">konuşmak (bir konu hakkında)</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Rozmawiamy o polityce. · O czym rozmawiacie?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Politika konuşuyoruz. · Ne konuşuyorsunuz?</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">opowiadać o + <strong>M</strong></div>
+          <div class="baglaç-tr">anlatmak</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Opowiadam o podróży. · Opowiedz mi o sobie.</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Yolculuğu anlatıyorum. · Bana kendinden anlat.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">śnić o + <strong>M</strong></div>
+          <div class="baglaç-tr">rüyasında görmek</div>
+          <div class="baglaç-en" style="font-size:10px;font-weight:700;color:#6dbf9a;letter-spacing:.08em">Miejscownik</div>
+          <div class="baglaç-detail">
+            <div class="baglaç-example-pl">Śniłem o tobie. · O czym śniłeś?</div>
+            <div class="baglaç-example-tr" style="margin-bottom:6px">Seni rüyamda gördüm. · Ne rüya gördün?</div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div id="rejim-no-result" class="baglaç-no-result" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+
+    <!-- ASPECT ÇİFTLERİ -->
+    <div class="grammar-section" id="gsec-asplist">
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.9">
+        <strong style="color:var(--text);font-size:13px">Aspect Çiftleri (Pary Aspektowe)</strong><br>
+        Her fiil için ndk/dk çiftini bilmek aspect kullanımının temelidir. Satıra tıklayarak ndk. ve dk. cümle örneklerini karşılaştırabilirsiniz.<br>
+        <span style="font-family:'DM Mono',monospace;color:#5dc0b0">⭐ Suppletive</span> = tamamen farklı kök &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;color:#e07070">∅</span> = dk. veya ndk. formu yok
+      </div>
+
+      <!-- Prefiks tablosu -->
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dim);margin-bottom:10px;padding:6px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent)">🔧 En Sık Dk. Prefiksleri</div>
+      <div style="overflow-x:auto;margin-bottom:20px">
+        <table class="zamir-kisi-table">
+          <thead><tr><th>Prefiks</th><th>Tipik anlam</th><th>Örnekler</th></tr></thead>
+          <tbody>
+            <tr><td class="z-form" style="color:#5dc0b0">z- / ze-</td><td style="font-size:11px;color:var(--text3)">tamamlanma (genel)</td><td style="font-family:'DM Mono',monospace;font-size:11px">robić→zrobić, rozumieć→zrozumieć, jeść→zjeść, gubić→zgubić</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">na-</td><td style="font-size:11px;color:var(--text3)">doldurma / tamamlama</td><td style="font-family:'DM Mono',monospace;font-size:11px">pisać→napisać, rysować→narysować, uczyć się→nauczyć się</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">wy-</td><td style="font-size:11px;color:var(--text3)">dışarı / tüketme</td><td style="font-family:'DM Mono',monospace;font-size:11px">pić→wypić, chodzić→wyjść, biegać→wybiec</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">po-</td><td style="font-size:11px;color:var(--text3)">biraz yapma / başlatma</td><td style="font-family:'DM Mono',monospace;font-size:11px">prosić→poprosić, sprzątać→posprzątać, rozmawiać→porozmawiać</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">prze-</td><td style="font-size:11px;color:var(--text3)">boyunca / bitirme</td><td style="font-family:'DM Mono',monospace;font-size:11px">czytać→przeczytać, tłumaczyć→przetłumaczyć</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">u-</td><td style="font-size:11px;color:var(--text3)">tamamlama / uzaklaşma</td><td style="font-family:'DM Mono',monospace;font-size:11px">myć→umyć, gotować→ugotować, słyszeć→usłyszeć</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">za-</td><td style="font-size:11px;color:var(--text3)">başlatma / ani başlangıç</td><td style="font-family:'DM Mono',monospace;font-size:11px">dzwonić→zadzwonić, płakać→zapłakać, śpiewać→zaśpiewać</td></tr>
+            <tr><td class="z-form" style="color:#5dc0b0">s- / ś-</td><td style="font-size:11px;color:var(--text3)">birleştirme / tamamlama</td><td style="font-family:'DM Mono',monospace;font-size:11px">pakować→spakować, kończyć→skończyć, fotografować→sfotografować</td></tr>
+            <tr><td class="z-form" style="color:#e07070">⭐ suppletive</td><td style="font-size:11px;color:var(--text3)">tamamen farklı kök</td><td style="font-family:'DM Mono',monospace;font-size:11px">mówić→powiedzieć, brać→wziąć, dawać→dać, widzieć→zobaczyć</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">⭐ Suppletive Çiftler — Tamamen Farklı Kökler (En Kritik!)</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">mówić / <strong style="color:#5dc0b0">powiedzieć</strong></div>
+          <div class="baglaç-tr">konuşmak / söylemek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">⭐ suppletive</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Mówię po polsku.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Lehçe konuşuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Powiedz mi prawdę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bana gerçeği söyle.</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">mówić = devam eden konuşma / powiedzieć = bir seferde söylemek. Çok sık karıştırılır!</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">brać / <strong style="color:#5dc0b0">wziąć</strong></div>
+          <div class="baglaç-tr">almak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">⭐ suppletive</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Biorę lekcje gitary.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Gitar dersi alıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Weź parasol!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Şemsiye al!</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">brać = almaya devam etmek / wziąć = bir kere, kesin almak</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">dawać / <strong style="color:#5dc0b0">dać</strong></div>
+          <div class="baglaç-tr">vermek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">⭐ suppletive</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Daję ci szansę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sana bir şans veriyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Daj mi to!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bunu bana ver!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">widzieć / <strong style="color:#5dc0b0">zobaczyć</strong></div>
+          <div class="baglaç-tr">görmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">⭐ suppletive</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Widzę cię codziennie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Seni her gün görüyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zobaczyłem go wczoraj.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Onu dün gördüm.</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">widzieć = sürekli hal (görme yetisi) / zobaczyć = bir anda görmek</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">słyszeć / <strong style="color:#5dc0b0">usłyszeć</strong></div>
+          <div class="baglaç-tr">duymak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">⭐ suppletive</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Słyszę muzykę z ulicy.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sokaktan müzik duyuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Usłyszałem dzwonek.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Zili duydum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">oglądać / <strong style="color:#5dc0b0">obejrzeć</strong></div>
+          <div class="baglaç-tr">izlemek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">suppletive-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Oglądam telewizję codziennie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her gün televizyon izliyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Obejrzałem ten film.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">O filmi izledim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #4a9a6a44">🍽 Günlük Eylemler</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">robić / <strong style="color:#5dc0b0">zrobić</strong></div>
+          <div class="baglaç-tr">yapmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">z-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Robię zadanie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Ödev yapıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zrobiłem zadanie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Ödevi yaptım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">jeść / <strong style="color:#5dc0b0">zjeść</strong></div>
+          <div class="baglaç-tr">yemek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">z-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Jem śniadanie co rano.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her sabah kahvaltı yiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zjadłem już obiad.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Öğle yemeğini zaten yedim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pić / <strong style="color:#5dc0b0">wypić</strong></div>
+          <div class="baglaç-tr">içmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">wy-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Piję kawę każdego ranka.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her sabah kahve içiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wypiłem całą herbatę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bütün çayı içtim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">gotować / <strong style="color:#5dc0b0">ugotować</strong></div>
+          <div class="baglaç-tr">pişirmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">u-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Gotuję obiad.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Öğle yemeği pişiriyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Ugotowałam zupę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Çorba pişirdim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">sprzątać / <strong style="color:#5dc0b0">posprzątać</strong></div>
+          <div class="baglaç-tr">temizlemek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">po-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Sprzątam pokój.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Odayı temizliyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Posprzątałem już pokój.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Odayı çoktan temizledim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">myć / <strong style="color:#5dc0b0">umyć</strong></div>
+          <div class="baglaç-tr">yıkamak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">u-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Myję ręce.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Ellerimi yıkıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Umyłem naczynia.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bulaşıkları yıkadım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">myć się / <strong style="color:#5dc0b0">umyć się</strong></div>
+          <div class="baglaç-tr">yıkanmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">u-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Myję się codziennie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her gün yıkanıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Umyłem się i wyszedłem.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Yıkandım ve çıktım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">ubierać się / <strong style="color:#5dc0b0">ubrać się</strong></div>
+          <div class="baglaç-tr">giyinmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">u-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Ubieram się powoli.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Yavaşça giyiniyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Ubrałam się i wyszłam.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Giyindim ve çıktım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wstawać / <strong style="color:#5dc0b0">wstać</strong></div>
+          <div class="baglaç-tr">kalkmak (yataktan)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">sup-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wstaję o siódmej.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Saat yedide kalkıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wstałem o ósmej dziś.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bugün sekizde kalktım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">siadać / <strong style="color:#5dc0b0">usiąść</strong></div>
+          <div class="baglaç-tr">oturmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">u-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Siadam przy oknie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Pencerenin yanına oturuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Usiadłem i zacząłem czytać.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Oturdum ve okumaya başladım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">otwierać / <strong style="color:#5dc0b0">otworzyć</strong></div>
+          <div class="baglaç-tr">açmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">sup-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Otwieram okno co rano.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her sabah pencereyi açıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Otworzyłam drzwi.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Kapıyı açtım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zamykać / <strong style="color:#5dc0b0">zamknąć</strong></div>
+          <div class="baglaç-tr">kapatmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">-nąć</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zamykam sklep o 20:00.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Dükkanı 20:00'de kapatıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zamknęłam okno.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Pencereyi kapattım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kłaść / <strong style="color:#5dc0b0">położyć</strong></div>
+          <div class="baglaç-tr">koymak (yatay)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">sup-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Kładę książki na stole.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Kitapları masaya koyuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Położyłem telefon na stole.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Telefonu masaya koydum.</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">kłaść/położyć = yatay / stawiać/postawić = dikey</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">budzić się / <strong style="color:#5dc0b0">obudzić się</strong></div>
+          <div class="baglaç-tr">uyanmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">o-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Budzę się o 7.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Saat 7'de uyanıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Obudziłem się ze snu.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Uykudan uyandım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">💬 İletişim ve Düşünce</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pisać / <strong style="color:#5dc0b0">napisać</strong></div>
+          <div class="baglaç-tr">yazmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">na-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Piszę list od godziny.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bir saattir mektup yazıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Napisałem maila.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">E-posta yazdım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">czytać / <strong style="color:#5dc0b0">przeczytać</strong></div>
+          <div class="baglaç-tr">okumak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">prze-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Czytam tę książkę od tygodnia.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bu kitabı bir haftadır okuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Przeczytałem ją w dwa dni.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">İki günde okudum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">dzwonić / <strong style="color:#5dc0b0">zadzwonić</strong></div>
+          <div class="baglaç-tr">aramak (telefon)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">za-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Dzwonię do ciebie co wieczór.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her akşam seni arıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zadzwoń do mnie!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Beni ara!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pytać / <strong style="color:#5dc0b0">zapytać</strong></div>
+          <div class="baglaç-tr">sormak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">za-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pytam go o drogę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Ona yol soruyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zapytałam o cenę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Fiyatı sordum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">odpowiadać / <strong style="color:#5dc0b0">odpowiedzieć</strong></div>
+          <div class="baglaç-tr">cevaplamak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">sup-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Odpowiadam na pytania.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Soruları cevaplıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Odpowiedz na moje pytanie!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sorumu cevapla!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">tłumaczyć / <strong style="color:#5dc0b0">przetłumaczyć</strong></div>
+          <div class="baglaç-tr">tercüme etmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">prze-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Tłumaczę ten tekst.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bu metni tercüme ediyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Przetłumaczyłam cały artykuł.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Tüm makaleyi tercüme ettim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rozmawiać / <strong style="color:#5dc0b0">porozmawiać</strong></div>
+          <div class="baglaç-tr">konuşmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">po-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Rozmawiamy co dzień.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her gün konuşuyoruz.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Musimy porozmawiać.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Konuşmamız gerek.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">opowiadać / <strong style="color:#5dc0b0">opowiedzieć</strong></div>
+          <div class="baglaç-tr">anlatmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">sup-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Opowiada tę historię każdemu.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bu hikayeyi herkese anlatıyor.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Opowiedz mi co się stało.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bana ne olduğunu anlat.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zapominać / <strong style="color:#5dc0b0">zapomnieć</strong></div>
+          <div class="baglaç-tr">unutmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">sup-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Ciągle zapominam kluczy.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sürekli anahtarı unutuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zapomniałem o spotkaniu.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Toplantıyı unuttum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rozumieć / <strong style="color:#5dc0b0">zrozumieć</strong></div>
+          <div class="baglaç-tr">anlamak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">z-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Rozumiem po polsku.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Lehçe anlıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zrozumiałem w końcu!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sonunda anladım!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a044">🚶 Hareket</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">chodzić / iść / <strong style="color:#5dc0b0">pójść</strong></div>
+          <div class="baglaç-tr">gitmek (yürüyerek)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">suppletive (motion)</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Chodzę do szkoły codziennie.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her gün okula gidiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pójdę do sklepu.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Markete gideceğim.</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">chodzić = alışkanlık/çok yönlü / iść = şu an gidiyor (tek yön) / pójść = dk.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">przychodzić / <strong style="color:#5dc0b0">przyjść</strong></div>
+          <div class="baglaç-tr">gelmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">przy-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Przychodzi do mnie co piątek.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her cuma bana geliyor.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Przyjdź do mnie dziś!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bugün bana gel!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wychodzić / <strong style="color:#5dc0b0">wyjść</strong></div>
+          <div class="baglaç-tr">çıkmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">wy-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wychodzę z domu o 8.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Saat 8'de evden çıkıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wyszłam i zapomniałam klucza.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Çıktım ve anahtarı unuttum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wchodzić / <strong style="color:#5dc0b0">wejść</strong></div>
+          <div class="baglaç-tr">girmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">w-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wchodzę do klasy.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sınıfa giriyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wszedłem do pokoju.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Odaya girdim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wracać / <strong style="color:#5dc0b0">wrócić</strong></div>
+          <div class="baglaç-tr">dönmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">-ić</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wracam do domu po pracy.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">İş sonrası eve dönüyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wróciłem późno wczoraj.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Dün geç döndüm.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">jeździć / jechać / <strong style="color:#5dc0b0">pojechać</strong></div>
+          <div class="baglaç-tr">gitmek (araçla)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">po-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Jeżdżę do pracy autobusem.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">İşe otobüsle gidiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pojechałem do Krakowa.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Krakow'a gittim.</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">jeździć = alışkanlık / jechać = şu an gidiyor / pojechać = dk.</div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">przyjeżdżać / <strong style="color:#5dc0b0">przyjechać</strong></div>
+          <div class="baglaç-tr">gelmek (araçla)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">przy-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Przyjeżdża do nas co lato.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her yaz bize geliyor.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Przyjechał wczoraj wieczorem.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Dün akşam geldi.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wyjeżdżać / <strong style="color:#5dc0b0">wyjechać</strong></div>
+          <div class="baglaç-tr">ayrılmak, gitmek (araçla)</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">wy-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wyjeżdżam na wakacje co rok.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her yıl tatile gidiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wyjechałam do Warszawy.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Varşova'ya gittim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">biegać / biec / <strong style="color:#5dc0b0">pobiec</strong></div>
+          <div class="baglaç-tr">koşmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">po-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Biegam codziennie rano.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her sabah koşuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pobiegłem na autobus.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Otobüse koştum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">latać / lecieć / <strong style="color:#5dc0b0">polecieć</strong></div>
+          <div class="baglaç-tr">uçmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">po-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Latam często w celach służbowych.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sık sık iş için uçuyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Poleciałem do Londynu.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Londra'ya uçtum.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">🛒 Alışveriş ve Para</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kupować / <strong style="color:#5dc0b0">kupić</strong></div>
+          <div class="baglaç-tr">satın almak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">u→i (suppletive-like)</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Kupuję codziennie gazety.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her gün gazete alıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Kupiłem nowy telefon.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Yeni telefon aldım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">sprzedawać / <strong style="color:#5dc0b0">sprzedać</strong></div>
+          <div class="baglaç-tr">satmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">suppletive-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Sprzedaje warzywa na targu.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Pazarda sebze satıyor.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Sprzedałem samochód.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Arabamı sattım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zamawiać / <strong style="color:#5dc0b0">zamówić</strong></div>
+          <div class="baglaç-tr">sipariş vermek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">za-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zamawiam kawę co rano.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her sabah kahve sipariş ediyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zamówiłem pizzę online.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Online pizza sipariş ettim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">płacić / <strong style="color:#5dc0b0">zapłacić</strong></div>
+          <div class="baglaç-tr">ödemek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">za-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Płacę kartą.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Kartla ödüyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zapłaciłem gotówką.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Nakit ödedim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">rezerwować / <strong style="color:#5dc0b0">zarezerwować</strong></div>
+          <div class="baglaç-tr">rezervasyon yapmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">za-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Rezerwuję stolik.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Masa rezervasyonu yapıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zarezerwowałem hotel.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Otel rezervasyonu yaptım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#100d1a;color:#b080e0;border:1px solid #b080e044">🎯 Karar ve Süreç</div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zaczynać / <strong style="color:#5dc0b0">zacząć</strong></div>
+          <div class="baglaç-tr">başlamak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">z-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zaczynam pracę o 9.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">İşe saat 9'da başlıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zacząłem czytać tę książkę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bu kitabı okumaya başladım.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">kończyć / <strong style="color:#5dc0b0">skończyć</strong></div>
+          <div class="baglaç-tr">bitirmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">s-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Kończę pracę o 17.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">İşi 17'de bitiriyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Skończyłem projekt!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Projeyi bitirdim!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">wybierać / <strong style="color:#5dc0b0">wybrać</strong></div>
+          <div class="baglaç-tr">seçmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">wy-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wybieram co zjeść.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Ne yiyeceğimi seçiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Wybrałam sukienkę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Elbiseyi seçtim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">decydować / <strong style="color:#5dc0b0">zdecydować</strong></div>
+          <div class="baglaç-tr">karar vermek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">z-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Decyduję o wszystkim sam.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her şeye kendim karar veriyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zdecydowałem się na wyjazd.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Yolculuğa karar verdim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">prosić / <strong style="color:#5dc0b0">poprosić</strong></div>
+          <div class="baglaç-tr">rica etmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">po-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Proszę o pomoc.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Yardım istiyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Poprosiłem go o radę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Ondan tavsiye istedim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">zapraszać / <strong style="color:#5dc0b0">zaprosić</strong></div>
+          <div class="baglaç-tr">davet etmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">za-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zapraszam przyjaciół co sobotę.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Her cumartesi arkadaşları davet ediyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Zaprosiłem ją na kolację.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Onu akşam yemeğine davet ettim.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pomagać / <strong style="color:#5dc0b0">pomóc</strong></div>
+          <div class="baglaç-tr">yardım etmek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">suppletive-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pomagam mamie w kuchni.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Mutfakta anneme yardım ediyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pomóż mi!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bana yardım et!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">pozwalać / <strong style="color:#5dc0b0">pozwolić</strong></div>
+          <div class="baglaç-tr">izin vermek</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">suppletive-like</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pozwalam dziecku oglądać TV.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Çocuğun TV izlemesine izin veriyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Pozwól mi mówić.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Beni konuşturun.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="baglaç-row" onclick="this.classList.toggle('open')">
+          <div class="baglaç-pl">szukać / <strong style="color:#5dc0b0">znaleźć</strong></div>
+          <div class="baglaç-tr">aramak / bulmak</div>
+          <div class="baglaç-en" style="font-size:10px;color:var(--text3)">∅ / z-</div>
+          <div class="baglaç-detail">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #888">
+                <div style="font-size:9px;color:#888;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">ndk. — devam eden</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">Szukam kluczy od godziny.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Bir saattir anahtar arıyorum.</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:6px;padding:8px;border-left:2px solid #5dc0b0">
+                <div style="font-size:9px;color:#5dc0b0;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">dk. — tamamlanmış</div>
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text)">W końcu znalazłem klucze!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:3px">Sonunda anahtarları buldum!</div>
+              </div>
+            </div><div style="font-size:11px;color:var(--text3);margin-top:6px">szukać'ın dk. formu yok — bulmak ise znaleźć (tamamen farklı fiil)</div>
+          </div>
+        </div>
+      </div>
+      <div class="baglaç-cat">
+        <div class="baglaç-cat-title" style="background:#1a0808;color:#888;border:1px solid #44444444">∅ Sadece NDK — Dk. Formu Olmayan Fiiller</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.9;margin-bottom:8px">
+          Bu fiiller eylem "bitmez" — durum ya da tekrarlanan eylem ifade eder. Dk. form zorla yapılırsa anlam değişir.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px">Durum fiilleri</div>
+            <div style="font-family:'DM Mono',monospace;font-size:11px;color:#5dc0b0;line-height:2.2">
+              mieszkać (yaşamak)<br>pracować (çalışmak)<br>kochać (aşkla sevmek)<br>nienawidzić (nefret etmek)<br>wiedzieć (bilmek)<br>mieć (sahip olmak)<br>boleć (acımak, ağrımak)<br>należeć (ait olmak)
+            </div>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px">Süreç/tekrar fiilleri</div>
+            <div style="font-family:'DM Mono',monospace;font-size:11px;color:#5dc0b0;line-height:2.2">
+              szukać (aramak)<br>czekać (beklemek)<br>słyszeć (duymak - hal)<br>widzieć (görmek - hal)<br>lubić (hoşlanmak)<br>podobać się (hoşa gitmek)<br>bać się (korkmak - hal)<br>potrzebować (ihtiyaç duymak)
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -5733,10 +7525,29 @@ function renderKulturCard(d) {
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar','fiilgr','emirki'].indexOf(tab);
+  const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar','fiilgr','emirki','rejim','asplist'].indexOf(tab);
   if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
   const sec = document.getElementById('gsec-'+tab);
   if(sec) sec.classList.add('active');
+}
+
+function filterRejim(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('rejim-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('#rejim-list .baglaç-cat').forEach(cat => {
+    const catTitle = (cat.querySelector('.baglaç-cat-title')||{}).textContent||'';
+    let catVisible = !q || catTitle.toLowerCase().includes(q);
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const match = !q || text.includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if(catVisible) anyVisible = true;
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
 }
 
 function filterEdatlar(q) {
