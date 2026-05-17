@@ -10715,7 +10715,7 @@ var _tcDrag = {active:false, startX:0, currentX:0, moved:false};
 
 function testLoadList() {
   var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
-  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
+  var sp = (typeof getSpecialPool === 'function') ? getSpecialPool('all') : [];
   var pi = document.getElementById('test-pool-info');
   if (pi) pi.textContent = sp.length + ' kelime hazır';
   var container = document.getElementById('tv-saved-tests');
@@ -10808,22 +10808,24 @@ function tcSave() {
 }
 
 function tcImportFromSpecial() {
-  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
-  if (!sp.length) { alert('Burak Special boş!'); return; }
   var src = ((document.getElementById('test-source')||{}).value)||'all';
-  var filtered = src === 'all' ? sp : sp.filter(function(w){ return w.category===src; });
-  filtered.forEach(function(w){ tcAddRow(w.tr||w.meaning||w.word, w.word, w.notes||''); });
+  var filtered = (typeof getSpecialPool === 'function') ? getSpecialPool(src) : [];
+  if (!filtered.length) { alert('Burak Special boş!'); return; }
+  filtered.forEach(function(w){
+    tcAddRow(w.tr||w.meaning||'', w.pl||w.word||'', w.inflection_note||w.notes||'');
+  });
   if (typeof showToast === 'function') showToast(filtered.length + ' kelime aktarıldı!');
 }
 
 function tcStartFromSpecial(mode) {
-  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
   var src = ((document.getElementById('test-source')||{}).value)||'all';
-  var filtered = src==='all' ? sp : sp.filter(function(w){ return w.category===src; });
+  var filtered = (typeof getSpecialPool === 'function') ? getSpecialPool(src) : [];
   if (filtered.length < 2) { alert('Yeterli kelime yok! Once Burak Special a kelime ekle.'); return; }
-  var words = filtered.map(function(w){ return {front:w.tr||w.meaning||w.word, back:w.word, hint:w.notes||''}; });
+  var words = filtered.map(function(w){
+    return {front: w.tr || w.meaning || w.pl || '', back: w.pl || w.word || '', hint: w.inflection_note || w.notes || ''};
+  });
   _tcCurrentTestId = null;
-  tcPlayMode(words, 'Burak Special', mode);
+  tcPlayMode(words, 'Burak Special (' + src + ')', mode);
 }
 
 function tcStart(id, mode) {
