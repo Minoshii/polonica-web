@@ -10147,49 +10147,40 @@ function triggerSubnautica() {
   if (_subActive) return;
   _subActive = true;
 
-  // ── SES: Alarm + robotik OXYGEN sesi ──
+  // ── SES: Subnautica tarzı alarm + OXYGEN sesi ──
   try {
     const actx = new (window.AudioContext || window.webkitAudioContext)();
-
-    const beep = function(t, f1, f2, dur) {
-      [f1, f2].forEach(function(freq, i) {
-        const osc = actx.createOscillator();
-        const g = actx.createGain();
-        const lp = actx.createBiquadFilter();
-        osc.type = 'square'; osc.frequency.value = freq;
-        lp.type = 'lowpass'; lp.frequency.value = 2000;
-        g.gain.setValueAtTime(0, t + i*0.12);
-        g.gain.linearRampToValueAtTime(0.18, t + i*0.12 + 0.015);
-        g.gain.setValueAtTime(0.18, t + i*0.12 + dur - 0.015);
-        g.gain.linearRampToValueAtTime(0, t + i*0.12 + dur);
-        osc.connect(lp); lp.connect(g); g.connect(actx.destination);
-        osc.start(t + i*0.12); osc.stop(t + i*0.12 + dur + 0.05);
-      });
-    }
-
-    // Subnautica low oxygen alarm pattern: iki tonlu bip × 4, sonra OXYGEN
-    let t = actx.currentTime + 0.2;
-    for (let i = 0; i < 4; i++) { beep(t + i * 0.55, 523, 392, 0.09); }
-
-    // İkinci dalga — hızlanıyor
-    for (let i = 0; i < 5; i++) { beep(t + 2.4 + i * 0.38, 659, 494, 0.08); }
-
-    setTimeout(() => actx.close(), 12000);
+    const bip = function(t, freq, dur, vol) {
+      const osc = actx.createOscillator();
+      const g = actx.createGain();
+      osc.type = 'sine'; osc.frequency.value = freq;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol || 0.22, t + 0.008);
+      g.gain.setValueAtTime(vol || 0.22, t + dur - 0.02);
+      g.gain.linearRampToValueAtTime(0, t + dur);
+      osc.connect(g); g.connect(actx.destination);
+      osc.start(t); osc.stop(t + dur + 0.02);
+    };
+    var t = actx.currentTime + 0.3;
+    [0, 0.9, 1.7, 2.4, 3.0, 3.55, 4.0, 4.38, 4.70, 4.98].forEach(function(off) {
+      bip(t + off, 880, 0.12, 0.20);
+    });
+    setTimeout(function() { try { actx.close(); } catch(e2) {} }, 12000);
   } catch(e) {}
 
-  // OXYGEN sesini söyle (Web Speech API)
-  function sayOxygen() {
+  const sayOxygen = function() {
     try {
-      const u = new SpeechSynthesisUtterance('OXYGEN');
-      u.pitch = 0.4; u.rate = 0.75; u.volume = 0.9;
-      const voices = window.speechSynthesis.getVoices();
-      const eng = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('male'))
-                 || voices.find(v => v.lang.startsWith('en')) || null;
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance('oxygen');
+      u.pitch = 0.35; u.rate = 0.72; u.volume = 1.0;
+      var voices = window.speechSynthesis.getVoices();
+      var eng = voices.find(function(v) { return v.lang === 'en-US'; })
+             || voices.find(function(v) { return v.lang.startsWith('en'); }) || null;
       if (eng) u.voice = eng;
       window.speechSynthesis.speak(u);
     } catch(e) {}
-  }
-  setTimeout(sayOxygen, 2200);
+  };
+  setTimeout(sayOxygen, 5400);
 
   // ── CSS ──
   if (!document.getElementById('sub-style')) {
