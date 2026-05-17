@@ -37,6 +37,16 @@
 [data-accent="purple"]{--teal:#9060d0;--teal-bg:#140d1a;--accent:#9060d0;--accent-dim:#5030a0;--accent-bg:#140d1a;}
 [data-accent="cyber"]{--teal:#00f5ff;--teal-bg:#001a1f;--accent:#00f5ff;--accent-dim:#007a8a;--accent-bg:#001a1f;}
 [data-accent="metro"]{--teal:#00ff41;--teal-bg:#001a0a;--accent:#00ff41;--accent-dim:#008020;--accent-bg:#001a0a;}
+
+/* ── LOGO STİLLERİ ──────────────────────────── */
+[data-logo="polska"] .logo,[data-logo="polska"] .mobile-logo{
+  background:linear-gradient(180deg,#ffffff 50%,#dc143c 50%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  -webkit-text-fill-color:transparent!important;color:transparent!important;
+}
+[data-logo="mono"] .logo,[data-logo="mono"] .mobile-logo{
+  color:var(--text)!important;-webkit-text-fill-color:unset!important;
+}
 /* Swatch + mode btn stilleri */
 .theme-mode-btn{flex:1;padding:8px 4px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;transition:all .2s;}
 .theme-mode-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-bg);}
@@ -357,7 +367,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 /* GRAMMAR */
 .grammar-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px;flex-wrap:wrap;}
 .gtab{padding:8px 16px;border-radius:8px 8px 0 0;border:1px solid transparent;background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
-.gtab.active{background:var(--teal-bg);border-color:var(--teal);color:#5dc0b0;}
+.gtab.active{background:var(--teal-bg);border-color:var(--teal);color:var(--teal);}
 .gtab:hover:not(.active){background:var(--surface2);color:var(--text);}
 .grammar-section{display:none;}.grammar-section.active{display:block;animation:panelIn .2s ease;}
 .case-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;}
@@ -893,6 +903,35 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <button onclick="setAccent('forest')" id="ac-forest" class="accent-swatch" style="background:#4a9a6a" title="Forest"></button>
         <button onclick="setAccent('purple')" id="ac-purple" class="accent-swatch" style="background:#9060d0" title="Purple"></button>
 
+      </div>
+    </div>
+
+    <!-- ÖZELLEŞTİRME -->
+    <div style="margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">ÖZELLEŞTİRME</div>
+
+      <!-- Logo stili -->
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Logo Stili</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+        <button onclick="setLogoStyle('default')" id="logo-btn-default" class="theme-mode-btn" style="flex:none;padding:7px 14px">
+          <span style="font-weight:900;color:var(--accent);font-family:'Syne',sans-serif">Polonica</span>
+        </button>
+        <button onclick="setLogoStyle('polska')" id="logo-btn-polska" class="theme-mode-btn" style="flex:none;padding:7px 14px">
+          <span style="background:linear-gradient(180deg,#fff 50%,#dc143c 50%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;font-family:'Syne',sans-serif">Polonica</span>&nbsp;🇵🇱
+        </button>
+        <button onclick="setLogoStyle('mono')" id="logo-btn-mono" class="theme-mode-btn" style="flex:none;padding:7px 14px">
+          <span style="font-weight:900;color:var(--text2);font-family:'Syne',sans-serif">Polonica</span>
+        </button>
+      </div>
+
+      <!-- Seçili sekme rengi önizlemesi -->
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Seçili Sekme Rengi</div>
+      <div style="background:var(--surface3);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--text2);line-height:1.7">
+        Vurgu rengi seçimiyle birlikte <strong style="color:var(--teal)">otomatik değişir</strong> — yukarıdan renk seç, burada önizle.
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <span style="display:inline-block;padding:5px 13px;border-radius:6px;border:1px solid var(--teal);background:var(--teal-bg);color:var(--teal);font-size:11px;font-family:'Syne',sans-serif;font-weight:700">📋 Seçili Sekme</span>
+          <span style="display:inline-block;padding:5px 13px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text3);font-size:11px;font-family:'Syne',sans-serif">📖 Normal Sekme</span>
+        </div>
       </div>
     </div>
 
@@ -5908,6 +5947,19 @@ function setAccent(accent) {
   });
 }
 
+function setLogoStyle(style) {
+  document.documentElement.setAttribute('data-logo', style === 'default' ? '' : style);
+  localStorage.setItem('polonica_logo', style);
+  ['default','polska','mono'].forEach(function(s) {
+    var btn = document.getElementById('logo-btn-'+s);
+    if(btn) btn.classList.toggle('active', s === style);
+  });
+}
+function loadLogoStyle() {
+  var saved = localStorage.getItem('polonica_logo') || 'default';
+  setLogoStyle(saved);
+}
+
 function loadAccent() {
   var saved = localStorage.getItem('polonica_accent') || 'teal';
   setAccent(saved);
@@ -5920,6 +5972,7 @@ function loadTheme() {
 
 loadTheme();
 loadAccent();
+loadLogoStyle();
 
 async function boot() {
   try {
