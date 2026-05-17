@@ -1396,186 +1396,38 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div id="detail-lyrics" style="display:none"></div>
   </div>
 
-  <!-- TEST — YENİ SİSTEM -->
+  <!-- TEST -->
   <div class="panel" id="panel-test">
-
-    <!-- ── GÖRÜNÜM 1: TEST LİSTESİ ── -->
-    <div id="tv-list">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+    <div id="test-setup-view">
+      <div class="panel-title">🔁 Test</div>
+      <div class="panel-sub">Burak Special'dan kelime seç, test yap.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
         <div>
-          <div class="panel-title" style="margin-bottom:4px">🃏 Test Merkezi</div>
-          <div style="font-size:12px;color:var(--text3)">Kendi testlerini oluştur, kart modu veya quiz modu ile çalış.</div>
-        </div>
-        <button onclick="tvShow('tv-create');tcResetForm()" style="padding:10px 18px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;display:flex;align-items:center;gap:6px">
-          ✦ Test Oluştur
-        </button>
-      </div>
-
-      <!-- Burak Special'dan hızlı başlat -->
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px">
-        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px">⭐ Burak Special'dan Hızlı Test</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <select id="tq-source" style="font-size:12px;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text)">
+          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Kaynak</label>
+          <select id="test-source" onchange="updatePoolInfo()" style="margin-bottom:0">
             <option value="all">Tümü</option>
             <option value="words">⭐ Kelimeler</option>
             <option value="idioms">💬 Deyimler</option>
             <option value="akademik">📚 Akademik</option>
-            <option value="muzyka">🎵 Müzik</option>
+            <option value="muzyka">🎵 Muzyka</option>
             <option value="slang">🔥 Slang</option>
           </select>
-          <button onclick="tcStartFromSpecial('card')" style="padding:7px 14px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">🃏 Kart Modu</button>
-          <button onclick="tcStartFromSpecial('quiz')" style="padding:7px 14px;background:var(--surface3);color:var(--text2);border:1px solid var(--border2);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📝 Quiz Modu</button>
-          <span id="tq-pool-info" style="font-size:11px;color:var(--text3)"></span>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Mod</label>
+          <select id="test-mode" onchange="updatePoolInfo()" style="margin-bottom:0">
+            <option value="flashcard">Flashcard</option>
+            <option value="mc">Çoktan Seçmeli</option>
+          </select>
         </div>
       </div>
-
-      <!-- Kayıtlı testler -->
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:12px">Kayıtlı Testler</div>
-      <div id="tv-saved-tests" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
-        <!-- JS ile doldurulur -->
-      </div>
-      <div id="tv-no-tests" style="display:none;text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">
-        Henüz test yok. "Test Oluştur" ile başla! 🃏
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn btn-accent" onclick="startTestFromSpecial()">▶ Başlat</button>
+        <span id="test-pool-info" style="font-size:12px;color:var(--text2)"></span>
       </div>
     </div>
-
-    <!-- ── GÖRÜNÜM 2: TEST OLUŞTUR ── -->
-    <div id="tv-create" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-        <button onclick="tvShow('tv-list');testLoadList()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Geri</button>
-        <div class="panel-title" style="margin-bottom:0">Yeni Test Oluştur</div>
-      </div>
-
-      <div style="margin-bottom:16px">
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);display:block;margin-bottom:6px">Test Adı</label>
-        <input id="tc-name" placeholder="örn: Fiil Zamanları, Ev Eşyaları..." style="width:100%;font-size:14px;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--text)">
-      </div>
-
-      <div style="margin-bottom:12px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)">Kelime Çiftleri</label>
-          <button onclick="tcAddRow()" style="font-size:11px;padding:4px 10px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:6px;cursor:pointer;font-weight:700">+ Satır</button>
-        </div>
-        <div style="background:var(--surface2);border-radius:10px;overflow:hidden;border:1px solid var(--border)">
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:8px 12px;border-bottom:1px solid var(--border)">
-            <span>Ön Yüz (Soru)</span><span>Arka Yüz (Cevap)</span><span>İpucu</span><span></span>
-          </div>
-          <div id="tc-rows" style="max-height:320px;overflow-y:auto">
-            <!-- rows -->
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button onclick="tcSave()" style="padding:10px 20px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">💾 Kaydet</button>
-        <button onclick="tcImportFromSpecial()" style="padding:10px 16px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;font-family:'Syne',sans-serif">⭐ Burak Special'dan İçe Aktar</button>
-      </div>
-    </div>
-
-    <!-- ── GÖRÜNÜM 3: KART MODU ── -->
-    <div id="tv-cards" style="display:none">
-      <!-- Header -->
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
-        <div style="flex:1">
-          <div id="tc-test-name" style="font-size:14px;font-weight:700;color:var(--text)"></div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px">Sağ → Biliyorum &nbsp;·&nbsp; Sol → Bilmiyorum &nbsp;·&nbsp; Dokun → Çevir</div>
-        </div>
-        <div id="tc-counter" style="font-size:13px;font-weight:700;color:var(--teal)"></div>
-      </div>
-
-      <!-- Progress bar -->
-      <div style="background:var(--surface2);border-radius:4px;height:5px;margin-bottom:24px;overflow:hidden">
-        <div id="tc-progress" style="height:100%;background:var(--teal);border-radius:4px;transition:width .4s ease;width:0%"></div>
-      </div>
-
-      <!-- Kart alanı -->
-      <div style="position:relative;height:320px;display:flex;align-items:center;justify-content:center;margin-bottom:24px" id="tc-card-area">
-        <!-- Arka kartlar (dekoratif) -->
-        <div id="tc-card-bg2" style="position:absolute;width:300px;max-width:88vw;height:200px;background:var(--surface2);border-radius:16px;transform:rotate(4deg) translateY(8px);opacity:.4;border:1px solid var(--border)"></div>
-        <div id="tc-card-bg1" style="position:absolute;width:300px;max-width:88vw;height:200px;background:var(--surface2);border-radius:16px;transform:rotate(2deg) translateY(4px);opacity:.65;border:1px solid var(--border)"></div>
-
-        <!-- Bilmiyorum göstergesi -->
-        <div id="tc-lbl-left" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .1s;z-index:10;background:#ff4444;color:#fff;padding:8px 14px;border-radius:10px;font-weight:800;font-size:14px;pointer-events:none">✗ BİLMİYORUM</div>
-
-        <!-- Biliyorum göstergesi -->
-        <div id="tc-lbl-right" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .1s;z-index:10;background:#22c55e;color:#fff;padding:8px 14px;border-radius:10px;font-weight:800;font-size:14px;pointer-events:none">✓ BİLİYORUM</div>
-
-        <!-- Ana kart (flip container) -->
-        <div id="tc-card-flip-wrap" style="position:absolute;width:300px;max-width:88vw;height:220px;perspective:1000px;cursor:grab;z-index:5;touch-action:none">
-          <div id="tc-card-top" style="width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.3)">
-            <!-- Ön yüz -->
-            <div id="tc-front" style="position:absolute;inset:0;background:var(--surface);border:1px solid var(--border2);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden">
-              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--text3);margin-bottom:14px">SORU</div>
-              <div id="tc-front-text" style="font-size:24px;font-weight:800;color:var(--text);text-align:center;line-height:1.3"></div>
-              <div style="font-size:11px;color:var(--text3);margin-top:16px;opacity:.7">↕ dokunarak çevir</div>
-            </div>
-            <!-- Arka yüz -->
-            <div id="tc-back" style="position:absolute;inset:0;background:var(--teal-bg);border:1px solid var(--teal);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg)">
-              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:14px;opacity:.8">CEVAP</div>
-              <div id="tc-back-text" style="font-size:22px;font-weight:800;color:var(--teal);text-align:center;line-height:1.3"></div>
-              <div id="tc-hint-text" style="font-size:12px;color:var(--text2);margin-top:12px;text-align:center;font-style:italic;line-height:1.5"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Butonlar -->
-      <div style="display:flex;gap:16px;justify-content:center">
-        <button onclick="tcSwipe('left')" style="width:60px;height:60px;border-radius:50%;background:var(--red-bg);border:2px solid var(--red);color:var(--red);font-size:22px;cursor:pointer;transition:all .2s" title="Bilmiyorum">✗</button>
-        <button onclick="tcFlip()" style="width:60px;height:60px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);color:var(--text2);font-size:18px;cursor:pointer;transition:all .2s" title="Çevir">↕</button>
-        <button onclick="tcSwipe('right')" style="width:60px;height:60px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green);color:var(--green);font-size:22px;cursor:pointer;transition:all .2s" title="Biliyorum">✓</button>
-      </div>
-    </div>
-
-    <!-- ── GÖRÜNÜM 4: QUIZ MODU ── -->
-    <div id="tv-quiz" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
-        <div style="flex:1">
-          <div id="tq-test-name" style="font-size:14px;font-weight:700;color:var(--text)"></div>
-        </div>
-        <div id="tq-counter" style="font-size:13px;font-weight:700;color:var(--teal)"></div>
-      </div>
-      <div style="background:var(--surface2);border-radius:4px;height:5px;margin-bottom:24px;overflow:hidden">
-        <div id="tq-progress" style="height:100%;background:var(--teal);border-radius:4px;transition:width .4s ease;width:0%"></div>
-      </div>
-      <div style="background:var(--surface2);border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:20px;border:1px solid var(--border)">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--text3);margin-bottom:12px">TÜRKÇE</div>
-        <div id="tq-question" style="font-size:26px;font-weight:800;color:var(--text);line-height:1.3"></div>
-      </div>
-      <div id="tq-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
-    </div>
-
-    <!-- ── GÖRÜNÜM 5: SONUÇLAR ── -->
-    <div id="tv-result" style="display:none;text-align:center;padding:20px 0">
-      <div style="font-size:48px;margin-bottom:12px" id="tr-emoji">🎉</div>
-      <div style="font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px" id="tr-score"></div>
-      <div style="font-size:14px;color:var(--text2);margin-bottom:24px" id="tr-subtitle"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:280px;margin:0 auto 28px">
-        <div style="background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px">
-          <div style="font-size:28px;font-weight:900;color:var(--green)" id="tr-correct"></div>
-          <div style="font-size:11px;color:var(--text3);margin-top:4px">Biliyorum</div>
-        </div>
-        <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:12px;padding:16px">
-          <div style="font-size:28px;font-weight:900;color:var(--red)" id="tr-wrong"></div>
-          <div style="font-size:11px;color:var(--text3);margin-top:4px">Bilmiyorum</div>
-        </div>
-      </div>
-      <!-- Bilmiyorum listesi -->
-      <div id="tr-missed-block" style="text-align:left;margin:0 auto;max-width:360px;margin-bottom:24px">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px">Tekrar Çalış</div>
-        <div id="tr-missed-list" style="display:flex;flex-direction:column;gap:8px"></div>
-      </div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button id="tr-replay-card" onclick="tcReplay('card')" style="padding:10px 18px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">🃏 Tekrar Kart</button>
-        <button id="tr-replay-quiz" onclick="tcReplay('quiz')" style="padding:10px 18px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📝 Quiz Tekrar</button>
-        <button onclick="tvShow('tv-list');testLoadList()" style="padding:10px 18px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;font-family:'Syne',sans-serif">← Test Listesi</button>
-      </div>
-    </div>
-
-  </div><!-- /panel-test -->
-
+    <div id="test-active" style="display:none"></div>
+  </div>
 
   <!-- BURAK SPECIAL -->
   <div class="panel" id="panel-special">
@@ -7139,380 +6991,2886 @@ function getSpecialPool(source) {
   return specialList;
 }
 
-
-// ══════════════════════════════════════════════════════
-// TEST SİSTEMİ — Kart + Quiz Modu
-// ══════════════════════════════════════════════════════
-
-// ── Yardımcı: Görünüm değiştir ──
-function tvShow(id) {
-  ['tv-list','tv-create','tv-cards','tv-quiz','tv-result'].forEach(function(v) {
-    var el = document.getElementById(v);
-    if (el) el.style.display = v === id ? '' : 'none';
-  });
+function updatePoolInfo(){
+  const src = (document.getElementById('test-source')||{}).value || 'all';
+  const pool = getSpecialPool(src);
+  const infoEl = document.getElementById('test-pool-info');
+  if(infoEl) infoEl.textContent = pool.length + ' kelime hazır';
 }
 
-// ── Aktif test state ──
-var _tcWords = [];
-var _tcIdx = 0;
-var _tcCorrect = 0;
-var _tcWrong = 0;
-var _tcMissed = [];
-var _tcMode = 'card';
-var _tcFlipped = false;
-var _tcCurrentTestId = null;
-var _tcDrag = {active: false, startX: 0, currentX: 0, moved: false};
+function startTestFromSpecial(){
+  const src = (document.getElementById('test-source')||{}).value || 'all';
+  const mode = (document.getElementById('test-mode')||{}).value || 'flashcard';
+  const pool = getSpecialPool(src).filter(e => e.pl && e.tr);
+  if(pool.length < 2){ alert('En az 2 kelime gerekli!'); return; }
+  startTestWithPool(pool, mode);
+}
 
-// ── Test listesi yükle ──
-function testLoadList() {
-  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
-  var container = document.getElementById('tv-saved-tests');
-  var noTests = document.getElementById('tv-no-tests');
-  if (!container) return;
+function startTest(){ startTestFromSpecial(); }
 
-  // Pool info
-  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
-  var poolInfo = document.getElementById('tq-pool-info');
-  if (poolInfo) poolInfo.textContent = sp.length + ' kelime hazır';
+function startTestWithPool(pool, rawMode) {
+  testMode = rawMode;
+  testWords = shuffle([...pool]).slice(0, Math.min(30, pool.length));
+  testIdx=0; testCorrect=0; testFlipped=false;
+  document.getElementById('test-setup-view').style.display='none';
+  document.getElementById('test-active').style.display='block';
+  renderCard();
+}
 
-  if (tests.length === 0) {
-    container.innerHTML = '';
-    if (noTests) noTests.style.display = '';
+function renderCard(){
+  const area=document.getElementById('test-active');
+  if(testIdx>=testWords.length){
+    const pct=Math.round(testCorrect/testWords.length*100);
+    area.innerHTML='<div style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:12px">'+(pct>=70?'🎉':'📚')+'</div>'+
+      '<h2 style="font-size:28px;margin-bottom:8px">'+testCorrect+'/'+testWords.length+'</h2>'+
+      '<p style="color:var(--text2);margin-bottom:24px">%'+pct+' başarı</p>'+
+      '<button class="btn btn-accent" onclick="endTest()">Yeni Test</button></div>';
     return;
   }
-  if (noTests) noTests.style.display = 'none';
-
-  container.innerHTML = tests.map(function(t) {
-    var played = (t.stats && t.stats.played) || 0;
-    var best = (t.stats && t.stats.best) || 0;
-    return '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">'
-      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">'
-      + '<div>'
-      + '<div style="font-size:15px;font-weight:800;color:var(--text)">' + t.name + '</div>'
-      + '<div style="font-size:11px;color:var(--text3);margin-top:3px">' + t.words.length + ' kelime' + (played ? ' · ' + played + 'x oynandı' : '') + (best ? ' · En iyi: %' + best : '') + '</div>'
-      + '</div>'
-      + '<button onclick="testDelete(\'' + t.id + '\')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 6px;border-radius:4px" title="Sil">🗑</button>'
-      + '</div>'
-      + '<div style="display:flex;gap:8px">'
-      + '<button onclick="tcStart(\'' + t.id + '\',\'card\')" style="flex:1;padding:8px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif">🃏 Kartlar</button>'
-      + '<button onclick="tcStart(\'' + t.id + '\',\'quiz\')" style="flex:1;padding:8px;background:var(--surface3);color:var(--text2);border:1px solid var(--border2);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Syne\',sans-serif">📝 Quiz</button>'
-      + '</div>'
-      + '</div>';
-  }).join('');
-}
-
-// ── Test sil ──
-function testDelete(id) {
-  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
-  tests = tests.filter(function(t) { return t.id !== id; });
-  localStorage.setItem('polonica_custom_tests', JSON.stringify(tests));
-  testLoadList();
-}
-
-// ── Form: satır ekle ──
-function tcAddRow(front, back, hint) {
-  var rows = document.getElementById('tc-rows');
-  if (!rows) return;
-  var idx = rows.children.length;
-  var div = document.createElement('div');
-  div.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0;border-top:1px solid var(--border)';
-  div.innerHTML = '<input placeholder="Türkçe / Soru" value="' + (front||'') + '" style="padding:8px 10px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);font-size:12px;outline:none">'
-    + '<input placeholder="Lehçe / Cevap" value="' + (back||'') + '" style="padding:8px 10px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);font-size:12px;outline:none">'
-    + '<input placeholder="İpucu (opsiyonel)" value="' + (hint||'') + '" style="padding:8px 10px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);font-size:12px;outline:none">'
-    + '<button onclick="this.closest(\'div\').remove()" style="padding:8px 10px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px">✕</button>';
-  rows.appendChild(div);
-}
-
-function tcResetForm() {
-  var rows = document.getElementById('tc-rows');
-  var name = document.getElementById('tc-name');
-  if (rows) rows.innerHTML = '';
-  if (name) name.value = '';
-  // 3 boş satır başlangıç
-  tcAddRow(); tcAddRow(); tcAddRow();
-}
-
-// ── Test kaydet ──
-function tcSave() {
-  var name = (document.getElementById('tc-name') || {}).value || '';
-  if (!name.trim()) { alert('Test adı gir!'); return; }
-
-  var rows = document.getElementById('tc-rows');
-  var words = [];
-  if (rows) {
-    Array.from(rows.children).forEach(function(row) {
-      var inputs = row.querySelectorAll('input');
-      var front = inputs[0] ? inputs[0].value.trim() : '';
-      var back = inputs[1] ? inputs[1].value.trim() : '';
-      var hint = inputs[2] ? inputs[2].value.trim() : '';
-      if (front && back) words.push({front: front, back: back, hint: hint});
-    });
+  const w=testWords[testIdx];const pct=testIdx/testWords.length*100;
+  let h='<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>';
+  h+='<p style="text-align:center;font-size:12px;color:var(--text2);margin-bottom:16px">'+(testIdx+1)+'/'+testWords.length+'</p>';
+  if(testMode==='flashcard'){
+    if(!testFlipped){
+      h+='<div class="flashcard" id="fc-front"><h3 style="font-size:28px;margin-bottom:8px">'+esc(w.pl)+'</h3><p style="color:var(--text2)">Tıkla ve gör</p></div>';
+    }else{
+      h+='<div class="flashcard"><h3 style="font-size:28px;margin-bottom:8px">'+esc(w.pl)+'</h3>'+
+        '<p style="font-size:20px;margin-bottom:6px">'+esc(w.tr)+'</p>'+
+        '<p style="font-size:12px;color:var(--text3);font-family:\'DM Mono\',monospace;margin-bottom:8px">'+esc(w.en||'')+'</p>'+
+        (w.example_pl?'<p style="font-size:11px;color:var(--text3);font-style:italic;margin-bottom:20px">'+esc(w.example_pl)+'</p>':'<div style="margin-bottom:20px"></div>')+
+        '<div style="display:flex;gap:12px;justify-content:center">'+
+        '<button class="btn btn-red" onclick="ans(false)">✗ Bilmedim</button>'+
+        '<button class="btn btn-green" onclick="ans(true)">✓ Bildim</button></div></div>';
+    }
+  }else{
+    // Akilli MC: once ayni kategoriden distractor ara
+    const all=store.units.flatMap(u=>u.words);
+    const sameCat=all.filter(x=>x.pl!==w.pl&&x.category===w.category);
+    const otherCat=all.filter(x=>x.pl!==w.pl&&x.category!==w.category);
+    const pool=shuffle([...sameCat,...otherCat]);
+    const localOpts=pool.slice(0,3);
+    const capitalize=s=>s?s.charAt(0).toUpperCase()+s.slice(1):s;
+    // Eksik distractor varsa Ollama'ya sor (async, skeleton gosterirken yukle)
+    const buildOpts=(distractorTrList)=>{
+      const fakes=distractorTrList.map((tr,i)=>({pl:'__fake__'+i,tr:capitalize(tr),category:w.category}));
+      const filledLocal=localOpts.slice(0,3-fakes.length).map(o=>({...o,tr:capitalize(o.tr||'')}));
+      return shuffle([{...w,tr:capitalize(w.tr||'')},...filledLocal,...fakes]);
+    };
+    const renderOpts=(opts)=>{
+      const container=document.getElementById('mc-opts-container');if(!container)return;
+      container.innerHTML='';
+      opts.forEach(o=>{
+        const btn=document.createElement('button');btn.className='mc-opt';
+        btn.textContent=o.tr;
+        btn.onclick=()=>checkMC(btn,(o.pl===w.pl||o.pl==='__correct__'),capitalize(w.tr||''));
+        container.appendChild(btn);
+      });
+    };
+    // Ilk render: local kelimelerle
+    const initialOpts=buildOpts([]);
+    h+='<h2 style="text-align:center;margin-bottom:20px;font-size:26px">'+esc(w.pl)+'</h2>';
+    h+='<div class="mc-opts" id="mc-opts-container">';
+    initialOpts.forEach(o=>{h+='<button class="mc-opt" onclick="checkMC(this,'+(o.pl===w.pl||o.pl==='__correct__')+',\''+capitalize(w.tr||'')+'\')">'+esc(o.tr)+'</button>';});
+    h+='</div>';
+    // Eger ayni kategoriden <3 yerel kelime varsa Ollama'dan ekle
+    if(sameCat.length<3){
+      setTimeout(async()=>{
+        try{
+          const needed=3-Math.min(sameCat.length,3);
+          const res=await window.polonica.generateDistractors({word:w.pl,tr:w.tr,category:w.category,count:needed});
+          if(res.distractors&&res.distractors.length){
+            renderOpts(buildOpts(res.distractors));
+          }
+        }catch(e){}
+      },0);
+    }
   }
-  if (words.length < 2) { alert('En az 2 kelime çifti ekle!'); return; }
-
-  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
-  tests.push({id: 'tc_' + Date.now(), name: name.trim(), words: words, created: new Date().toISOString().slice(0,10), stats: {}});
-  localStorage.setItem('polonica_custom_tests', JSON.stringify(tests));
-  tvShow('tv-list');
-  testLoadList();
-  showToast && showToast('Test kaydedildi! 🃏');
+  area.innerHTML=h;
+  const fc=document.getElementById('fc-front');
+  if(fc)fc.onclick=()=>{testFlipped=true;renderCard();};
 }
 
-// ── Burak Special'dan import ──
-function tcImportFromSpecial() {
-  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
-  if (sp.length === 0) { alert('Burak Special\'da kelime yok!'); return; }
-  var source = (document.getElementById('tq-source') || {}).value || 'all';
-  var filtered = source === 'all' ? sp : sp.filter(function(w) { return w.category === source; });
-  filtered.forEach(function(w) {
-    tcAddRow(w.tr || w.meaning || '', w.word || '', w.notes || '');
+async function ans(c){
+  if(c)testCorrect++;
+  const w=testWords[testIdx];
+  await window.polonica.updateProgress({unitId:w._uid,wordPl:w.pl,correct:c});
+  testIdx++;testFlipped=false;renderCard();
+}
+
+function checkMC(btn,c,correctTr){
+  if(c)btn.classList.add('correct');
+  else{btn.classList.add('wrong');document.querySelectorAll('.mc-opt').forEach(b=>{if(b.textContent===correctTr)b.classList.add('correct');});}
+  document.querySelectorAll('.mc-opt').forEach(b=>b.disabled=true);
+  setTimeout(()=>ans(c),800);
+}
+
+function endTest(){
+  testWords=[];testIdx=0;testCorrect=0;testFlipped=false;
+  document.getElementById('test-setup-view').style.display='block';
+  document.getElementById('test-active').style.display='none';
+  document.getElementById('test-active').innerHTML='';
+  window.polonica.getStore().then(s=>{store=s;updateTestSelect();});
+}
+
+// ── İSTATİSTİK ────────────────────────────────────
+async function loadStats(){
+  const s=await window.polonica.getStats();
+  const el=document.getElementById('stats-content');
+  let h='<div class="stats-grid">'+
+    stCard(s.total,'📚 Toplam','#c8b89a')+stCard(s.learned,'✓ Öğrenilen','#4a9a6a')+
+    stCard(s.weak,'⚠ Zayıf','#c05050')+stCard(s.dueSRS,'⟳ Tekrar','#5080c0')+'</div>';
+  h+='<div class="chart-wrap"><div class="chart-title">Kategori Dağılımı</div><div style="display:flex;gap:10px;flex-wrap:wrap;">';
+  [['verb','Fiil','#5080c0'],['noun','İsim','#c8a050'],['adj','Sıfat/Zarf','#4a9a6a'],['other','Diğer','#666']].forEach(([k,l,c])=>{
+    const n=s.byCategory[k]||0,p=s.total>0?Math.round(n/s.total*100):0;
+    h+='<div style="flex:1;min-width:80px;background:var(--surface3);border-radius:8px;padding:12px;text-align:center">'+
+      '<div style="font-size:20px;font-weight:800;color:'+c+'">'+n+'</div>'+
+      '<div style="font-size:11px;color:var(--text3)">%'+p+' '+l+'</div></div>';
   });
-  showToast && showToast(filtered.length + ' kelime aktarıldı!');
+  h+='</div></div>';
+  h+='<div class="chart-wrap"><div class="chart-title">Son 7 Gün</div>'+weekChart(s.weekLog)+'</div>';
+  if(s.mostMissed.length){
+    h+='<div class="chart-wrap"><div class="chart-title">En Çok Yanlış</div>';
+    s.mostMissed.forEach(w=>{
+      h+='<div class="missed-row"><span class="missed-pl">'+esc(w.pl)+'</span>'+
+        '<div style="display:flex;gap:10px;font-size:12px"><span style="color:#e07070">✗ '+w.wrong+'</span><span style="color:#6dbf9a">✓ '+w.correct+'</span></div></div>';
+    });
+    h+='</div>';
+  }
+  el.innerHTML=h;
 }
 
-// ── Burak Special'dan hızlı başlat ──
-function tcStartFromSpecial(mode) {
-  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
-  var source = (document.getElementById('tq-source') || {}).value || 'all';
-  var filtered = source === 'all' ? sp : sp.filter(function(w) { return w.category === source; });
-  if (filtered.length < 2) { alert('Yeterli kelime yok! Önce Burak Special\'a kelime ekle.'); return; }
-  var words = filtered.map(function(w) { return {front: w.tr || w.meaning || w.word, back: w.word, hint: w.notes || ''}; });
-  _tcCurrentTestId = null;
-  tcPlayMode(words, 'Burak Special', mode);
+function stCard(n,l,c){return'<div class="stat-card"><div class="stat-num" style="color:'+c+'">'+n+'</div><div class="stat-lbl">'+l+'</div></div>';}
+
+function weekChart(wl){
+  const mx=Math.max(...wl.map(d=>d.correct+d.wrong),1);
+  const W=50,G=8,H=90,PX=8;const sw=wl.length*(W+G)-G+PX*2;
+  let s='<svg viewBox="0 0 '+sw+' 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px">';
+  wl.forEach((d,i)=>{
+    const x=i*(W+G)+PX,tot=d.correct+d.wrong;
+    const ch=tot>0?Math.round((d.correct/mx)*H):0,wh=tot>0?Math.round((d.wrong/mx)*H):0,th=ch+wh;
+    if(!th)s+='<rect x="'+x+'" y="'+(H+PX)+'" width="'+W+'" height="2" fill="#2a2a2a" rx="2"/>';
+    if(wh)s+='<rect x="'+x+'" y="'+(H-th+PX)+'" width="'+W+'" height="'+wh+'" fill="#c05050" rx="3"/>';
+    if(ch)s+='<rect x="'+x+'" y="'+(H-ch+PX)+'" width="'+W+'" height="'+ch+'" fill="#4a9a6a" rx="3"/>';
+    if(tot)s+='<text x="'+(x+W/2)+'" y="'+(H-th+PX-4)+'" fill="#888" font-size="10" text-anchor="middle">'+tot+'</text>';
+    s+='<text x="'+(x+W/2)+'" y="112" fill="#555" font-size="10" text-anchor="middle">'+d.label+'</text>';
+  });
+  return s+'</svg>';
 }
 
-// ── Test başlat (kayıtlı) ──
-function tcStart(id, mode) {
-  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
-  var test = tests.find(function(t) { return t.id === id; });
-  if (!test) return;
-  _tcCurrentTestId = id;
-  tcPlayMode(test.words, test.name, mode);
+// ── ÇEKİM TABLOSU ─────────────────────────────────
+async function showConj(word){
+  document.getElementById('modal-conj').style.display='flex';
+  document.getElementById('conj-title').textContent=word+' — Çekim';
+  document.getElementById('conj-body').innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span> Üretiliyor...</div>';
+  try{
+    const data=await window.polonica.getConjugation({word});
+    let h='<div class="conj-grid">';
+    const blocks=[
+      ['Geniş Zaman',data.present,['ja','ty','on_ona_ono','my','wy','oni_one'],['ja','ty','on/ona/ono','my','wy','oni/one']],
+      ['Geçmiş — Eril',data.past_m,['ja','ty','on','my','wy','oni'],['ja(m)','ty(m)','on','my(m)','wy(m)','oni']],
+      ['Geçmiş — Dişil',data.past_f,['ja','ty','ona','my','wy','one'],['ja(f)','ty(f)','ona','my(f)','wy(f)','one']],
+      ['Gelecek Zaman',data.future,['ja','ty','on_ona_ono','my','wy','oni_one'],['ja','ty','on/ona/ono','my','wy','oni/one']],
+      ['Emir Kipi',data.imperative,['ty','my','wy'],['ty','my','wy']],
+    ];
+    blocks.forEach(([title,obj,keys,lbls])=>{
+      if(!obj)return;
+      h+='<div class="conj-block"><div class="conj-block-title">'+title+'</div>';
+      keys.forEach((k,i)=>{h+='<div class="conj-row"><span class="conj-pronoun">'+lbls[i]+'</span><span class="conj-form">'+esc(obj[k]||'—')+'</span></div>';});
+      h+='</div>';
+    });
+    document.getElementById('conj-body').innerHTML=h+'</div>';
+  }catch(e){document.getElementById('conj-body').innerHTML='<p style="color:var(--red)">Hata: '+e.message+'</p>';}
 }
 
-// ── Play modu başlat ──
-function tcPlayMode(words, name, mode) {
-  _tcMode = mode;
-  _tcWords = words.slice().sort(function() { return Math.random() - .5; });
-  _tcIdx = 0; _tcCorrect = 0; _tcWrong = 0; _tcMissed = [];
+function closeConj(){document.getElementById('modal-conj').style.display='none';}
 
-  if (mode === 'card') {
-    document.getElementById('tc-test-name').textContent = name;
-    tvShow('tv-cards');
-    tcRenderCard();
-    tcInitDrag();
+// ── PDF ───────────────────────────────────────────
+async function loadPDFLibrary(){
+  const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
+}
+
+function renderPDFList(pdfs){
+  const col=document.getElementById('pdf-list-col');col.innerHTML='';
+  if(!pdfs.length){col.innerHTML='<div style="color:var(--text3);font-size:13px">Henüz kitap yok.</div>';return;}
+  pdfs.forEach(p=>{
+    const d=document.createElement('div');
+    d.className='pdf-item'+(p.id===currentPdfId?' active-pdf':'');
+    d.onclick=()=>openPDF(p.id);
+    d.innerHTML='<div class="pdf-item-name">'+esc(p.name)+'</div>'+
+      '<div class="pdf-item-date">'+(p.addedAt?p.addedAt.slice(0,10):'')+'</div>'+
+      '<div style="margin-top:8px"><button class="btn" style="font-size:11px;padding:3px 10px" onclick="event.stopPropagation();deletePDF(\''+p.id+'\')">Sil</button></div>';
+    col.appendChild(d);
+  });
+}
+
+async function addPDFs(){
+  const st=document.getElementById('pdf-status');
+  st.innerHTML='<span class="spinner"></span> Ekleniyor...';
+  const r=await window.polonica.pdfOpenDialog();
+  if(r.added&&r.added.length){const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);st.textContent=r.added.length+' PDF eklendi.';}
+  else st.textContent='';
+}
+
+async function deletePDF(id){
+  if(!confirm('Bu PDF silinsin mi?'))return;
+  await window.polonica.pdfDelete(id);
+  if(currentPdfId===id){
+    currentPdfDoc=null;currentPdfId=null;currentPage=1;totalPages=0;
+    document.getElementById('pdf-viewer-empty').style.display='flex';
+    document.getElementById('pdf-viewer-active').style.display='none';
+    document.getElementById('pdf-page-results').innerHTML='';
+  }
+  const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
+}
+
+// Son sayfa kaydet/yükle - profil bazlı localStorage
+function savePDFPage(pdfId, page) {
+  const key = 'pdf_page_' + (_activeProfile||'default') + '_' + pdfId;
+  localStorage.setItem(key, page);
+}
+function loadPDFPage(pdfId) {
+  const key = 'pdf_page_' + (_activeProfile||'default') + '_' + pdfId;
+  return parseInt(localStorage.getItem(key)) || 1;
+}
+
+async function openPDF(id){
+  const st=document.getElementById('pdf-status');
+  st.innerHTML='<span class="spinner"></span> Yükleniyor...';
+  const data=await window.polonica.pdfRead(id);
+  if(data.error){st.textContent='Hata: '+data.error;return;}
+  const bin=atob(data.base64),arr=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+  currentPdfDoc=await pdfjsLib.getDocument({data:arr}).promise;
+  currentPdfId=id;
+  totalPages=currentPdfDoc.numPages;
+  // Son bırakılan sayfadan başla
+  const savedPage = loadPDFPage(id);
+  currentPage = Math.min(savedPage, totalPages);
+  document.getElementById('pdf-viewer-empty').style.display='none';
+  document.getElementById('pdf-viewer-active').style.display='flex';
+  document.getElementById('pdf-page-results').innerHTML='';
+  st.textContent=data.name+' — '+totalPages+' sayfa'+(currentPage>1?' · Sayfa '+currentPage+'. sayfadan devam':'');
+  await renderPDFPage();
+  const pdfs=await window.polonica.pdfList();renderPDFList(pdfs);
+}
+
+// ── PDF ANNOTATION SİSTEMİ ────────────────────────────────
+let _annotMode = false;
+let _annotTool = 'pen'; // pen | highlight | eraser
+let _annotColor = '#e05050';
+let _annotSize = 3;
+let _annotDrawing = false;
+let _annotHistory = {}; // pdfId+page -> [dataURL array]
+
+function annotKey(){ return (_activeProfile||'default')+'_'+currentPdfId+'_'+currentPage; }
+
+function saveAnnotPage(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas||!currentPdfId) return;
+  const key = 'annot_' + annotKey();
+  // Boş canvas'ı kaydetme
+  const blank = document.createElement('canvas');
+  blank.width=canvas.width; blank.height=canvas.height;
+  if(canvas.toDataURL() === blank.toDataURL()) { localStorage.removeItem(key); return; }
+  try{ localStorage.setItem(key, canvas.toDataURL()); }catch(e){ console.warn('Annotation kaydetme hatasi:', e); }
+}
+
+function loadAnnotPage(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas||!currentPdfId) return;
+  const key = 'annot_' + annotKey();
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const saved = localStorage.getItem(key);
+  if(!saved) return;
+  const img = new Image();
+  img.onload = () => ctx.drawImage(img,0,0);
+  img.src = saved;
+}
+
+function pushAnnotHistory(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas) return;
+  const k = annotKey();
+  if(!_annotHistory[k]) _annotHistory[k] = [];
+  _annotHistory[k].push(canvas.toDataURL());
+  if(_annotHistory[k].length > 20) _annotHistory[k].shift(); // max 20 adım
+}
+
+function undoAnnot(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas) return;
+  const k = annotKey();
+  if(!_annotHistory[k]||!_annotHistory[k].length){ clearAnnotPage(); return; }
+  const prev = _annotHistory[k].pop();
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const img = new Image();
+  img.onload = () => { ctx.drawImage(img,0,0); saveAnnotPage(); };
+  img.src = prev;
+}
+
+function clearAnnotPage(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas) return;
+  pushAnnotHistory();
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  saveAnnotPage();
+}
+
+function toggleAnnotMode(){
+  _annotMode = !_annotMode;
+  const btn = document.getElementById('annot-toggle-btn');
+  const toolbar = document.getElementById('annot-toolbar-wrap');
+  const canvas = document.getElementById('pdf-annot-canvas');
+  const textLayer = document.getElementById('pdf-text-layer');
+  if(_annotMode){
+    btn.textContent = '✏️ Not Al (Aktif)';
+    btn.style.background = 'var(--teal-bg)';
+    toolbar.classList.add('visible');
+    if(canvas){ canvas.style.pointerEvents='auto'; canvas.style.cursor='crosshair'; }
+    if(textLayer) textLayer.style.pointerEvents='none'; // çizim öncelikli
+    setupAnnotCanvas();
   } else {
-    document.getElementById('tq-test-name').textContent = name;
-    tvShow('tv-quiz');
-    tqRenderQuestion();
+    btn.textContent = '✏️ Not Al';
+    btn.style.background = '';
+    toolbar.classList.remove('visible');
+    if(canvas){ canvas.style.pointerEvents='none'; canvas.style.cursor=''; }
+    if(textLayer) textLayer.style.pointerEvents='auto';
+    saveAnnotPage();
   }
 }
 
-// ── KART MODU ──
-function tcRenderCard() {
-  if (_tcIdx >= _tcWords.length) { tcShowResult(); return; }
-  var w = _tcWords[_tcIdx];
-  var frontEl = document.getElementById('tc-front-text');
-  var backEl = document.getElementById('tc-back-text');
-  var hintEl = document.getElementById('tc-hint-text');
-  var card = document.getElementById('tc-card-top');
-  var wrap = document.getElementById('tc-card-flip-wrap');
-  if (frontEl) frontEl.textContent = w.front;
-  if (backEl) backEl.textContent = w.back;
-  if (hintEl) hintEl.textContent = w.hint || '';
-  if (card) { card.style.transform = 'rotateY(0deg)'; card.style.transition = 'transform .5s'; }
-  if (wrap) { wrap.style.transform = 'translateX(0) rotate(0deg)'; wrap.style.transition = 'transform .3s ease'; }
-  _tcFlipped = false;
-  var pct = (_tcIdx / _tcWords.length * 100).toFixed(0);
-  var prog = document.getElementById('tc-progress');
-  var cnt = document.getElementById('tc-counter');
-  if (prog) prog.style.width = pct + '%';
-  if (cnt) cnt.textContent = (_tcIdx + 1) + ' / ' + _tcWords.length;
-  var l = document.getElementById('tc-lbl-left');
-  var r = document.getElementById('tc-lbl-right');
-  if (l) l.style.opacity = 0;
-  if (r) r.style.opacity = 0;
+function setAnnotTool(tool){
+  _annotTool = tool;
+  document.querySelectorAll('.annot-tool-btn').forEach(b=>b.classList.remove('active'));
+  const btn = document.getElementById('annot-'+tool+'-btn')||document.getElementById('annot-'+tool.replace('highlight','hl')+'-btn');
+  if(btn) btn.classList.add('active');
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(canvas) canvas.style.cursor = tool==='eraser'?'cell':'crosshair';
 }
 
-function tcFlip() {
-  var card = document.getElementById('tc-card-top');
-  if (!card) return;
-  _tcFlipped = !_tcFlipped;
-  card.style.transition = 'transform .5s';
-  card.style.transform = _tcFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+function setAnnotColor(color, el){
+  _annotColor = color;
+  document.querySelectorAll('.annot-color-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
 }
 
-function tcSwipe(dir) {
-  var wrap = document.getElementById('tc-card-flip-wrap');
-  if (!wrap) return;
-  var tx = dir === 'right' ? '130vw' : '-130vw';
-  var rot = dir === 'right' ? '25deg' : '-25deg';
-  wrap.style.transition = 'transform .4s ease-in';
-  wrap.style.transform = 'translateX(' + tx + ') rotate(' + rot + ')';
-  if (dir === 'right') { _tcCorrect++; }
-  else { _tcWrong++; _tcMissed.push(_tcWords[_tcIdx]); }
-  _tcIdx++;
-  setTimeout(tcRenderCard, 420);
+function setAnnotSize(val){
+  _annotSize = parseInt(val);
+  const lbl = document.getElementById('annot-size-lbl');
+  if(lbl) lbl.textContent = val;
 }
 
-function tcSnapBack() {
-  var wrap = document.getElementById('tc-card-flip-wrap');
-  if (wrap) { wrap.style.transition = 'transform .3s spring'; wrap.style.transform = 'translateX(0) rotate(0deg)'; }
-  var l = document.getElementById('tc-lbl-left');
-  var r = document.getElementById('tc-lbl-right');
-  if (l) l.style.opacity = 0;
-  if (r) r.style.opacity = 0;
-}
+function setupAnnotCanvas(){
+  const canvas = document.getElementById('pdf-annot-canvas');
+  if(!canvas||canvas._annotSetup) return;
+  canvas._annotSetup = true;
+  let lastX, lastY;
 
-function tcInitDrag() {
-  var wrap = document.getElementById('tc-card-flip-wrap');
-  if (!wrap) return;
-  wrap.onpointerdown = function(e) {
-    _tcDrag.active = true; _tcDrag.startX = e.clientX; _tcDrag.currentX = 0; _tcDrag.moved = false;
-    wrap.setPointerCapture(e.pointerId);
-    wrap.style.transition = 'none';
-    wrap.style.cursor = 'grabbing';
+  const getPos = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const touch = e.touches ? e.touches[0] : e;
+    return { x:(touch.clientX-rect.left)*scaleX, y:(touch.clientY-rect.top)*scaleY };
   };
-  wrap.onpointermove = function(e) {
-    if (!_tcDrag.active) return;
-    var x = e.clientX - _tcDrag.startX;
-    if (Math.abs(x) > 5) _tcDrag.moved = true;
-    _tcDrag.currentX = x;
-    wrap.style.transform = 'translateX(' + x + 'px) rotate(' + (x * 0.07) + 'deg)';
-    var l = document.getElementById('tc-lbl-left');
-    var r = document.getElementById('tc-lbl-right');
-    if (l) l.style.opacity = Math.min(1, Math.max(0, -x / 80));
-    if (r) r.style.opacity = Math.min(1, Math.max(0, x / 80));
+
+  const startDraw = (e) => {
+    if(!_annotMode) return;
+    e.preventDefault();
+    pushAnnotHistory();
+    _annotDrawing = true;
+    const {x,y} = getPos(e);
+    lastX=x; lastY=y;
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath(); ctx.moveTo(x,y);
   };
-  wrap.onpointerup = function(e) {
-    if (!_tcDrag.active) return;
-    _tcDrag.active = false;
-    wrap.style.cursor = 'grab';
-    var x = _tcDrag.currentX;
-    if (!_tcDrag.moved) { tcFlip(); return; }
-    if (x > 80) tcSwipe('right');
-    else if (x < -80) tcSwipe('left');
-    else tcSnapBack();
+
+  const draw = (e) => {
+    if(!_annotMode||!_annotDrawing) return;
+    e.preventDefault();
+    const {x,y} = getPos(e);
+    const ctx = canvas.getContext('2d');
+    if(_annotTool==='eraser'){
+      const sz = _annotSize * 4;
+      ctx.clearRect(x-sz/2, y-sz/2, sz, sz);
+    } else if(_annotTool==='highlight'){
+      ctx.globalAlpha = 0.3;
+      ctx.strokeStyle = _annotColor;
+      ctx.lineWidth = _annotSize * 5;
+      ctx.lineCap = 'square';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.lineTo(x,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x,y);
+    } else {
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = _annotColor;
+      ctx.lineWidth = _annotSize;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.lineTo(x,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x,y);
+    }
+    lastX=x; lastY=y;
   };
+
+  const endDraw = (e) => {
+    if(!_annotDrawing) return;
+    _annotDrawing = false;
+    const ctx = canvas.getContext('2d');
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+    saveAnnotPage();
+  };
+
+  canvas.addEventListener('pointerdown', startDraw);
+  canvas.addEventListener('pointermove', draw);
+  canvas.addEventListener('pointerup', endDraw);
+  canvas.addEventListener('mouseleave', endDraw);
+  canvas.addEventListener('touchstart', startDraw, {passive:false});
+  canvas.addEventListener('touchmove', draw, {passive:false});
+  canvas.addEventListener('touchend', endDraw);
 }
 
-// ── QUIZ MODU ──
-function tqRenderQuestion() {
-  if (_tcIdx >= _tcWords.length) { tcShowResult(); return; }
-  var w = _tcWords[_tcIdx];
-  var qEl = document.getElementById('tq-question');
-  var optsEl = document.getElementById('tq-options');
-  if (qEl) qEl.textContent = w.front;
+let _pdfZoom = 0; // 0 = otomatik sığdır, pozitif sayı = manuel zoom yüzdesi
 
-  // 4 seçenek: 1 doğru + 3 yanlış
-  var wrong = _tcWords.filter(function(x, i) { return i !== _tcIdx; })
-    .sort(function() { return Math.random() - .5; }).slice(0, 3);
-  var options = wrong.concat([w]).sort(function() { return Math.random() - .5; });
+function zoomIn(){
+  const cur = _pdfZoom || getCurrentAutoScale();
+  _pdfZoom = Math.min(cur + 0.15, 3.5);
+  renderPDFPage();
+}
+function zoomOut(){
+  const cur = _pdfZoom || getCurrentAutoScale();
+  _pdfZoom = Math.max(cur - 0.15, 0.4);
+  renderPDFPage();
+}
+function zoomFit(){ _pdfZoom = 0; renderPDFPage(); }
 
-  if (optsEl) {
-    optsEl.innerHTML = options.map(function(o, i) {
-      return '<button onclick="tqAnswer(' + i + ',' + (o === w ? 'true' : 'false') + ',this)" '
-        + 'style="padding:14px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;text-align:center;font-family:\'Syne\',sans-serif;transition:all .2s">'
-        + o.back + '</button>';
-    }).join('');
+function getCurrentAutoScale(){
+  const wrap = document.getElementById('pdf-canvas-wrap');
+  return parseFloat((document.getElementById('pdf-zoom-label')||{}).textContent) / 100 || 1.0;
+}
+
+async function renderPDFPage(){
+  if(!currentPdfDoc)return;
+  const page=await currentPdfDoc.getPage(currentPage);
+
+  // Zoom: manuel veya otomatik sığdır
+  const wrap = document.getElementById('pdf-canvas-wrap');
+  const availW = (wrap ? wrap.clientWidth : 800) - 40;
+  const baseVp = page.getViewport({scale:1});
+  const autoScale = Math.min(Math.max(availW / baseVp.width, 0.8), 2.2);
+  const scale = _pdfZoom > 0 ? _pdfZoom : autoScale;
+  const vp = page.getViewport({scale});
+  document.getElementById('pdf-zoom-label').textContent = Math.round(scale*100) + '%';
+
+  const canvas = document.getElementById('pdf-canvas');
+  canvas.width = vp.width; canvas.height = vp.height;
+  await page.render({canvasContext:canvas.getContext('2d'), viewport:vp}).promise;
+
+  // Text layer - kelime seçimi için
+  const textLayer = document.getElementById('pdf-text-layer');
+  textLayer.innerHTML = '';
+  textLayer.style.width = vp.width + 'px';
+  textLayer.style.height = vp.height + 'px';
+  const textContent = await page.getTextContent();
+  pdfjsLib.renderTextLayer({
+    textContent,
+    container: textLayer,
+    viewport: vp,
+    textDivs: []
+  });
+
+  document.getElementById('pdf-page-info').textContent = currentPage + ' / ' + totalPages;
+
+  // Annotation canvas boyutlandır ve kayıtlı notları yükle
+  const annotCanvas = document.getElementById('pdf-annot-canvas');
+  if(annotCanvas){
+    annotCanvas.width = vp.width; annotCanvas.height = vp.height;
+    annotCanvas.style.width = vp.width + 'px';
+    annotCanvas.style.height = vp.height + 'px';
+    loadAnnotPage();
   }
-
-  var pct = (_tcIdx / _tcWords.length * 100).toFixed(0);
-  var prog = document.getElementById('tq-progress');
-  var cnt = document.getElementById('tq-counter');
-  if (prog) prog.style.width = pct + '%';
-  if (cnt) cnt.textContent = (_tcIdx + 1) + ' / ' + _tcWords.length;
 }
 
-function tqAnswer(idx, correct, btn) {
-  var opts = document.querySelectorAll('#tq-options button');
-  opts.forEach(function(b) { b.disabled = true; });
-  if (correct) {
-    btn.style.background = 'var(--green-bg)';
-    btn.style.borderColor = 'var(--green)';
+async function prevPage(){
+  saveAnnotPage(); // mevcut sayfayı kaydet
+  if(currentPage>1){currentPage--;await renderPDFPage();savePDFPage(currentPdfId,currentPage);}
+}
+async function nextPage(){
+  saveAnnotPage(); // mevcut sayfayı kaydet
+  if(currentPage<totalPages){currentPage++;await renderPDFPage();savePDFPage(currentPdfId,currentPage);}
+}
+
+// ── PDF KELİME KROP SEÇİMİ ───────────────────────────────
+let _selWord = '';
+let _selMode = false;
+let _selStart = null;
+let _selRect = null;
+
+function toggleSelMode() {
+  _selMode = !_selMode;
+  const btn = document.getElementById('sel-mode-btn');
+  const wrap = document.getElementById('pdf-canvas-wrap');
+  const selCanvas = document.getElementById('pdf-sel-canvas');
+  if (_selMode) {
+    btn.classList.add('active');
+    btn.textContent = '✂ Seç (Aktif)';
+    wrap.classList.add('sel-mode-active');
+    // Sel canvas boyutlandır
+    const mainCanvas = document.getElementById('pdf-canvas');
+    selCanvas.width = mainCanvas.width;
+    selCanvas.height = mainCanvas.height;
+    selCanvas.style.display = 'block';
+  } else {
+    btn.classList.remove('active');
+    btn.textContent = '✂ Kelime Seç';
+    wrap.classList.remove('sel-mode-active');
+    selCanvas.style.display = 'none';
+    clearSelCanvas();
+  }
+}
+
+function clearSelCanvas() {
+  const selCanvas = document.getElementById('pdf-sel-canvas');
+  if (!selCanvas) return;
+  selCanvas.getContext('2d').clearRect(0, 0, selCanvas.width, selCanvas.height);
+}
+
+// Mouse eventi - pdf-page-container üzerinde
+// Pointer eventi - mouse + tablet kalem + dokunmatik
+document.addEventListener('pointerdown', (e) => {
+  if (!_selMode) return;
+  const container = document.getElementById('pdf-page-container');
+  if (!container || !container.contains(e.target)) return;
+  const rect = container.getBoundingClientRect();
+  _selStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  _selRect = null;
+  e.preventDefault();
+  try { e.target.setPointerCapture(e.pointerId); } catch(ex) {}
+});
+
+document.addEventListener('pointermove', (e) => {
+  if (!_selMode || !_selStart) return;
+  const container = document.getElementById('pdf-page-container');
+  if (!container) return;
+  const rect = container.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  _selRect = {
+    x: Math.min(_selStart.x, x), y: Math.min(_selStart.y, y),
+    w: Math.abs(x - _selStart.x), h: Math.abs(y - _selStart.y)
+  };
+  // Seçim kutusunu çiz
+  const selCanvas = document.getElementById('pdf-sel-canvas');
+  if (!selCanvas) return;
+  const ctx = selCanvas.getContext('2d');
+  ctx.clearRect(0, 0, selCanvas.width, selCanvas.height);
+  ctx.fillStyle = 'rgba(200,184,154,0.15)';
+  ctx.strokeStyle = '#c8b89a';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4,3]);
+  ctx.fillRect(_selRect.x, _selRect.y, _selRect.w, _selRect.h);
+  ctx.strokeRect(_selRect.x, _selRect.y, _selRect.w, _selRect.h);
+});
+
+document.addEventListener('pointerup', async (e) => {
+  if (!_selMode || !_selStart || !_selRect) { _selStart = null; return; }
+  if (_selRect.w < 8 || _selRect.h < 8) { _selStart = null; clearSelCanvas(); return; }
+
+  const crop = { ..._selRect };
+  _selStart = null; _selRect = null;
+  toggleSelMode(); // seçim modunu kapat
+
+  // Canvas'tan kırp
+  const mainCanvas = document.getElementById('pdf-canvas');
+  const tmpCanvas = document.createElement('canvas');
+  const scale = window.devicePixelRatio || 1;
+  tmpCanvas.width = crop.w;
+  tmpCanvas.height = crop.h;
+  tmpCanvas.getContext('2d').drawImage(mainCanvas, crop.x, crop.y, crop.w, crop.h, 0, 0, crop.w, crop.h);
+
+  // Yükleniyor göstergesi
+  const loading = document.createElement('div');
+  loading.className = 'pdf-ocr-loading';
+  loading.innerHTML = '<span class="spinner"></span> Kelime tanınıyor...';
+  document.body.appendChild(loading);
+
+  try {
+    const base64 = tmpCanvas.toDataURL('image/png').split(',')[1];
+    const r = await api.post('/api/pdf-vision-word', { base64 });
+    document.body.removeChild(loading);
+    if (r.word && r.word.trim()) {
+      _selWord = r.word.trim();
+      showSelTooltipAt(e.clientX, e.clientY, _selWord);
+    } else {
+      alert('Kelime tanınamadı, daha büyük bir alan seç.');
+    }
+  } catch(err) {
+    document.body.removeChild(loading);
+    alert('Hata: ' + err.message);
+  }
+});
+
+function showSelTooltipAt(clientX, clientY, word) {
+  const tooltip = document.getElementById('pdf-sel-tooltip');
+  document.getElementById('pdf-sel-word').textContent = word;
+  tooltip.style.top = Math.max(60, clientY - 60 + window.scrollY) + 'px';
+  tooltip.style.left = Math.max(8, clientX - 120) + 'px';
+  tooltip.classList.add('visible');
+}
+
+function showSelTooltip(word) {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return;
+  const rect = sel.getRangeAt(0).getBoundingClientRect();
+  showSelTooltipAt(rect.left + rect.width/2, rect.top, word);
+}
+
+function hideSelTooltip() {
+  document.getElementById('pdf-sel-tooltip').classList.remove('visible');
+  window.getSelection().removeAllRanges();
+  _selWord = '';
+}
+
+async function lookupSelectedWord() {
+  if (!_selWord) return;
+  const word = _selWord;
+  hideSelTooltip();
+  showPanel('special');
+  document.getElementById('special-word-input').value = word;
+  await lookupSpecial();
+}
+
+// Sayfadan metin çıkar: önce text layer dene, boşsa Vision OCR kullan
+async function extractTextFromPage(pageNum) {
+  const page = await currentPdfDoc.getPage(pageNum);
+  // 1. Normal text layer dene
+  const tc = await page.getTextContent();
+  const layerText = tc.items.map(i => i.str).join(' ').trim();
+  if (layerText.length > 20) return layerText; // metin var, kullan
+
+  // 2. Taranmış PDF — Canvas'tan görüntü al, Claude Vision'a gönder
+  const st = document.getElementById('pdf-status');
+  st.innerHTML = '<span class="spinner"></span> Taranmış sayfa — Vision OCR çalışıyor...';
+  const canvas = document.getElementById('pdf-canvas');
+  const base64 = canvas.toDataURL('image/png').split(',')[1];
+  try {
+    const r = await api.post('/api/pdf-vision', { base64, mediaType: 'image/png' });
+    if (r.ok && r.text) return r.text;
+  } catch(e) { console.error('Vision OCR hatasi:', e); }
+  return '';
+}
+
+async function extractAndAnalyzePages(pages) {
+  const st = document.getElementById('pdf-status');
+  const allTokens = [];
+  for (const pn of pages) {
+    // Sayfayı render et (görüntü için)
+    if (pn !== currentPage) {
+      currentPage = pn;
+      await renderPDFPage();
+    }
+    const text = await extractTextFromPage(pn);
+    const tokens = text.match(/[A-Za-z\xc0-\xf6\xf8-\xff\u0100-\u017e'-]+/g) || [];
+    allTokens.push(...tokens);
+  }
+  const seen = new Set(); const tokens = [];
+  for (const t of allTokens) { const l = t.toLowerCase(); if (!seen.has(l)) { seen.add(l); tokens.push(t); } }
+  const CHUNK = 50, total = Math.ceil(tokens.length / CHUNK);
+  const allWords = [];
+  for (let ci = 0; ci < total; ci++) {
+    const chunk = tokens.slice(ci * CHUNK, (ci+1) * CHUNK);
+    st.innerHTML = '<span class="spinner"></span> Analiz: ' + (ci+1) + '/' + total + ' parça...';
+    try { const d = await window.polonica.analyzeText({text:chunk.join(' '),count:chunk.length,mode:'lesson'}); if(d.words) allWords.push(...d.words); } catch(e) {}
+  }
+  return allWords;
+}
+
+async function analyzePDFPage() {
+  if (!currentPdfDoc) return;
+  const st = document.getElementById('pdf-status');
+  st.innerHTML = '<span class="spinner"></span> Sayfa analiz ediliyor...';
+  const allWords = await extractAndAnalyzePages([currentPage]);
+  if (!allWords.length) { st.textContent = 'Metin çıkarılamadı.'; return; }
+  scanMode = 'lesson';
+  scanned = allWords.map((w,i) => ({...w, _sid:'pdf'+i}));
+  const re = document.getElementById('pdf-page-results');
+  re.innerHTML = '<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa ' + currentPage + ': ' + allWords.length + ' kelime</div><div id="pdf-page-results-inner"></div>';
+  renderWordList('pdf-page-results-inner', scanned, 'pdf');
+  st.textContent = 'Tamamlandı.'; updateSaveBar();
+}
+
+async function analyzeRange() {
+  if (!currentPdfDoc) return;
+  const input = prompt('Hangi sayfaları analiz etmek istersin? (örn: 5-8)'); if (!input) return;
+  const parts = input.split('-');
+  const from = Math.max(1, parseInt(parts[0]) || currentPage);
+  const to = Math.min(totalPages, parseInt(parts[1]) || from);
+  const pages = []; for (let p = from; p <= to; p++) pages.push(p);
+  const allWords = await extractAndAnalyzePages(pages);
+  if (!allWords.length) { document.getElementById('pdf-status').textContent = 'Metin bulunamadı.'; return; }
+  scanMode = 'lesson';
+  scanned = allWords.map((w,i) => ({...w, _sid:'pdf'+i}));
+  const re = document.getElementById('pdf-page-results');
+  re.innerHTML = '<div style="font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 6px">Sayfa ' + from + '-' + to + ': ' + allWords.length + ' kelime</div><div id="pdf-page-results-inner"></div>';
+  renderWordList('pdf-page-results-inner', scanned, 'pdf');
+  document.getElementById('pdf-status').textContent = 'Tamamlandı.'; updateSaveBar();
+}
+
+// ── AYARLAR ──────────────────────────────────────
+function showSettings(){
+  const m=document.getElementById('modal-settings');
+  m.style.display='flex';
+  document.getElementById('settings-model').value=store.settings.ollamaModel||'qwen2.5:3b';
+  document.getElementById('settings-vision').value=store.settings.visionModel||'';
+  // Mevcut durumu goster
+  const st=document.getElementById('settings-ollama-status');
+  const dot=document.getElementById('ollama-dot');
+  const lbl=document.getElementById('ollama-label');
+  const isOk=dot.classList.contains('ok');
+  st.innerHTML=(isOk
+    ? '<span style="color:var(--green)">✓ Ollama bağlı</span> — model: <strong>'+(store.settings.ollamaModel||'?')+'</strong>'
+    : '<span style="color:var(--red)">✗ Ollama kapalı veya bağlantı yok</span><br><small style="color:var(--text3)">Ollama kurulu değilse: ollama.com sitesinden indir ve <code>ollama run qwen2.5:3b</code> komutuyla başlat.</small>');
+}
+
+function closeSettings(){ document.getElementById('modal-settings').style.display='none'; }
+
+async function saveSettings(){
+  const model=document.getElementById('settings-model').value.trim()||'qwen2.5:3b';
+  const vision=document.getElementById('settings-vision').value.trim();
+  store.settings.ollamaModel=model;
+  store.settings.visionModel=vision;
+  await window.polonica.saveSettings({ollamaModel:model,visionModel:vision});
+  closeSettings();
+  await checkOllamaStatus();
+}
+
+// ── YEDEK / CSV ───────────────────────────────────
+async function doExport(){const r=await window.polonica.exportData();if(r.ok)alert('Yedek kaydedildi!');}
+async function doImport(){
+  const r=await window.polonica.importData();
+  if(r.ok){store=await window.polonica.getStore();updateCounts();updateTestSelect();alert('Geri yüklendi!');}
+  else if(r.error)alert('Hata: '+r.error);
+}
+async function doExportCSV(){await window.polonica.exportCsv({unitId:'all'});}
+async function doExportCSVUnit(id){await window.polonica.exportCsv({unitId:id});}
+
+// ── YARDIMCI ──────────────────────────────────────
+function updateCounts(){
+  const l=store.units.filter(u=>u.mode==='lesson').reduce((a,b)=>a+b.words.length,0);
+  const m=store.units.filter(u=>u.mode==='lyrics').reduce((a,b)=>a+b.words.length,0);
+  document.getElementById('word-count').innerHTML='<small style="font-size:11px;color:var(--text3)">📚 '+l+' akademik &nbsp; 🎵 '+m+' müzik</small>';
+}
+
+// ── EJ MAŁA SEKME ─────────────────────────────────────────
+function switchEjMalaTab(tab) {
+  var colors = {main:'active-words', jak:'', cevap:''};
+  ['main','jak','cevap'].forEach(function(t) {
+    var sec = document.getElementById('ejmala-sec-'+t);
+    var btn = document.getElementById('ejmala-tab-'+t);
+    if(sec) sec.style.display = t===tab ? 'block' : 'none';
+    if(btn) btn.className = 'special-tab' + (t===tab ? ' active-words' : '');
+  });
+}
+
+// ── CÜMLE KURUCU ───────────────────────────────────────────
+const CUMLE_COLORS = {
+  'Gündelik': {bg:'#0d1a10',border:'#4a9a6a',color:'#6dbf9a'},
+  'Soru':     {bg:'#0d1020',border:'#5080c0',color:'#7090d0'},
+  'Olumsuz':  {bg:'#1a0d0d',border:'#c05050',color:'#e07070'},
+  'Resmi':    {bg:'#0d1515',border:'#5dc0b0',color:'#5dc0b0'},
+  'Sokak':    {bg:'#1a0d16',border:'#c060a0',color:'#e090c0'},
+};
+
+async function buildSentences() {
+  const word = document.getElementById('cumle-input').value.trim();
+  if (!word) return;
+  const btn = document.getElementById('cumle-btn');
+  btn.disabled = true; btn.textContent = '...';
+  const res = document.getElementById('cumle-result');
+  res.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span> 5 cümle kuruluyor...</div>';
+  try {
+    const data = await api.post('/api/sentences', { word });
+    if (!data.sentences || !data.sentences.length) throw new Error('Sonuç alınamadı.');
+    res.innerHTML = '';
+    data.sentences.forEach((s, i) => {
+      const c = CUMLE_COLORS[s.context] || CUMLE_COLORS['Gündelik'];
+      const card = document.createElement('div');
+      card.className = 'cumle-card';
+      card.style.cssText = 'background:'+c.bg+';border-color:'+c.border+'44;animation:rowIn .25s ease both;animation-delay:'+(i*60)+'ms;';
+      card.innerHTML =
+        '<span class="cumle-context" style="background:'+c.bg+';color:'+c.color+';border:1px solid '+c.border+'">'+esc(s.context)+'</span>'+
+        '<div class="cumle-pl">'+esc(s.pl)+'</div>'+
+        '<div class="cumle-tr">'+esc(s.tr)+'</div>'+
+        '<div class="cumle-en">'+esc(s.en)+'</div>'+
+        '<button class="cumle-save" data-sentence="'+btoa(unescape(encodeURIComponent(JSON.stringify(s))))+'" onclick="saveCumleBtn(this)" title="Kaydet">⭐ Kaydet</button>';
+      res.appendChild(card);
+    });
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:14px">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Kur →';
+}
+
+async function saveCumleBtn(btn) {
+  try {
+    const sentence = JSON.parse(decodeURIComponent(escape(atob(btn.dataset.sentence))));
+    await window.polonica.specialSave({
+      pl: sentence.pl, original: sentence.pl,
+      tr: sentence.tr, en: sentence.en,
+      category: 'other', type: 'cumle',
+      is_idiom: false, slang: false,
+      source: 'Cumle Kurucu', source_type: 'cumle',
+      example_pl: '', example_tr: ''
+    });
+    btn.textContent = '✓ Kaydedildi';
     btn.style.color = 'var(--green)';
-    _tcCorrect++;
-  } else {
-    btn.style.background = 'var(--red-bg)';
-    btn.style.borderColor = 'var(--red)';
-    btn.style.color = 'var(--red)';
-    // Doğru cevabı yeşil yap
-    opts.forEach(function(b) {
-      if (b.textContent === _tcWords[_tcIdx].back) {
-        b.style.background = 'var(--green-bg)';
-        b.style.borderColor = 'var(--green)';
-        b.style.color = 'var(--green)';
-      }
+    btn.style.borderColor = 'var(--green)';
+  } catch(e) { console.error(e); }
+}
+
+// ── İSİM/SIFAT ÇEKİMİ ────────────────────────────────────
+const CASE_NAMES = {
+  mianownik:  {tr:'Mianownik',  q:'kto? co?'},
+  dopelniacz: {tr:'Dopełniacz', q:'kogo? czego?'},
+  celownik:   {tr:'Celownik',   q:'komu? czemu?'},
+  biernik:    {tr:'Biernik',    q:'kogo? co?'},
+  narzednik:  {tr:'Narzędnik',  q:'kim? czym?'},
+  miejscownik:{tr:'Miejscownik',q:'o kim? o czym?'},
+  wolacz:     {tr:'Wołacz',     q:'!'},
+};
+
+async function lookupDeclension() {
+  const word = document.getElementById('decl-input').value.trim();
+  if (!word) return;
+  const btn = document.getElementById('decl-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  const res = document.getElementById('decl-result');
+  res.innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center"><span class="spinner"></span> Çekiliyor...</div>';
+  try {
+    const data = await api.post('/api/declension', { word });
+    renderDeclension(data);
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red)">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Çek';
+}
+
+function quickDecl(w) {
+  document.getElementById('decl-input').value = w;
+  lookupDeclension();
+}
+
+function renderDeclension(d) {
+  const res = document.getElementById('decl-result');
+  if (!d || !d.singular) { res.innerHTML = '<div style="color:var(--red)">Sonuç alınamadı.</div>'; return; }
+  const genderMap = {masculine:'Erkek (Męski)',feminine:'Dişi (Żeński)',neuter:'Nötr (Nijaki)'};
+  const genderColor = {masculine:'#7090d0',feminine:'#e090c0',neuter:'#6dbf9a'};
+  const gc = genderColor[d.gender] || '#888';
+  let html = '<div style="margin-bottom:14px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;">' +
+    '<span style="font-size:22px;font-weight:900;font-family:DM Mono,monospace;color:'+gc+'">'+esc(d.word)+'</span>' +
+    '<span style="margin-left:10px;font-size:13px;color:var(--text2)">'+esc(d.meaning_tr||'')+'</span>' +
+    '<span style="margin-left:8px;font-size:11px;padding:2px 8px;border-radius:99px;background:'+gc+'22;color:'+gc+';border:1px solid '+gc+'44">'+esc(genderMap[d.gender]||d.gender||'')+'</span>' +
+    (d.notes ? '<div style="margin-top:8px;font-size:12px;color:var(--text3);font-style:italic">⚠ '+esc(d.notes)+'</div>' : '') +
+    '</div>';
+  html += '<div style="overflow-x:auto"><table class="decl-table"><thead><tr>' +
+    '<th>Hal</th><th>Soru</th><th>Tekil</th><th>Çoğul</th>' +
+    '</tr></thead><tbody>';
+  Object.entries(CASE_NAMES).forEach(([key, info]) => {
+    const sg = (d.singular && d.singular[key]) || '—';
+    const pl = (d.plural && d.plural[key]) || '—';
+    html += '<tr><td class="decl-case">'+info.tr+'</td><td style="font-size:11px;color:var(--text3)">'+info.q+'</td>' +
+      '<td class="decl-sg">'+esc(sg)+'</td><td class="decl-pl">'+esc(pl)+'</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  res.innerHTML = html;
+}
+
+// ── VÜCUT ─────────────────────────────────────────────────
+const VUCUT_WORDS = [{'pl': 'głowa', 'tr': 'baş', 'en': 'head'}, {'pl': 'twarz', 'tr': 'yüz', 'en': 'face'}, {'pl': 'czoło', 'tr': 'alın', 'en': 'forehead'}, {'pl': 'oko', 'tr': 'göz', 'en': 'eye'}, {'pl': 'nos', 'tr': 'burun', 'en': 'nose'}, {'pl': 'usta', 'tr': 'ağız', 'en': 'mouth'}, {'pl': 'ucho', 'tr': 'kulak', 'en': 'ear'}, {'pl': 'zęby', 'tr': 'dişler', 'en': 'teeth'}, {'pl': 'język', 'tr': 'dil', 'en': 'tongue'}, {'pl': 'szyja', 'tr': 'boyun', 'en': 'neck'}, {'pl': 'ramię', 'tr': 'omuz/kol', 'en': 'shoulder/arm'}, {'pl': 'łokieć', 'tr': 'dirsek', 'en': 'elbow'}, {'pl': 'nadgarstek', 'tr': 'bilek', 'en': 'wrist'}, {'pl': 'ręka', 'tr': 'el', 'en': 'hand'}, {'pl': 'palec', 'tr': 'parmak', 'en': 'finger'}, {'pl': 'paznokieć', 'tr': 'tırnak', 'en': 'nail'}, {'pl': 'klatka piersiowa', 'tr': 'göğüs', 'en': 'chest'}, {'pl': 'serce', 'tr': 'kalp', 'en': 'heart'}, {'pl': 'płuca', 'tr': 'akciğerler', 'en': 'lungs'}, {'pl': 'żołądek', 'tr': 'mide', 'en': 'stomach'}, {'pl': 'brzuch', 'tr': 'karın', 'en': 'belly'}, {'pl': 'plecy', 'tr': 'sırt', 'en': 'back'}, {'pl': 'kręgosłup', 'tr': 'omurga', 'en': 'spine'}, {'pl': 'biodro', 'tr': 'kalça', 'en': 'hip'}, {'pl': 'noga', 'tr': 'bacak', 'en': 'leg'}, {'pl': 'udo', 'tr': 'uyluk', 'en': 'thigh'}, {'pl': 'kolano', 'tr': 'diz', 'en': 'knee'}, {'pl': 'łydka', 'tr': 'baldır', 'en': 'calf'}, {'pl': 'kostka', 'tr': 'ayak bileği', 'en': 'ankle'}, {'pl': 'stopa', 'tr': 'ayak', 'en': 'foot'}, {'pl': 'palec u nogi', 'tr': 'ayak parmağı', 'en': 'toe'}, {'pl': 'skóra', 'tr': 'cilt', 'en': 'skin'}, {'pl': 'krew', 'tr': 'kan', 'en': 'blood'}, {'pl': 'kość', 'tr': 'kemik', 'en': 'bone'}, {'pl': 'mięsień', 'tr': 'kas', 'en': 'muscle'}, {'pl': 'włosy', 'tr': 'saç', 'en': 'hair'}, {'pl': 'brwi', 'tr': 'kaşlar', 'en': 'eyebrows'}, {'pl': 'rzęsy', 'tr': 'kirpikler', 'en': 'eyelashes'}, {'pl': 'policzek', 'tr': 'yanak', 'en': 'cheek'}, {'pl': 'podbródek', 'tr': 'çene', 'en': 'chin'}];
+
+function initVucutList(){
+  const el = document.getElementById('vucut-word-list');
+  if(!el || el.children.length > 0) return;
+  VUCUT_WORDS.forEach(function(w) {
+    const div = document.createElement('div');
+    div.className = 'vucut-item';
+    const pl = document.createElement('div'); pl.className='vucut-item-pl'; pl.textContent=w.pl;
+    const tr = document.createElement('div'); tr.className='vucut-item-tr'; tr.textContent=w.tr;
+    const btn = document.createElement('button'); btn.className='vucut-save'; btn.title='Kaydet'; btn.textContent='⭐';
+    btn.onclick = function(e){ e.stopPropagation(); saveVucutWord(null, w.pl, w.tr, 'body'); };
+    div.onclick = function(){ saveVucutWord(null, w.pl, w.tr, 'body'); };
+    div.appendChild(pl); div.appendChild(tr); div.appendChild(btn);
+    el.appendChild(div);
+  });
+}
+
+function showBodyTip(e, el) {
+  const pl = el.dataset.pl, tr = el.dataset.tr;
+  const tip = document.getElementById('body-tooltip');
+  document.getElementById('tooltip-pl').textContent = pl;
+  document.getElementById('tooltip-tr').textContent = tr;
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top = (e.clientY - 10) + 'px';
+  tip.classList.add('visible');
+}
+
+function hideBodyTip() {
+  document.getElementById('body-tooltip').classList.remove('visible');
+}
+
+async function showBodyTipMove(e) {
+  const tip = document.getElementById('body-tooltip');
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top = (e.clientY - 10) + 'px';
+}
+document.addEventListener('mousemove', e => {
+  const tip = document.getElementById('body-tooltip');
+  if(tip && tip.classList.contains('visible')) {
+    tip.style.left = (e.clientX+14)+'px';
+    tip.style.top = (e.clientY-10)+'px';
+  }
+});
+
+async function saveBodyPart(el) {
+  const pl = el.dataset.pl, tr = el.dataset.tr, en = el.dataset.en;
+  await saveVucutWord(pl, tr, en);
+}
+
+async function saveVucutWord(btn, pl, tr, en) {
+  if(btn) { pl=btn.dataset.pl; tr=btn.dataset.tr; en=btn.dataset.en; }
+  await window.polonica.specialSave({
+    pl, original:pl, tr, en,
+    category:'noun', type:'rzeczownik',
+    is_idiom:false, slang:false,
+    source:'Vucut', source_type:'lesson',
+    example_pl:'', example_tr:''
+  });
+  // Kısa flash feedback
+  const items = document.querySelectorAll('.vucut-item');
+  items.forEach(i => { if(i.querySelector('.vucut-item-pl') && i.querySelector('.vucut-item-pl').textContent===pl) { i.style.background='var(--green-bg)'; setTimeout(()=>i.style.background='',1000); } });
+}
+
+function switchFonTab(tab) {
+  ['samog','spol','tips'].forEach(function(t) {
+    var sec = document.getElementById('fon-sec-'+t);
+    var btn = document.getElementById('fon-tab-'+t);
+    if(sec) sec.style.display = t===tab ? 'block' : 'none';
+    if(btn) btn.classList.toggle('active', t===tab);
+  });
+}
+
+// ── JAK SIĘ MÓWI ──────────────────────────────────────────
+const JAK_COLORS = {
+  'Resmi':   {bg:'#0d1020',border:'#5080c0',color:'#7090d0'},
+  'Gündelik':{bg:'#0d1a10',border:'#4a9a6a',color:'#6dbf9a'},
+  'Kanka':   {bg:'#1a0d10',border:'#c060a0',color:'#e090c0'},
+  'Slang':   {bg:'#1a0d0d',border:'#c05050',color:'#e07070'},
+  'Yazılı':  {bg:'#0d1515',border:'#5dc0b0',color:'#5dc0b0'},
+};
+
+function setJakSituation(text) {
+  const inp = document.getElementById('jak-input');
+  if(inp) { inp.value = text; jakSieMowi(); }
+}
+
+async function jakSieMowi() {
+  const situation = (document.getElementById('jak-input')||{}).value || '';
+  if(!situation.trim()) return;
+  const btn = document.getElementById('jak-btn');
+  const res = document.getElementById('jak-result');
+  btn.disabled = true; btn.textContent = '...';
+  res.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span> Hazırlanıyor...</div>';
+  try {
+    const data = await api.post('/api/jaksiemowi', { situation: situation.trim() });
+    if(!data.phrases || !data.phrases.length) throw new Error('Sonuç alınamadı.');
+    res.innerHTML = '';
+    data.phrases.forEach(function(p, i) {
+      const c = JAK_COLORS[p.register] || JAK_COLORS['Gündelik'];
+      const card = document.createElement('div');
+      card.className = 'jak-card';
+      card.style.cssText = 'border-color:'+c.border+'44;animation-delay:'+(i*50)+'ms';
+      card.innerHTML =
+        '<div class="jak-card-header" style="background:'+c.bg+'">'+
+          '<span class="jak-register" style="color:'+c.color+';border-color:'+c.border+';background:'+c.border+'11">'+esc(p.register)+'</span>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div class="jak-pl">'+esc(p.pl)+'</div>'+
+            '<div class="jak-tr">'+esc(p.tr)+'</div>'+
+            (p.note ? '<div class="jak-note">'+esc(p.note)+'</div>' : '')+
+          '</div>'+
+          '<button class="jak-save" data-pl="" data-tr="" data-reg="" onclick="saveJakBtnClick(this)">⭐ Kaydet</button>'+
+        '</div>'+
+        (p.example_context ? '<div class="jak-context">💬 '+esc(p.example_context)+'</div>' : '');
+      res.appendChild(card);
     });
-    _tcWrong++; _tcMissed.push(_tcWords[_tcIdx]);
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:14px">Hata: '+esc(e.message)+'</div>';
   }
-  _tcIdx++;
-  setTimeout(tqRenderQuestion, 900);
+  btn.disabled = false; btn.textContent = 'Söyle →';
 }
 
-// ── Sonuçlar ──
-function tcShowResult() {
-  var total = _tcCorrect + _tcWrong;
-  var pct = total > 0 ? Math.round(_tcCorrect / total * 100) : 0;
-  var emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '💪' : '📚';
-  var sub = pct >= 90 ? 'Mükemmel!' : pct >= 70 ? 'Çok iyi!' : pct >= 50 ? 'İdare eder, tekrar et!' : 'Daha çok çalışman lazım!';
+async function saveJakBtnClick(btn) {
+  const card = btn.closest('.jak-card');
+  const pl = card.querySelector('.jak-pl').textContent;
+  const tr = card.querySelector('.jak-tr').textContent;
+  const register = card.querySelector('.jak-register').textContent;
+  const isSlang = register.trim() === 'Slang';
+  await window.polonica.specialSave({
+    pl: pl, original: pl, tr: tr, en: '',
+    category: 'other', type: 'ifade',
+    is_idiom: true, slang: isSlang,
+    slang_note: isSlang ? 'argo' : '',
+    source: 'Jak sie mowi', source_type: 'ejmala',
+    example_pl: '', example_tr: ''
+  });
+  btn.textContent = '✓'; btn.style.color = 'var(--green)';
+  setTimeout(function(){ btn.textContent = '⭐ Kaydet'; btn.style.color = ''; }, 1500);
+}
 
-  document.getElementById('tr-emoji').textContent = emoji;
-  document.getElementById('tr-score').textContent = '%' + pct;
-  document.getElementById('tr-subtitle').textContent = sub + ' (' + _tcCorrect + '/' + total + ')';
-  document.getElementById('tr-correct').textContent = _tcCorrect;
-  document.getElementById('tr-wrong').textContent = _tcWrong;
+// ── CEVAP VER ─────────────────────────────────────────────
+function setCevapPhrase(text) {
+  var inp = document.getElementById('cevap-input');
+  if(inp) { inp.value = text; cevapVer(); }
+}
 
-  var missedList = document.getElementById('tr-missed-list');
-  var missedBlock = document.getElementById('tr-missed-block');
-  if (_tcMissed.length > 0 && missedList) {
-    if (missedBlock) missedBlock.style.display = '';
-    missedList.innerHTML = _tcMissed.map(function(w) {
-      return '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;gap:12px">'
-        + '<span style="color:var(--text);font-weight:600">' + w.front + '</span>'
-        + '<span style="color:var(--teal)">' + w.back + '</span>'
-        + '</div>';
-    }).join('');
-  } else {
-    if (missedBlock) missedBlock.style.display = 'none';
-  }
-
-  // Stats kaydet
-  if (_tcCurrentTestId) {
-    var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
-    tests = tests.map(function(t) {
-      if (t.id === _tcCurrentTestId) {
-        t.stats = t.stats || {};
-        t.stats.played = (t.stats.played || 0) + 1;
-        t.stats.best = Math.max(t.stats.best || 0, pct);
-      }
-      return t;
+async function cevapVer() {
+  var phrase = (document.getElementById('cevap-input')||{}).value || '';
+  if(!phrase.trim()) return;
+  var btn = document.getElementById('cevap-btn');
+  var res = document.getElementById('cevap-result');
+  btn.disabled = true; btn.textContent = '...';
+  res.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span> Cevaplar hazırlanıyor...</div>';
+  try {
+    var data = await api.post('/api/cevapver', { phrase: phrase.trim() });
+    if(!data.responses || !data.responses.length) throw new Error('Sonuc alinamadi.');
+    res.innerHTML = '';
+    // İfade açıklaması
+    if(data.phrase_tr) {
+      var info = document.createElement('div');
+      info.style.cssText = 'background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:14px;';
+      info.innerHTML = '<span style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.08em">Sana söylenen:</span>' +
+        '<div style="font-size:16px;font-weight:800;color:#c8b89a;font-family:DM Mono,monospace;margin:4px 0">'+esc(phrase)+'</div>' +
+        '<div style="font-size:13px;color:var(--text2)">'+esc(data.phrase_tr)+'</div>';
+      res.appendChild(info);
+    }
+    data.responses.forEach(function(p, i) {
+      var c = JAK_COLORS[p.register] || JAK_COLORS['Gündelik'];
+      var card = document.createElement('div');
+      card.className = 'jak-card';
+      card.style.cssText = 'border-color:'+c.border+'44;animation:rowIn .25s ease both;animation-delay:'+(i*50)+'ms';
+      card.innerHTML =
+        '<div class="jak-card-header" style="background:'+c.bg+'">' +
+          '<span class="jak-register" style="color:'+c.color+';border-color:'+c.border+';background:'+c.border+'11">'+esc(p.register)+'</span>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div class="jak-pl">'+esc(p.pl)+'</div>' +
+            '<div class="jak-tr">'+esc(p.tr)+'</div>' +
+            (p.note ? '<div class="jak-note">'+esc(p.note)+'</div>' : '') +
+          '</div>' +
+          '<button class="jak-save" onclick="saveCevapPhrase(this)" title="Kaydet">⭐ Kaydet</button>' +
+        '</div>';
+      res.appendChild(card);
     });
-    localStorage.setItem('polonica_custom_tests', JSON.stringify(tests));
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:14px">Hata: '+esc(e.message)+'</div>';
   }
-  tvShow('tv-result');
+  btn.disabled = false; btn.textContent = 'Cevapla →';
 }
 
-function tcReplay(mode) {
-  _tcWords = _tcWords.sort(function() { return Math.random() - .5; });
-  _tcIdx = 0; _tcCorrect = 0; _tcWrong = 0; _tcMissed = [];
-  var name = (document.getElementById('tc-test-name') || document.getElementById('tq-test-name') || {}).textContent || 'Test';
-  tcPlayMode(_tcWords, name, mode);
+async function saveCevapPhrase(btn) {
+  var card = btn.closest('.jak-card');
+  var pl = card.querySelector('.jak-pl').textContent;
+  var tr = card.querySelector('.jak-tr').textContent;
+  var register = card.querySelector('.jak-register').textContent.trim();
+  await window.polonica.specialSave({
+    pl: pl, original: pl, tr: tr, en: '',
+    category: 'other', type: 'ifade',
+    is_idiom: true, slang: register === 'Slang',
+    source: 'Cevap Ver', source_type: 'ejmala',
+    example_pl: '', example_tr: ''
+  });
+  btn.textContent = '✓'; btn.style.color = 'var(--green)';
+  setTimeout(function(){ btn.textContent = '⭐ Kaydet'; btn.style.color = ''; }, 1500);
 }
 
-function tcExitPlay() {
-  tvShow('tv-list');
-  testLoadList();
+// ── KELIME DETAY MODAL ────────────────────────────────────
+function openWordDetail(e, tc, tl, typeColors, typeLabels) {
+  const modal = document.getElementById('word-detail-modal');
+  const box = document.getElementById('word-detail-content');
+  if(!modal || !box) return;
+
+  const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+  const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+
+  box.innerHTML =
+    '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap;">'+
+      '<span class="special-pl">'+esc(e.pl)+'</span>'+
+      (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
+      '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
+      (e.slang ? '<span class="slang-badge">🔥 argo</span>' : '')+
+    '</div>'+
+    '<div class="special-tr">'+esc(e.tr)+'</div>'+
+    '<div class="special-en">'+esc(e.en||'')+'</div>'+
+    (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+    (e.usage_note ? '<div class="usage-note">💡 '+esc(e.usage_note)+'</div>' : '')+
+    (e.related_phrases && e.related_phrases.length ?
+      '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
+      e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+');closeWordDetail()" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
+      '</div>' : '')+
+    '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">⭐ BURAK NOTU</div>'+
+    '<textarea class="special-note-area" id="modal-note-area" data-id="'+e.id+'" readonly '+
+    'onclick="this.removeAttribute(\'readonly\');this.focus();" '+
+    'onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value);this.setAttribute(\'readonly\',\'\');renderSpecialList();" '+
+    'placeholder="Düzenlemek için dokun..." style="cursor:pointer;">'+esc(e.note||'')+'</textarea>'+
+    '<div class="special-detail-footer" style="margin-top:12px">'+
+      '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
+      '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" data-id="'+e.id+'" onclick="deleteSpecial(this.dataset.id);closeWordDetail()">Sil</button>'+
+    '</div>';
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-// Init
-(function() {
-  if (document.getElementById('tv-list')) {
-    testLoadList();
-    tcResetForm();
+function closeWordDetail() {
+  const modal = document.getElementById('word-detail-modal');
+  if(modal) modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if(e.key === 'Escape') closeWordDetail();
+});
+
+// ── NOTLAR ────────────────────────────────────────────────
+let _notePopupOpen = false;
+
+function toggleNotePopup() {
+  _notePopupOpen = !_notePopupOpen;
+  const popup = document.getElementById('note-popup');
+  if(_notePopupOpen) {
+    popup.classList.add('open');
+    // Mevcut paneli context olarak kaydet
+    const activeNav = document.querySelector('.nav-btn.active');
+    const ctx = activeNav ? activeNav.textContent.trim() : '';
+    document.getElementById('note-popup-context').textContent = ctx ? '📍 '+ctx : '';
+    document.getElementById('note-popup-textarea').value = '';
+    setTimeout(() => document.getElementById('note-popup-textarea').focus(), 100);
+  } else {
+    popup.classList.remove('open');
   }
+}
+
+async function saveNote() {
+  const text = document.getElementById('note-popup-textarea').value.trim();
+  if(!text) return;
+  const ctx = document.getElementById('note-popup-context').textContent.replace('📍 ','');
+  try {
+    await api.post('/api/notes', { text, context: ctx });
+    toggleNotePopup();
+    // Notlar paneli açıksa yenile
+    if(document.getElementById('panel-notes').classList.contains('active')) loadNotes();
+    // Kısa feedback
+    const fab = document.getElementById('note-fab');
+    fab.textContent = '✓';
+    fab.style.color = 'var(--green)';
+    setTimeout(() => { fab.textContent = '📝'; fab.style.color = ''; }, 1500);
+  } catch(e) { alert('Hata: '+e.message); }
+}
+
+async function loadNotes() {
+  const list = document.getElementById('notes-list');
+  if(!list) return;
+  list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span></div>';
+  try {
+    const notes = await api.get('/api/notes');
+    if(!notes.length) {
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)"><div style="font-size:36px;margin-bottom:12px">📝</div><div style="font-size:15px;font-weight:700;margin-bottom:6px">Not yok</div><div style="font-size:13px">Sağ alttaki 📝 butonuna basarak her yerden not ekleyebilirsin.</div></div>';
+      return;
+    }
+    list.innerHTML = '';
+    notes.forEach(function(n) {
+      const div = document.createElement('div');
+      div.className = 'note-item';
+      div.style.animation = 'rowIn .2s ease both';
+      const date = new Date(n.createdAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
+      div.innerHTML =
+        '<div class="note-item-text">'+esc(n.text)+'</div>'+
+        '<div class="note-item-footer">'+
+          '<div style="display:flex;align-items:center;gap:8px">'+
+            '<span class="note-item-meta">'+date+'</span>'+
+            (n.context ? '<span class="note-item-context">'+esc(n.context)+'</span>' : '')+
+          '</div>'+
+          '<button class="note-item-del" data-id="'+n.id+'" onclick="deleteNote(this.dataset.id)" title="Sil">🗑</button>'+
+        '</div>';
+      list.appendChild(div);
+    });
+  } catch(e) {
+    list.innerHTML = '<div style="color:var(--red);padding:20px">Yüklenemedi: '+esc(e.message)+'</div>';
+  }
+}
+
+async function deleteNote(id) {
+  await api.del('/api/notes/'+id);
+  loadNotes();
+}
+
+// Popup dışına tıklayınca kapat
+document.addEventListener('click', function(e) {
+  if(_notePopupOpen) {
+    const popup = document.getElementById('note-popup');
+    const fab = document.getElementById('note-fab');
+    if(popup && !popup.contains(e.target) && fab && !fab.contains(e.target)) {
+      toggleNotePopup();
+    }
+  }
+});
+
+// ── SPOTIFY ───────────────────────────────────────────────
+let _spotifyInterval = null;
+let _spotifyVisible = false;
+let _spotifyDragging = false;
+let _dragOffset = {x:0, y:0};
+
+function connectSpotify() {
+  const profile = localStorage.getItem('polonica_profile') || 'default';
+  const w = window.open('/spotify/login?profile='+profile, 'spotify_login', 'width=500,height=700');
+  window.addEventListener('message', function onMsg(e) {
+    if(e.data === 'spotify_connected') {
+      window.removeEventListener('message', onMsg);
+      w && w.close();
+      document.getElementById('spotify-connect-btn').classList.remove('show');
+      startSpotifyPolling();
+    }
+  });
+}
+
+function hideSpotifyWidget() {
+  const w = document.getElementById('spotify-widget');
+  const bar = document.getElementById('spotify-bar');
+  bar.classList.add('hiding');
+  setTimeout(() => { w.classList.remove('visible'); bar.classList.remove('hiding'); _spotifyVisible = false; }, 400);
+}
+
+async function checkSpotify() {
+  try {
+    const data = await api.get('/api/spotify/now-playing');
+    const widget = document.getElementById('spotify-widget');
+    const connectBtn = document.getElementById('spotify-connect-btn');
+
+    if(!data.connected) {
+      // Bağlı değil - bağla butonu göster
+      connectBtn.classList.add('show');
+    document.getElementById('spotify-sidebar-btn').classList.add('show');
+      return;
+    }
+    connectBtn.classList.remove('show');
+    document.getElementById('spotify-sidebar-btn').classList.remove('show');
+
+    _isPlaying = data.playing;
+    const ppBtn = document.getElementById('sp-playpause');
+    if(ppBtn) ppBtn.textContent = data.playing ? '⏸' : '▶';
+    if(!data.playing) {
+      // Çalmıyor - widget'ı gizle
+      if(_spotifyVisible) hideSpotifyWidget();
+      return;
+    }
+
+    // Çalıyor - widget göster
+    checkSpotifyEaster(data.artist, data.track);
+    document.getElementById('spotify-track').textContent = data.track;
+    document.getElementById('spotify-artist').textContent = data.artist;
+    const cover = document.getElementById('spotify-cover');
+    if(data.cover && cover.src !== data.cover) cover.src = data.cover;
+    const pct = data.duration_ms > 0 ? (data.progress_ms / data.duration_ms * 100) : 0;
+    document.getElementById('spotify-progress').style.width = pct + '%';
+
+    if(!_spotifyVisible) {
+      widget.style.left = '';
+      widget.style.top = '';
+      widget.style.bottom = '24px';
+      widget.style.transform = '';
+      widget.classList.remove('dragging-mode');
+      widget.classList.add('visible');
+      _spotifyVisible = true;
+    }
+  } catch(e) { /* sessizce hata */ }
+}
+
+function startSpotifyPolling() {
+  checkSpotify();
+  if(_spotifyInterval) clearInterval(_spotifyInterval);
+  _spotifyInterval = setInterval(checkSpotify, 8000);
+}
+
+// Fizik tabanlı sürükleme + momentum
+(function initDrag(){
+  const bar = document.getElementById('spotify-bar');
+  if(!bar) return;
+  let velX = 0, velY = 0, lastX = 0, lastY = 0, lastT = 0;
+  let animFrame = null;
+
+  bar.addEventListener('pointerdown', function(e) {
+    if(e.target.closest('button')) return;
+    _spotifyDragging = true;
+    bar.classList.add('dragging');
+    const widget = document.getElementById('spotify-widget');
+    // getBoundingClientRect her zaman doğru pixel pozisyonu verir
+    const rect = widget.getBoundingClientRect();
+    // Önce transform/bottom'u sıfırla, sonra exact pozisyona yerleştir
+    widget.style.transition = 'none';
+    widget.style.animation = 'none';
+    widget.style.bottom = 'auto';
+    widget.style.transform = 'none';
+    widget.style.left = rect.left + 'px';
+    widget.style.top = rect.top + 'px';
+    widget.classList.add('dragging-mode');
+    // Mouse'un widget içindeki offseti
+    _dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    bar.setPointerCapture(e.pointerId);
+    curX = rect.left; curY = rect.top;
+    targetX = rect.left; targetY = rect.top;
+    velX = 0; velY = 0; lastX = e.clientX; lastY = e.clientY; lastT = Date.now();
+    if(animFrame) cancelAnimationFrame(animFrame);
+    lagFrame = null;
+  });
+
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  let lagFrame = null;
+
+  bar.addEventListener('pointermove', function(e) {
+    if(!_spotifyDragging) return;
+    targetX = e.clientX - _dragOffset.x;
+    targetY = e.clientY - _dragOffset.y;
+    const now = Date.now();
+    const dt = Math.max(now - lastT, 1);
+    velX = (e.clientX - lastX) / dt * 8;  // daha yavaş
+    velY = (e.clientY - lastY) / dt * 8;
+    lastX = e.clientX; lastY = e.clientY; lastT = now;
+    // Geriden takip - lazy follow
+    if(!lagFrame) lagFrame = requestAnimationFrame(lagFollow);
+  });
+
+  const lagFollow = function() {
+    if(!_spotifyDragging) { lagFrame = null; return; }
+    const widget = document.getElementById('spotify-widget');
+    curX += (targetX - curX) * 0.18;  // ağır his - 0.18 = yavaş
+    curY += (targetY - curY) * 0.18;
+    widget.style.left = curX + 'px';
+    widget.style.top = curY + 'px';
+    lagFrame = requestAnimationFrame(lagFollow);
+  }
+
+  bar.addEventListener('pointerup', function() {
+    if(!_spotifyDragging) return;
+    _spotifyDragging = false;
+    lagFrame = null;
+    bar.classList.remove('dragging');
+    const widget = document.getElementById('spotify-widget');
+    widget.classList.remove('dragging-mode');
+    function momentum() {
+      velX *= 0.88; velY *= 0.88;
+      const x = parseFloat(widget.style.left) + velX;
+      const y = parseFloat(widget.style.top) + velY;
+      // Ekran sınırları
+      const maxX = window.innerWidth - widget.offsetWidth - 10;
+      const maxY = window.innerHeight - widget.offsetHeight - 10;
+      const cx = Math.max(10, Math.min(maxX, x));
+      const cy = Math.max(10, Math.min(maxY, y));
+      if(x < 10 || x > maxX) velX *= -0.4;
+      if(y < 10 || y > maxY) velY *= -0.4;
+      widget.style.left = cx + 'px';
+      widget.style.top = cy + 'px';
+      if(Math.abs(velX) > 0.3 || Math.abs(velY) > 0.3) {
+        animFrame = requestAnimationFrame(momentum);
+      }
+    }
+    animFrame = requestAnimationFrame(momentum);
+  });
 })();
 
+// Kontrol fonksiyonları
+let _isPlaying = false;
+
+async function spotifyPlayPause() {
+  try {
+    await api.post('/api/spotify/play-pause', { is_playing: _isPlaying });
+    setTimeout(checkSpotify, 300);
+  } catch(e) {}
+}
+
+async function spotifyNext() {
+  try {
+    await api.post('/api/spotify/next', {});
+    setTimeout(checkSpotify, 500);
+  } catch(e) {}
+}
+
+async function spotifyPrev() {
+  try {
+    await api.post('/api/spotify/previous', {});
+    setTimeout(checkSpotify, 500);
+  } catch(e) {}
+}
+
+// Sayfa açılınca Spotify durumunu kontrol et
+setTimeout(startSpotifyPolling, 2000);
+
+// ── SPOTIFY EASTER EGGS ───────────────────────────────────
+const _spEasterMap = {
+  'otsochodzi': {
+    emojis: ['🧱','📦','🏗','⛓','🔨','🪨'],
+    text: 'ROZJEBMY TO!', color: '#ff4400', textColor: '#fff'
+  },
+  'youngigi': {
+    emojis: ['🔥','💥','⚡','🌪','🔥'],
+    text: 'YI 🔥', color: '#ff6600', textColor: '#fff'
+  },
+  'sobel': {
+    emojis: ['🌙','⭐','✨','🌟','💫'],
+    text: 'Sobel ✨', color: '#6644cc', textColor: '#e0d0ff'
+  },
+  'oki': {
+    emojis: ['🦔','🦔','47','🦔','47'],
+    text: '47 🦔', color: '#2a2a2a', textColor: '#fff'
+  },
+  'taco hemingway': {
+    emojis: ['📝','✍️','📖','🖊','📜'],
+    text: 'Taco 📝', color: '#8b4513', textColor: '#f5deb3'
+  },
+  'kinny zimmer': {
+    emojis: ['💯','💯','💯'],
+    text: '💯', color: '#000', textColor: '#fff',
+    special: true  // Her şarkıda çıkar
+  },
+  'mata': {
+    emojis: ['💎','💍','✨','👑','💎'],
+    text: 'Cartier 💎', color: '#c0a000', textColor: '#fff'
+  },
+  'pezet': {
+    emojis: ['🎤','🎧','🔊','💿','🎤'],
+    text: 'PEZET 🎤', color: '#1a1a1a', textColor: '#aaa'
+  },
+  'kizo': {
+    emojis: ['🤡','💀','🤡','😂','🤡'],
+    text: 'KIZO 🤡', color: '#ff0000', textColor: '#fff'
+  },
+  'maciek': {
+    emojis: ['👔','👕','🧥','👗','👔'],
+    text: 'MIÜ 👔', color: '#334466', textColor: '#fff'
+  },
+  'miü': {
+    emojis: ['👔','👕','🧥','👗','👔'],
+    text: 'MIÜ 👔', color: '#334466', textColor: '#fff'
+  },
+  'club 2020': {
+    emojis: ['🪩','🕺','💃','🎶','🪩'],
+    text: 'CLUB 2020 🪩', color: '#ff00ff', textColor: '#fff'
+  }
+};
+
+// Oturum bazlı — F5'e kadar her sanatçı 1 kere
+const _spShownThisSession = new Set();
+let _lastSpTrack = '';
+
+function _matchArtist(artistStr) {
+  if (!artistStr) return null;
+  const a = artistStr.toLowerCase();
+  for (const key of Object.keys(_spEasterMap)) {
+    if (a.includes(key)) return key;
+  }
+  return null;
+}
+
+function spawnEasterEgg(key, track) {
+  const cfg = _spEasterMap[key];
+  if (!cfg) return;
+
+  // Partiküller
+  for (let i = 0; i < 22; i++) {
+    const el = document.createElement('div');
+    el.className = 'sp-easter-particle';
+    el.textContent = cfg.emojis[Math.floor(Math.random() * cfg.emojis.length)];
+    el.style.cssText = [
+      'left:' + (5 + Math.random() * 90) + 'vw',
+      'top:-40px',
+      'font-size:' + (22 + Math.random() * 20) + 'px',
+      'animation-duration:' + (1.8 + Math.random() * 1.8) + 's',
+      'animation-delay:' + (Math.random() * 0.6) + 's'
+    ].join(';');
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+
+  // Yazı
+  const txt = document.createElement('div');
+  txt.className = 'sp-easter-text';
+  txt.textContent = cfg.text;
+  txt.style.cssText = 'font-size:clamp(32px,6vw,64px);color:' + cfg.textColor + ';text-shadow:0 0 30px ' + cfg.color + ';';
+  document.body.appendChild(txt);
+  setTimeout(() => txt.remove(), 3000);
+}
+
+function checkSpotifyEaster(artist, track) {
+  if (!artist || !track) return;
+  if (_lastSpTrack === track) return;
+  _lastSpTrack = track;
+  const key = _matchArtist(artist);
+  if (!key) return;
+  // Bu oturumda zaten çıktıysa gösterme
+  if (_spShownThisSession.has(key)) return;
+  _spShownThisSession.add(key);
+  setTimeout(() => spawnEasterEgg(key, track), 800);
+}
+
+// ── KÜLTÜR ────────────────────────────────────────────────
+let _kulturCat = '';
+
+function selectKulturCat(btn, cat) {
+  document.querySelectorAll('.kultur-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _kulturCat = cat;
+}
+
+async function loadKultur() {
+  const btn = document.getElementById('kultur-btn');
+  const res = document.getElementById('kultur-result');
+  btn.style.opacity = '0.5';
+  btn.querySelector('span:last-child').textContent = 'Yükleniyor...';
+  res.innerHTML = '';
+  try {
+    const data = await api.post('/api/kultur', { category: _kulturCat });
+    renderKulturCard(data);
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:20px">Hata: '+esc(e.message)+'</div>';
+  }
+  btn.style.opacity = '1';
+  btn.querySelector('span:last-child').textContent = 'Bir Daha Şaşırt!';
+}
+
+function renderKulturCard(d) {
+  const res = document.getElementById('kultur-result');
+  const card = document.createElement('div');
+  card.className = 'kultur-card';
+
+  const header = document.createElement('div');
+  header.className = 'kultur-card-header';
+  header.innerHTML =
+    '<div class="kultur-card-cat">' + esc(d.emoji||'✨') + ' ' + esc(d.category||'Kültür') + '</div>' +
+    '<div class="kultur-card-title">' + esc(d.title||'') + '</div>' +
+    (d.title_tr ? '<div class="kultur-card-title-tr">' + esc(d.title_tr) + '</div>' : '') +
+    (d.period ? '<div class="kultur-card-period">📅 ' + esc(d.period) + '</div>' : '');
+
+  const body = document.createElement('div');
+  body.className = 'kultur-card-body';
+  body.innerHTML =
+    '<div class="kultur-card-fact">' + esc(d.fact||'') + '</div>' +
+    (d.why_matters ? '<div class="kultur-card-why">💡 <strong>Neden bilmelisin?</strong><br>' + esc(d.why_matters) + '</div>' : '') +
+    (d.polish_connection ? '<div class="kultur-card-polish" style="margin-bottom:14px">🇵🇱 ' + esc(d.polish_connection) + '</div>' : '');
+
+  // Kaydet butonu
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'btn';
+  saveBtn.style.cssText = 'font-size:12px;margin-top:4px;width:100%;';
+  saveBtn.textContent = '📌 Notlara Kaydet';
+  saveBtn.onclick = function() {
+    const noteText = (d.emoji||'✨') + ' ' + (d.title||'') +
+      (d.period ? ' — ' + d.period : '') + '\n\n' +
+      (d.fact||'') +
+      (d.why_matters ? '\n\n💡 ' + d.why_matters : '') +
+      (d.polish_connection ? '\n\n🇵🇱 ' + d.polish_connection : '');
+    api.post('/api/notes', {
+      text: noteText,
+      context: '🏛 Kültür · ' + (d.category||'')
+    }).then(function() {
+      saveBtn.textContent = '✓ Kaydedildi!';
+      saveBtn.style.color = 'var(--green)';
+      saveBtn.style.borderColor = 'var(--green)';
+      setTimeout(function(){ saveBtn.textContent = '📌 Notlara Kaydet'; saveBtn.style.color=''; saveBtn.style.borderColor=''; }, 2000);
+    });
+  };
+  body.appendChild(saveBtn);
+
+  card.appendChild(header);
+  card.appendChild(body);
+  res.appendChild(card);
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── GRAMMAR FONKSİYONLARI ─────────────────────────────────
+
+function switchGTab(tab) {
+  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
+  const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar','fiilgr','emirki','rejim','asplist','harfdeg','modal','prefix'].indexOf(tab);
+  if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
+  const sec = document.getElementById('gsec-'+tab);
+  if(sec) sec.classList.add('active');
+}
+
+function filterRejim(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('rejim-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('#rejim-list .baglaç-cat').forEach(cat => {
+    const catTitle = (cat.querySelector('.baglaç-cat-title')||{}).textContent||'';
+    let catVisible = !q || catTitle.toLowerCase().includes(q);
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const match = !q || text.includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if(catVisible) anyVisible = true;
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
+}
+
+function filterEdatlar(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('edat-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('#edat-list .baglaç-cat').forEach(cat => {
+    const catTitle = (cat.querySelector('.baglaç-cat-title')||{}).textContent||'';
+    let catVisible = !q || catTitle.toLowerCase().includes(q);
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const match = !q || text.includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if(catVisible) anyVisible = true;
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
+}
+function filterEdatlarByCase(hal) {
+  const inp = document.getElementById('edat-search');
+  if(inp) inp.value = hal;
+  filterEdatlar(hal);
+}
+
+function filterZamirler(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('zamir-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('#zamir-list .baglaç-cat').forEach(cat => {
+    const catTitle = (cat.querySelector('.baglaç-cat-title')||{}).textContent||'';
+    let catVisible = !q || catTitle.toLowerCase().includes(q);
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const pl = (row.querySelector('.baglaç-pl')||{}).textContent||'';
+      const tr = (row.querySelector('.baglaç-tr')||{}).textContent||'';
+      const en = (row.querySelector('.baglaç-en')||{}).textContent||'';
+      const ex = (row.querySelector('.baglaç-detail')||{}).textContent||'';
+      const match = !q || pl.toLowerCase().includes(q) || tr.toLowerCase().includes(q) || en.toLowerCase().includes(q) || ex.toLowerCase().includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if(catVisible) anyVisible = true;
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
+}
+
+function filterBaglaçlar(q) {
+  q = q.toLowerCase().trim();
+  const noResult = document.getElementById('baglaç-no-result');
+  let anyVisible = false;
+  document.querySelectorAll('.baglaç-cat').forEach(cat => {
+    let catVisible = false;
+    cat.querySelectorAll('.baglaç-row').forEach(row => {
+      const pl = (row.querySelector('.baglaç-pl')||{}).textContent||'';
+      const tr = (row.querySelector('.baglaç-tr')||{}).textContent||'';
+      const en = (row.querySelector('.baglaç-en')||{}).textContent||'';
+      const ex = (row.querySelector('.baglaç-detail')||{}).textContent||'';
+      const match = !q || pl.toLowerCase().includes(q) || tr.toLowerCase().includes(q) || en.toLowerCase().includes(q) || ex.toLowerCase().includes(q);
+      row.style.display = match ? '' : 'none';
+      if(match) { catVisible = true; anyVisible = true; }
+    });
+    cat.style.display = catVisible ? '' : 'none';
+  });
+  if(noResult) noResult.style.display = anyVisible ? 'none' : 'block';
+}
+
+async function lookupAspect() {
+  const verb = document.getElementById('aspect-input').value.trim();
+  if (!verb) return;
+  const btn = document.getElementById('aspect-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('aspect-result').innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center"><span class="spinner"></span> Analiz ediliyor...</div>';
+  try {
+    const data = await api.post('/api/grammar/aspect', { verb });
+    renderAspectResult(data);
+  } catch(e) {
+    document.getElementById('aspect-result').innerHTML = '<div style="color:var(--red)">Hata: ' + esc(e.message) + '</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Analiz Et';
+}
+
+function quickAspect(verb) {
+  document.getElementById('aspect-input').value = verb;
+  lookupAspect();
+}
+
+function renderAspectResult(d) {
+  const el = document.getElementById('aspect-result');
+  if (!d || !d.ndk) { el.innerHTML = '<div style="color:var(--red)">Sonuç alınamadı.</div>'; return; }
+  el.innerHTML =
+    '<div class="aspect-grid">' +
+      '<div class="aspect-ndk">' +
+        '<div class="aspect-label" style="color:#7090d0">Niedokonany (ndk.) — Bitmemiş</div>' +
+        '<div class="aspect-form" style="color:#7090d0">' + esc(d.ndk.form) + '</div>' +
+        '<div class="aspect-meaning">' + esc(d.ndk.meaning_tr) + '</div>' +
+        '<div class="aspect-usage">' + esc(d.ndk.usage_tr) + '</div>' +
+      '</div>' +
+      '<div class="aspect-dk">' +
+        '<div class="aspect-label" style="color:#6dbf9a">Dokonany (dk.) — Tamamlanmış</div>' +
+        '<div class="aspect-form" style="color:#6dbf9a">' + esc(d.dk.form) + '</div>' +
+        '<div class="aspect-meaning">' + esc(d.dk.meaning_tr) + '</div>' +
+        '<div class="aspect-usage">' + esc(d.dk.usage_tr) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="aspect-diff"><strong style="color:var(--accent)">Fark:</strong> ' + esc(d.difference_tr) + '</div>' +
+    (d.example_ndk_pl ? '<div class="aspect-ex"><div class="aspect-ex-pl">ndk: ' + esc(d.example_ndk_pl) + '</div><div class="aspect-ex-tr">' + esc(d.example_ndk_tr) + '</div></div>' : '') +
+    (d.example_dk_pl ? '<div class="aspect-ex"><div class="aspect-ex-pl">dk: ' + esc(d.example_dk_pl) + '</div><div class="aspect-ex-tr">' + esc(d.example_dk_tr) + '</div></div>' : '');
+}
+
+async function askGrammar() {
+  const query = document.getElementById('grammar-query-input').value.trim();
+  if (!query) return;
+  const btn = document.getElementById('grammar-ask-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('grammar-answer').innerHTML = '<div style="color:var(--text3);padding:20px;text-align:center"><span class="spinner"></span> Yanıt hazırlanıyor...</div>';
+  try {
+    const data = await api.post('/api/grammar/query', { query });
+    const html = markdownToHtml(data.answer || '');
+    document.getElementById('grammar-answer').innerHTML = '<div class="grammar-answer">' + html + '</div>';
+  } catch(e) {
+    document.getElementById('grammar-answer').innerHTML = '<div style="color:var(--red)">Hata: ' + esc(e.message) + '</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Sor';
+}
+
+function quickQuery(q) {
+  document.getElementById('grammar-query-input').value = q;
+  askGrammar();
+}
+
+// ── EJ MAŁA ───────────────────────────────────────────────
+const EJMALA_SECTIONS = [
+  { key:'formal',      title:'Resmi',       icon:'📋', bg:'#0d1a30', border:'#5080c0', color:'#7090d0' },
+  { key:'everyday',    title:'Gündelik',    icon:'💬', bg:'#0d1a10', border:'#4a9a6a', color:'#6dbf9a' },
+  { key:'slang',       title:'Slang',       icon:'🔥', bg:'#1a0d0d', border:'#c05050', color:'#e07070' },
+  { key:'patterns',    title:'Kalıplar',    icon:'🔗', bg:'#0d1515', border:'#5dc0b0', color:'#5dc0b0' },
+  { key:'alternatives',title:'Alternatifler',icon:'🔄',bg:'#1a100d', border:'#c8a050', color:'#c8a050' },
+];
+
+async function ejMalaSearch() {
+  const word = document.getElementById('ejmala-input').value.trim();
+  if (!word) return;
+  const btn = document.getElementById('ejmala-btn');
+  btn.disabled = true; btn.textContent = '...';
+  document.getElementById('ejmala-result').classList.remove('visible');
+  try {
+    const data = await api.post('/api/ejmala', { word });
+    renderEjMala(data, word);
+    document.getElementById('ejmala-result').classList.add('visible');
+  } catch(e) {
+    alert('Hata: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = 'Goster →';
+}
+
+function renderEjMala(d, word) {
+  // Base kart
+  document.getElementById('ejmala-base').innerHTML =
+    '<div class="ejmala-base-pl">' + esc(d.base || word) + '</div>' +
+    '<div class="ejmala-base-tr">' + esc(d.base_tr || '') + '</div>' +
+    '<div class="ejmala-base-en">' + esc(d.base_en || '') + '</div>';
+
+  // Section'lar
+  const sectionsEl = document.getElementById('ejmala-sections');
+  sectionsEl.innerHTML = '';
+
+  EJMALA_SECTIONS.forEach(sec => {
+    const items = d[sec.key];
+    if (!items || !items.length) return;
+    const section = document.createElement('div');
+    section.className = 'ejmala-section';
+    section.innerHTML = '<div class="ejmala-section-title" style="background:'+sec.bg+';color:'+sec.color+';border:1px solid '+sec.border+'44">'+sec.icon+' '+sec.title+'</div>';
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'ejmala-item';
+      div.style.cssText = 'background:'+sec.bg+';border:1px solid '+sec.border+'33';
+      div.innerHTML =
+        '<div style="flex:1;min-width:0">'+
+          '<div class="ejmala-item-pl">' + esc(item.pl||'') + '</div>'+
+          '<div class="ejmala-item-tr">' + esc(item.tr||'') + '</div>'+
+          (item.note||item.register ? '<div class="ejmala-item-note">' + esc(item.note||item.register||'') + '</div>' : '')+
+        '</div>'+
+        '<button class="ejmala-save-btn" style="color:'+sec.color+';border-color:'+sec.border+'">⭐ Kaydet</button>';
+      // Kaydet butonu
+      div.querySelector('.ejmala-save-btn').onclick = (e) => {
+        e.stopPropagation();
+        ejMalaSave(item, sec, d);
+      };
+      // Tıklayınca Burak Special'da ara
+      div.onclick = () => {
+        showPanel('special');
+        document.getElementById('special-word-input').value = item.pl;
+        lookupSpecial();
+      };
+      section.appendChild(div);
+    });
+    sectionsEl.appendChild(section);
+  });
+}
+
+async function ejMalaSave(item, sec, baseData) {
+  const entry = {
+    pl: item.pl,
+    original: item.pl,
+    tr: item.tr,
+    en: '',
+    category: 'other',
+    type: 'wyrazenie',
+    slang: sec.key === 'slang',
+    slang_note: sec.key === 'slang' ? 'sokak dili' : '',
+    is_idiom: sec.key === 'patterns',
+    idiom_type: sec.key === 'patterns' ? 'kalip' : '',
+    example_pl: '',
+    example_tr: '',
+    register: item.register || (sec.key === 'formal' ? 'resmi' : sec.key === 'slang' ? 'sokak' : 'gundelik'),
+    usage_note: item.note || '',
+    source: 'Ej Mala: ' + (baseData.base || ''),
+    source_type: 'ejmala'
+  };
+  await window.polonica.specialSave(entry);
+  // Görsel feedback
+  event.target.textContent = '✓';
+  event.target.style.background = 'var(--green-bg)';
+  setTimeout(() => { event.target.textContent = '⭐ Kaydet'; event.target.style.background = 'none'; }, 1500);
+}
+
+function markdownToHtml(md) {
+  if (!md) return '';
+  let h = md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/## (.+)/g,'<h2>$1</h2>')
+    .replace(/### (.+)/g,'<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/`(.+?)`/g,'<code style="background:var(--surface3);padding:1px 5px;border-radius:4px;font-family:DM Mono,monospace">$1</code>')
+    .replace(/^- (.+)/gm,'<li style="margin-bottom:3px">$1</li>');
+  h = h.replace(/(<li[^>]*>[\s\S]*?<\/li>)/g, '<ul style="margin:6px 0 8px 16px">$1</ul>');
+  h = h.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+  return '<p>' + h + '</p>';
+}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+
+// ── BURAK SPECIAL ─────────────────────────────────
+let specialList = [];
+let lookupResult = null;
+let _specialTab = 'words'; // 'words' | 'idioms'
+
+function switchSpecialTab(tab) {
+  _specialTab = tab;
+  const wBtn = document.getElementById('stab-words');
+  const iBtn = document.getElementById('stab-idioms');
+  const mBtn = document.getElementById('stab-muzyka');
+  wBtn.className = 'special-tab' + (tab==='words' ? ' active-words' : '');
+  iBtn.className = 'special-tab' + (tab==='idioms' ? ' active-idioms' : '');
+  if(mBtn) mBtn.className = 'special-tab' + (tab==='muzyka' ? ' active-muzyka' : '');
+  const aBtn = document.getElementById('stab-akademik');
+  if(aBtn) aBtn.className = 'special-tab' + (tab==='akademik' ? ' active-akademik' : '');
+  const sBtn = document.getElementById('stab-slang');
+  if(sBtn) sBtn.className = 'special-tab' + (tab==='slang' ? ' active-slang' : '');
+  const searchEl = document.getElementById('special-search');
+  const countEl = document.getElementById('special-count');
+  if(searchEl) searchEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik') ? 'none' : '';
+  if(countEl) countEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik') ? 'none' : '';
+  // Liste animasyonu
+  const listEl = document.getElementById('special-list');
+  if(listEl){ listEl.style.opacity='0'; listEl.style.transform='translateY(6px)'; }
+  setTimeout(() => {
+    renderSpecialList();
+    if(listEl){ listEl.style.transition='opacity .2s,transform .2s'; listEl.style.opacity='1'; listEl.style.transform='translateY(0)'; }
+  }, 80);
+}
+
+async function loadSpecialList(){
+  specialList = await window.polonica.specialList();
+}
+
+async function lookupSpecial(){
+  const word = document.getElementById('special-word-input').value.trim();
+  if(!word) return;
+  const btn = document.getElementById('special-lookup-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const data = await window.polonica.specialLookup({ word, mode: scanMode || 'lesson' });
+    lookupResult = data;
+    showLookupResult(data);
+  } catch(e) {
+    alert('Hata: ' + e.message);
+  }
+  btn.disabled = false;
+  btn.textContent = '🔍 Ara';
+}
+
+function showLookupResult(d){
+  const origDiffers = d.original && d.original.toLowerCase() !== (d.pl||'').toLowerCase();
+
+  // Badge'ler
+  const slangHtml = d.slang ? '<span class="slang-badge">🔥 SLANG' + (d.slang_note ? ' · ' + esc(d.slang_note) : '') + '</span>' : '';
+  const idiomTypeLabels = {deyim:'💬 DEYİM', kalip:'🗣 KALIP', soyleys:'✦ SÖYLEYİŞ'};
+  const idiomHtml = d.is_idiom && d.idiom_type ? '<span class="idiom-badge">' + (idiomTypeLabels[d.idiom_type] || '💬 ' + d.idiom_type.toUpperCase()) + '</span>' : '';
+  const registerLabels = {resmi:'📋 resmi',gundelik:'💬 gündelik',sokak:'🔥 sokak',yazi:'📝 yazı'};
+  const registerHtml = d.register && d.register !== 'gundelik' ? '<span class="idiom-type-badge">' + (registerLabels[d.register]||d.register) + '</span>' : '';
+
+  document.getElementById('slr-pl').innerHTML = idiomHtml + slangHtml + registerHtml + '<strong>' + esc(d.pl || '') + '</strong>';
+  document.getElementById('slr-inflected').textContent = origDiffers ? '(' + (d.original||'') + ')' : '';
+  document.getElementById('slr-note').textContent = d.inflection_note ? ' · ' + d.inflection_note : '';
+  document.getElementById('slr-tr').textContent = d.tr || '';
+  document.getElementById('slr-en').textContent = d.en || '';
+
+  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+  const typeLabels = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
+  const badge = document.getElementById('slr-badge');
+  badge.textContent = typeLabels[d.category] || d.category || '';
+  badge.style.color = typeColors[d.category] || '#888';
+  badge.style.borderColor = (typeColors[d.category] || '#888') + '55';
+  badge.style.background = (typeColors[d.category] || '#888') + '11';
+
+  // Örnek + kullanım notu
+  let exHtml = '';
+  if (d.example_pl) exHtml += '<span style="color:var(--text);font-style:italic">' + esc(d.example_pl) + '</span>';
+  if (d.example_tr) exHtml += '<br><span style="color:var(--text3)">' + esc(d.example_tr) + '</span>';
+  if (d.usage_note) exHtml += '<div class="usage-note">💡 ' + esc(d.usage_note) + '</div>';
+  document.getElementById('slr-example').innerHTML = exHtml;
+
+  // İlgili kalıplar
+  const relEl = document.getElementById('slr-related');
+  if (relEl) {
+    if (d.related_phrases && d.related_phrases.length) {
+      let relHtml = '<div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>';
+      d.related_phrases.forEach(p => {
+        relHtml += '<span class="related-phrase-item" onclick="quickLookupPhrase(' + JSON.stringify(p.pl) + ')" title="' + esc(p.tr||'') + '">' + esc(p.pl) + ' <span style=\"color:var(--text3)\">· ' + esc(p.tr||'') + '</span></span>';
+      });
+      relEl.innerHTML = '<div class="related-phrases">' + relHtml + '</div>';
+      relEl.style.display = 'block';
+    } else {
+      relEl.style.display = 'none';
+    }
+  }
+
+  document.getElementById('slr-note-input').value = '';
+  document.getElementById('special-lookup-result').style.display = 'block';
+  document.getElementById('slr-note-input').focus();
+}
+
+function quickLookupPhrase(phrase) {
+  document.getElementById('special-word-input').value = phrase;
+  lookupSpecial();
+}
+
+function clearLookup(){
+  lookupResult = null;
+  document.getElementById('special-lookup-result').style.display = 'none';
+  document.getElementById('special-word-input').value = '';
+}
+
+async function saveSpecial(){
+  if(!lookupResult) return;
+  const note = document.getElementById('slr-note-input').value.trim();
+  const entry = { ...lookupResult, note };
+  // is_idiom yoksa false olarak set et
+  if(entry.is_idiom === undefined) entry.is_idiom = false;
+  await window.polonica.specialSave(entry);
+  // Doğru sekmeye gec
+  if(entry.slang && entry.source_type !== 'lyrics') switchSpecialTab('slang');
+  else if(entry.source_type === 'lyrics' || (entry.source && !entry.slang)) switchSpecialTab('muzyka');
+  else if(entry.is_idiom) switchSpecialTab('idioms');
+  specialList = await window.polonica.specialList();
+  clearLookup();
+  renderSpecialList();
+  // Küçük onay animasyonu
+  const btn = document.querySelector('[onclick="saveSpecial()"]');
+  if(btn){ const orig=btn.textContent; btn.textContent='✓ Kaydedildi!'; setTimeout(()=>btn.textContent=orig,1500); }
+}
+
+async function deleteSpecial(id){
+  if(!confirm('Bu kelimeyi defterden sil?')) return;
+  specialList = await window.polonica.specialDelete(id);
+  renderSpecialList();
+}
+
+async function updateSpecialNote(id, note){
+  await window.polonica.specialUpdateNote({ id, note });
+}
+
+function renderSpecialList(){
+  if(typeof window.polonica === 'undefined') return;
+  // Asenkron yükle
+  window.polonica.specialList().then(list => {
+    specialList = list;
+    _renderSpecialList();
+  });
+}
+
+function _renderSpecialList(){
+  const q = (document.getElementById('special-search')||{value:''}).value.toLowerCase();
+  const container = document.getElementById('special-list');
+  const countEl = document.getElementById('special-count');
+  if(!container) return;
+
+  // Kategoriler
+  const muzykaAll = specialList.filter(e => e.source_type === 'lyrics' || (e.source && e.source_type !== 'akademik'));
+  const akademikAll = specialList.filter(e => e.source_type === 'akademik' || e.source_type === 'lesson');
+  const words = specialList.filter(e => !e.is_idiom && e.source_type !== 'lyrics' && !e.source && e.source_type !== 'akademik' && e.source_type !== 'lesson');
+  const idioms = specialList.filter(e => e.is_idiom && e.source_type !== 'akademik' && e.source_type !== 'lesson');
+
+  const slangAll = specialList.filter(e => e.slang && e.source_type !== 'lyrics' && !e.source);
+
+  const wc = document.getElementById('stab-words-count');
+  const ic = document.getElementById('stab-idioms-count');
+  const ac = document.getElementById('stab-akademik-count');
+  const mc = document.getElementById('stab-muzyka-count');
+  const sc = document.getElementById('stab-slang-count');
+  if(wc) wc.textContent = words.length ? '('+words.length+')' : '';
+  if(ic) ic.textContent = idioms.length ? '('+idioms.length+')' : '';
+  if(ac) ac.textContent = akademikAll.length ? '('+akademikAll.length+')' : '';
+  if(mc) mc.textContent = muzykaAll.length ? '('+muzykaAll.length+')' : '';
+  if(sc) sc.textContent = slangAll.length ? '('+slangAll.length+')' : '';
+
+  // Muzyka sekmesi - şarkı bazlı grupla
+  // Akademik sekmesi - ünite/tarih bazlı grupla
+  if(_specialTab === 'akademik') {
+    container.innerHTML = '';
+    if(!akademikAll.length) {
+      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">📚</div><div style=\"font-size:16px;font-weight:700;margin-bottom:6px\">Akademik defteri bos</div><div style=\"font-size:13px\">Ders Materyali tarayip Burak Special'a gonder.</div></div>";
+      return;
+    }
+    const groups = {};
+    akademikAll.forEach(e => {
+      const key = e.source || e.unitName || 'Ders Materyali';
+      if(!groups[key]) groups[key] = [];
+      groups[key].push(e);
+    });
+    const typeColors2 = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+    const typeLabels2 = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
+    Object.entries(groups).forEach(([unitName, entries], gi) => {
+      const album = document.createElement('div');
+      album.className = 'muzyka-album';
+      album.style.borderColor = '#5080c044';
+      album.id = 'akademik-album-'+gi;
+      const header = document.createElement('div');
+      header.className = 'muzyka-album-header';
+      header.innerHTML =
+        '<span class="muzyka-album-emoji">📚</span>'+
+        '<div class="muzyka-album-info"><div class="muzyka-album-title" style="color:#7090d0">'+esc(unitName)+'</div>'+
+        '<div class="muzyka-album-meta">'+entries.length+' kelime</div></div>'+
+        '<span class="muzyka-album-count" style="color:#7090d0;border-color:#5080c044;background:#0d1a3011">'+entries.length+'</span>'+
+        '<span class="muzyka-album-arrow">▾</span>';
+      header.onclick = () => album.classList.toggle('open');
+      const wordsDiv = document.createElement('div');
+      wordsDiv.className = 'muzyka-words';
+      entries.forEach(e => {
+        const tc = typeColors2[e.category]||'#888';
+        const tl = typeLabels2[e.category]||'';
+        const row = document.createElement('div');
+        row.className = 'muzyka-word-row';
+        row.onclick = () => quickLookupPhrase(e.pl||e.original);
+        row.innerHTML =
+          '<span class="muzyka-word-pl">'+esc(e.pl||e.original||'')+'</span>'+
+          '<span class="muzyka-word-tr">'+esc(e.tr||'')+'</span>'+
+          (e.note?'<span class="muzyka-word-note">⭐ '+esc(e.note)+'</span>':'')+
+          '<span class="muzyka-word-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>';
+        wordsDiv.appendChild(row);
+      });
+      if(gi===0) album.classList.add('open');
+      album.appendChild(header); album.appendChild(wordsDiv);
+      container.appendChild(album);
+    });
+    return;
+  }
+
+  if(_specialTab === 'muzyka') {
+    container.innerHTML = '';
+    if(!muzykaAll.length) {
+      container.innerHTML = '<div class="muzyka-empty"><div style="font-size:40px;margin-bottom:12px">🎵</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Muzyka defteri boş</div><div style="font-size:13px">Şarkı Sözleri sekmesinden kelime seç → ⭐ Burak Special butonu ile ekle.</div></div>';
+      return;
+    }
+    // Şarkıya göre grupla
+    const groups = {};
+    muzykaAll.forEach(e => {
+      const key = e.source || 'Kaynak bilinmiyor';
+      if(!groups[key]) groups[key] = [];
+      groups[key].push(e);
+    });
+    const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+    const typeLabels = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
+    // Şarkı defterlerini render et
+    Object.entries(groups).forEach(([songName, entries], gi) => {
+      const album = document.createElement('div');
+      album.className = 'muzyka-album';
+      album.id = 'muzyka-album-'+gi;
+      const header = document.createElement('div');
+      header.className = 'muzyka-album-header';
+      header.innerHTML =
+        '<span class="muzyka-album-emoji">🎵</span>'+
+        '<div class="muzyka-album-info">'+
+          '<div class="muzyka-album-title">'+esc(songName)+'</div>'+
+          '<div class="muzyka-album-meta">'+entries.length+' kelime kaydedildi</div>'+
+        '</div>'+
+        '<span class="muzyka-album-count">'+entries.length+'</span>'+
+        '<span class="muzyka-album-arrow">▾</span>';
+      header.onclick = () => {
+        album.classList.toggle('open');
+      };
+      const wordsDiv = document.createElement('div');
+      wordsDiv.className = 'muzyka-words';
+      entries.forEach(e => {
+        const tc = typeColors[e.category]||'#888';
+        const tl = typeLabels[e.category]||e.category||'';
+        const slangBadge = e.slang ? '<span class="slang-badge">🔥</span>' : '';
+        const row = document.createElement('div');
+        row.className = 'muzyka-word-row';
+        row.onclick = () => quickLookupPhrase(e.pl||e.original);
+        row.innerHTML =
+          '<span class="muzyka-word-pl">'+slangBadge+esc(e.pl||e.original||'')+'</span>'+
+          '<span class="muzyka-word-tr">'+esc(e.tr||'')+'</span>'+
+          (e.note ? '<span class="muzyka-word-note">⭐ '+esc(e.note)+'</span>' : '')+
+          '<span class="muzyka-word-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>';
+        wordsDiv.appendChild(row);
+      });
+      // İlk albümü açık bırak
+      if(gi === 0) album.classList.add('open');
+      album.appendChild(header);
+      album.appendChild(wordsDiv);
+      container.appendChild(album);
+    });
+    return;
+  }
+
+  // Slang sekmesi - düz liste kırmızı temalı
+  if(_specialTab === 'slang') {
+    container.innerHTML = '';
+    if(!slangAll.length) {
+      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">🔥</div><div style=\"font-size:16px;font-weight:700\">Slang defteri bos</div><div style=\"font-size:13px\">Ej Mala veya Burak Special'dan slang kaydet.</div></div>";
+      return;
+    }
+    const list2 = [...slangAll].reverse();
+    list2.forEach(e => {
+      const row = document.createElement('div');
+      row.className = 'special-row';
+      row.id = 'sr-'+e.id;
+      row.style.cssText = 'animation:rowIn .22s ease both;animation-delay:'+(list2.indexOf(e)*30)+'ms;';
+      row.onclick = () => toggleSpecialDetail(e.id);
+      const slangNote = e.slang_note ? '<span style="font-size:9px;color:#e07070;font-family:DM Mono,monospace;margin-left:6px;padding:1px 6px;border:1px solid #c0505044;border-radius:99px">'+esc(e.slang_note)+'</span>' : '';
+      row.innerHTML =
+        '<span class="special-row-pl"><span class="slang-badge">🔥</span>'+esc(e.pl)+slangNote+'</span>'+
+        '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
+        (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
+        '<span class="special-row-badge" style="color:#e07070;border-color:#c0505044;background:#1a0d0d">argo</span>'+
+        '<span class="special-row-arrow">▾</span>';
+      const det = document.createElement('div');
+      det.className = 'special-detail'; det.id = 'sd-'+e.id;
+      buildDetailHTML(det, e, {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'}, {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'});
+      container.appendChild(row);
+      container.appendChild(det);
+    });
+    return;
+  }
+
+  const activeList = _specialTab === 'idioms' ? idioms : words;
+  let list = [...activeList].reverse();
+  if(q) list = list.filter(e =>
+    (e.pl||'').toLowerCase().includes(q) ||
+    (e.tr||'').toLowerCase().includes(q) ||
+    (e.note||'').toLowerCase().includes(q) ||
+    (e.original||'').toLowerCase().includes(q)
+  );
+
+  const typeColors = {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'};
+  const typeLabels = {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'};
+  const tabLabel = _specialTab === 'idioms' ? 'deyim/kalip' : 'kelime';
+  countEl.textContent = activeList.length + ' ' + tabLabel + ' kayitli' + (q ? ' - ' + list.length + ' sonuc' : '');
+  if(!list.length){
+    const emptyMsg = _specialTab === 'idioms'
+      ? '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">💬</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Deyim & Kalip defteri bos</div><div style="font-size:13px">Yukaridan "o co chodzi", "nie ma sprawy" gibi kaliplari ara ve kaydet.</div></div>'
+      : '<div class="special-empty"><div style="font-size:40px;margin-bottom:12px">⭐</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">Kelime defteri bos</div><div style="font-size:13px">Yukaridan bir kelime ara ve kaydet.</div></div>';
+    container.innerHTML = activeList.length === 0 ? emptyMsg : '<div class="special-empty">Arama sonucu yok.</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+
+  // Kelimeler sekmesi: kategori + cilt accordion (her cilt max 50)
+  if(_specialTab === 'words' && !q) {
+    const CILT = 50;
+    const cats = [
+      {key:'verb', label:'Fiiller', icon:'🔵', color:'#5080c0'},
+      {key:'noun', label:'İsimler', icon:'🟡', color:'#c8a050'},
+      {key:'adj',  label:'Sıfatlar & Zarflar', icon:'🟢', color:'#4a9a6a'},
+      {key:'other',label:'Diğer', icon:'⚪', color:'#888'},
+    ];
+    cats.forEach(cat => {
+      const catWords = list.filter(e => (e.category||'other') === cat.key);
+      if(!catWords.length) return;
+      // Ciltlere böl
+      for(let ci = 0; ci < Math.ceil(catWords.length/CILT); ci++) {
+        const ciltWords = catWords.slice(ci*CILT, (ci+1)*CILT);
+        const ciltLabel = Math.ceil(catWords.length/CILT) > 1 ? cat.label + ' · Cilt '+(ci+1) : cat.label;
+        const acc = document.createElement('div');
+        acc.className = 'word-accordion' + (ci===0 ? ' open' : '');
+        acc.style.cssText = 'border-color:'+cat.color+'44;animation:accordionIn .3s ease both;animation-delay:'+(ci*60)+'ms;';
+        const header = document.createElement('div');
+        header.className = 'word-accordion-header';
+        header.innerHTML =
+          '<span class="word-accordion-icon">'+cat.icon+'</span>'+
+          '<span class="word-accordion-title" style="color:'+cat.color+'">'+ciltLabel+'</span>'+
+          '<span class="word-accordion-count" style="color:'+cat.color+';border-color:'+cat.color+'44;background:'+cat.color+'11">'+ciltWords.length+'</span>'+
+          '<span class="word-accordion-arrow">▾</span>';
+        header.onclick = () => {
+          const wasOpen = acc.classList.contains('open');
+          acc.classList.toggle('open');
+          if(!wasOpen) {
+            body.querySelectorAll('.special-row').forEach((r,i) => {
+              r.style.animation='none'; void r.offsetWidth;
+              r.style.animation='rowIn .2s ease both';
+              r.style.animationDelay=(i*30)+'ms';
+            });
+          }
+        };
+        const body = document.createElement('div');
+        body.className = 'word-accordion-body';
+        const grid = document.createElement('div');
+        grid.className = 'word-card-grid';
+        ciltWords.forEach((e, rowIdx) => {
+          const tc = typeColors[e.category]||'#888';
+          const tl = typeLabels[e.category]||'';
+
+          const card = document.createElement('div');
+          card.className = 'word-card';
+          card.style.animationDelay = (rowIdx*20)+'ms';
+          card.onclick = function() { openWordDetail(e, tc, tl, typeColors, typeLabels); };
+
+          card.innerHTML =
+            (e.note ? '<span class="word-card-has-note">⭐</span>' : '')+
+            (e.slang ? '<span style="font-size:11px;position:absolute;top:7px;left:10px">🔥</span>' : '')+
+            '<div class="word-card-pl" style="'+(e.slang?'padding-left:18px':'')+'">'+(e.slang?'':'')+esc(e.pl)+'</div>'+
+            '<div class="word-card-tr">'+esc(e.tr)+'</div>'+
+            '<div class="word-card-foot">'+
+              '<span class="word-card-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
+            '</div>';
+
+          grid.appendChild(card);
+        });
+        body.appendChild(grid);
+        acc.appendChild(header);
+        acc.appendChild(body);
+        container.appendChild(acc);
+      }
+    });
+    return;
+  }
+
+  list.forEach((e, rowIdx) => {
+    const tc = typeColors[e.category]||'#888';
+    const tl = typeLabels[e.category]||'';
+    const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+    const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+
+    // KART
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.id = 'sr-'+e.id;
+    card.style.animationDelay = (rowIdx*25)+'ms';
+
+    // Üst kısım - kompakt
+    const top = document.createElement('div');
+    top.className = 'word-card-top';
+    top.onclick = () => {
+      card.classList.toggle('open');
+      // Animasyon yenile
+      const det = card.querySelector('.word-card-detail');
+      if(card.classList.contains('open') && det) {
+        det.style.animation = 'none'; void det.offsetWidth;
+        det.style.animation = 'panelIn .2s ease';
+      }
+    };
+
+    const slangBadge = e.slang ? '<span class="slang-badge" style="flex-shrink:0">🔥</span>' : '';
+    const aspectBadge = (e.category==='verb' && e.aspect_pair) ? '<span class="word-card-aspect">'+esc(e.aspect_pair)+'</span>' : '';
+    const noteBadge = e.note ? '<span class="word-card-note-badge" title="'+esc(e.note)+'">⭐ '+esc(e.note)+'</span>' : '';
+
+    top.innerHTML =
+      '<div class="word-card-pl">'+slangBadge+esc(e.pl)+'</div>'+
+      '<div class="word-card-tr">'+esc(e.tr)+'</div>'+
+      '<div class="word-card-badges">'+
+        (noteBadge||'')+
+        (aspectBadge||'')+
+        '<span class="word-card-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>'+
+        '<span class="word-card-arrow">▾</span>'+
+      '</div>';
+
+    // Detay kısım - tam içerik korunuyor
+    const detail = document.createElement('div');
+    detail.className = 'word-card-detail';
+    detail.innerHTML =
+      '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap;">'+
+        '<span class="special-pl">'+esc(e.pl)+'</span>'+
+        (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
+        '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
+      '</div>'+
+      '<div class="special-tr">'+esc(e.tr)+'</div>'+
+      '<div class="special-en">'+esc(e.en||'')+'</div>'+
+      (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+      (e.usage_note ? '<div class="usage-note">💡 '+esc(e.usage_note)+'</div>' : '')+
+      (e.related_phrases && e.related_phrases.length ?
+        '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
+        e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
+        '</div>' : '')+
+      '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">⭐ BURAK NOTU</div>'+
+      '<textarea class="special-note-area" data-id="'+e.id+'" readonly '+
+      'onclick="this.removeAttribute(\'readonly\');this.focus();" '+
+      'onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value);this.setAttribute(\'readonly\',\'\');" '+
+      'placeholder="Düzenlemek için dokun..." style="cursor:pointer;">'+esc(e.note||'')+'</textarea>'+
+      '<div class="special-detail-footer">'+
+        '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
+        '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
+      '</div>';
+
+    card.appendChild(top);
+    card.appendChild(detail);
+    container.appendChild(card);
+  });
+}
+
+
+function buildDetailHTML(det, e, typeColors, typeLabels) {
+  const tc = typeColors[e.category]||'#888';
+  const tl = typeLabels[e.category]||'';
+  const origDiffers = e.original && e.original.toLowerCase() !== (e.pl||'').toLowerCase();
+  const dateStr = e.savedAt ? new Date(e.savedAt).toLocaleDateString('tr-TR',{day:'numeric',month:'long'}) : '';
+  det.innerHTML =
+    '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap;">'+
+      '<span class="special-pl">'+esc(e.pl)+'</span>'+
+      (origDiffers ? '<span class="special-inflected">('+esc(e.original)+(e.inflection_note?' · <em style="font-size:9px;opacity:.7">'+esc(e.inflection_note)+'</em>':'')+' )</span>' : '')+
+      '<span class="special-type-badge" style="color:'+tc+';border-color:'+tc+'55;background:'+tc+'11">'+tl+'</span>'+
+    '</div>'+
+    '<div class="special-tr">'+esc(e.tr)+'</div>'+
+    '<div class="special-en">'+esc(e.en||'')+'</div>'+
+    (e.example_pl ? '<div class="special-example">'+esc(e.example_pl)+(e.example_tr?'<br><span style="color:var(--text3)">'+esc(e.example_tr)+'</span>':'')+'</div>' : '')+
+    (e.usage_note ? '<div class="usage-note">💡 '+esc(e.usage_note)+'</div>' : '')+
+    (e.related_phrases && e.related_phrases.length ?
+      '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>'+
+      e.related_phrases.map(function(p){ return '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>'; }).join('')+
+      '</div>' : '')+
+    '<div style="font-size:11px;color:var(--accent-dim);font-weight:700;letter-spacing:.05em;margin-bottom:4px">&#11088; BURAK NOTU</div>'+
+    '<textarea class="special-note-area" data-id="'+e.id+'" readonly '+
+      'onclick="this.removeAttribute(\'readonly\');this.focus();" '+
+      'onblur="updateSpecialNoteAndRefresh(this.dataset.id,this.value);this.setAttribute(\'readonly\',\'\');" '+
+      'placeholder="Düzenlemek için dokun..." style="cursor:pointer;">'+esc(e.note||'')+'</textarea>'+
+    '<div class="special-detail-footer">'+
+      '<span class="special-date">'+dateStr+(e.source?' · 🎵 '+esc(e.source):'')+'</span>'+
+      '<button class="btn btn-red" style="font-size:11px;padding:4px 10px" onclick="deleteSpecial(this.dataset.id)" data-id="'+e.id+'">Sil</button>'+
+    '</div>';
+}
+
+function toggleSpecialDetail(id){
+  const row = document.getElementById('sr-'+id);
+  const det = document.getElementById('sd-'+id);
+  if(!row||!det) return;
+  const isOpen = det.classList.contains('open');
+  document.querySelectorAll('.special-detail.open').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.special-row.open').forEach(r=>r.classList.remove('open'));
+  if(!isOpen){
+    det.classList.add('open');
+    row.classList.add('open');
+    const ta = det.querySelector('.special-note-area');
+    if(ta) setTimeout(()=>ta.focus(),50);
+
+    // related_phrases yoksa arka planda Claude'dan çek ve güncelle
+    const entry = specialList.find(e => e.id === id);
+    if(entry && (!entry.related_phrases || !entry.related_phrases.length)) {
+      const relDiv = det.querySelector('.special-related-live');
+      if(relDiv) return; // zaten yükleniyor
+      const placeholder = document.createElement('div');
+      placeholder.className = 'special-related-live';
+      placeholder.style.cssText = 'font-size:11px;color:var(--text3);margin-bottom:8px';
+      placeholder.innerHTML = '<span class="spinner"></span> İlgili kalıplar yükleniyor...';
+      // Not alanından önce ekle
+      const noteLabel = det.querySelector('[style*="accent-dim"]');
+      if(noteLabel) det.insertBefore(placeholder, noteLabel);
+      // Lookup yap
+      window.polonica.specialLookup({ word: entry.pl || entry.original, mode: 'lesson' }).then(data => {
+        if(data.related_phrases && data.related_phrases.length) {
+          // Server'a kaydet
+          entry.related_phrases = data.related_phrases;
+          entry.usage_note = data.usage_note || entry.usage_note;
+          window.polonica.specialSave(entry);
+          // UI'ı güncelle
+          let html = '<div class="related-phrases" style="margin-bottom:10px"><div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:6px">İlgili Kalıplar:</div>';
+          data.related_phrases.forEach(p => {
+            html += '<span class="related-phrase-item" onclick="quickLookupPhrase('+JSON.stringify(p.pl)+')" title="'+esc(p.tr||'')+'">'+esc(p.pl)+(p.tr?' <span style=\"color:var(--text3);font-size:10px\">· '+esc(p.tr)+'</span>':'')+'</span>';
+          });
+          html += '</div>';
+          placeholder.outerHTML = html;
+        } else {
+          placeholder.remove();
+        }
+      }).catch(() => placeholder.remove());
+    }
+  }
+}
+
+async function updateSpecialNoteAndRefresh(id, note){
+  await updateSpecialNote(id, note);
+  // Satır notunu güncelle (yeniden render etmeden)
+  const row = document.getElementById('sr-'+id);
+  if(row){
+    const noteEl = row.querySelector('.special-row-note');
+    if(noteEl){
+      noteEl.style.opacity = note ? '1' : '.3';
+      noteEl.textContent = note ? '⭐ '+note : 'not yok';
+    }
+  }
+}
+
+// ── OCR PASTE ─────────────────────────────────────
+// Textarelara resim yapıştırılınca OCR çalıştır
+function setupPaste(){
+  document.querySelectorAll('textarea').forEach(ta=>{
+    ta.addEventListener('paste', async (e)=>{
+      const items = e.clipboardData && e.clipboardData.items;
+      if(!items) return;
+      for(const item of items){
+        if(item.type.startsWith('image/')){
+          e.preventDefault();
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = async (ev) => {
+            const dataUrl = ev.target.result;
+            const base64 = dataUrl.split(',')[1];
+            const mediaType = item.type;
+
+            // OCR yükleniyor göstergesi
+            const old = ta.placeholder;
+            ta.placeholder = '🔍 Görüntü analiz ediliyor...';
+            ta.disabled = true;
+
+            try {
+              const result = await window.polonica.ocrImage({ base64, mediaType });
+              if(result.text && result.text.trim()){
+                const pos = ta.selectionStart || 0;
+                const before = ta.value.slice(0,pos);
+                const after = ta.value.slice(pos);
+                ta.value = before + result.text + after;
+                // input event'ini tetikle (kelime sayacı için)
+                ta.dispatchEvent(new Event('input'));
+                showOCRBanner(result.method || 'ocr');
+              } else if(result.error) {
+                showOCRError(result.error);
+              }
+            } catch(err){
+              showOCRError(err.message);
+            } finally {
+              ta.placeholder = old;
+              ta.disabled = false;
+              ta.focus();
+            }
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    });
+  });
+}
+
+function showOCRBanner(method){
+  let b = document.getElementById('ocr-banner');
+  if(!b){ b=document.createElement('div'); b.id='ocr-banner';
+    b.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#0d2017;border:1px solid var(--green);color:#6dbf9a;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;z-index:999;transition:opacity .4s';
+    document.body.appendChild(b); }
+  b.textContent = '✓ Metin çıkarıldı (' + (method==='vision'?'Ollama vision':'Tesseract') + ')';
+  b.style.opacity='1';
+  setTimeout(()=>{ b.style.opacity='0'; }, 3000);
+}
+
+function showOCRError(msg){
+  let b = document.getElementById('ocr-banner');
+  if(!b){ b=document.createElement('div'); b.id='ocr-banner';
+    b.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);background:var(--red-bg);border:1px solid var(--red);color:#e07070;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;z-index:999;max-width:500px;text-align:center';
+    document.body.appendChild(b); }
+  b.textContent = '⚠ OCR: ' + msg;
+  b.style.opacity='1';
+  setTimeout(()=>{ b.style.opacity='0'; }, 6000);
+}
+
+// boot() yukarida cagrildi
+
+// ── MOBİL SİDEBAR ─────────────────────────────────────
+function toggleMobileSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  const isOpen = sb.classList.contains('mobile-open');
+  sb.classList.toggle('mobile-open', !isOpen);
+  ov.classList.toggle('visible', !isOpen);
+}
+
+// Panel açılınca mobilde sidebar kapat
+// mobile sidebar showPanel entegre edildi
+
+// ══════════════════════════════════════════════════════
+// 🥚 EASTER EGGS
+// ══════════════════════════════════════════════════════
+
+// ── 1. LOGO EASTER EGG ─────────────────────────────────
+let _logoClicks = 0, _logoTimer = null;
+function logoClick() {
+  _logoClicks++;
+  clearTimeout(_logoTimer);
+  _logoTimer = setTimeout(() => _logoClicks = 0, 2000);
+  if (_logoClicks >= 5) {
+    _logoClicks = 0;
+    _logoClicks = 0;
+    showFlagAnimation();
+    playNationalAnthems();
+  }
+}
+function playNationalAnthems() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function makeReverb(ctx, sec) {
+      const len = ctx.sampleRate * sec;
+      const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2);
+      }
+      const conv = ctx.createConvolver(); conv.buffer = buf; return conv;
+    }
+
+    const reverb = makeReverb(ctx, 1.5);
+    const master = ctx.createGain(); master.gain.value = 0.5;
+    master.connect(ctx.destination);
+    const wet = ctx.createGain(); wet.gain.value = 0.25;
+    wet.connect(reverb); reverb.connect(master);
+    const dry = ctx.createGain(); dry.gain.value = 0.75; dry.connect(master);
+
+    function note(freq, start, dur) {
+      if (freq <= 0) return;
+      [1, 2, 3].forEach(function(h, hi) {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq * h;
+        g.gain.setValueAtTime(0, start);
+        g.gain.linearRampToValueAtTime([0.45,0.12,0.05][hi], start + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + dur * 0.92);
+        osc.connect(g); g.connect(dry); g.connect(wet);
+        osc.start(start); osc.stop(start + dur);
+      });
+    }
+
+    const B = 60/108;
+
+    // Polonya marşı kısa intro
+    var t = ctx.currentTime + 0.1;
+    [[392,1],[392,0.5],[440,0.5],[494,1],[440,0.5],[392,0.5],[494,1],[440,0.5],[392,0.5],[440,2]].forEach(function(n) {
+      note(n[0], t, n[1]*B*0.9); t += n[1]*B;
+    });
+
+    // Kısa duraklama
+    t += B * 1.5;
+
+    // İstiklal Marşı başlangıcı
+    // Korkma sönmez bu şafaklarda...
+    [[330,1],[330,0.5],[392,0.5],[440,1],[392,0.5],[440,0.5],[494,1.5],[0,0.5],
+     [494,0.5],[523,0.5],[494,0.5],[440,0.5],[392,1],[330,0.5],[294,0.5],[330,2]].forEach(function(n) {
+      note(n[0], t, n[1]*B*0.88); t += n[1]*B;
+    });
+
+  } catch(e) {}
+}
+
+
+function showFlagAnimation() {
+  if (document.getElementById('flag-toast')) return;
+  // JS tabanlı yağmur - kesin çalışır
+  (function spawnRain() {
+    const colors = ['#dc143c','#fff','#e30016','#fff','#dc143c','#c8b89a'];
+    const shapes = ['●','■','▲','★','PL','TR','◆'];
+    for (let i = 0; i < 55; i++) {
+      setTimeout(function() {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const shape = shapes[Math.floor(Math.random()*shapes.length)];
+        const size = 8 + Math.floor(Math.random()*12);
+        const left = Math.random()*window.innerWidth;
+        const drift = (Math.random()-0.5)*120;
+        const dur = 2000 + Math.floor(Math.random()*1500);
+        el.style.cssText = 'position:fixed;left:'+left+'px;top:-20px;z-index:9998;pointer-events:none;font-size:'+size+'px;color:'+color+';font-weight:900;will-change:transform;';
+        el.textContent = shape;
+        document.body.appendChild(el);
+        var start = null;
+        var h = window.innerHeight + 40;
+        function step(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts-start)/dur, 1);
+          var y = p*h;
+          var x = drift*p;
+          var r = p*540;
+          var op = p > 0.75 ? (1-p)*4 : 1;
+          el.style.transform = 'translate('+x+'px,'+y+'px) rotate('+r+'deg)';
+          el.style.opacity = op;
+          if (p < 1) requestAnimationFrame(step);
+          else el.remove();
+        }
+        requestAnimationFrame(step);
+      }, i * 40);
+    }
+  })();
+  const toast = document.createElement('div');
+  toast.id = 'flag-toast';
+  toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#0d0a12;border:1px solid #3a2a4a;border-radius:16px;padding:16px 28px;z-index:9999;font-family:Syne,sans-serif;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.6);transition:transform .5s cubic-bezier(.34,1.3,.64,1),opacity .5s;opacity:0;pointer-events:none;';
+  toast.innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">' +
+      // Polonya: beyaz üst kırmızı alt
+      '<svg width="44" height="30" viewBox="0 0 44 30" style="border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"><rect width="44" height="15" fill="#fff"/><rect y="15" width="44" height="15" fill="#dc143c"/></svg>' +
+      '<span style="font-size:14px;color:#333;font-weight:700">×</span>' +
+      // Türkiye: kırmızı zemin, ay ve yıldız
+      '<svg width="44" height="30" viewBox="0 0 44 30" style="border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4)"><rect width="44" height="30" fill="#e30016"/><circle cx="16" cy="15" r="7" fill="#fff"/><circle cx="19" cy="15" r="5.5" fill="#e30016"/><polygon points="25,15 27.2,12.2 24.2,13.8 25,10.5 22.8,13" fill="#fff"/></svg>' +
+    '</div>' +
+    '<div style="font-size:16px;font-weight:900;background:linear-gradient(135deg,#dc143c,#c8b89a,#e30016);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Polonica</div>' +
+    '<div style="font-size:10px;color:#444;font-family:DM Mono,monospace;letter-spacing:.1em;margin-top:4px">Turk-Leh dil koprusu 🦊</div>';
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => {
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    toast.style.opacity = '1';
+  });
+  setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(80px)';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 500);
+  }, 3500);
+}
+
+// ── 2. MUZYKA EASTER EGG - MELODİ ─────────────────────
+let _muzykaClicks = 0, _muzykaTimer = null;
+function muzykaClick() {
+  _muzykaClicks++;
+  clearTimeout(_muzykaTimer);
+  _muzykaTimer = setTimeout(() => _muzykaClicks = 0, 2000);
+  if (_muzykaClicks >= 5) {
+    _muzykaClicks = 0;
+    playMelody();
+  }
+}
+
+function playMelody() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Reverb - konvolüsyon
+    function makeReverb(ctx, seconds) {
+      const len = ctx.sampleRate * seconds;
+      const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2);
+      }
+      const conv = ctx.createConvolver();
+      conv.buffer = buf;
+      return conv;
+    }
+
+    const reverb = makeReverb(ctx, 1.8);
+    const masterGain = ctx.createGain();
+    masterGain.gain.value = 0.6;
+    const dryGain = ctx.createGain(); dryGain.gain.value = 0.7;
+    const wetGain = ctx.createGain(); wetGain.gain.value = 0.3;
+    dryGain.connect(masterGain);
+    wetGain.connect(reverb); reverb.connect(masterGain);
+    masterGain.connect(ctx.destination);
+
+    // Piyano benzeri ses: sine + harmonikler
+    function playNote(freq, startTime, duration) {
+      if (freq <= 0) return;
+      const harmonics = [
+        {mult:1, vol:0.5, type:"sine"},
+        {mult:2, vol:0.15, type:"sine"},
+        {mult:3, vol:0.08, type:"sine"},
+        {mult:4, vol:0.04, type:"sine"},
+      ];
+      harmonics.forEach(({mult, vol, type}) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq * mult;
+        // ADSR envelope - piyano gibi hızlı attack, uzun decay
+        g.gain.setValueAtTime(0, startTime);
+        g.gain.linearRampToValueAtTime(vol, startTime + 0.008);
+        g.gain.exponentialRampToValueAtTime(vol * 0.3, startTime + 0.1);
+        g.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.95);
+        osc.connect(g);
+        g.connect(dryGain);
+        g.connect(wetGain);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      });
+    }
+
+    // Mazurek Dąbrowskiego - daha temiz ritim
+    const BPM = 116;
+    const B = 60 / BPM; // bir vuruş süresi
+    const melody = [
+      [392,1],[392,0.5],[440,0.5],[494,1],[440,0.5],[392,0.5],
+      [494,1],[440,0.5],[392,0.5],[440,2],[0,0.3],
+      [349,1],[349,0.5],[392,0.5],[440,1],[392,0.5],[349,0.5],
+      [392,2],[0,0.3],[294,1],[294,0.5],[330,0.5],
+      [392,1.5],[330,0.5],[392,1.5],[392,0.5],
+      [440,1],[440,0.5],[494,0.5],[523,1],[494,0.5],[440,0.5],
+      [494,2],[0,0.5],
+    ];
+
+    // Bas notaları (sol el)
+    const bass = [
+      [196,1.5],[196,1.5],[196,1.5],[196,1.5],
+      [175,1.5],[175,1.5],[147,1.5],[147,1.5],
+      [196,1.5],[196,1.5],[196,1.5],[196,1.5],
+    ];
+
+    let t = ctx.currentTime + 0.15;
+    melody.forEach(([f, beats]) => {
+      playNote(f, t, beats * B * 0.9);
+      t += beats * B;
+    });
+
+    // Bas
+    let tb = ctx.currentTime + 0.15;
+    bass.forEach(([f, beats]) => {
+      playNote(f * 0.5, tb, beats * B * 0.85);
+      tb += beats * B;
+    });
+
+    // Toast
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a0d30;border:1px solid #9060c0;border-radius:12px;padding:12px 20px;z-index:9999;font-family:Syne,sans-serif;font-size:13px;color:#b080e0;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(144,96,192,.3);';
+    toast.innerHTML = '<span style="font-size:20px">🎵</span> Mazurek D\u0105browskiego — Polonya Mar\u015f\u0131';
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.transition = 'opacity .5s'; toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 5000);
+  } catch(e) { console.log('Audio desteklenmiyor.'); }
+}
+
+// ── 3. AFK TİLKİ ──────────────────────────────────────
+let _afkTimer = null, _fox = null, _foxTarget = {x:200,y:200}, _foxPos = {x:200,y:200};
+let _foxRaf = null, _foxLeaving = false, _foxLeaveTimer = null;
+const AFK_MS = 3 * 60 * 1000;
+
+function startAfkTimer() {
+  clearTimeout(_afkTimer);
+  _afkTimer = setTimeout(spawnFox, AFK_MS);
+}
+
+function onActivity() {
+  if (_fox && !_foxLeaving) {
+    // Tilki var, aktif oldu — veda başlat
+    startFoxLeave();
+  } else if (!_fox) {
+    startAfkTimer();
+  }
+}
+
+function startFoxLeave() {
+  if (_foxLeaving) return;
+  _foxLeaving = true;
+  const bubble = _fox && _fox.querySelector('div');
+  if (bubble) bubble.textContent = 'Do widzenia! 🦊';
+  clearTimeout(_foxLeaveTimer);
+  _foxLeaveTimer = setTimeout(function() {
+    if (!_fox) return;
+    cancelAnimationFrame(_foxRaf);
+    _fox.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
+    _fox.style.opacity = '0';
+    _fox.style.transform = (_foxTarget.x < _foxPos.x ? 'scaleX(-1) ' : 'scaleX(1) ') + 'translateY(60px) scale(0.4)';
+    setTimeout(function() {
+      if (_fox) { _fox.remove(); _fox = null; }
+      _foxLeaving = false;
+      startAfkTimer();
+    }, 1300);
+  }, 3500);
+}
+
+document.addEventListener('mousemove', function(e) {
+  _foxTarget = { x: e.clientX, y: e.clientY };
+  if (!_fox && !_foxLeaving) startAfkTimer();
+});
+document.addEventListener('keydown', onActivity);
+document.addEventListener('click', onActivity);
+
+function spawnFox() {
+  if (_fox || _foxLeaving) return;
+  _fox = document.createElement('div');
+  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:500;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;z-index:500!important;left:' + (window.innerWidth - 80) + 'px;top:' + (window.innerHeight - 80) + 'px;';
+  _fox.textContent = '🦊';
+  _foxPos = { x: window.innerWidth - 80, y: window.innerHeight - 80 };
+  document.body.appendChild(_fox);
+  requestAnimationFrame(function() { if(_fox) _fox.style.opacity = '1'; });
+
+  var bubble = document.createElement('div');
+  bubble.style.cssText = 'position:absolute;bottom:44px;right:0;background:#1a160e;border:1px solid #c8b89a;border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:#c8b89a;font-family:Syne,sans-serif;white-space:nowrap;';
+  var msgs = ['Ej, uczysz się?', 'Nie ma sprawy!', 'Czy rozumiesz?', 'Bardzo dobrze!', 'Kumam! Kumam!'];
+  bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  _fox.appendChild(bubble);
+  animateFox();
+}
+
+function animateFox() {
+  if (!_fox || _foxLeaving) return;
+  _foxPos.x += (_foxTarget.x - 30 - _foxPos.x) * 0.055;
+  _foxPos.y += (_foxTarget.y - 30 - _foxPos.y) * 0.055;
+  _fox.style.left = _foxPos.x + 'px';
+  _fox.style.top = _foxPos.y + 'px';
+  _fox.style.transform = _foxTarget.x < _foxPos.x ? 'scaleX(-1)' : 'scaleX(1)';
+  _foxRaf = requestAnimationFrame(animateFox);
+}
+
+startAfkTimer();
+
+// ── 4. TYPED EASTER EGGS ──────────────────────────────
+// Input/textarea dışında yazılan kelimeleri yakalar
+let _typeBuf = '';
+
+document.addEventListener('keydown', function(e) {
+  const tag = document.activeElement ? document.activeElement.tagName : '';
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) return;
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+  if (e.key.length === 1) {
+    _typeBuf = (_typeBuf + e.key.toLowerCase()).slice(-24);
+    _checkTypedTriggers();
+  } else if (e.key === 'Escape') {
+    _typeBuf = '';
+  }
+});
+
+function _checkTypedTriggers() {
+  if (_typeBuf.endsWith('metro'))    { _typeBuf = ''; triggerMetro(); }
+  else if (_typeBuf.endsWith('polska'))  { _typeBuf = ''; showFlagAnimation(); playNationalAnthems(); }
+  else if (_typeBuf.endsWith('mazurek')) { _typeBuf = ''; playMelody(); }
+  else if (_typeBuf.endsWith('dobrze'))  { _typeBuf = ''; triggerDobrze(); }
+  else if (_typeBuf.endsWith('cumartesi')) { _typeBuf = ''; triggerSobota(); }
+  else if (_typeBuf.endsWith('cyber'))     { _typeBuf = ''; triggerCyber(); }
+  else if (_typeBuf.endsWith('subnautica')) { _typeBuf = ''; triggerSubnautica(); }
+}
 
 // ── METRO EGG ──────────────────────────────────────────
 let _metroActive = false;
