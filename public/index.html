@@ -47,6 +47,29 @@
 [data-logo="mono"] .logo,[data-logo="mono"] .mobile-logo{
   color:var(--text)!important;-webkit-text-fill-color:unset!important;
 }
+
+/* ── ÖZEL TEMALAR ───────────────────────────────── */
+[data-theme="ocean"]{--bg:#060c18;--surface:#0a1225;--surface2:#0e1830;--surface3:#121e3a;--border:#1a2a4a;--border2:#243555;--accent:#00b4d8;--accent-dim:#006080;--accent-bg:#041520;--text:#cce8f4;--text2:#6090b0;--text3:#304860;--teal:#00b4d8;--teal-bg:#041520;--green:#20a060;--green-bg:#041810;--red:#e05050;--red-bg:#1e0808;--blue:#4090e0;--blue-bg:#080f20;--purple:#8060d0;--purple-bg:#100820;--pink:#c060a0;--pink-bg:#180810;}
+[data-theme="forest"]{--bg:#080f06;--surface:#0c1609;--surface2:#101d0c;--surface3:#14240f;--border:#1a3012;--border2:#243a18;--accent:#d4a017;--accent-dim:#7a5a08;--accent-bg:#140f02;--text:#e8d8b0;--text2:#888850;--text3:#485028;--teal:#d4a017;--teal-bg:#140f02;--green:#40a030;--green-bg:#081406;--red:#c05040;--red-bg:#180808;--blue:#4080c0;--blue-bg:#080f18;--purple:#8060c0;--purple-bg:#100818;--pink:#c06090;--pink-bg:#180810;}
+[data-theme="sakura"]{--bg:#fdf6f0;--surface:#ffffff;--surface2:#faeae8;--surface3:#f5dde0;--border:#e8cdd0;--border2:#d8b8bc;--accent:#c2667a;--accent-dim:#e8a0b0;--accent-bg:#fce8ec;--text:#2a1018;--text2:#6a3848;--text3:#a07880;--teal:#c2667a;--teal-bg:#fce8ec;--green:#5a8a50;--green-bg:#eef8ec;--red:#c04050;--red-bg:#fce8ea;--blue:#5070b0;--blue-bg:#eceef8;--purple:#8060b0;--purple-bg:#f0ecf8;--pink:#d06090;--pink-bg:#fceaf4;}
+[data-theme="midnight"]{--bg:#030305;--surface:#070710;--surface2:#0a0a18;--surface3:#0d0d20;--border:#141428;--border2:#1e1e38;--accent:#8b6fd4;--accent-dim:#4a3888;--accent-bg:#0a0818;--text:#d8d0f0;--text2:#7068a8;--text3:#404070;--teal:#8b6fd4;--teal-bg:#0a0818;--green:#4a9060;--green-bg:#060e0a;--red:#c05060;--red-bg:#180808;--blue:#5080c0;--blue-bg:#080f20;--purple:#9070d8;--purple-bg:#100818;--pink:#c060a0;--pink-bg:#180810;}
+[data-theme="espresso"]{--bg:#0c0804;--surface:#140e08;--surface2:#1c1410;--surface3:#221a14;--border:#302418;--border2:#3c2e20;--accent:#d4b896;--accent-dim:#8a7050;--accent-bg:#1a1008;--text:#f0e8d8;--text2:#9a8060;--text3:#5a4830;--teal:#d4b896;--teal-bg:#1a1008;--green:#6a9050;--green-bg:#0c1408;--red:#c06040;--red-bg:#1a0c08;--blue:#6080a0;--blue-bg:#0c1018;--purple:#9060a0;--purple-bg:#100c18;--pink:#c07080;--pink-bg:#180c10;}
+[data-theme="nebula"]{--bg:#080510;--surface:#0e0818;--surface2:#120c20;--surface3:#160f28;--border:#201530;--border2:#2a1c40;--accent:#d946ef;--accent-dim:#8020a0;--accent-bg:#150820;--text:#f0d8f8;--text2:#9060b8;--text3:#503870;--teal:#d946ef;--teal-bg:#150820;--green:#40c080;--green-bg:#041810;--red:#e05060;--red-bg:#1e0810;--blue:#6090f0;--blue-bg:#080f28;--purple:#c060e0;--purple-bg:#150828;--pink:#e060b0;--pink-bg:#1a0818;}
+[data-theme="slate"]{--bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--surface3:#222730;--border:#2d3440;--border2:#3a4150;--accent:#79c0ff;--accent-dim:#3878a8;--accent-bg:#0d1828;--text:#c9d1d9;--text2:#6080a0;--text3:#3a5068;--teal:#79c0ff;--teal-bg:#0d1828;--green:#56d364;--green-bg:#0a1e0c;--red:#f85149;--red-bg:#1e0808;--blue:#58a6ff;--blue-bg:#0d1828;--purple:#bc8cff;--purple-bg:#140d28;--pink:#f778ba;--pink-bg:#1a0818;}
+/* Sakura açık tema light overrides */
+[data-theme="sakura"] #sidebar{background:#fdf6f0;border-right-color:#e8cdd0;}
+[data-theme="sakura"] .nav-btn{color:#6a3848;}
+[data-theme="sakura"] .nav-btn:hover{background:#f5dde0;color:#2a1018;}
+[data-theme="sakura"] .nav-btn.active{background:#fce8ec;color:#c2667a;}
+[data-theme="sakura"] input,[data-theme="sakura"] textarea,[data-theme="sakura"] select{background:#fff;color:#2a1018;border-color:#d8b8bc;}
+[data-theme="sakura"] .btn{background:#f5dde0;color:#2a1018;}
+[data-theme="sakura"] .logo{color:#c2667a!important;}
+[data-theme="sakura"] .gtab{background:#f5dde0;color:#6a3848;}
+[data-theme="sakura"] .gtab.active{background:#fce8ec;color:#c2667a;border-color:#c2667a;}
+/* Özel tema buton stili (ayarlarda) */
+.custom-theme-btn{padding:9px 12px;border-radius:10px;border:1.5px solid;cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;font-weight:700;transition:all .2s;text-align:center;min-width:80px;}
+.custom-theme-btn:hover{filter:brightness(1.15);transform:translateY(-1px);}
+.custom-theme-btn.active{box-shadow:0 0 0 2px #fff,0 0 0 4px currentColor;}
 /* Swatch + mode btn stilleri */
 .theme-mode-btn{flex:1;padding:8px 4px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;transition:all .2s;}
 .theme-mode-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-bg);}
@@ -827,14 +850,14 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <!-- MOBİL HEADER -->
 <div id="mobile-header" style="display:none">
   <button id="mobile-menu-btn" onclick="toggleMobileSidebar()">☰</button>
-  <span class="mobile-logo">Polonica</span>
+  <span class="mobile-logo">Polonica<span id="theme-emoji-m" style="font-size:8px;vertical-align:super;line-height:1;margin-left:1px"></span></span>
   <span style="width:40px"></span>
 </div>
 <!-- Overlay -->
 <div id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
 <div id="sidebar">
-  <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica</div>
+  <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica<span id="theme-emoji" style="font-size:10px;vertical-align:super;line-height:1;margin-left:2px;opacity:.9"></span></div>
 
   <div class="nav-section">Tara</div>
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')">📚 Ders Materyali</button>
@@ -933,6 +956,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
           <span style="display:inline-block;padding:5px 13px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text3);font-size:11px;font-family:'Syne',sans-serif">📖 Normal Sekme</span>
         </div>
       </div>
+    </div>
+
+    <!-- ÖZEL TEMALAR -->
+    <div style="margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">ÖZEL TEMALAR</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+        <button onclick="setTheme('ocean')" id="theme-btn-ocean" class="custom-theme-btn" style="background:#060c18;border-color:#00b4d833;color:#00b4d8">🌊 Ocean</button>
+        <button onclick="setTheme('forest')" id="theme-btn-forest" class="custom-theme-btn" style="background:#080f06;border-color:#d4a01733;color:#d4a017">🌲 Forest</button>
+        <button onclick="setTheme('sakura')" id="theme-btn-sakura" class="custom-theme-btn" style="background:#fdf6f0;border-color:#c2667a55;color:#c2667a">🌸 Sakura</button>
+        <button onclick="setTheme('midnight')" id="theme-btn-midnight" class="custom-theme-btn" style="background:#030305;border-color:#8b6fd433;color:#8b6fd4">✨ Midnight</button>
+        <button onclick="setTheme('espresso')" id="theme-btn-espresso" class="custom-theme-btn" style="background:#0c0804;border-color:#d4b89633;color:#d4b896">☕ Espresso</button>
+        <button onclick="setTheme('nebula')" id="theme-btn-nebula" class="custom-theme-btn" style="background:#080510;border-color:#d946ef33;color:#d946ef">🔮 Nebula</button>
+        <button onclick="setTheme('slate')" id="theme-btn-slate" class="custom-theme-btn" style="background:#0d1117;border-color:#79c0ff33;color:#79c0ff">🪨 Slate</button>
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-top:8px;line-height:1.6">Özel tema seçince logo yanında gösterge belirir. Koyu / Loş / Açık ile geri dönebilirsin.</div>
     </div>
 
     <div style="margin-bottom:14px">
@@ -5924,9 +5962,13 @@ async function deleteProfile(key) {
 
 // ── BAŞLANGIÇ ─────────────────────────────────────────────
 // ── TEMA ──────────────────────────────────────────────────
+var _themeEmojis = {"ocean":"🌊","forest":"🌲","sakura":"🌸","midnight":"✨","espresso":"☕","nebula":"🔮","slate":"🪨"};
+var _customThemes = ["ocean","forest","sakura","midnight","espresso","nebula","slate"];
+
 function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme === 'dark' ? '' : theme);
   localStorage.setItem('polonica_theme', theme);
+  // Standart mod butonları
   ['dark','dim','light'].forEach(function(t) {
     var btn = document.getElementById('theme-btn-'+t);
     if(btn) {
@@ -5936,6 +5978,17 @@ function setTheme(theme) {
     var stbtn = document.getElementById('stbtn-'+t);
     if(stbtn) stbtn.classList.toggle('active', t === theme);
   });
+  // Özel tema butonları
+  _customThemes.forEach(function(t) {
+    var btn = document.getElementById('theme-btn-'+t);
+    if(btn) btn.classList.toggle('active', t === theme);
+  });
+  // Logo emoji göstergesi
+  var emoji = _themeEmojis[theme] || '';
+  var el = document.getElementById('theme-emoji');
+  var elm = document.getElementById('theme-emoji-m');
+  if(el) el.textContent = emoji;
+  if(elm) elm.textContent = emoji;
 }
 
 function setAccent(accent) {
