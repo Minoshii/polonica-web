@@ -713,7 +713,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 #spotify-widget{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800;display:none;user-select:none;}
 #spotify-widget.visible{display:block;animation:spotifyPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
 #spotify-widget.dragging-mode{animation:none;}
-#spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:300px;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05);cursor:grab;transition:opacity .5s ease,box-shadow .3s;animation:floatBob 6s ease-in-out infinite;}
+#spotify-bar{background:rgba(15,15,15,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:300px;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05);cursor:grab;transition:opacity .5s ease,box-shadow .3s;animation:floatBob 6s ease-in-out infinite;touch-action:none;}
 #spotify-bar.dragging{animation:none;cursor:grabbing;box-shadow:0 20px 60px rgba(0,0,0,.8);}
 #spotify-bar:active{cursor:grabbing;}
 #spotify-bar-top{display:flex;align-items:center;gap:12px;}
@@ -4888,11 +4888,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="grammar-section" id="gsec-prefix">
 
       <!-- TEŞEKKÜR VE KAYNAKÇA -->
-      <div style="background:linear-gradient(135deg,#0d1a10 0%,#0d1228 100%);border:1px solid #5dc0b060;border-radius:14px;padding:16px 18px;margin-bottom:20px">
+      <div style="background:var(--surface2);border:1px solid var(--accent-dim,#5dc0b060);border-radius:14px;padding:16px 18px;margin-bottom:20px">
         <div style="display:flex;align-items:flex-start;gap:14px">
           <div style="font-size:28px;flex-shrink:0">📚</div>
           <div>
-            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#5dc0b0;margin-bottom:6px">Akademik Kaynak ve Teşekkür</div>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:6px">Akademik Kaynak ve Teşekkür</div>
             <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:6px;line-height:1.5">
               Bu bölüm, değerli hocamız <strong style="color:#5dc0b0">Dr. Emrah Gaznevi</strong>'nin doktora tezi temel alınarak hazırlanmıştır.
             </div>
@@ -4901,7 +4901,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
               <strong style="color:var(--text3)">Kurum:</strong> Ankara Üniversitesi, Sosyal Bilimler Enstitüsü, Slav Dilleri ve Edebiyatları ABD<br>
               <strong style="color:var(--text3)">Danışman:</strong> Prof. Dr. Seda Köycü &nbsp;·&nbsp; <strong style="color:var(--text3)">Yıl:</strong> 2018 &nbsp;·&nbsp; <strong style="color:var(--text3)">Sayfa:</strong> 675
             </div>
-            <div style="font-size:11px;color:var(--text3);line-height:1.7;border-top:1px solid #5dc0b030;padding-top:8px">
+            <div style="font-size:11px;color:var(--text3);line-height:1.7;border-top:1px solid var(--border);padding-top:8px">
               Polonya dili eğitimi alanında Türkiye'nin <strong style="color:var(--text)">ilk doktora tezi</strong> olma özelliğini taşıyan bu çalışma, Türk öğrencilerin en fazla zorlandığı konulardan olan önekli fiilleri sistematik biçimde ele almaktadır. Tezin bulguları bu uygulamaya entegre edilirken Emrah Hoca'nın akademik emeğine saygıyla atıfta bulunuyoruz.
             </div>
           </div>
@@ -4956,7 +4956,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- W- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#0d1228;color:#7090d0;border:1px solid #7090d044">→[ &nbsp; <strong>w- / we-</strong> — içe, içeri &nbsp;·&nbsp; into, inward</div>
+        <div class="baglaç-cat-title" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bg)">→[ &nbsp; <strong>w- / we-</strong> — içe, içeri &nbsp;·&nbsp; into, inward</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#7090d0;font-weight:700">①</td><td style="font-size:11px">Fiziksel içe giriş</td><td class="z-form" style="font-size:11px">wchodzić, wnosić, wkładać</td></tr>
           <tr><td style="color:#7090d0;font-weight:700">②</td><td style="font-size:11px">Bir sisteme/listeye kayıt</td><td class="z-form" style="font-size:11px">wpisywać, wpisać (kaydetmek, yazmak)</td></tr>
@@ -4972,7 +4972,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- WY- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #4a9a6a44">]→ &nbsp; <strong>wy-</strong> — dışa, dışarı; tüketim; zıtlık &nbsp;·&nbsp; out; completion; opposition</div>
+        <div class="baglaç-cat-title" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bg)">]→ &nbsp; <strong>wy-</strong> — dışa, dışarı; tüketim; zıtlık &nbsp;·&nbsp; out; completion; opposition</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#6dbf9a;font-weight:700">①</td><td style="font-size:11px">Dışarıya yönelme, çıkış</td><td class="z-form" style="font-size:11px">wychodzić, wynosić, wyjeżdżać</td></tr>
           <tr><td style="color:#6dbf9a;font-weight:700">②</td><td style="font-size:11px">Zıtlık bildirme</td><td class="z-form" style="font-size:11px">wygrać (kazanmak ↔ przegrać), wypraszać (dışarı çıkarmak)</td></tr>
@@ -4988,7 +4988,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- PRZY- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#0d1a10;color:#6dbf9a;border:1px solid #4a9a6a44">→● &nbsp; <strong>przy-</strong> — yakına gelme; ekleme; hafif yapma &nbsp;·&nbsp; toward; addition; slightly</div>
+        <div class="baglaç-cat-title" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-bg)">→● &nbsp; <strong>przy-</strong> — yakına gelme; ekleme; hafif yapma &nbsp;·&nbsp; toward; addition; slightly</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#6dbf9a;font-weight:700">①</td><td style="font-size:11px">Fiziki uzamda yaklaşma / gelme</td><td class="z-form" style="font-size:11px">przychodzić, przyjeżdżać, przynosić</td></tr>
           <tr><td style="color:#6dbf9a;font-weight:700">②</td><td style="font-size:11px;color:#e07070">Eylemi yüzeysel / biraz / hafif yapma ★</td><td class="z-form" style="font-size:11px">przypalić (hafif yakmak), przysmażyć, przyschnąć</td></tr>
@@ -5006,7 +5006,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- OD- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#200d0d;color:#e07070;border:1px solid #e0707044">●→ &nbsp; <strong>od-</strong> — uzaklaşma; yineleme; zıtlık; yanıt &nbsp;·&nbsp; away; repetition; opposition; response</div>
+        <div class="baglaç-cat-title" style="background:var(--red-bg);color:var(--red);border:1px solid var(--red-bg)">●→ &nbsp; <strong>od-</strong> — uzaklaşma; yineleme; zıtlık; yanıt &nbsp;·&nbsp; away; repetition; opposition; response</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#e07070;font-weight:700">①</td><td style="font-size:11px">Uzaklaşma, ayrılma, çıkma</td><td class="z-form" style="font-size:11px">odchodzić, odjeżdżać, odlatywać</td></tr>
           <tr><td style="color:#e07070;font-weight:700">②</td><td style="font-size:11px;color:#e07070">Eylemi yineleme (tekrar yapma) ★</td><td class="z-form" style="font-size:11px">odczytać (tekrar okumak), odśpiewać, odegrać</td></tr>
@@ -5025,7 +5025,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- PRE- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#100d1a;color:#b080e0;border:1px solid #b080e044">→|→ &nbsp; <strong>prze-</strong> — geçiş; sınır aşma; süre; dönüşüm &nbsp;·&nbsp; through; exceeding; duration; transformation</div>
+        <div class="baglaç-cat-title" style="background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bg)">→|→ &nbsp; <strong>prze-</strong> — geçiş; sınır aşma; süre; dönüşüm &nbsp;·&nbsp; through; exceeding; duration; transformation</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#b080e0;font-weight:700">①</td><td style="font-size:11px">Fiziksel alanda geçiş, aşma</td><td class="z-form" style="font-size:11px">przechodzić, przejeżdżać, przelecieć</td></tr>
           <tr><td style="color:#b080e0;font-weight:700">②</td><td style="font-size:11px;color:#e07070">Nitelik olarak sınırı aşma (aşırıya kaçma) ★</td><td class="z-form" style="font-size:11px">przesolić (fazla tuzlamak), przepracować się</td></tr>
@@ -5043,7 +5043,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- DO- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">──→● &nbsp; <strong>do-</strong> — hedefe ulaşma; sonuna kadar; ek miktar &nbsp;·&nbsp; completion; until; addition</div>
+        <div class="baglaç-cat-title" style="background:var(--surface3);color:var(--accent);border:1px solid var(--border)">──→● &nbsp; <strong>do-</strong> — hedefe ulaşma; sonuna kadar; ek miktar &nbsp;·&nbsp; completion; until; addition</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#c8a050;font-weight:700">①</td><td style="font-size:11px">Eylemi doğal sonuna getirme (tamamen)</td><td class="z-form" style="font-size:11px">doczytać, dopić, dojeść, dogotować</td></tr>
           <tr><td style="color:#c8a050;font-weight:700">②</td><td style="font-size:11px">Belirli bir noktaya/miktara kadar yapma</td><td class="z-form" style="font-size:11px">domierzyć (belirli ölçüye kadar ölçmek)</td></tr>
@@ -5060,7 +5060,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- ZA- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#1a130a;color:#c8a050;border:1px solid #c8a05044">→↓[ &nbsp; <strong>za-</strong> — hedefe varma; kaplama; başlatma; öldürme; tekrar ★ &nbsp;·&nbsp; reaching; covering; onset; destroying</div>
+        <div class="baglaç-cat-title" style="background:var(--surface3);color:var(--accent);border:1px solid var(--border)">→↓[ &nbsp; <strong>za-</strong> — hedefe varma; kaplama; başlatma; öldürme; tekrar ★ &nbsp;·&nbsp; reaching; covering; onset; destroying</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#c8a050;font-weight:700">①</td><td style="font-size:11px">Hedef noktaya ulaşma / varma</td><td class="z-form" style="font-size:11px">zajechać, zajść, zawitać</td></tr>
           <tr><td style="color:#c8a050;font-weight:700">②</td><td style="font-size:11px">Kaplayan / kapatan / çok fazla dolduran</td><td class="z-form" style="font-size:11px">zaśnieżyć (karla kaplamak), zasłonić, zasypać</td></tr>
@@ -5079,7 +5079,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- NA- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a044">↓← &nbsp; <strong>na-</strong> — üzerine; doldurma; fazlalık; doyasıya ★ &nbsp;·&nbsp; onto; filling; excess; to satiety</div>
+        <div class="baglaç-cat-title" style="background:var(--pink-bg);color:var(--pink);border:1px solid var(--pink-bg)">↓← &nbsp; <strong>na-</strong> — üzerine; doldurma; fazlalık; doyasıya ★ &nbsp;·&nbsp; onto; filling; excess; to satiety</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#e090c0;font-weight:700">①</td><td style="font-size:11px">Bir yüzey üzerine koyma/yazma</td><td class="z-form" style="font-size:11px">nakładać, napisać, narysować, nagrać</td></tr>
           <tr><td style="color:#e090c0;font-weight:700">②</td><td style="font-size:11px">Doldurma / biriktirme</td><td class="z-form" style="font-size:11px">nalewać (dökmek/doldurmak), nabierać</td></tr>
@@ -5095,7 +5095,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- ROZ- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#0d1a1c;color:#5dc0b0;border:1px solid #3a9a8a44">←→ &nbsp; <strong>roz-</strong> — dağılma; dağıtım; parçalama; yayılma; pekiştirme; başlama &nbsp;·&nbsp; spreading apart</div>
+        <div class="baglaç-cat-title" style="background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-bg)">←→ &nbsp; <strong>roz-</strong> — dağılma; dağıtım; parçalama; yayılma; pekiştirme; başlama &nbsp;·&nbsp; spreading apart</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#5dc0b0;font-weight:700">①</td><td style="font-size:11px">Farklı yönlere fiziksel dağılma</td><td class="z-form" style="font-size:11px">rozchodzić się, rozlatywać się</td></tr>
           <tr><td style="color:#5dc0b0;font-weight:700">②</td><td style="font-size:11px">Pek çok kişiye ulaştırma (dağıtım)</td><td class="z-form" style="font-size:11px">rozsyłać, rozdawać, roznosić</td></tr>
@@ -5115,7 +5115,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- S-/Z- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#200d0d;color:#e07070;border:1px solid #e0707044">↓ &nbsp; <strong>s- / z- / ś- / ź-</strong> — aşağı; toplama; tamamlama &nbsp;·&nbsp; down; gathering; completion</div>
+        <div class="baglaç-cat-title" style="background:var(--red-bg);color:var(--red);border:1px solid var(--red-bg)">↓ &nbsp; <strong>s- / z- / ś- / ź-</strong> — aşağı; toplama; tamamlama &nbsp;·&nbsp; down; gathering; completion</div>
         <div style="font-size:11px;color:var(--text2);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:8px;line-height:1.7">Ses uyumuna göre yazım değişir: sert sessizden önce <strong>s-</strong> (sprzedać), yumuşak sessizden önce <strong>z-</strong> (zrobić), ś/ź nadiren.</div>
         <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">schodzić / zejść</div><div class="baglaç-tr">inmek, aşağı gelmek</div><div class="baglaç-en">go down, descend</div><div class="baglaç-detail"><div class="baglaç-example-pl">Schodzimy ze schodów. · Zejdź na dół!</div><div class="baglaç-example-tr">Merdivenlerden iniyoruz. · Aşağı in!</div></div></div>
         <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">składać / złożyć</div><div class="baglaç-tr">katlamak; teslim etmek; oluşturmak</div><div class="baglaç-en">fold; submit; compose</div><div class="baglaç-detail"><div class="baglaç-example-pl">Złóż podanie. · Złóż ręce.</div><div class="baglaç-example-tr">Başvuru yap. · Ellerini kavuştur.</div><div style="font-size:11px;color:var(--text3);margin-top:4px">Katlama = parçaları birbirine indirme; teslim = birine doğru aşağı verme</div></div></div>
@@ -5125,7 +5125,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- PO- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#1a1a0d;color:#c8b89a;border:1px solid #c8b89a44">·→· &nbsp; <strong>po-</strong> — kısa süre; dağıtım; dk. yapma &nbsp;·&nbsp; briefly; distribution; perfectivizing</div>
+        <div class="baglaç-cat-title" style="background:var(--surface3);color:var(--text2);border:1px solid var(--border)">·→· &nbsp; <strong>po-</strong> — kısa süre; dağıtım; dk. yapma &nbsp;·&nbsp; briefly; distribution; perfectivizing</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#c8b89a;font-weight:700">①</td><td style="font-size:11px;color:#e07070">Çoğulculuk / dağıtım ★</td><td class="z-form" style="font-size:11px">rozdawać → porozdawać, rozsyłać → porozsyłać</td></tr>
           <tr><td style="color:#c8b89a;font-weight:700">②</td><td style="font-size:11px">Eylemi bir süre yapma (kısa/belirli)</td><td class="z-form" style="font-size:11px">popracować (biraz çalışmak), poczekać</td></tr>
@@ -5138,7 +5138,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- U- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#100d1a;color:#b080e0;border:1px solid #b080e044">↑→ &nbsp; <strong>u-</strong> — uzaklaşma; tamamlama; başarma &nbsp;·&nbsp; away; achieving; completion</div>
+        <div class="baglaç-cat-title" style="background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bg)">↑→ &nbsp; <strong>u-</strong> — uzaklaşma; tamamlama; başarma &nbsp;·&nbsp; away; achieving; completion</div>
         <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">uciekać / uciec</div><div class="baglaç-tr">kaçmak</div><div class="baglaç-en">run away, flee</div><div class="baglaç-detail"><div class="baglaç-example-pl">Uciekł z więzienia. · Nie uciekniesz!</div><div class="baglaç-example-tr">Hapishaneden kaçtı. · Kaçamazsın!</div></div></div>
         <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">umyć</div><div class="baglaç-tr">yıkamak (tamamlayarak)</div><div class="baglaç-en">wash (completely)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Umyj ręce przed jedzeniem!</div><div class="baglaç-example-tr">Yemekten önce ellerini yıka!</div></div></div>
         <div class="baglaç-row" onclick="this.classList.toggle('open')"><div class="baglaç-pl">usłyszeć</div><div class="baglaç-tr">duymak (tek seferlik, anlık)</div><div class="baglaç-en">hear (perfective)</div><div class="baglaç-detail"><div class="baglaç-example-pl">Usłyszałem hałas. · Usłyszysz coś ciekawego.</div><div class="baglaç-example-tr">Bir gürültü duydum. · İlginç bir şey duyacaksın.</div></div></div>
@@ -5147,7 +5147,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
       <!-- POD- -->
       <div class="baglaç-cat">
-        <div class="baglaç-cat-title" style="background:#0d1a1c;color:#5dc0b0;border:1px solid #3a9a8a44">↗→ &nbsp; <strong>pod-</strong> — altında; yaklaşma; gizli yapma ★; biraz yapma ★ &nbsp;·&nbsp; under; approach; secretly; slightly</div>
+        <div class="baglaç-cat-title" style="background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-bg)">↗→ &nbsp; <strong>pod-</strong> — altında; yaklaşma; gizli yapma ★; biraz yapma ★ &nbsp;·&nbsp; under; approach; secretly; slightly</div>
         <div style="overflow-x:auto;margin-bottom:8px"><table class="zamir-kisi-table"><thead><tr><th>#</th><th>Anlam Kategorisi (Emrah Gaznevi)</th><th>Örnek</th></tr></thead><tbody>
           <tr><td style="color:#5dc0b0;font-weight:700">①</td><td style="font-size:11px">Nesnenin altını / aşağısını vurgulama</td><td class="z-form" style="font-size:11px">podpisać (imzalamak), podkreślić</td></tr>
           <tr><td style="color:#5dc0b0;font-weight:700">②</td><td style="font-size:11px">Yukarıya doğru hareket</td><td class="z-form" style="font-size:11px">podnosić/podnieść (kaldırmak)</td></tr>
@@ -8113,7 +8113,7 @@ function startSpotifyPolling() {
     if(!lagFrame) lagFrame = requestAnimationFrame(lagFollow);
   });
 
-  function lagFollow() {
+  const lagFollow = function() {
     if(!_spotifyDragging) { lagFrame = null; return; }
     const widget = document.getElementById('spotify-widget');
     curX += (targetX - curX) * 0.18;  // ağır his - 0.18 = yavaş
@@ -9644,12 +9644,7 @@ function triggerMetro() {
     const st = document.createElement('style');
     st.id = 'metro-style';
     st.textContent = [
-      '
-@keyframes subCaustic{0%,100%{opacity:.55;transform:scaleX(1)}50%{opacity:.3;transform:scaleX(1.08)}}
-@keyframes subOxyPulse{0%,100%{color:#00ccff;text-shadow:0 0 10px #00ccff88}50%{color:#ff3333;text-shadow:0 0 20px #ff333388}}
-@keyframes subRipple{0%{transform:translate(-50%,-50%) scale(0);opacity:.7}100%{transform:translate(-50%,-50%) scale(6);opacity:0}}
-@keyframes subHudIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.007)}}',
+      '@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.007)}}',,
       '@keyframes metroVigPulse{0%,100%{opacity:.85}50%{opacity:.97}}',
       '@keyframes metroFlicker{0%,93%,100%{opacity:1}94%{opacity:.1}96%{opacity:.6}97%{opacity:.2}99%{opacity:.85}}',
       '@keyframes metroToastBlink{0%,100%{opacity:1}49%{opacity:1}50%{opacity:.08}}',
@@ -10156,8 +10151,8 @@ function triggerSubnautica() {
   try {
     const actx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function beep(t, f1, f2, dur) {
-      [f1, f2].forEach((freq, i) => {
+    const beep = function(t, f1, f2, dur) {
+      [f1, f2].forEach(function(freq, i) {
         const osc = actx.createOscillator();
         const g = actx.createGain();
         const lp = actx.createBiquadFilter();
@@ -10238,7 +10233,7 @@ function triggerSubnautica() {
   }));
 
   let bubbleAlive = true, bubbleRaf;
-  function drawBubbles() {
+  const drawBubbles = function() {
     if (!bubbleAlive) return;
     ctx2.clearRect(0, 0, canvas.width, canvas.height);
     bubbles.forEach(b => {
@@ -10272,7 +10267,7 @@ function triggerSubnautica() {
   drawBubbles();
 
   // Tıklayınca dalga efekti
-  function onClickRipple(e) {
+  const onClickRipple = function(e) {
     const r = document.createElement('div');
     r.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:60px;height:60px;
       border-radius:50%;border:2px solid rgba(0,200,255,.6);z-index:9995;pointer-events:none;
