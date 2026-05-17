@@ -585,7 +585,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 @keyframes accordionIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .special-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border:1px solid #3a2a10;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:var(--surface2);}
 /* KELIME KARTI GRID */
-.word-card-grid{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 14px;contain:layout;}
+.word-card-grid{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 14px;contain:layout;align-content:flex-start;} .word-card-grid .word-card.open{flex:0 0 100%;width:100%;}
 .word-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .15s,background .15s,transform .15s,box-shadow .15s;width:160px;flex-shrink:0;position:relative;will-change:transform;}
 .word-card:hover{border-color:var(--accent-dim);background:var(--surface3);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3);}
 .word-card-pl{font-size:14px;font-weight:800;color:var(--text);font-family:'DM Mono',monospace;margin-bottom:3px;word-break:break-word;}
@@ -9490,6 +9490,11 @@ function _renderSpecialList(){
     return;
   }
 
+  // Grid wrapper — deyimler ve arama sonuçları için yatay grid
+  const gridWrap = document.createElement('div');
+  gridWrap.className = 'word-card-grid';
+  container.appendChild(gridWrap);
+
   list.forEach((e, rowIdx) => {
     const tc = typeColors[e.category]||'#888';
     const tl = typeLabels[e.category]||'';
@@ -9558,7 +9563,7 @@ function _renderSpecialList(){
 
     card.appendChild(top);
     card.appendChild(detail);
-    container.appendChild(card);
+    gridWrap.appendChild(card);
   });
 }
 
