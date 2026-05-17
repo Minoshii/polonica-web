@@ -148,7 +148,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .mc-opt:hover{border-color:var(--border2);}
 .mc-opt.correct{background:var(--green-bg);border-color:var(--green);color:#6dbf9a;}
 .mc-opt.wrong{background:var(--red-bg);border-color:var(--red);color:#e07070;}
-.srs-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;background:#2a1a08;color:#c8a050;border:1px solid #6b4a10;margin-left:6px;}
+.srs-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;background:var(--accent-bg);color:#c8a050;border:1px solid var(--accent-dim);margin-left:6px;}
 .unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;padding:4px 0;}
 .unit-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .15s;}
 .unit-card:hover{border-color:var(--accent-dim);}
@@ -202,7 +202,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .pdf-selection-tooltip.visible{display:flex;}
 .sel-mode-active{cursor:crosshair!important;}
 .sel-mode-active *{cursor:crosshair!important;}
-#sel-mode-btn.active{background:#2a1a08;border-color:#c8a050;color:#c8a050;box-shadow:0 0 8px #c8a05044;}
+#sel-mode-btn.active{background:var(--accent-bg);border-color:#c8a050;color:#c8a050;box-shadow:0 0 8px #c8a05044;}
 .pdf-ocr-loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a160e;border:1px solid #c8b89a;border-radius:12px;padding:20px 28px;z-index:1001;font-family:'Syne',sans-serif;font-size:14px;color:#c8b89a;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.6);}
 .pdf-empty{display:flex;align-items:center;justify-content:center;height:200px;color:var(--text3);font-size:14px;}
 .pdf-page-info{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;}
@@ -283,7 +283,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .muzyka-word-badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;border:1px solid;white-space:nowrap;}
 .muzyka-empty{text-align:center;padding:40px 20px;color:var(--text3);}
 .special-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
-.special-tab.active-words{background:#2a1a08;border-color:#6b4a10;color:#c8a050;}
+.special-tab.active-words{background:var(--accent-bg);border-color:var(--accent-dim);color:#c8a050;}
 .special-tab.active-idioms{background:#0d1e1c;border-color:var(--teal);color:#5dc0b0;}
 .special-tab.active-akademik{background:#0d1a2a;border-color:#5080c0;color:#7090d0;}
 .special-tab.active-muzyka{background:#1a0d30;border-color:#9060c0;color:#b080e0;}
@@ -344,7 +344,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .special-inflected{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-left:6px;}
 .special-tr{font-size:15px;color:var(--text);font-weight:600;margin-bottom:2px;}
 .special-en{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px;}
-.special-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #6b4a10;background:#2a1a08;color:#c8a050;margin-right:6px;}
+.special-type-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid var(--accent-dim);background:var(--accent-bg);color:#c8a050;margin-right:6px;}
 .special-example{font-size:11px;color:var(--text2);font-style:italic;font-family:'DM Mono',monospace;padding:7px 10px;background:var(--surface3);border-radius:6px;margin:8px 0;line-height:1.6;}
 .special-note-area{width:100%;background:var(--surface3);border:1px dashed #6b4a10;border-radius:8px;padding:9px 12px;color:#c8a050;font-family:'DM Mono',monospace;font-size:12px;resize:none;height:56px;margin-top:6px;transition:border-color .15s;cursor:pointer;}
 .special-note-area:not([readonly]){cursor:text;border-style:solid;}
@@ -373,7 +373,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .profile-avatar:hover .pa-del{display:flex;}
 .pa-add{width:110px;height:110px;border-radius:18px;border:3px dashed #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:36px;color:#333;cursor:pointer;transition:all .2s;}
 .pa-add:hover{border-color:#c8b89a;color:#c8b89a;}
-.profile-new-form{background:#111;border:1px solid #222;border-radius:16px;padding:24px;width:320px;display:none;flex-direction:column;gap:10px;margin-top:16px;}
+.profile-new-form{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;width:320px;display:none;flex-direction:column;gap:10px;margin-top:16px;}
 .profile-new-form.open{display:flex;}
 .pnf-input{background:#161616;border:1px solid #2a2a2a;color:#e8e6e1;border-radius:8px;padding:10px 13px;font-family:'Syne',sans-serif;font-size:14px;width:100%;}
 .pnf-input:focus{outline:none;border-color:#6b5d48;}
@@ -382,7 +382,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .emoji-opt:hover,.emoji-opt.selected{border-color:#c8b89a;background:#1a160e;}
 .color-dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;}
 .color-dot.selected{border-color:#fff;}
-#profile-badge{position:fixed;top:10px;right:14px;display:none;align-items:center;gap:8px;background:#111;border:1px solid #222;padding:5px 12px 5px 8px;border-radius:99px;cursor:pointer;z-index:500;font-family:'Syne',sans-serif;font-size:12px;color:#888;}
+#profile-badge{position:fixed;top:10px;right:14px;display:none;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);padding:5px 12px 5px 8px;border-radius:99px;cursor:pointer;z-index:500;font-family:'Syne',sans-serif;font-size:12px;color:#888;}
 #theme-switcher-top{position:fixed;top:10px;right:130px;display:flex;align-items:center;gap:2px;z-index:500;}
 #theme-switcher-top button{background:none;border:1px solid transparent;border-radius:8px;padding:4px 7px;cursor:pointer;font-size:14px;transition:all .2s;opacity:.45;line-height:1;}
 #theme-switcher-top button:hover{opacity:.9!important;border-color:var(--border2);}
@@ -1004,7 +1004,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="btn btn-blue" id="lesson-btn" onclick="analyzeSelected('lesson')">🔍 Seçilenleri Analiz Et</button>
       <button class="btn" onclick="selectAllTokens('lesson')" style="font-size:12px">Tümünü Seç</button>
       <button class="btn" onclick="clearTokenSel('lesson')" style="font-size:12px">Temizle</button>
-      <button class="btn" onclick="sendToSpecial('lesson')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:#2a1a08">⭐ Burak Special</button>
+      <button class="btn" onclick="sendToSpecial('lesson')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:var(--accent-bg)">⭐ Burak Special</button>
       <span id="lesson-status"></span>
     </div>
     <div id="lesson-results"></div>
@@ -1041,7 +1041,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="btn btn-purple" id="lyrics-btn" onclick="analyzeSelected('lyrics')">🔍 Seçilenleri Analiz Et</button>
       <button class="btn" onclick="selectAllTokens('lyrics')" style="font-size:12px">Tümünü Seç</button>
       <button class="btn" onclick="clearTokenSel('lyrics')" style="font-size:12px">Temizle</button>
-      <button class="btn" onclick="sendToSpecial('lyrics')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:#2a1a08">⭐ Burak Special</button>
+      <button class="btn" onclick="sendToSpecial('lyrics')" style="font-size:12px;border-color:#c8a050;color:#c8a050;background:var(--accent-bg)">⭐ Burak Special</button>
       <span id="lyrics-status"></span>
     </div>
     <div id="lyrics-results"></div>
@@ -1132,7 +1132,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
           <!-- Seçim tooltip -->
           <div class="pdf-selection-tooltip" id="pdf-sel-tooltip">
             <span id="pdf-sel-word" style="font-size:14px;font-weight:700;color:#c8b89a;font-family:DM Mono,monospace"></span>
-            <button class="btn" style="font-size:11px;padding:4px 10px;background:#2a1a08;border-color:#c8b89a;color:#c8b89a" onclick="lookupSelectedWord()">⭐ Burak Special'a Ekle</button>
+            <button class="btn" style="font-size:11px;padding:4px 10px;background:var(--accent-bg);border-color:#c8b89a;color:#c8b89a" onclick="lookupSelectedWord()">⭐ Burak Special'a Ekle</button>
             <button class="btn" style="font-size:11px;padding:4px 10px" onclick="hideSelTooltip()">✕</button>
           </div>
           <div id="pdf-page-results" style="margin-top:12px;overflow-y:auto"></div>
@@ -1192,13 +1192,13 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <!-- BURAK SPECIAL -->
   <div class="panel" id="panel-special">
-    <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:#2a1a08;color:#c8a050;border:1px solid #6b4a10">Kişisel Sözlük</span></div>
+    <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:var(--accent-bg);color:#c8a050;border:1px solid var(--accent-dim)">Kişisel Sözlük</span></div>
     <div class="panel-sub">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</div>
 
     <!-- Arama + giriş -->
     <div class="special-input-row">
-      <input type="text" id="special-word-input" placeholder="Kelime, deyim veya kalıp... (örn: chodzić, o co chodzi, nie ma sprawy)" onkeydown="if(event.key==='Enter')lookupSpecial()" style="margin-bottom:0;border-color:#6b4a10;">
-      <button class="btn" onclick="lookupSpecial()" id="special-lookup-btn" style="border-color:#c8a050;color:#c8a050;background:#2a1a08;white-space:nowrap;">🔍 Ara</button>
+      <input type="text" id="special-word-input" placeholder="Kelime, deyim veya kalıp... (örn: chodzić, o co chodzi, nie ma sprawy)" onkeydown="if(event.key==='Enter')lookupSpecial()" style="margin-bottom:0;border-color:var(--accent-dim);">
+      <button class="btn" onclick="lookupSpecial()" id="special-lookup-btn" style="border-color:#c8a050;color:#c8a050;background:var(--accent-bg);white-space:nowrap;">🔍 Ara</button>
     </div>
 
     <!-- Arama sonucu (önizleme) -->
@@ -5344,36 +5344,36 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <thead>
           <!-- Satır 1: Kolon başlıkları -->
           <tr>
-            <th rowspan="3" style="padding:10px 14px;border:2px solid #333;background:#0d0d0d;color:#aaa;font-size:11px;text-align:left;white-space:normal;min-width:120px;vertical-align:middle">
+            <th rowspan="3" style="padding:10px 14px;border:2px solid var(--border2);background:#0d0d0d;color:#aaa;font-size:11px;text-align:left;white-space:normal;min-width:120px;vertical-align:middle">
               Sposób<br>artykulacji<br><span style="color:#555;font-weight:400;font-size:10px">Oluşum biçimi</span>
             </th>
-            <th rowspan="3" style="padding:10px 10px;border:2px solid #333;background:#0d0d0d;color:#7090d0;font-size:10px;text-align:center;white-space:normal;min-width:60px;vertical-align:middle">
+            <th rowspan="3" style="padding:10px 10px;border:2px solid var(--border2);background:#0d0d0d;color:#7090d0;font-size:10px;text-align:center;white-space:normal;min-width:60px;vertical-align:middle">
               Udział<br>nosa<br><span style="color:#555;font-weight:400;font-size:9px">Ağız/<br>Burun</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#1a0810;color:#e07070;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:#1a0810;color:#e07070;font-size:11px;text-align:center">
               Wargowe<br><span style="color:#666;font-weight:400;font-size:9px">Dudak</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a0a1a;color:#7090d0;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:var(--blue-bg);color:var(--blue);font-size:11px;text-align:center">
               Wargowo-<br>zębowe<br><span style="color:#666;font-weight:400;font-size:9px">Dudak-diş</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a1a0a;color:#6dbf9a;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:#0a1a0a;color:#6dbf9a;font-size:11px;text-align:center">
               Przednio-językowe<br>zębowe<br><span style="color:#666;font-weight:400;font-size:9px">Ön dil–diş</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#1a150a;color:#c8a050;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:#1a150a;color:#c8a050;font-size:11px;text-align:center">
               Przednio-językowe<br>dziąsłowe<br><span style="color:#666;font-weight:400;font-size:9px">Ön dil–damak</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#100a1a;color:#b080e0;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:#100a1a;color:#b080e0;font-size:11px;text-align:center">
               Środkowo-<br>językowe<br><span style="color:#666;font-weight:400;font-size:9px">Orta dil</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a1510;color:#5dc0b0;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:#0a1510;color:#5dc0b0;font-size:11px;text-align:center">
               Tylno-językowe<br>twarde<br><span style="color:#666;font-weight:400;font-size:9px">Arka dil–sert</span>
             </th>
-            <th colspan="2" style="padding:8px;border:2px solid #333;background:#0a1018;color:#60a0e0;font-size:11px;text-align:center">
+            <th colspan="2" style="padding:8px;border:2px solid var(--border2);background:#0a1018;color:#60a0e0;font-size:11px;text-align:center">
               Tylno-językowe<br>zmiękzone<br><span style="color:#666;font-weight:400;font-size:9px">Arka dil–yumuşak</span>
             </th>
           </tr>
           <!-- Satır 2: dźw. / bezdźw. -->
-          <tr style="background:#111">
+          <tr style="background:var(--surface)">
             <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
             <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#e07070;font-size:10px;text-align:center;min-width:45px">bezdźw.</th>
             <th style="padding:6px 10px;border:1px solid #2a2a2a;color:#6dbf9a;font-size:10px;text-align:center;min-width:45px">dźw.</th>
@@ -5392,7 +5392,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         </thead>
         <tbody>
 <tr>
-  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Zwarte<br><span style="font-size:9px;font-weight:400;color:#555">Patlayıcı (stop)</span></td>
+  <td style="padding:10px 12px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text);white-space:normal;vertical-align:middle">Zwarte<br><span style="font-size:9px;font-weight:400;color:#555">Patlayıcı (stop)</span></td>
   <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
   <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">b</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">p</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
@@ -5402,7 +5402,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">g</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">k</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
 </tr><tr style="background:#0d0d0d">
-  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Szczelinowe<br><span style="font-size:9px;font-weight:400;color:#555">Süreksiz (frikativ)</span></td>
+  <td style="padding:10px 12px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text);white-space:normal;vertical-align:middle">Szczelinowe<br><span style="font-size:9px;font-weight:400;color:#555">Süreksiz (frikativ)</span></td>
   <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
   <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">w</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">f</td>
@@ -5412,7 +5412,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">γ<br><span style="font-size:13px;opacity:.6">h</span></td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">ch</td>
   <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">γ'</td> <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#e07070;line-height:1.3">x'</td>
 </tr><tr>
-  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Zwarto-<br>szczelinowe<br><span style="font-size:9px;font-weight:400;color:#555">Afrikat</span></td>
+  <td style="padding:10px 12px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text);white-space:normal;vertical-align:middle">Zwarto-<br>szczelinowe<br><span style="font-size:9px;font-weight:400;color:#555">Afrikat</span></td>
   <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
@@ -5422,7 +5422,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
 </tr><tr style="background:#0d0d0d">
-  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Półotwarte<br><span style="font-size:9px;font-weight:400;color:#555">Nazal (burundan)</span></td>
+  <td style="padding:10px 12px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text);white-space:normal;vertical-align:middle">Półotwarte<br><span style="font-size:9px;font-weight:400;color:#555">Nazal (burundan)</span></td>
   <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#7090d0">nosowe</td>
   <td style="padding:10px;border:1px solid #222;text-align:center;font-family:DM Mono,monospace;font-size:20px;font-weight:900;color:#6dbf9a;line-height:1.3">m</td> <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
@@ -5432,7 +5432,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
 </tr><tr>
-  <td style="padding:10px 12px;border:1px solid #222;background:#1a1a1a;font-weight:800;font-size:12px;color:#ddd;white-space:normal;vertical-align:middle">Półotwarte<br><span style="font-size:9px;font-weight:400;color:#555">Sonorant (lateral/tril)</span></td>
+  <td style="padding:10px 12px;border:1px solid var(--border);background:var(--surface2);font-weight:800;font-size:12px;color:var(--text);white-space:normal;vertical-align:middle">Półotwarte<br><span style="font-size:9px;font-weight:400;color:#555">Sonorant (lateral/tril)</span></td>
   <td style="padding:6px 10px;border:1px solid #222;text-align:center;font-size:10px;font-weight:700;color:#c8a050">ustne</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
   <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>  <td style="padding:10px;border:1px solid #1a1a1a;text-align:center;color:#2a2a2a;font-size:16px">—</td>
@@ -6131,7 +6131,7 @@ function showLoginModal(){
     m.id = 'login-modal';
     m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:9999';
     m.innerHTML = [
-      '<div style="background:#111;border:1px solid #6b4a10;border-radius:16px;padding:32px;width:320px;text-align:center">',
+      '<div style="background:var(--surface);border:1px solid var(--accent-dim);border-radius:16px;padding:32px;width:320px;text-align:center">',
       '<div style="font-size:28px;font-weight:800;color:#c8b89a;margin-bottom:8px">Polonica</div>',
       '<div style="font-size:13px;color:#888;margin-bottom:20px">Sifre ile giris yap</div>',
       '<input type="password" id="login-pass" placeholder="Sifre..." style="width:100%;background:#161616;border:1px solid #333;border-radius:8px;padding:10px;color:#e8e6e1;font-size:14px;margin-bottom:12px">',
