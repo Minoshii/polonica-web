@@ -1398,35 +1398,152 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <!-- TEST -->
   <div class="panel" id="panel-test">
-    <div id="test-setup-view">
-      <div class="panel-title">🔁 Test</div>
-      <div class="panel-sub">Burak Special'dan kelime seç, test yap.</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+
+    <!-- ── GÖRÜNÜM 1: TEST LİSTESİ ── -->
+    <div id="tv-list">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
         <div>
-          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Kaynak</label>
-          <select id="test-source" onchange="updatePoolInfo()" style="margin-bottom:0">
+          <div class="panel-title" style="margin-bottom:4px">🃏 Test Merkezi</div>
+          <div style="font-size:12px;color:var(--text3)">Kendi testlerini oluştur, kart modu veya quiz modu ile çalış.</div>
+        </div>
+        <button onclick="tvShow('tv-create');tcResetForm()" style="padding:10px 18px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">✦ Test Oluştur</button>
+      </div>
+      <!-- Burak Special hızlı test -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px">⭐ Burak Special'dan Hızlı Test</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <select id="test-source" onchange="updatePoolInfo()" style="font-size:12px;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text)">
             <option value="all">Tümü</option>
             <option value="words">⭐ Kelimeler</option>
             <option value="idioms">💬 Deyimler</option>
             <option value="akademik">📚 Akademik</option>
-            <option value="muzyka">🎵 Muzyka</option>
+            <option value="muzyka">🎵 Müzik</option>
             <option value="slang">🔥 Slang</option>
           </select>
-        </div>
-        <div>
-          <label style="font-size:11px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px">Mod</label>
-          <select id="test-mode" onchange="updatePoolInfo()" style="margin-bottom:0">
-            <option value="flashcard">Flashcard</option>
-            <option value="mc">Çoktan Seçmeli</option>
-          </select>
+          <button onclick="tcStartFromSpecial('card')" style="padding:7px 14px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">🃏 Kart Modu</button>
+          <button onclick="tcStartFromSpecial('quiz')" style="padding:7px 14px;background:var(--surface3);color:var(--text2);border:1px solid var(--border2);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📝 Quiz Modu</button>
+          <span id="test-pool-info" style="font-size:11px;color:var(--text3)"></span>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <button class="btn btn-accent" onclick="startTestFromSpecial()">▶ Başlat</button>
-        <span id="test-pool-info" style="font-size:12px;color:var(--text2)"></span>
+      <!-- Kayıtlı testler -->
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:12px">Kayıtlı Testler</div>
+      <div id="tv-saved-tests" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px"></div>
+      <div id="tv-no-tests" style="display:none;text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">Henüz test yok. "Test Oluştur" ile başla! 🃏</div>
+      <!-- Eski test-active (geriye dönük uyumluluk) -->
+      <div id="test-active" style="display:none"></div>
+    </div>
+
+    <!-- ── GÖRÜNÜM 2: TEST OLUŞTUR ── -->
+    <div id="tv-create" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <button onclick="tvShow('tv-list');testLoadList()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Geri</button>
+        <div class="panel-title" style="margin-bottom:0">Yeni Test Oluştur</div>
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);display:block;margin-bottom:6px">Test Adı</label>
+        <input id="tc-name" placeholder="örn: Fiil Zamanları, Ev Eşyaları..." style="width:100%;font-size:14px;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--text)">
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)">Kelime Çiftleri</label>
+          <div style="display:flex;gap:6px">
+            <button onclick="tcImportFromSpecial()" style="font-size:11px;padding:4px 10px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:6px;cursor:pointer">⭐ İçe Aktar</button>
+            <button onclick="tcAddRow()" style="font-size:11px;padding:4px 10px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:6px;cursor:pointer;font-weight:700">+ Satır</button>
+          </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:8px 12px;border-bottom:1px solid var(--border)">
+            <span>Ön Yüz (Soru)</span><span>Arka Yüz (Cevap)</span><span>İpucu</span><span></span>
+          </div>
+          <div id="tc-rows" style="max-height:320px;overflow-y:auto"></div>
+        </div>
+      </div>
+      <button onclick="tcSave()" style="padding:10px 20px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">💾 Kaydet</button>
+    </div>
+
+    <!-- ── GÖRÜNÜM 3: KART MODU ── -->
+    <div id="tv-cards" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
+        <div style="flex:1">
+          <div id="tc-test-name" style="font-size:14px;font-weight:700;color:var(--text)"></div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">Sağ → Biliyorum &nbsp;·&nbsp; Sol → Bilmiyorum &nbsp;·&nbsp; Dokun → Çevir</div>
+        </div>
+        <div id="tc-counter" style="font-size:13px;font-weight:700;color:var(--teal)"></div>
+      </div>
+      <div style="background:var(--surface2);border-radius:4px;height:5px;margin-bottom:24px;overflow:hidden">
+        <div id="tc-progress" style="height:100%;background:var(--teal);border-radius:4px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="position:relative;height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+        <div style="position:absolute;width:300px;max-width:88vw;height:190px;background:var(--surface2);border-radius:16px;transform:rotate(4deg) translateY(8px);opacity:.4;border:1px solid var(--border)"></div>
+        <div style="position:absolute;width:300px;max-width:88vw;height:190px;background:var(--surface2);border-radius:16px;transform:rotate(2deg) translateY(4px);opacity:.65;border:1px solid var(--border)"></div>
+        <div id="tc-lbl-left" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);opacity:0;z-index:10;background:#e03030;color:#fff;padding:7px 12px;border-radius:10px;font-weight:800;font-size:13px;pointer-events:none">✗ BİLMİYORUM</div>
+        <div id="tc-lbl-right" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);opacity:0;z-index:10;background:#22c55e;color:#fff;padding:7px 12px;border-radius:10px;font-weight:800;font-size:13px;pointer-events:none">✓ BİLİYORUM</div>
+        <div id="tc-card-flip-wrap" style="position:absolute;width:300px;max-width:88vw;height:210px;perspective:1000px;cursor:grab;z-index:5;touch-action:none">
+          <div id="tc-card-top" style="width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.25)">
+            <div id="tc-front" style="position:absolute;inset:0;background:var(--surface);border:1px solid var(--border2);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--text3);margin-bottom:12px">SORU</div>
+              <div id="tc-front-text" style="font-size:22px;font-weight:800;color:var(--text);text-align:center;line-height:1.3"></div>
+              <div style="font-size:11px;color:var(--text3);margin-top:14px;opacity:.6">↕ dokunarak çevir</div>
+            </div>
+            <div id="tc-back" style="position:absolute;inset:0;background:var(--teal-bg);border:1px solid var(--teal);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg)">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:12px;opacity:.8">CEVAP</div>
+              <div id="tc-back-text" style="font-size:20px;font-weight:800;color:var(--teal);text-align:center;line-height:1.3"></div>
+              <div id="tc-hint-text" style="font-size:12px;color:var(--text2);margin-top:10px;text-align:center;font-style:italic"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;justify-content:center">
+        <button onclick="tcSwipe('left')" style="width:58px;height:58px;border-radius:50%;background:var(--red-bg);border:2px solid var(--red);color:var(--red);font-size:20px;cursor:pointer" title="Bilmiyorum">✗</button>
+        <button onclick="tcFlip()" style="width:58px;height:58px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);color:var(--text2);font-size:16px;cursor:pointer" title="Çevir">↕</button>
+        <button onclick="tcSwipe('right')" style="width:58px;height:58px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green);color:var(--green);font-size:20px;cursor:pointer" title="Biliyorum">✓</button>
       </div>
     </div>
-    <div id="test-active" style="display:none"></div>
+
+    <!-- ── GÖRÜNÜM 4: QUIZ MODU ── -->
+    <div id="tv-quiz" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
+        <div style="flex:1"><div id="tq-test-name" style="font-size:14px;font-weight:700;color:var(--text)"></div></div>
+        <div id="tq-counter" style="font-size:13px;font-weight:700;color:var(--teal)"></div>
+      </div>
+      <div style="background:var(--surface2);border-radius:4px;height:5px;margin-bottom:24px;overflow:hidden">
+        <div id="tq-progress" style="height:100%;background:var(--teal);border-radius:4px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="background:var(--surface2);border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:20px;border:1px solid var(--border)">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--text3);margin-bottom:12px">SORU</div>
+        <div id="tq-question" style="font-size:24px;font-weight:800;color:var(--text);line-height:1.3"></div>
+      </div>
+      <div id="tq-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+    </div>
+
+    <!-- ── GÖRÜNÜM 5: SONUÇLAR ── -->
+    <div id="tv-result" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:48px;margin-bottom:12px" id="tr-emoji">🎉</div>
+      <div style="font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px" id="tr-score"></div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:24px" id="tr-subtitle"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:280px;margin:0 auto 28px">
+        <div style="background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px">
+          <div style="font-size:28px;font-weight:900;color:var(--green)" id="tr-correct"></div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">Biliyorum</div>
+        </div>
+        <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:12px;padding:16px">
+          <div style="font-size:28px;font-weight:900;color:var(--red)" id="tr-wrong"></div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">Bilmiyorum</div>
+        </div>
+      </div>
+      <div id="tr-missed-block" style="text-align:left;margin:0 auto 24px;max-width:360px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px">Tekrar Çalış</div>
+        <div id="tr-missed-list" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button onclick="tcReplay('card')" style="padding:10px 18px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">🃏 Tekrar Kart</button>
+        <button onclick="tcReplay('quiz')" style="padding:10px 18px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📝 Quiz Tekrar</button>
+        <button onclick="tvShow('tv-list');testLoadList()" style="padding:10px 18px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;font-family:'Syne',sans-serif">← Liste</button>
+      </div>
+    </div>
+
   </div>
 
   <!-- BURAK SPECIAL -->
@@ -10578,6 +10695,321 @@ function triggerSobota() {
   el.innerHTML = '<div style="font-size:clamp(48px,12vw,100px);animation:metroRadPulse .6s ease-in-out infinite">🎉</div><div style="font-family:Syne,sans-serif;font-size:clamp(22px,5vw,48px);font-weight:900;color:#c8b89a;text-shadow:0 0 30px #c8b89a88">Sobota! Nie uczysz się!</div>';
   document.body.appendChild(el);
   setTimeout(() => { el.style.transition='opacity .8s'; el.style.opacity='0'; setTimeout(()=>el.remove(),900); }, 2800);
+}
+
+// ══════════════════════════════════════════════════════
+// YENİ TEST SİSTEMİ — Kart + Quiz Modu
+// ══════════════════════════════════════════════════════
+
+function tvShow(id) {
+  ['tv-list','tv-create','tv-cards','tv-quiz','tv-result'].forEach(function(v) {
+    var el = document.getElementById(v);
+    if (el) el.style.display = v === id ? '' : 'none';
+  });
+}
+
+var _tcWords = [], _tcIdx = 0, _tcCorrect = 0, _tcWrong = 0;
+var _tcMissed = [], _tcMode = 'card', _tcFlipped = false;
+var _tcCurrentTestId = null;
+var _tcDrag = {active:false, startX:0, currentX:0, moved:false};
+
+function testLoadList() {
+  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
+  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
+  var pi = document.getElementById('test-pool-info');
+  if (pi) pi.textContent = sp.length + ' kelime hazır';
+  var container = document.getElementById('tv-saved-tests');
+  var noTests = document.getElementById('tv-no-tests');
+  if (!container) return;
+  if (tests.length === 0) {
+    container.innerHTML = '';
+    if (noTests) noTests.style.display = '';
+    return;
+  }
+  if (noTests) noTests.style.display = 'none';
+  container.innerHTML = '';
+  tests.forEach(function(t) {
+    var played = (t.stats && t.stats.played) || 0;
+    var best = (t.stats && t.stats.best) || 0;
+    var card = document.createElement('div');
+    card.style.cssText = 'background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px';
+    var info = document.createElement('div');
+    info.style.cssText = 'display:flex;align-items:flex-start;justify-content:space-between;gap:8px';
+    var nameEl = document.createElement('div');
+    nameEl.innerHTML = '<div style="font-size:15px;font-weight:800;color:var(--text)">' + t.name + '</div>'
+      + '<div style="font-size:11px;color:var(--text3);margin-top:3px">' + t.words.length + ' kelime'
+      + (played ? ' · ' + played + 'x oynandı' : '') + (best ? ' · En iyi: %' + best : '') + '</div>';
+    var delBtn = document.createElement('button');
+    delBtn.textContent = '🗑';
+    delBtn.style.cssText = 'background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 6px';
+    delBtn.onclick = (function(id){ return function(){ testDeleteCustom(id); }; })(t.id);
+    info.appendChild(nameEl); info.appendChild(delBtn);
+    var btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:8px';
+    var cardBtn = document.createElement('button');
+    cardBtn.textContent = '🃏 Kartlar';
+    cardBtn.style.cssText = 'flex:1;padding:8px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Syne,sans-serif';
+    cardBtn.onclick = (function(id){ return function(){ tcStart(id,'card'); }; })(t.id);
+    var quizBtn = document.createElement('button');
+    quizBtn.textContent = '📝 Quiz';
+    quizBtn.style.cssText = 'flex:1;padding:8px;background:var(--surface3);color:var(--text2);border:1px solid var(--border2);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Syne,sans-serif';
+    quizBtn.onclick = (function(id){ return function(){ tcStart(id,'quiz'); }; })(t.id);
+    btns.appendChild(cardBtn); btns.appendChild(quizBtn);
+    card.appendChild(info); card.appendChild(btns);
+    container.appendChild(card);
+  });
+}
+
+function testDeleteCustom(id) {
+  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
+  tests = tests.filter(function(t) { return t.id !== id; });
+  localStorage.setItem('polonica_custom_tests', JSON.stringify(tests));
+  testLoadList();
+}
+
+function tcAddRow(front, back, hint) {
+  var rows = document.getElementById('tc-rows');
+  if (!rows) return;
+  var div = document.createElement('div');
+  div.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr auto;border-top:1px solid var(--border)';
+  div.innerHTML = '<input placeholder="Ön Yüz (Soru)" value="' + (front||'') + '" style="padding:8px 10px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);font-size:12px;outline:none">'
+    + '<input placeholder="Arka Yüz (Cevap)" value="' + (back||'') + '" style="padding:8px 10px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);font-size:12px;outline:none">'
+    + '<input placeholder="İpucu" value="' + (hint||'') + '" style="padding:8px 10px;background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);font-size:12px;outline:none">'
+    + '<button onclick="this.parentNode.remove()" style="padding:8px 10px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px">✕</button>';
+  rows.appendChild(div);
+}
+
+function tcResetForm() {
+  var rows = document.getElementById('tc-rows');
+  var name = document.getElementById('tc-name');
+  if (rows) rows.innerHTML = '';
+  if (name) name.value = '';
+  tcAddRow(); tcAddRow(); tcAddRow();
+}
+
+function tcSave() {
+  var name = ((document.getElementById('tc-name') || {}).value || '').trim();
+  if (!name) { alert('Test adı gir!'); return; }
+  var rows = document.getElementById('tc-rows');
+  var words = [];
+  if (rows) Array.from(rows.children).forEach(function(row) {
+    var inputs = row.querySelectorAll('input');
+    var f = inputs[0] ? inputs[0].value.trim() : '';
+    var b = inputs[1] ? inputs[1].value.trim() : '';
+    var h = inputs[2] ? inputs[2].value.trim() : '';
+    if (f && b) words.push({front:f, back:b, hint:h});
+  });
+  if (words.length < 2) { alert('En az 2 kelime çifti ekle!'); return; }
+  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
+  tests.push({id:'tc_'+Date.now(), name:name, words:words, created:new Date().toISOString().slice(0,10), stats:{}});
+  localStorage.setItem('polonica_custom_tests', JSON.stringify(tests));
+  tvShow('tv-list'); testLoadList();
+  if (typeof showToast === 'function') showToast('Test kaydedildi! 🃏');
+}
+
+function tcImportFromSpecial() {
+  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
+  if (!sp.length) { alert('Burak Special boş!'); return; }
+  var src = ((document.getElementById('test-source')||{}).value)||'all';
+  var filtered = src === 'all' ? sp : sp.filter(function(w){ return w.category===src; });
+  filtered.forEach(function(w){ tcAddRow(w.tr||w.meaning||w.word, w.word, w.notes||''); });
+  if (typeof showToast === 'function') showToast(filtered.length + ' kelime aktarıldı!');
+}
+
+function tcStartFromSpecial(mode) {
+  var sp = JSON.parse(localStorage.getItem('polonica_special') || '[]');
+  var src = ((document.getElementById('test-source')||{}).value)||'all';
+  var filtered = src==='all' ? sp : sp.filter(function(w){ return w.category===src; });
+  if (filtered.length < 2) { alert('Yeterli kelime yok! Once Burak Special a kelime ekle.'); return; }
+  var words = filtered.map(function(w){ return {front:w.tr||w.meaning||w.word, back:w.word, hint:w.notes||''}; });
+  _tcCurrentTestId = null;
+  tcPlayMode(words, 'Burak Special', mode);
+}
+
+function tcStart(id, mode) {
+  var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
+  var test = tests.find(function(t){ return t.id===id; });
+  if (!test) return;
+  _tcCurrentTestId = id;
+  tcPlayMode(test.words, test.name, mode);
+}
+
+function tcPlayMode(words, name, mode) {
+  _tcMode = mode;
+  _tcWords = words.slice().sort(function(){ return Math.random()-.5; });
+  _tcIdx = 0; _tcCorrect = 0; _tcWrong = 0; _tcMissed = [];
+  if (mode === 'card') {
+    var el = document.getElementById('tc-test-name');
+    if (el) el.textContent = name;
+    tvShow('tv-cards'); tcRenderCard(); tcInitDrag();
+  } else {
+    var el2 = document.getElementById('tq-test-name');
+    if (el2) el2.textContent = name;
+    tvShow('tv-quiz'); tqRenderQuestion();
+  }
+}
+
+function tcRenderCard() {
+  if (_tcIdx >= _tcWords.length) { tcShowResult(); return; }
+  var w = _tcWords[_tcIdx];
+  var fe = document.getElementById('tc-front-text');
+  var be = document.getElementById('tc-back-text');
+  var he = document.getElementById('tc-hint-text');
+  var card = document.getElementById('tc-card-top');
+  var wrap = document.getElementById('tc-card-flip-wrap');
+  if (fe) fe.textContent = w.front;
+  if (be) be.textContent = w.back;
+  if (he) he.textContent = w.hint || '';
+  if (card) { card.style.transition = 'transform .5s'; card.style.transform = 'rotateY(0deg)'; }
+  if (wrap) { wrap.style.transition = 'transform .3s ease'; wrap.style.transform = 'translateX(0) rotate(0deg)'; }
+  _tcFlipped = false;
+  var pct = (_tcIdx / _tcWords.length * 100).toFixed(0);
+  var prog = document.getElementById('tc-progress');
+  var cnt = document.getElementById('tc-counter');
+  if (prog) prog.style.width = pct + '%';
+  if (cnt) cnt.textContent = (_tcIdx+1) + ' / ' + _tcWords.length;
+  ['tc-lbl-left','tc-lbl-right'].forEach(function(id){ var e=document.getElementById(id); if(e) e.style.opacity=0; });
+}
+
+function tcFlip() {
+  var card = document.getElementById('tc-card-top');
+  if (!card) return;
+  _tcFlipped = !_tcFlipped;
+  card.style.transition = 'transform .5s';
+  card.style.transform = _tcFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+}
+
+function tcSwipe(dir) {
+  var wrap = document.getElementById('tc-card-flip-wrap');
+  if (!wrap) return;
+  wrap.style.transition = 'transform .4s ease-in';
+  wrap.style.transform = 'translateX(' + (dir==='right'?'130vw':'-130vw') + ') rotate(' + (dir==='right'?'25deg':'-25deg') + ')';
+  if (dir === 'right') _tcCorrect++; else { _tcWrong++; _tcMissed.push(_tcWords[_tcIdx]); }
+  _tcIdx++;
+  setTimeout(tcRenderCard, 420);
+}
+
+function tcSnapBack() {
+  var wrap = document.getElementById('tc-card-flip-wrap');
+  if (wrap) { wrap.style.transition = 'transform .3s ease'; wrap.style.transform = 'translateX(0) rotate(0deg)'; }
+  ['tc-lbl-left','tc-lbl-right'].forEach(function(id){ var e=document.getElementById(id); if(e) e.style.opacity=0; });
+}
+
+function tcInitDrag() {
+  var wrap = document.getElementById('tc-card-flip-wrap');
+  if (!wrap) return;
+  wrap.onpointerdown = function(e) {
+    _tcDrag.active=true; _tcDrag.startX=e.clientX; _tcDrag.currentX=0; _tcDrag.moved=false;
+    wrap.setPointerCapture(e.pointerId); wrap.style.transition='none'; wrap.style.cursor='grabbing';
+  };
+  wrap.onpointermove = function(e) {
+    if (!_tcDrag.active) return;
+    var x = e.clientX - _tcDrag.startX;
+    if (Math.abs(x) > 5) _tcDrag.moved = true;
+    _tcDrag.currentX = x;
+    wrap.style.transform = 'translateX(' + x + 'px) rotate(' + (x*.07) + 'deg)';
+    var l = document.getElementById('tc-lbl-left');
+    var r = document.getElementById('tc-lbl-right');
+    if (l) l.style.opacity = Math.min(1, Math.max(0, -x/80));
+    if (r) r.style.opacity = Math.min(1, Math.max(0, x/80));
+  };
+  wrap.onpointerup = function() {
+    if (!_tcDrag.active) return;
+    _tcDrag.active = false; wrap.style.cursor = 'grab';
+    if (!_tcDrag.moved) { tcFlip(); return; }
+    if (_tcDrag.currentX > 80) tcSwipe('right');
+    else if (_tcDrag.currentX < -80) tcSwipe('left');
+    else tcSnapBack();
+  };
+}
+
+function tqRenderQuestion() {
+  if (_tcIdx >= _tcWords.length) { tcShowResult(); return; }
+  var w = _tcWords[_tcIdx];
+  var qEl = document.getElementById('tq-question');
+  var optsEl = document.getElementById('tq-options');
+  if (qEl) qEl.textContent = w.front;
+  var wrong = _tcWords.filter(function(x,i){ return i!==_tcIdx; }).sort(function(){ return Math.random()-.5; }).slice(0,3);
+  var options = wrong.concat([w]).sort(function(){ return Math.random()-.5; });
+  if (optsEl) {
+    optsEl.innerHTML = '';
+    options.forEach(function(o) {
+      var isCorrect = o === w;
+      var btn = document.createElement('button');
+      btn.textContent = o.back;
+      btn.style.cssText = 'padding:14px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;text-align:center;width:100%;transition:all .2s';
+      btn.onclick = (function(b,ic){ return function(){ tqAnswer(b,ic); }; })(btn, isCorrect);
+      optsEl.appendChild(btn);
+    });
+  }
+  var pct = (_tcIdx / _tcWords.length * 100).toFixed(0);
+  var p = document.getElementById('tq-progress'); if(p) p.style.width = pct+'%';
+  var c = document.getElementById('tq-counter'); if(c) c.textContent = (_tcIdx+1) + ' / ' + _tcWords.length;
+}
+
+function tqAnswer(btn, correct) {
+  var opts = document.querySelectorAll('#tq-options button');
+  opts.forEach(function(b){ b.disabled = true; });
+  if (correct) {
+    btn.style.background='var(--green-bg)'; btn.style.borderColor='var(--green)'; btn.style.color='var(--green)'; _tcCorrect++;
+  } else {
+    btn.style.background='var(--red-bg)'; btn.style.borderColor='var(--red)'; btn.style.color='var(--red)'; _tcWrong++;
+    _tcMissed.push(_tcWords[_tcIdx]);
+    opts.forEach(function(b){ if(b.textContent===_tcWords[_tcIdx].back){ b.style.background='var(--green-bg)'; b.style.borderColor='var(--green)'; b.style.color='var(--green)'; }});
+  }
+  _tcIdx++;
+  setTimeout(tqRenderQuestion, 900);
+}
+
+function tcShowResult() {
+  var total = _tcCorrect + _tcWrong;
+  var pct = total > 0 ? Math.round(_tcCorrect/total*100) : 0;
+  var emoji = pct>=90?'🏆':pct>=70?'🎉':pct>=50?'💪':'📚';
+  document.getElementById('tr-emoji').textContent = emoji;
+  document.getElementById('tr-score').textContent = '%' + pct;
+  document.getElementById('tr-subtitle').textContent = (pct>=90?'Mükemmel!':pct>=70?'Çok iyi!':pct>=50?'İdare eder, tekrar et!':'Daha çok çalışman lazım!') + ' (' + _tcCorrect + '/' + total + ')';
+  document.getElementById('tr-correct').textContent = _tcCorrect;
+  document.getElementById('tr-wrong').textContent = _tcWrong;
+  var mb = document.getElementById('tr-missed-block');
+  var ml = document.getElementById('tr-missed-list');
+  if (_tcMissed.length > 0 && ml) {
+    if (mb) mb.style.display = '';
+    ml.innerHTML = _tcMissed.map(function(w){
+      return '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;gap:12px"><span style="color:var(--text);font-weight:600">' + w.front + '</span><span style="color:var(--teal)">' + w.back + '</span></div>';
+    }).join('');
+  } else { if (mb) mb.style.display = 'none'; }
+  if (_tcCurrentTestId) {
+    var tests = JSON.parse(localStorage.getItem('polonica_custom_tests') || '[]');
+    tests = tests.map(function(t){
+      if (t.id===_tcCurrentTestId){ t.stats=t.stats||{}; t.stats.played=(t.stats.played||0)+1; t.stats.best=Math.max(t.stats.best||0,pct); }
+      return t;
+    });
+    localStorage.setItem('polonica_custom_tests', JSON.stringify(tests));
+  }
+  tvShow('tv-result');
+}
+
+function tcReplay(mode) {
+  _tcWords = _tcWords.sort(function(){ return Math.random()-.5; });
+  _tcIdx=0; _tcCorrect=0; _tcWrong=0; _tcMissed=[];
+  var name = (document.getElementById('tc-test-name')||document.getElementById('tq-test-name')||{}).textContent||'Test';
+  tcPlayMode(_tcWords, name, mode);
+}
+
+function tcExitPlay() { tvShow('tv-list'); testLoadList(); }
+
+// Test listesini init'te yükle (mevcut updateCounts ile uyumlu)
+(function tcInit(){
+  if (document.getElementById('tv-list')) testLoadList();
+})();
+
+
+function showToast(msg, dur) {
+  var t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 20px;border-radius:10px;font-size:13px;z-index:99999;font-family:"Syne",sans-serif;box-shadow:0 4px 20px rgba(0,0,0,.3);pointer-events:none;transition:opacity .4s';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){ t.remove(); },400); }, dur||2200);
 }
 </script>
 </body>
