@@ -29,6 +29,22 @@
 [data-theme="light"] input,[data-theme="light"] textarea,[data-theme="light"] select{background:#fff;color:#252018;border-color:#c8c0b0;}
 [data-theme="light"] .btn{background:#f0ede8;color:#252018;}
 [data-theme="light"] .mode-badge{color:#5a5048!important;}
+/* ── VURGU RENKLERİ ────────────────────────── */
+[data-accent="amber"]{--teal:#c8a050;--teal-bg:#1a1200;--accent:#c8a050;--accent-dim:#7a5a20;--accent-bg:#1a1200;}
+[data-accent="rose"]{--teal:#d07090;--teal-bg:#1a0d14;--accent:#d07090;--accent-dim:#803050;--accent-bg:#1a0d14;}
+[data-accent="cobalt"]{--teal:#5090d0;--teal-bg:#0d1228;--accent:#5090d0;--accent-dim:#2050a0;--accent-bg:#0d1228;}
+[data-accent="forest"]{--teal:#4a9a6a;--teal-bg:#0d1a10;--accent:#4a9a6a;--accent-dim:#2a6a3a;--accent-bg:#0d1a10;}
+[data-accent="purple"]{--teal:#9060d0;--teal-bg:#140d1a;--accent:#9060d0;--accent-dim:#5030a0;--accent-bg:#140d1a;}
+[data-accent="cyber"]{--teal:#00f5ff;--teal-bg:#001a1f;--accent:#00f5ff;--accent-dim:#007a8a;--accent-bg:#001a1f;}
+[data-accent="metro"]{--teal:#00ff41;--teal-bg:#001a0a;--accent:#00ff41;--accent-dim:#008020;--accent-bg:#001a0a;}
+/* Swatch + mode btn stilleri */
+.theme-mode-btn{flex:1;padding:8px 4px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;transition:all .2s;}
+.theme-mode-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-bg);}
+.theme-mode-btn:hover{border-color:var(--border2);color:var(--text);}
+.accent-swatch{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .2s;outline:none;}
+.accent-swatch:hover{transform:scale(1.12);}
+.accent-swatch.active{border-color:#fff;box-shadow:0 0 0 2px var(--teal);transform:scale(1.12);}
+
 /* Geçiş animasyonu */
 :root,body,#sidebar,.panel,.btn,input,textarea,select,.nav-btn,.special-tab,.gtab{transition:background-color .3s ease,color .2s ease,border-color .25s ease;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -597,6 +613,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   .special-tabs { overflow-x:auto; flex-wrap:nowrap!important; padding-bottom:4px; }
   .special-tab { white-space:nowrap!important; font-size:10px!important; padding:6px 9px!important; }
   #theme-switcher-top button { font-size:13px!important; padding:4px 5px!important; }
+  #theme-switcher-top { display:none!important; }
   /* Ejmala */
   .ejmala-input { font-size:15px!important; padding:12px 14px!important; }
   .ejmala-btn { font-size:13px!important; padding:12px 14px!important; }
@@ -859,6 +876,26 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <span>⚙ Ayarlar</span>
       <button class="btn" onclick="closeSettings()" style="padding:4px 10px">✕</button>
     </div>
+    <!-- TEMA & RENKLER -->
+    <div style="margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">TEMA</div>
+      <div style="display:flex;gap:6px;margin-bottom:14px">
+        <button onclick="setTheme('dark')" id="stbtn-dark" class="theme-mode-btn">🌑 Koyu</button>
+        <button onclick="setTheme('dim')" id="stbtn-dim" class="theme-mode-btn">🌙 Loş</button>
+        <button onclick="setTheme('light')" id="stbtn-light" class="theme-mode-btn">☀️ Açık</button>
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Vurgu Rengi</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button onclick="setAccent('teal')" id="ac-teal" class="accent-swatch" style="background:#3a9a8a" title="Teal (Varsayılan)"></button>
+        <button onclick="setAccent('amber')" id="ac-amber" class="accent-swatch" style="background:#c8a050" title="Amber"></button>
+        <button onclick="setAccent('rose')" id="ac-rose" class="accent-swatch" style="background:#d07090" title="Rose"></button>
+        <button onclick="setAccent('cobalt')" id="ac-cobalt" class="accent-swatch" style="background:#5090d0" title="Cobalt"></button>
+        <button onclick="setAccent('forest')" id="ac-forest" class="accent-swatch" style="background:#4a9a6a" title="Forest"></button>
+        <button onclick="setAccent('purple')" id="ac-purple" class="accent-swatch" style="background:#9060d0" title="Purple"></button>
+
+      </div>
+    </div>
+
     <div style="margin-bottom:14px">
       <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:6px">OLLAMA DİL MODELİ</label>
       <input type="text" id="settings-model" placeholder="qwen2.5:3b" style="margin-bottom:4px">
@@ -5853,17 +5890,27 @@ function setTheme(theme) {
   localStorage.setItem('polonica_theme', theme);
   ['dark','dim','light'].forEach(function(t) {
     var btn = document.getElementById('theme-btn-'+t);
-    if(!btn) return;
-    if(t === theme) {
-      btn.style.opacity = '1';
-      btn.style.borderColor = 'var(--accent-dim)';
-      btn.style.background = 'var(--surface2)';
-    } else {
-      btn.style.opacity = '.4';
-      btn.style.borderColor = 'transparent';
-      btn.style.background = 'none';
+    if(btn) {
+      if(t === theme) { btn.style.opacity='1'; btn.style.borderColor='var(--accent-dim)'; btn.style.background='var(--surface2)'; }
+      else { btn.style.opacity='.4'; btn.style.borderColor='transparent'; btn.style.background='none'; }
     }
+    var stbtn = document.getElementById('stbtn-'+t);
+    if(stbtn) stbtn.classList.toggle('active', t === theme);
   });
+}
+
+function setAccent(accent) {
+  document.documentElement.setAttribute('data-accent', accent === 'teal' ? '' : accent);
+  localStorage.setItem('polonica_accent', accent);
+  ['teal','amber','rose','cobalt','forest','purple','cyber','metro'].forEach(function(a) {
+    var btn = document.getElementById('ac-'+a);
+    if(btn) btn.classList.toggle('active', a === accent);
+  });
+}
+
+function loadAccent() {
+  var saved = localStorage.getItem('polonica_accent') || 'teal';
+  setAccent(saved);
 }
 
 function loadTheme() {
@@ -5872,6 +5919,7 @@ function loadTheme() {
 }
 
 loadTheme();
+loadAccent();
 
 async function boot() {
   try {
