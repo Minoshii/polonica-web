@@ -9490,9 +9490,9 @@ function _renderSpecialList(){
     return;
   }
 
-  // Grid wrapper — deyimler ve arama sonuçları için yatay grid
+  // Liste wrapper — deyimler ve arama için tam genişlik dikey liste
   const gridWrap = document.createElement('div');
-  gridWrap.className = 'word-card-grid';
+  gridWrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;padding:4px 0;';
   container.appendChild(gridWrap);
 
   list.forEach((e, rowIdx) => {
@@ -9505,7 +9505,7 @@ function _renderSpecialList(){
     const card = document.createElement('div');
     card.className = 'word-card';
     card.id = 'sr-'+e.id;
-    card.style.animationDelay = (rowIdx*25)+'ms';
+    card.style.cssText = 'animation-delay:'+(rowIdx*20)+'ms;width:100%;box-sizing:border-box;';
 
     // Üst kısım - kompakt
     const top = document.createElement('div');
