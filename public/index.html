@@ -9630,6 +9630,7 @@ function _checkTypedTriggers() {
   else if (_typeBuf.endsWith('dobrze'))  { _typeBuf = ''; triggerDobrze(); }
   else if (_typeBuf.endsWith('cumartesi')) { _typeBuf = ''; triggerSobota(); }
   else if (_typeBuf.endsWith('cyber'))     { _typeBuf = ''; triggerCyber(); }
+  else if (_typeBuf.endsWith('subnautica')) { _typeBuf = ''; triggerSubnautica(); }
 }
 
 // ── METRO EGG ──────────────────────────────────────────
@@ -9643,7 +9644,12 @@ function triggerMetro() {
     const st = document.createElement('style');
     st.id = 'metro-style';
     st.textContent = [
-      '@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.007)}}',
+      '
+@keyframes subCaustic{0%,100%{opacity:.55;transform:scaleX(1)}50%{opacity:.3;transform:scaleX(1.08)}}
+@keyframes subOxyPulse{0%,100%{color:#00ccff;text-shadow:0 0 10px #00ccff88}50%{color:#ff3333;text-shadow:0 0 20px #ff333388}}
+@keyframes subRipple{0%{transform:translate(-50%,-50%) scale(0);opacity:.7}100%{transform:translate(-50%,-50%) scale(6);opacity:0}}
+@keyframes subHudIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes metroBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.007)}}',
       '@keyframes metroVigPulse{0%,100%{opacity:.85}50%{opacity:.97}}',
       '@keyframes metroFlicker{0%,93%,100%{opacity:1}94%{opacity:.1}96%{opacity:.6}97%{opacity:.2}99%{opacity:.85}}',
       '@keyframes metroToastBlink{0%,100%{opacity:1}49%{opacity:1}50%{opacity:.08}}',
@@ -10138,6 +10144,188 @@ function triggerCyber() {
       _cyberActive = false;
     }, 750);
   }, DURATION);
+}
+
+// ── SUBNAUTICA EGG ────────────────────────────────────
+let _subActive = false;
+function triggerSubnautica() {
+  if (_subActive) return;
+  _subActive = true;
+
+  // ── SES: Alarm + robotik OXYGEN sesi ──
+  try {
+    const actx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function beep(t, f1, f2, dur) {
+      [f1, f2].forEach((freq, i) => {
+        const osc = actx.createOscillator();
+        const g = actx.createGain();
+        const lp = actx.createBiquadFilter();
+        osc.type = 'square'; osc.frequency.value = freq;
+        lp.type = 'lowpass'; lp.frequency.value = 2000;
+        g.gain.setValueAtTime(0, t + i*0.12);
+        g.gain.linearRampToValueAtTime(0.18, t + i*0.12 + 0.015);
+        g.gain.setValueAtTime(0.18, t + i*0.12 + dur - 0.015);
+        g.gain.linearRampToValueAtTime(0, t + i*0.12 + dur);
+        osc.connect(lp); lp.connect(g); g.connect(actx.destination);
+        osc.start(t + i*0.12); osc.stop(t + i*0.12 + dur + 0.05);
+      });
+    }
+
+    // Subnautica low oxygen alarm pattern: iki tonlu bip × 4, sonra OXYGEN
+    let t = actx.currentTime + 0.2;
+    for (let i = 0; i < 4; i++) { beep(t + i * 0.55, 523, 392, 0.09); }
+
+    // İkinci dalga — hızlanıyor
+    for (let i = 0; i < 5; i++) { beep(t + 2.4 + i * 0.38, 659, 494, 0.08); }
+
+    setTimeout(() => actx.close(), 12000);
+  } catch(e) {}
+
+  // OXYGEN sesini söyle (Web Speech API)
+  function sayOxygen() {
+    try {
+      const u = new SpeechSynthesisUtterance('OXYGEN');
+      u.pitch = 0.4; u.rate = 0.75; u.volume = 0.9;
+      const voices = window.speechSynthesis.getVoices();
+      const eng = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('male'))
+                 || voices.find(v => v.lang.startsWith('en')) || null;
+      if (eng) u.voice = eng;
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  setTimeout(sayOxygen, 2200);
+
+  // ── CSS ──
+  if (!document.getElementById('sub-style')) {
+    const s = document.createElement('style');
+    s.id = 'sub-style';
+    s.textContent = [
+      '@keyframes subCausticMove{0%{background-position:0 0}100%{background-position:200px 0}}',
+      '@keyframes subFlicker{0%,97%,100%{opacity:1}98%{opacity:.6}}',
+    ].join('');
+    document.head.appendChild(s);
+  }
+
+  // ── SU OVERLAY ──
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9988;pointer-events:none;background:rgba(0,40,80,.38);transition:opacity 2s;';
+
+  // Caustic ışık (üstten gelen dalgalı ışık)
+  const caustic = document.createElement('div');
+  caustic.style.cssText = [
+    'position:fixed;top:0;left:0;right:0;height:160px;z-index:9989;pointer-events:none;',
+    'background:repeating-linear-gradient(90deg,',
+    'transparent 0px,rgba(0,180,255,.07) 8px,transparent 16px,rgba(0,200,255,.05) 24px,transparent 32px);',
+    'animation:subCausticMove 3s linear infinite,subCaustic 2.5s ease-in-out infinite;',
+  ].join('');
+
+  // ── BALON CANVAS ──
+  const canvas = document.createElement('canvas');
+  canvas.id = 'sub-canvas';
+  canvas.style.cssText = 'position:fixed;inset:0;z-index:9990;pointer-events:none;width:100%;height:100%;';
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const ctx2 = canvas.getContext('2d');
+
+  const bubbles = Array.from({length: 40}, () => ({
+    x: Math.random() * canvas.width,
+    y: canvas.height + Math.random() * 150,
+    r: 3 + Math.random() * 14,
+    vy: -(0.6 + Math.random() * 1.8),
+    vx: (Math.random() - 0.5) * 0.4,
+    phase: Math.random() * Math.PI * 2,
+    opacity: 0.25 + Math.random() * 0.45,
+  }));
+
+  let bubbleAlive = true, bubbleRaf;
+  function drawBubbles() {
+    if (!bubbleAlive) return;
+    ctx2.clearRect(0, 0, canvas.width, canvas.height);
+    bubbles.forEach(b => {
+      b.y += b.vy;
+      b.phase += 0.03;
+      b.x += b.vx + Math.sin(b.phase) * 0.4;
+      if (b.y < -b.r * 2) { b.y = canvas.height + b.r; b.x = Math.random() * canvas.width; }
+
+      // Balon gövdesi
+      ctx2.beginPath();
+      ctx2.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx2.strokeStyle = `rgba(120,210,255,${b.opacity})`;
+      ctx2.lineWidth = 1.2;
+      ctx2.stroke();
+
+      // İç dolgu — hafif
+      const grad = ctx2.createRadialGradient(b.x - b.r*.3, b.y - b.r*.3, 0, b.x, b.y, b.r);
+      grad.addColorStop(0, `rgba(200,240,255,${b.opacity * 0.25})`);
+      grad.addColorStop(1, `rgba(0,80,160,${b.opacity * 0.08})`);
+      ctx2.fillStyle = grad;
+      ctx2.fill();
+
+      // Highlight (üst sol küçük parlama)
+      ctx2.beginPath();
+      ctx2.arc(b.x - b.r * .32, b.y - b.r * .32, b.r * .22, 0, Math.PI * 2);
+      ctx2.fillStyle = `rgba(220,245,255,${b.opacity * .7})`;
+      ctx2.fill();
+    });
+    bubbleRaf = requestAnimationFrame(drawBubbles);
+  }
+  drawBubbles();
+
+  // Tıklayınca dalga efekti
+  function onClickRipple(e) {
+    const r = document.createElement('div');
+    r.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:60px;height:60px;
+      border-radius:50%;border:2px solid rgba(0,200,255,.6);z-index:9995;pointer-events:none;
+      animation:subRipple .8s ease-out forwards;margin-left:-30px;margin-top:-30px;`;
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 900);
+  }
+  document.addEventListener('click', onClickRipple);
+
+  // ── OKSİJEN HUD ──
+  const hud = document.createElement('div');
+  hud.style.cssText = 'position:fixed;bottom:28px;left:28px;z-index:9996;pointer-events:none;animation:subHudIn .5s ease forwards;font-family:"DM Mono",monospace;';
+  hud.innerHTML = `
+    <div style="font-size:9px;letter-spacing:.2em;color:#00aacc;margin-bottom:5px;text-transform:uppercase;opacity:.8">OKSİJEN</div>
+    <div style="width:160px;height:8px;background:rgba(0,40,80,.6);border-radius:4px;border:1px solid rgba(0,180,255,.3);overflow:hidden">
+      <div id="sub-o2-bar" style="height:100%;width:100%;background:linear-gradient(90deg,#00ccff,#0080ff);border-radius:4px;transition:width .5s"></div>
+    </div>
+    <div id="sub-o2-txt" style="font-size:11px;color:#00ccff;margin-top:4px;animation:subOxyPulse 1s infinite">OXYGEN</div>`;
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(caustic);
+  document.body.appendChild(canvas);
+  document.body.appendChild(hud);
+
+  // O2 bar azalıyor
+  let o2 = 100;
+  const o2Interval = setInterval(() => {
+    o2 = Math.max(0, o2 - 7);
+    const bar = document.getElementById('sub-o2-bar');
+    if (bar) {
+      bar.style.width = o2 + '%';
+      bar.style.background = o2 > 40
+        ? 'linear-gradient(90deg,#00ccff,#0080ff)'
+        : o2 > 20 ? 'linear-gradient(90deg,#ffaa00,#ff6600)' : '#ff2200';
+    }
+  }, 800);
+
+  // Temizlik
+  const TOTAL = 12000;
+  setTimeout(() => {
+    clearInterval(o2Interval);
+    bubbleAlive = false; cancelAnimationFrame(bubbleRaf);
+    document.removeEventListener('click', onClickRipple);
+    window.speechSynthesis.cancel();
+    [overlay, caustic, canvas, hud].forEach(el => {
+      el.style.transition = 'opacity 1.5s';
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 1600);
+    });
+    const ss = document.getElementById('sub-style');
+    if (ss) setTimeout(() => ss.remove(), 1600);
+    _subActive = false;
+  }, TOTAL);
 }
 
 // ── DOBRZE EGG — küçük onay patlaması ──────────────────
