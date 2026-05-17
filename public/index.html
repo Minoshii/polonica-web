@@ -1057,39 +1057,35 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .kultur-surprise-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);transform:scale(1.01);}
 .kultur-surprise-btn:active{transform:scale(0.98);}
 
-/* MONO — Tam siyah-beyaz, renkli hiçbir şey kalmasın */
-[data-theme="mono"] * { color: inherit; }
-[data-theme="mono"] #sidebar { background:#050505; border-right:1px solid #2a2a2a; }
-[data-theme="mono"] .nav-btn { color:#c0c0c0 !important; background:none !important; }
-[data-theme="mono"] .nav-btn:hover { background:#1a1a1a !important; color:#f0f0f0 !important; }
-[data-theme="mono"] .nav-btn.active { background:#1a1a1a !important; color:#f0f0f0 !important; border-left-color:#f0f0f0 !important; }
-[data-theme="mono"] .nav-btn span,
-[data-theme="mono"] .nav-btn b,
-[data-theme="mono"] .nav-btn strong { filter:grayscale(1) !important; opacity:.9; }
-[data-theme="mono"] .nav-section-title { color:#555 !important; }
-[data-theme="mono"] .logo { color:#f0f0f0 !important; -webkit-text-fill-color:unset !important; filter:grayscale(1); }
-/* Sol panel tüm renkli yazı ve ikonlar */
-[data-theme="mono"] #sidebar * { filter:grayscale(1) !important; }
-[data-theme="mono"] #sidebar .nav-btn { filter:none !important; }
-[data-theme="mono"] #sidebar .nav-btn:hover,
-[data-theme="mono"] #sidebar .nav-btn.active { filter:none !important; }
-/* Sekme renkleri */
-[data-theme="mono"] .special-tab { filter:grayscale(1) !important; border-color:#333 !important; color:#c0c0c0 !important; background:#141414 !important; }
-[data-theme="mono"] .special-tab.active-words { background:#1e1e1e !important; color:#f0f0f0 !important; border-color:#555 !important; }
-/* Badge renkleri */
-[data-theme="mono"] .slang-badge,
-[data-theme="mono"] .idiom-badge,
-[data-theme="mono"] .idiom-type-badge,
-[data-theme="mono"] [class*="badge"] { filter:grayscale(1) !important; }
-/* Emoji renkleri koru ama konteyneri gri */
-[data-theme="mono"] .word-card { background:#0f0f0f !important; border-color:#2a2a2a !important; }
-[data-theme="mono"] .word-card:hover { background:#1a1a1a !important; border-color:#444 !important; }
-[data-theme="mono"] .gtab { filter:grayscale(1) !important; }
-[data-theme="mono"] .gtab.active { filter:none !important; background:#1e1e1e !important; border-color:#e0e0e0 !important; color:#f0f0f0 !important; }
-/* Tüm renkli span/div'ler */
-[data-theme="mono"] [style*="color:#"] { filter:grayscale(1); }
-[data-theme="mono"] [style*="background:#"] { filter:grayscale(1); }
 
+/* MONO — Siyah zemin, beyaz tonları, filter yok */
+[data-theme="mono"] #sidebar{background:#080808;border-right:1px solid #222;}
+[data-theme="mono"] .nav-section-title{color:#444 !important;letter-spacing:.12em;}
+[data-theme="mono"] .nav-btn{color:#c8c8c8 !important;}
+[data-theme="mono"] .nav-btn:hover{background:#1c1c1c !important;color:#f5f5f5 !important;}
+[data-theme="mono"] .nav-btn.active{background:#1c1c1c !important;color:#ffffff !important;border-left-color:#fff !important;font-weight:700;}
+[data-theme="mono"] .logo{color:#ffffff !important;-webkit-text-fill-color:unset !important;}
+[data-theme="mono"] .gtab{background:#111 !important;border-color:#2a2a2a !important;color:#a0a0a0 !important;}
+[data-theme="mono"] .gtab:hover{background:#1c1c1c !important;color:#e0e0e0 !important;}
+[data-theme="mono"] .gtab.active{background:#1c1c1c !important;border-color:#e0e0e0 !important;color:#ffffff !important;}
+[data-theme="mono"] .special-tab{background:#111 !important;border-color:#2a2a2a !important;color:#a0a0a0 !important;}
+[data-theme="mono"] .special-tab.active-words{background:#1c1c1c !important;border-color:#e0e0e0 !important;color:#ffffff !important;}
+[data-theme="mono"] .word-card{background:#111 !important;border-color:#222 !important;}
+[data-theme="mono"] .word-card:hover{background:#1c1c1c !important;border-color:#444 !important;}
+[data-theme="mono"] .word-card [class*="badge"],[data-theme="mono"] .slang-badge,[data-theme="mono"] .idiom-badge{background:#222 !important;color:#a0a0a0 !important;border-color:#333 !important;}
+[data-theme="mono"] .baglaç-cat-title{background:#1c1c1c !important;color:#ffffff !important;border-color:#333 !important;}
+[data-theme="mono"] .baglaç-row{background:#111 !important;border-color:#222 !important;}
+[data-theme="mono"] .baglaç-row:hover{background:#1c1c1c !important;}
+[data-theme="mono"] .baglaç-pl{color:#f0f0f0 !important;}
+[data-theme="mono"] .baglaç-tr{color:#c0c0c0 !important;}
+[data-theme="mono"] .baglaç-en{color:#666 !important;}
+[data-theme="mono"] .z-hal{color:#f0f0f0 !important;}
+[data-theme="mono"] .z-form{color:#c8c8c8 !important;}
+[data-theme="mono"] .zamir-kisi-table thead th{background:#1c1c1c !important;color:#f0f0f0 !important;border-color:#333 !important;}
+[data-theme="mono"] .zamir-kisi-table tbody tr:nth-child(even){background:#111 !important;}
+[data-theme="mono"] .zamir-kisi-table tbody tr:nth-child(odd){background:#0a0a0a !important;}
+[data-theme="mono"] .mode-badge{background:#1c1c1c !important;color:#c0c0c0 !important;border-color:#333 !important;}
+[data-theme="mono"] input,[data-theme="mono"] textarea,[data-theme="mono"] select{background:#111 !important;color:#f0f0f0 !important;border-color:#333 !important;}
 </style>
 </head>
 <body>
