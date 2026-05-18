@@ -1086,6 +1086,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 [data-theme="mono"] .zamir-kisi-table tbody tr:nth-child(odd){background:#0a0a0a !important;}
 [data-theme="mono"] .mode-badge{background:#1c1c1c !important;color:#c0c0c0 !important;border-color:#333 !important;}
 [data-theme="mono"] input,[data-theme="mono"] textarea,[data-theme="mono"] select{background:#111 !important;color:#f0f0f0 !important;border-color:#333 !important;}
+#global-settings-btn{display:flex!important;align-items:center;}
+@media(min-width:1280px){#global-settings-btn{display:none!important;}}
 </style>
 </head>
 <body>
@@ -1167,7 +1169,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <span id="badge-name" style="font-weight:700"></span>
   <span style="font-size:10px;opacity:.4;margin-left:2px">▾</span>
 </div>
-<button id="global-settings-btn" onclick="showSettings()" title="Ayarlar" style="position:fixed;top:8px;right:130px;z-index:501;background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:99px;padding:5px 11px;cursor:pointer;font-size:15px;line-height:1;-webkit-tap-highlight-color:transparent;">⚙</button>
+<button id="global-settings-btn" onclick="showSettings()" title="Ayarlar" style="position:fixed;top:8px;right:225px;z-index:501;background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:99px;padding:5px 11px;cursor:pointer;font-size:15px;line-height:1;-webkit-tap-highlight-color:transparent;">⚙</button>
 
 <!-- MOBİL HEADER -->
 <div id="mobile-header" style="display:none">
