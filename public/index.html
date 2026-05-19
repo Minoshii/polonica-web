@@ -6301,7 +6301,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
 
     <!-- ══ SPÓŁGŁOSKI ══ -->
-    <div id="fon-sec-spol" style="display:none">
+    <hr style="border:none;border-top:1px solid var(--border);margin:24px 0">
+    <div id="fon-sec-spol">
       <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.8;background:var(--surface2);border-radius:10px;padding:12px;border:1px solid var(--border)">
         Kitap: <strong>Tab. 4</strong> — Spółgłoski sınıflandırması. Her sütunda
         <span style="color:#6dbf9a;font-weight:700">dźwięczne</span> (tonlu) ve
@@ -6426,7 +6427,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
 
     <!-- ══ OKUMA İPUÇLARI ══ -->
-    <div id="fon-sec-tips" style="display:none">
+    <hr style="border:none;border-top:1px solid var(--border);margin:24px 0">
+    <div id="fon-sec-tips">
       <div style="display:grid;gap:10px">
 <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="var d=this.querySelector('.td');d.style.display=d.style.display===\'none\'?\'block\':\'none\'">
   <div style="font-weight:800;color:#c8b89a;margin-bottom:3px">ł = W sesi</div>
@@ -8688,12 +8690,13 @@ async function saveVucutWord(btn, pl, tr, en) {
 }
 
 function switchFonTab(tab) {
+  // Tüm içerik her zaman görünür — sadece aktif butonu değiştir + scroll
   ['samog','spol','tips'].forEach(function(t) {
-    var sec = document.getElementById('fon-sec-'+t);
     var btn = document.getElementById('fon-tab-'+t);
-    if(sec) sec.style.display = (t===tab) ? 'block' : 'none';
     if(btn) btn.classList.toggle('active', t===tab);
   });
+  var sec = document.getElementById('fon-sec-'+tab);
+  if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // ── JAK SIĘ MÓWI ──────────────────────────────────────────
