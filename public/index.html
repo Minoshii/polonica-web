@@ -1222,28 +1222,28 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 /* ── SKYLINE R34 ─────────────────────────────────── */
 [data-theme="skyline"]{
-  --bg:#1e1e22;
-  --surface:#262628;
-  --surface2:#2e2e32;
-  --surface3:#363638;
-  --border:#444448;
-  --border2:#505056;
+  --bg:#1a1e24;
+  --surface:#20252e;
+  --surface2:#262d38;
+  --surface3:#2e3848;
+  --border:#2e4a70;
+  --border2:#3a5a88;
   --accent:#ff6a00;
   --accent-dim:#c04800;
   --accent-bg:#1e1208;
-  --text:#e0e0e4;
-  --text2:#ff6a00;
-  --text3:#606068;
-  --teal:#4a8fff;
-  --teal-bg:#0c1828;
-  --green:#5aaf7a;
-  --green-bg:#0c1e14;
+  --text:#4a9fff;
+  --text2:#2a7aee;
+  --text3:#1a4a80;
+  --teal:#4a9fff;
+  --teal-bg:#0a1828;
+  --green:#3abf8a;
+  --green-bg:#0a1e18;
   --red:#ff6a00;
   --red-bg:#1e0e04;
-  --blue:#4a8fff;
-  --blue-bg:#0c1828;
-  --purple:#8a7aff;
-  --purple-bg:#100e28;
+  --blue:#4a9fff;
+  --blue-bg:#0a1828;
+  --purple:#7a8aff;
+  --purple-bg:#0e1030;
   --pink:#ff6a00;
   --pink-bg:#1e0e04;
 }
@@ -1259,20 +1259,20 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 [data-theme="skyline"] .gtab:hover{background:#222c40!important;color:#d8dce8!important;}
 [data-theme="skyline"] .gtab.active{background:#1e1208!important;border-color:#ff6a00!important;color:#ff6a00!important;}
 /* Tablolar */
-[data-theme="skyline"] .zamir-kisi-table thead th{background:#222c40!important;color:#d8dce8!important;border-color:#2e4060!important;}
+[data-theme="skyline"] .zamir-kisi-table thead th{background:#262d38!important;color:#4a9fff!important;border-color:#2e4a70!important;}
 [data-theme="skyline"] .zamir-kisi-table tbody tr:nth-child(even){background:#1c2434!important;}
 [data-theme="skyline"] .zamir-kisi-table tbody tr:nth-child(odd){background:#141a24!important;}
 [data-theme="skyline"] .zamir-kisi-table tbody tr:hover{background:#222c40!important;}
-[data-theme="skyline"] .z-hal{color:#d8dce8!important;font-weight:700;}
-[data-theme="skyline"] .z-form{color:#4a8fff!important;}
-[data-theme="skyline"] .baglaç-cat-title{background:#222c40!important;color:#d8dce8!important;border-color:#2e4060!important;}
+[data-theme="skyline"] .z-hal{color:#4a9fff!important;font-weight:700;}
+[data-theme="skyline"] .z-form{color:#2a7aee!important;}
+[data-theme="skyline"] .baglaç-cat-title{background:#262d38!important;color:#4a9fff!important;border-color:#2e4a70!important;}
 [data-theme="skyline"] .baglaç-row{background:#1c2434!important;border-color:#2e4060!important;}
 [data-theme="skyline"] .baglaç-row:hover{background:#222c40!important;}
-[data-theme="skyline"] .baglaç-pl{color:#d8dce8!important;}
-[data-theme="skyline"] .baglaç-tr{color:#4a8fff!important;}
-[data-theme="skyline"] .baglaç-en{color:#4a6080!important;}
+[data-theme="skyline"] .baglaç-pl{color:#4a9fff!important;}
+[data-theme="skyline"] .baglaç-tr{color:#2a7aee!important;}
+[data-theme="skyline"] .baglaç-en{color:#1a4a80!important;}
 [data-theme="skyline"] .mode-badge{background:#1e1208!important;color:#ff6a00!important;border-color:#c0480066!important;}
-[data-theme="skyline"] input,[data-theme="skyline"] textarea,[data-theme="skyline"] select{background:#1c2434!important;color:#d8dce8!important;border-color:#2e4060!important;}
+[data-theme="skyline"] input,[data-theme="skyline"] textarea,[data-theme="skyline"] select{background:#20252e!important;color:#4a9fff!important;border-color:#2e4a70!important;}
 /* Sinyal efekti — aktif elemanlarda turuncu glow */
 [data-theme="skyline"] .nav-btn.active{box-shadow:inset 3px 0 0 #ff6a00;}
 [data-theme="skyline"] .gtab.active{box-shadow:0 0 8px #ff6a0033;}
@@ -1854,6 +1854,67 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <button onclick="tcReplay('quiz')" style="padding:10px 18px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📝 Quiz Tekrar</button>
         <button onclick="tvShow('tv-list');testLoadList()" style="padding:10px 18px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;font-family:'Syne',sans-serif">← Liste</button>
       </div>
+    </div>
+    <!-- ── GÖRÜNÜM 6: YAZMA MODU ── -->
+    <div id="tv-write" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
+        <div style="flex:1"><div id="tw-test-name" style="font-size:14px;font-weight:700;color:var(--text)"></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">Lehçe karşılığını yaz → Enter ile kontrol</div></div>
+        <div id="tw-counter" style="font-size:13px;font-weight:700;color:var(--purple)"></div>
+      </div>
+      <div style="background:var(--surface2);border-radius:4px;height:5px;margin-bottom:20px;overflow:hidden">
+        <div id="tw-progress" style="height:100%;background:var(--purple);border-radius:4px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="background:var(--surface2);border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:16px;border:1px solid var(--border)">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--text3);margin-bottom:12px">SORU</div>
+        <div id="tw-question" style="font-size:24px;font-weight:800;color:var(--text)"></div>
+        <div id="tw-hint" style="font-size:12px;color:var(--text3);margin-top:8px;display:none"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <input id="tw-input" placeholder="Lehçe karşılığını yaz..." onkeydown="if(event.key==='Enter')twCheck()"
+          style="flex:1;font-size:16px;padding:12px 16px;border-radius:12px;border:2px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Mono',monospace;outline:none">
+        <button onclick="twCheck()" style="padding:12px 18px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer">✓</button>
+      </div>
+      <div id="tw-feedback" style="font-size:13px;text-align:center;min-height:22px;font-weight:600;margin-bottom:8px"></div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <button onclick="twSkip()" style="padding:7px 14px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:8px;font-size:12px;cursor:pointer">Geç →</button>
+        <button onclick="twHint()" style="padding:7px 14px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:8px;font-size:12px;cursor:pointer">💡 İpucu</button>
+      </div>
+    </div>
+
+    <!-- ── GÖRÜNÜM 7: HIZ YARIŞI ── -->
+    <div id="tv-speed" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
+        <div style="flex:1"><div id="tspd-name" style="font-size:14px;font-weight:700;color:var(--text)"></div></div>
+        <div id="tspd-timer" style="font-size:28px;font-weight:900;color:var(--red);font-family:'Syne',sans-serif;min-width:48px;text-align:right">60</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:16px">
+        <div style="background:var(--green-bg);border:1px solid var(--green);border-radius:10px;padding:10px 20px;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:var(--green)" id="tspd-correct">0</div>
+          <div style="font-size:10px;color:var(--text3)">Doğru</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 20px;text-align:center;flex:1">
+          <div id="tspd-question" style="font-size:20px;font-weight:800;color:var(--text)">...</div>
+        </div>
+        <div style="background:var(--red-bg);border:1px solid var(--red);border-radius:10px;padding:10px 20px;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:var(--red)" id="tspd-wrong">0</div>
+          <div style="font-size:10px;color:var(--text3)">Yanlış</div>
+        </div>
+      </div>
+      <div id="tspd-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+    </div>
+
+    <!-- ── GÖRÜNÜM 8: EŞLEŞTİRME ── -->
+    <div id="tv-match" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button onclick="tcExitPlay()" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text2);cursor:pointer;font-size:13px">← Çık</button>
+        <div style="flex:1"><div id="tm-name" style="font-size:14px;font-weight:700;color:var(--text)"></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">Sol → Sağ eşleştir, tıklayarak seç</div></div>
+        <div id="tm-score" style="font-size:13px;font-weight:700;color:var(--green)">0/8</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" id="tm-grid"></div>
     </div>
 
   </div>
