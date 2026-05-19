@@ -7041,70 +7041,6 @@ function showLoginScreen() {
 boot();
 
 // window.polonica asagida tanimlandi
-window.polonica = {
-  getStore:            ()    => api.get('/api/store'),
-  saveSettings:        (s)   => api.post('/api/settings', s),
-  checkOllama:         ()    => api.get('/api/check-ollama'),
-  analyzeText:         (a)   => api.post('/api/analyze', a),
-  getConjugation:      (a)   => api.post('/api/conjugation', a),
-  generateDistractors: (a)   => api.post('/api/distractors', a),
-  createUnit:          (a)   => api.post('/api/units', a),
-  deleteUnit:          (id)  => api.del('/api/units/'+id),
-  updateUnitNotes:     (a)   => api.put('/api/units/'+a.id+'/notes', {notes:a.notes}),
-  updateProgress:      (a)   => api.post('/api/progress', a),
-  resetProgress:       (id)  => api.post('/api/progress/reset/'+id, {}),
-  pdfList:             ()    => api.get('/api/pdfs'),
-  pdfRead:             (id)  => api.get('/api/pdfs/'+id),
-  pdfDelete:           (id)  => api.del('/api/pdfs/'+id),
-  getStats:            ()    => api.get('/api/stats'),
-  exportCsv:           ({unitId}) => { window.open('/api/export/csv?unitId='+unitId,'_blank'); return Promise.resolve({ok:true}); },
-  exportData:          ()    => { window.open('/api/export/json','_blank'); return Promise.resolve({ok:true}); },
-  specialLookup:       (a)   => api.post('/api/special/lookup', a),
-  specialSave:         (a)   => api.post('/api/special', a),
-  specialList:         ()    => api.get('/api/special'),
-  specialDelete:       (id)  => api.del('/api/special/'+id),
-  specialUpdateNote:   (a)   => api.put('/api/special/'+a.id+'/note', {note:a.note}),
-
-  pdfOpenDialog: async () => {
-    return new Promise(resolve => {
-      const inp = document.createElement('input');
-      inp.type='file'; inp.accept='.pdf'; inp.multiple=true;
-      inp.onchange = async () => {
-        const added = [];
-        for(const file of inp.files){
-          const fd = new FormData(); fd.append('pdf', file);
-          const r = await _fetch('/api/pdfs', {method:'POST', body:fd});
-          const meta = await r.json();
-          if(meta.id) added.push(meta);
-        }
-        resolve({added});
-      };
-      inp.click();
-    });
-  },
-
-  importData: async () => {
-    return new Promise(resolve => {
-      const inp = document.createElement('input');
-      inp.type='file'; inp.accept='.json';
-      inp.onchange = async () => {
-        try {
-          const text = await inp.files[0].text();
-          const data = JSON.parse(text);
-          const r = await api.post('/api/import/json', data);
-          resolve(r);
-        } catch(e){ resolve({ok:false, error:e.message}); }
-      };
-      inp.click();
-    });
-  },
-
-  // Electron-only stublar (web'de çalışmaz ama çağrılabilir)
-  ocrImage: async () => ({ text:'', error:'OCR web versiyonunda desteklenmiyor.' }),
-  readClipboardImage: async () => ({ base64: null }),
-  openFile: async () => ({ text: null }),
-};
-
 // ── LOGIN MODAL ────────────────────────────────────────────
 function showLoginModal(){
   let m = document.getElementById('login-modal');
@@ -7193,29 +7129,33 @@ function showPanel(name){
     p.style.animation='none';
   });
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const targetPanel = document.getElementById('panel-'+name);
+
+  const targetPanel = document.getElementById('panel-' + name);
   if(targetPanel){
     targetPanel.style.animation='none';
-    void targetPanel.offsetWidth; // reflow
+    void targetPanel.offsetWidth;
     targetPanel.style.animation='';
     targetPanel.classList.add('active');
   }
-  const nb=document.getElementById('nav-'+name);if(nb)nb.classList.add('active');
-  if(name==='lib-lesson'){renderLib('lesson');document.getElementById('nav-lib-lesson').classList.add('active');}
-  if(name==='lib-lyrics'){renderLib('lyrics');document.getElementById('nav-lib-lyrics').classList.add('active');}
-  if(name==='stats')loadStats();
-  if(name==='special')renderSpecialList();
-  if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
-  if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
-  if(name==='fonetik'){ switchFonTab('samog'); }
-  if(name==='vucut'){initVucutList();}
-  if(name==='notes'){loadNotes();}
-  // Mobilde sidebar'ı kapat
+
+  const nb = document.getElementById('nav-' + name);
+  if(nb) nb.classList.add('active');
+
+  if(name==='lib-lesson') { renderLib('lesson'); }
+  if(name==='lib-lyrics') { renderLib('lyrics'); }
+  if(name==='stats') { loadStats(); }
+  if(name==='special') { renderSpecialList(); }
+  if(name==='lib-class') { renderLib('class'); }
+  if(name==='grammar') { switchGTab('cases'); }
+  if(name==='fonetik') { switchFonTab('samog'); }
+  if(name==='vucut') { initVucutList(); }
+  if(name==='notes') { loadNotes(); }
+
   if(window.innerWidth <= 640){
-    const sb=document.getElementById('sidebar');
-    const ov=document.getElementById('sidebar-overlay');
-    if(sb) sb.classList.remove('mobile-open');
-    if(ov) ov.classList.remove('visible');
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('sidebar-overlay');
+    if(sb && sb.classList.contains('mobile-open')) sb.classList.remove('mobile-open');
+    if(ov && ov.classList.contains('visible')) ov.classList.remove('visible');
   }
 }
 
@@ -7352,14 +7292,17 @@ function tokenizeText(mode) {
     span.onclick = () => {
       if (_tokenSel[mode].has(lower)) {
         _tokenSel[mode].delete(lower);
+        selected.delete(idx);
         span.classList.remove('tok-selected');
+        tokBox.querySelectorAll('[data-word="' + lower + '"]').forEach(s => s.classList.remove('tok-selected'));
       } else {
         _tokenSel[mode].add(lower);
+        selected.add(idx);
         span.classList.add('tok-selected');
-        // Aynı kelime başka yerlerde de seçili görünsün
         tokBox.querySelectorAll('[data-word="' + lower + '"]').forEach(s => s.classList.add('tok-selected'));
       }
       updateTokenCount(mode);
+      updateSaveBar();
     };
     tokBox.appendChild(span);
   });
@@ -8007,28 +7950,36 @@ let _annotHistory = {}; // pdfId+page -> [dataURL array]
 
 function annotKey(){ return (_activeProfile||'default')+'_'+currentPdfId+'_'+currentPage; }
 
-function saveAnnotPage(){
+async function saveAnnotPage(){
   const canvas = document.getElementById('pdf-annot-canvas');
   if(!canvas||!currentPdfId) return;
-  const key = 'annot_' + annotKey();
-  // Boş canvas'ı kaydetme
+  const dataURL = canvas.toDataURL();
   const blank = document.createElement('canvas');
   blank.width=canvas.width; blank.height=canvas.height;
-  if(canvas.toDataURL() === blank.toDataURL()) { localStorage.removeItem(key); return; }
-  try{ localStorage.setItem(key, canvas.toDataURL()); }catch(e){ console.warn('Annotation kaydetme hatasi:', e); }
+  if(dataURL === blank.toDataURL()) return;
+  try {
+    await api.post('/api/pdf/save-annotation', {
+      pdfId: currentPdfId,
+      page: currentPage,
+      profile: _activeProfile || 'default',
+      annotationData: dataURL
+    });
+  } catch(e) { console.warn('Annotation sunucuya kaydedilemedi:', e); }
 }
 
-function loadAnnotPage(){
+async function loadAnnotPage(){
   const canvas = document.getElementById('pdf-annot-canvas');
   if(!canvas||!currentPdfId) return;
-  const key = 'annot_' + annotKey();
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  const saved = localStorage.getItem(key);
-  if(!saved) return;
-  const img = new Image();
-  img.onload = () => ctx.drawImage(img,0,0);
-  img.src = saved;
+  try {
+    const res = await api.get(`/api/pdf/get-annotation?pdfId=${currentPdfId}&page=${currentPage}&profile=${_activeProfile||'default'}`);
+    if(res && res.annotationData){
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img,0,0);
+      img.src = res.annotationData;
+    }
+  } catch(e) { console.warn('Annotation sunucudan yuklenemedi:', e); }
 }
 
 function pushAnnotHistory(){
