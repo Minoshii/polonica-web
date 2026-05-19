@@ -2436,6 +2436,24 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
 
     <!-- ZAMİRLER -->
+    <div class="grammar-section" id="gsec-query">
+      <div class="panel-title" style="margin-bottom:16px">💬 Dilbilgisi Sorusu</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:16px">Merak ettiğin dilbilgisi kuralını sor — yapay zeka Lehçe gramer rehberi olarak yanıtlar.</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input id="grammar-query-input" placeholder="örn: Locative ne zaman kullanılır? Aspect farkı nedir?" onkeydown="if(event.key==='Enter')askGrammar()"
+          style="flex:1;font-size:14px;padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none">
+        <button id="grammar-ask-btn" onclick="askGrammar()" style="padding:10px 18px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">Sor</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+        <button onclick="quickQuery('Locative ne zaman kullanılır?')" style="font-size:11px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer">Locative</button>
+        <button onclick="quickQuery('Aspect farkı nasıl anlaşılır?')" style="font-size:11px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer">Aspect</button>
+        <button onclick="quickQuery('Genitive ne zaman kullanılır?')" style="font-size:11px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer">Genitive</button>
+        <button onclick="quickQuery('Fiil çekimi nasıl yapılır?')" style="font-size:11px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer">Fiil çekimi</button>
+        <button onclick="quickQuery('Instrumental kimin için kullanılır?')" style="font-size:11px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer">Instrumental</button>
+      </div>
+      <div id="grammar-answer" style="min-height:60px"></div>
+    </div>
+
     <div class="grammar-section" id="gsec-zamirler">
       <input type="text" class="zamir-search" id="zamir-search" placeholder="Ara... (Türkçe, Lehçe veya İngilizce — örn: kim, gdzieś, olumsuz, someone)" oninput="filterZamirler(this.value)">
       <div id="zamir-list">
@@ -7179,16 +7197,7 @@ function showPanel(name){
   if(name==='special')renderSpecialList();
   if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
-  if(name==='fonetik'){
-    setTimeout(function(){
-      var fs=document.getElementById('fon-sec-samog');
-      var fs2=document.getElementById('fon-sec-spol');
-      var fs3=document.getElementById('fon-sec-tips');
-      if(fs) fs.style.display='block';
-      if(fs2) fs2.style.display='none';
-      if(fs3) fs3.style.display='none';
-    }, 10);
-  }
+  if(name==='fonetik'){ switchFonTab('samog'); }
   if(name==='vucut'){initVucutList();}
   if(name==='notes'){loadNotes();}
   // Mobilde sidebar'ı kapat
@@ -9327,11 +9336,6 @@ function renderKulturCard(d) {
 function switchGTab(tab) {
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.grammar-section').forEach(s => s.classList.remove('active'));
-  // Fonetik bölümlerini gizle
-  ['samog','spol','tips'].forEach(function(t) {
-    var s = document.getElementById('fon-sec-'+t);
-    if(s) s.style.display = 'none';
-  });
   const idx = ['cases','aspect','decl','baglaç','query','zamirler','edatlar','sayilar','zamanlar','fiilgr','emirki','rejim','asplist','harfdeg','modal','prefix','zdrobnienia','kiyaslama'].indexOf(tab);
   if(idx >= 0) document.querySelectorAll('.gtab')[idx].classList.add('active');
   const sec = document.getElementById('gsec-'+tab);
