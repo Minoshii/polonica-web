@@ -1323,6 +1323,27 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 [data-theme="skyline"] .spol-dark{background:#c8ccd4!important;}
 [data-theme="skyline"] .spol-light{background:#e0e4ec!important;}
 [data-theme="skyline"] .spol-cat{background:#c0c4cc!important;color:#1a1e28!important;font-weight:700!important;}
+
+/* ── SKYLINE: Sessiz Harf Tablosu (fon-sec-spol) ── */
+[data-theme="skyline"] #fon-sec-spol table { background:#e8ecf4!important; }
+[data-theme="skyline"] #fon-sec-spol tr { background:#e0e4ec!important; }
+[data-theme="skyline"] #fon-sec-spol tr[style*="background:#0d0d0d"],
+[data-theme="skyline"] #fon-sec-spol tr[style*="background:#0d0d"] { background:#c8ccd4!important; }
+[data-theme="skyline"] #fon-sec-spol th { border-color:#9aa0b0!important; background:#b8bcc8!important; }
+[data-theme="skyline"] #fon-sec-spol td { border-color:#9aa0b0!important; }
+[data-theme="skyline"] #fon-sec-spol td[style*="border:1px solid #1a1a1a"],
+[data-theme="skyline"] #fon-sec-spol td[style*="border:1px solid #2a2a2a"] { border-color:#9aa0b0!important; }
+/* Kolon başlık background'ları */
+[data-theme="skyline"] #fon-sec-spol thead tr { background:#b0b8c8!important; }
+[data-theme="skyline"] #fon-sec-spol thead th[style*="background:#0a0a"],
+[data-theme="skyline"] #fon-sec-spol thead th[style*="background:#1a"] { background:#b0b8c8!important; }
+/* Muzyk header */
+[data-theme="skyline"] .muzyka-album-header { background:#d0d4dc!important; color:#1a1e28!important; }
+
+/* ── SKYLINE: Spol tablosu FULL override ── */
+[data-theme="skyline"] #fon-sec-spol thead th[style] { background:#b0b8c8!important; color:var(--text)!important; }
+[data-theme="skyline"] #fon-sec-spol tbody tr[style] { background:#d0d4dc!important; }
+[data-theme="skyline"] #fon-sec-spol tbody tr:not([style]) { background:#e0e4ec!important; }
 </style>
 </head>
 <body>
