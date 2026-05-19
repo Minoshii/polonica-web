@@ -12313,23 +12313,14 @@ async function wrGenerate(level) {
   var t = targets[level] || targets['orta'];
   _wrTarget = t.min;
 
-  var systemPrompt = 'Sen bir Lehçe dil öğretmenisin. Sadece JSON döndür, başka hiçbir şey yazma, markdown kullanma.';
-  var userPrompt = 'Lehçe öğrenen bir Türk öğrenci için yazma pratiği konusu üret. Konu günlük hayattan, ilginç ve motive edici olsun. JSON formatı: {"topic":"[Türkçe konu açıklaması]","example":"[Başlangıç için 1 örnek Lehçe cümle]","category":"[konu kategorisi emoji + kategori adı]","targetMin":' + t.min + ',"targetMax":' + t.max + '}. Kategori örnekleri: "🎂 Günlük Hayat", "🌍 Seyahat", "🍕 Yemek", "🎬 Kültür", "💼 İş", "🌿 Doğa", "👨‍👩‍👧 Aile", "🎓 Eğitim". Konuyu Türkçe yaz, öğrencinin ne yazacağını anlasın.';
+  var userPrompt = 'SADECE JSON döndür. Lehçe öğrenen Türk öğrenci için günlük hayattan yazma pratiği konusu üret. Format: {"topic":"Türkçe konu açıklaması","example":"1 örnek Lehçe cümle","category":"emoji + kategori","targetMin":' + t.min + ',"targetMax":' + t.max + '}. Kategoriler: 🎂 Günlük Hayat, 🌍 Seyahat, 🍕 Yemek, 🎬 Kültür, 💼 İş, 🌿 Doğa. Başka hiç metin yazma.';
 
   try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 400,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    });
-    var data = await response.json();
-    var raw = data.content[0].text.replace(/```json|```/g,'').trim();
-    _wrTopicData = JSON.parse(raw);
+    var data = await api.post('/api/grammar/query', { query: userPrompt });
+    var raw = (data.answer || data.result || data.text || JSON.stringify(data)).replace(/```json|```/g,'').trim();
+    // JSON bloğunu bul
+    var jsonMatch = raw.match(/\{[\s\S]*\}/);
+    _wrTopicData = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
     _wrTarget = _wrTopicData.targetMin;
     wrRenderTopic();
   } catch(e) {
@@ -12404,23 +12395,13 @@ async function wrSubmit() {
   var userText = ta.value.trim();
   wrShow('wr-analyzing');
 
-  var systemPrompt = 'Sen bir Lehçe dil öğretmenisin. Öğrenci yazısını analiz et. SADECE JSON döndür, markdown veya başka metin kullanma.';
-  var userPrompt = 'Konu: "' + _wrTopicData.topic + '"\n\nÖğrenci yazısı:\n' + userText + '\n\nBu yazıyı analiz et ve SADECE şu JSON formatında döndür:\n{"topicScore":8,"grammarScore":7,"meaningScore":9,"overallComment":"Genel değerlendirme Türkçe","corrections":[{"original":"yanlış kelime/yapı","fixed":"doğrusu","explanation":"açıklama"}],"suggestion":"Gelişim için Türkçe öneri","highlight":"En iyi kullanılan yapı veya kelime"}\n\nPuanlar 1-10 arası. Corrections dizisinde max 3 öğe olsun, en önemli hataları seç. Yazı yoksa veya çok kısaysa düşük puan ver.';
+  var userPrompt = 'SADECE JSON döndür, başka metin yazma. Lehçe öğrencisi bu konuya yazdı: "' + _wrTopicData.topic + '". Öğrencinin yazısı: ' + userText + '. Analiz formatı: {"topicScore":7,"grammarScore":7,"meaningScore":8,"overallComment":"Türkçe genel yorum","corrections":[{"original":"hatalı ifade","fixed":"doğrusu","explanation":"neden"}],"suggestion":"Türkçe öneri","highlight":"En iyi kullanılan yapı"}. Puanlar 1-10. Max 3 düzeltme.';
 
   try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 600,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    });
-    var data = await response.json();
-    var raw = data.content[0].text.replace(/```json|```/g,'').trim();
-    var result = JSON.parse(raw);
+    var data = await api.post('/api/grammar/query', { query: userPrompt });
+    var raw = (data.answer || data.result || data.text || JSON.stringify(data)).replace(/```json|```/g,'').trim();
+    var jsonMatch = raw.match(/\{[\s\S]*\}/);
+    var result = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
     wrShowResult(result, userText);
   } catch(e) {
     console.error('Analiz hatası:', e);
