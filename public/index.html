@@ -1276,6 +1276,12 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 /* Sinyal efekti — aktif elemanlarda turuncu glow */
 [data-theme="skyline"] .nav-btn.active{box-shadow:inset 3px 0 0 #ff6a00;}
 [data-theme="skyline"] .gtab.active{box-shadow:0 0 8px #ff6a0033;}
+
+/* FONETIK NUCLEAR FIX */
+#panel-fonetik.active { display: flex !important; flex-direction: column !important; }
+#panel-fonetik #fon-sec-samog,
+#panel-fonetik #fon-sec-spol,
+#panel-fonetik #fon-sec-tips { display: block !important; visibility: visible !important; opacity: 1 !important; }
 </style>
 </head>
 <body>
@@ -6195,7 +6201,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 
     <!-- FONETİK PANELİ -->
-  <div class="panel" id="panel-fonetik">
+  <div class="panel" id="panel-fonetik" data-v="fonetik-fix-v3">
     <div class="panel-title">🗣 Fonetik <span class="mode-badge" style="background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal)">Wymowa</span></div>
     <div class="panel-sub" style="margin-bottom:16px">Lehçe sesleri, telaffuz kuralları ve pratik ipuçları.</div>
 
