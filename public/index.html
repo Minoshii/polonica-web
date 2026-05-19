@@ -12395,12 +12395,28 @@ async function wrSubmit() {
   var userText = ta.value.trim();
   wrShow('wr-analyzing');
 
-  var userPrompt = 'Bir Lehçe öğrencisi şu konuda yazdı: "' + _wrTopicData.topic + '"\n\nÖğrencinin yazdığı:\n' + userText + '\n\nBu Lehçe yazıyı analiz et. Şu başlıkları kullan: 1) Konuya Uygunluk (1-10) 2) Gramer (1-10) 3) Anlam Doğruluğu (1-10) 4) Genel Yorum 5) Düzeltmeler (max 3 hata, orijinal→doğrusu+açıklama) 6) Gelişim Önerisi. Türkçe yanıt ver.';
+  var userPrompt = 'Lehce ogretmeni olarak su yazıyı degerlendir. Konu: ' + _wrTopicData.topic + '. Ogrenci yazisi: ' + userText + '. Lutfen sirayla su basliklar altinda Turkce yaz: KONUYA UYGUNLUK (1-10 puan ve aciklama), GRAMER (1-10 puan ve hatalar), ANLAM DOGRULUGU (1-10 puan), DUZELTMELER (en fazla 3 hata, yanlis - dogru - neden), GELISIM ONERISI. JSON kullanma, sadece duz metin yaz.';
 
   try {
     var data = await api.post('/api/grammar/query', { query: userPrompt });
-    var answerText = data.answer || data.result || data.text || '';
-    if(!answerText) throw new Error('Yanıt boş');
+    var raw = data.answer || data.result || data.text || '';
+    if(!raw) throw new Error('Yanit bos');
+    var answerText = raw;
+    var tick3 = '```';
+    if(answerText.indexOf(tick3) === 0) {
+      var firstNl = answerText.indexOf('\n');
+      if(firstNl > 0) answerText = answerText.slice(firstNl + 1);
+      var lastFence = answerText.lastIndexOf(tick3);
+      if(lastFence > 0) answerText = answerText.slice(0, lastFence);
+    }
+    if(answerText.indexOf('"answer"') >= 0) {
+      var qi = answerText.indexOf('"answer"');
+      var ci = answerText.indexOf(':', qi);
+      var sq = answerText.indexOf('"', ci + 1);
+      var eq = answerText.lastIndexOf('"');
+      if(sq >= 0 && eq > sq) answerText = answerText.slice(sq + 1, eq);
+    }
+    answerText = answerText.trim();
     wrShowResult(answerText, userText);
   } catch(e) {
     console.error('Analiz hatası:', e);
