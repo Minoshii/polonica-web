@@ -1219,6 +1219,63 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 }
 #tc-card-area.pulse-green{animation:bgPulseGreen .4s ease;}
 #tc-card-area.pulse-red{animation:bgPulseRed .4s ease;}
+
+/* ── SKYLINE R34 ─────────────────────────────────── */
+[data-theme="skyline"]{
+  --bg:#1e1e22;
+  --surface:#262628;
+  --surface2:#2e2e32;
+  --surface3:#363638;
+  --border:#444448;
+  --border2:#505056;
+  --accent:#ff6a00;
+  --accent-dim:#c04800;
+  --accent-bg:#1e1208;
+  --text:#e0e0e4;
+  --text2:#ff6a00;
+  --text3:#606068;
+  --teal:#4a8fff;
+  --teal-bg:#0c1828;
+  --green:#5aaf7a;
+  --green-bg:#0c1e14;
+  --red:#ff6a00;
+  --red-bg:#1e0e04;
+  --blue:#4a8fff;
+  --blue-bg:#0c1828;
+  --purple:#8a7aff;
+  --purple-bg:#100e28;
+  --pink:#ff6a00;
+  --pink-bg:#1e0e04;
+}
+/* Sidebar — koyu çelik gri, sinyal turuncusu vurgu */
+[data-theme="skyline"] #sidebar{background:#1a3a5c;border-right:2px solid #ff6a0040;}
+[data-theme="skyline"] .nav-section-title{color:rgba(255,255,255,.5)!important;font-weight:700;letter-spacing:.1em;}
+[data-theme="skyline"] .nav-btn{color:#c8d8f0!important;}
+[data-theme="skyline"] .nav-btn:hover{background:rgba(255,255,255,.12)!important;color:#fff!important;}
+[data-theme="skyline"] .nav-btn.active{background:rgba(0,0,0,.2)!important;color:#ff6a00!important;border-left-color:#ff6a00!important;font-weight:700;}
+[data-theme="skyline"] .logo{color:#ffffff!important;-webkit-text-fill-color:unset!important;text-shadow:0 0 10px rgba(255,255,255,.3);}
+/* Sekmeler */
+[data-theme="skyline"] .gtab{background:#1c2434!important;border-color:#2e4060!important;color:#4a6080!important;}
+[data-theme="skyline"] .gtab:hover{background:#222c40!important;color:#d8dce8!important;}
+[data-theme="skyline"] .gtab.active{background:#1e1208!important;border-color:#ff6a00!important;color:#ff6a00!important;}
+/* Tablolar */
+[data-theme="skyline"] .zamir-kisi-table thead th{background:#222c40!important;color:#d8dce8!important;border-color:#2e4060!important;}
+[data-theme="skyline"] .zamir-kisi-table tbody tr:nth-child(even){background:#1c2434!important;}
+[data-theme="skyline"] .zamir-kisi-table tbody tr:nth-child(odd){background:#141a24!important;}
+[data-theme="skyline"] .zamir-kisi-table tbody tr:hover{background:#222c40!important;}
+[data-theme="skyline"] .z-hal{color:#d8dce8!important;font-weight:700;}
+[data-theme="skyline"] .z-form{color:#4a8fff!important;}
+[data-theme="skyline"] .baglaç-cat-title{background:#222c40!important;color:#d8dce8!important;border-color:#2e4060!important;}
+[data-theme="skyline"] .baglaç-row{background:#1c2434!important;border-color:#2e4060!important;}
+[data-theme="skyline"] .baglaç-row:hover{background:#222c40!important;}
+[data-theme="skyline"] .baglaç-pl{color:#d8dce8!important;}
+[data-theme="skyline"] .baglaç-tr{color:#4a8fff!important;}
+[data-theme="skyline"] .baglaç-en{color:#4a6080!important;}
+[data-theme="skyline"] .mode-badge{background:#1e1208!important;color:#ff6a00!important;border-color:#c0480066!important;}
+[data-theme="skyline"] input,[data-theme="skyline"] textarea,[data-theme="skyline"] select{background:#1c2434!important;color:#d8dce8!important;border-color:#2e4060!important;}
+/* Sinyal efekti — aktif elemanlarda turuncu glow */
+[data-theme="skyline"] .nav-btn.active{box-shadow:inset 3px 0 0 #ff6a00;}
+[data-theme="skyline"] .gtab.active{box-shadow:0 0 8px #ff6a0033;}
 </style>
 </head>
 <body>
@@ -1443,6 +1500,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <button onclick="setTheme('dragonking')" id="theme-btn-dragonking" class="custom-theme-btn" style="background:linear-gradient(135deg,#e8d8b8,#140808);border-color:#c41e3a88;color:#8b0000">🐉 Dragon King</button>
         <button onclick="setTheme('fullthrottle')" id="theme-btn-fullthrottle" class="custom-theme-btn" style="background:linear-gradient(135deg,#e30a17 50%,#f8f0f0 50%);border-color:#e30a1788;color:#fff">🇹🇷 Türkiye</button>
         <button onclick="setTheme('inheritance')" id="theme-btn-inheritance" class="custom-theme-btn" style="background:linear-gradient(135deg,#060a14,#0e1628);border-color:#c9a84c55;color:#c9a84c">👑 Inheritance</button>
+        <button onclick="setTheme('skyline')" id="theme-btn-skyline" class="custom-theme-btn" style="background:linear-gradient(135deg,#1a3a5c 50%,#2a2a2e 50%);border-color:#ff6a0066;color:#ff6a00">🚗 Skyline R34</button>
       </div>
       <div style="font-size:10px;color:var(--text3);margin-top:8px;line-height:1.6">Özel tema seçince logo yanında gösterge belirir. Koyu / Loş / Açık ile geri dönebilirsin.</div>
     </div>
@@ -6055,7 +6113,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 
 
-    <!-- ══ SAMOGŁOSKI ══ -->
+
+
+    <!-- FONETİK PANELİ -->
+  <div class="panel" id="panel-fonetik">
+    <div class="panel-title">🗣 Fonetik <span class="mode-badge" style="background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal)">Wymowa</span></div>
+    <div class="panel-sub" style="margin-bottom:16px">Lehçe sesleri, telaffuz kuralları ve pratik ipuçları.</div>
+
+    <!-- Fonetik Sekme Butonları -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+      <button id="fon-tab-samog" onclick="switchFonTab('samog')" class="gtab active" style="background:var(--teal-bg);border-color:var(--teal);color:var(--teal)">🔵 Sesli Harfler</button>
+      <button id="fon-tab-spol" onclick="switchFonTab('spol')" class="gtab">⬛ Sessiz Harfler</button>
+      <button id="fon-tab-tips" onclick="switchFonTab('tips')" class="gtab">💡 Telaffuz İpuçları</button>
+    </div>
+
+<!-- ══ SAMOGŁOSKI ══ -->
     <div id="fon-sec-samog" style="display:none">
 
       <!-- Üçgen -->
@@ -6308,6 +6380,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </div>
       </div>
     </div>
+  </div>
+
   </div>
 
   <div class="panel" id="panel-vucut">
@@ -6781,8 +6855,8 @@ async function deleteProfile(key) {
 
 // ── BAŞLANGIÇ ─────────────────────────────────────────────
 // ── TEMA ──────────────────────────────────────────────────
-var _themeEmojis = {"ocean":"🌊","forest":"🌲","sakura":"🌸","midnight":"✨","espresso":"☕","nebula":"🔮","slate":"🪨","sunset":"🌅","arctic":"🧊","dracula":"🟣","autumn":"🍂","mono":"🖤","desert":"🌵","tokyonight":"🌸","inkneon":"🔵","noiramber":"🟠","deepsea":"🌊","vaporwave":"💜","duskgold":"⭐","asiimov":"🎯","dragonking":"🐉","fullthrottle":"🇹🇷","inheritance":"👑"};
-var _customThemes = ["ocean","forest","sakura","midnight","espresso","nebula","slate","sunset","arctic","dracula","autumn","mono","desert","tokyonight","inkneon","noiramber","deepsea","vaporwave","duskgold","asiimov","dragonking","fullthrottle","inheritance"];
+var _themeEmojis = {"ocean":"🌊","forest":"🌲","sakura":"🌸","midnight":"✨","espresso":"☕","nebula":"🔮","slate":"🪨","sunset":"🌅","arctic":"🧊","dracula":"🟣","autumn":"🍂","mono":"🖤","desert":"🌵","tokyonight":"🌸","inkneon":"🔵","noiramber":"🟠","deepsea":"🌊","vaporwave":"💜","duskgold":"⭐","asiimov":"🎯","dragonking":"🐉","fullthrottle":"🇹🇷","inheritance":"👑","skyline":"🚗"};
+var _customThemes = ["ocean","forest","sakura","midnight","espresso","nebula","slate","sunset","arctic","dracula","autumn","mono","desert","tokyonight","inkneon","noiramber","deepsea","vaporwave","duskgold","asiimov","dragonking","fullthrottle","inheritance","skyline"];
 
 function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme === 'dark' ? '' : theme);
@@ -7044,15 +7118,7 @@ function showPanel(name){
   if(name==='special')renderSpecialList();
   if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
-  if(name==='fonetik'){
-    // Fonetik grammar paneli içinde — panel-grammar'ı aktif et
-    var gp = document.getElementById('panel-grammar');
-    if(gp){ gp.classList.add('active'); }
-    // Tüm grammar-section'ları gizle, sadece fonetik göster
-    document.querySelectorAll('.grammar-section').forEach(function(s){ s.classList.remove('active'); });
-    document.querySelectorAll('.gtab').forEach(function(b){ b.classList.remove('active'); });
-    switchFonTab('samog');
-  }
+  if(name==='fonetik'){ switchFonTab('samog'); }
   if(name==='vucut'){initVucutList();}
   if(name==='notes'){loadNotes();}
   // Mobilde sidebar'ı kapat
@@ -8547,7 +8613,14 @@ function switchFonTab(tab) {
     var sec = document.getElementById('fon-sec-'+t);
     var btn = document.getElementById('fon-tab-'+t);
     if(sec) sec.style.display = t===tab ? 'block' : 'none';
-    if(btn) btn.classList.toggle('active', t===tab);
+    if(btn) {
+      btn.classList.toggle('active', t===tab);
+      if(t===tab){
+        btn.style.background='var(--teal-bg)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teal)';
+      } else {
+        btn.style.background='';btn.style.borderColor='';btn.style.color='';
+      }
+    }
   });
 }
 
