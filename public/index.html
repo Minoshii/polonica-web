@@ -6189,7 +6189,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
 
 <!-- ══ SAMOGŁOSKI ══ -->
-    <div id="fon-sec-samog" style="display:none">
+    <div id="fon-sec-samog">
 
       <!-- Üçgen -->
       <div style="margin-bottom:24px">
@@ -7179,7 +7179,16 @@ function showPanel(name){
   if(name==='special')renderSpecialList();
   if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
-  if(name==='fonetik'){ switchFonTab('samog'); }
+  if(name==='fonetik'){
+    setTimeout(function(){
+      var fs=document.getElementById('fon-sec-samog');
+      var fs2=document.getElementById('fon-sec-spol');
+      var fs3=document.getElementById('fon-sec-tips');
+      if(fs) fs.style.display='block';
+      if(fs2) fs2.style.display='none';
+      if(fs3) fs3.style.display='none';
+    }, 10);
+  }
   if(name==='vucut'){initVucutList();}
   if(name==='notes'){loadNotes();}
   // Mobilde sidebar'ı kapat
