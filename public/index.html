@@ -12317,11 +12317,11 @@ async function wrGenerate(level) {
 
   try {
     var data = await api.post('/api/grammar/query', { query: userPrompt });
-    var raw = (data.answer || data.result || data.text || JSON.stringify(data)).replace(/```json|```/g,'').trim();
-    // JSON bloğunu bul
+    var raw = (data.answer || data.result || data.text || '').replace(/```json|```/g,'').trim();
     var jsonMatch = raw.match(/\{[\s\S]*\}/);
-    _wrTopicData = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
-    _wrTarget = _wrTopicData.targetMin;
+    if(!jsonMatch) throw new Error('JSON bulunamadı');
+    _wrTopicData = JSON.parse(jsonMatch[0]);
+    _wrTarget = _wrTopicData.targetMin || _wrTarget;
     wrRenderTopic();
   } catch(e) {
     console.error('Konu üretme hatası:', e);
@@ -12395,64 +12395,66 @@ async function wrSubmit() {
   var userText = ta.value.trim();
   wrShow('wr-analyzing');
 
-  var userPrompt = 'SADECE JSON döndür, başka metin yazma. Lehçe öğrencisi bu konuya yazdı: "' + _wrTopicData.topic + '". Öğrencinin yazısı: ' + userText + '. Analiz formatı: {"topicScore":7,"grammarScore":7,"meaningScore":8,"overallComment":"Türkçe genel yorum","corrections":[{"original":"hatalı ifade","fixed":"doğrusu","explanation":"neden"}],"suggestion":"Türkçe öneri","highlight":"En iyi kullanılan yapı"}. Puanlar 1-10. Max 3 düzeltme.';
+  var userPrompt = 'Bir Lehçe öğrencisi şu konuda yazdı: "' + _wrTopicData.topic + '"\n\nÖğrencinin yazdığı:\n' + userText + '\n\nBu Lehçe yazıyı analiz et. Şu başlıkları kullan: 1) Konuya Uygunluk (1-10) 2) Gramer (1-10) 3) Anlam Doğruluğu (1-10) 4) Genel Yorum 5) Düzeltmeler (max 3 hata, orijinal→doğrusu+açıklama) 6) Gelişim Önerisi. Türkçe yanıt ver.';
 
   try {
     var data = await api.post('/api/grammar/query', { query: userPrompt });
-    var raw = (data.answer || data.result || data.text || JSON.stringify(data)).replace(/```json|```/g,'').trim();
-    var jsonMatch = raw.match(/\{[\s\S]*\}/);
-    var result = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
-    wrShowResult(result, userText);
+    var answerText = data.answer || data.result || data.text || '';
+    if(!answerText) throw new Error('Yanıt boş');
+    wrShowResult(answerText, userText);
   } catch(e) {
     console.error('Analiz hatası:', e);
     wrShow('wr-writing');
-    alert('Analiz sırasında hata oluştu. Tekrar dene.');
+    alert('Analiz yapılamadı: ' + e.message);
   }
 }
 
-function wrShowResult(result, userText) {
-  // Mevcut overlay varsa kaldır
+function wrShowResult(answerText, userText) {
   var existing = document.getElementById('wr-result-overlay');
   if(existing) existing.remove();
 
-  var scoreColor = function(s) {
-    if(s >= 8) return '#22c55e';
-    if(s >= 6) return '#f97316';
-    return '#ef4444';
-  };
-
-  var correctionsHtml = '';
-  if(result.corrections && result.corrections.length) {
-    result.corrections.forEach(function(c) {
-      correctionsHtml += '<div class="wr-correction"><strong style="color:var(--red)">' + (c.original||'') + '</strong> → <strong style="color:var(--green)">' + (c.fixed||'') + '</strong><br><span style="color:var(--text3)">' + (c.explanation||'') + '</span></div>';
-    });
-  }
-
-  var avg = Math.round((result.topicScore + result.grammarScore + result.meaningScore) / 3);
+  var htmlContent = typeof markdownToHtml === 'function' ? markdownToHtml(answerText) : answerText.replace(/\n/g,'<br>');
 
   var overlay = document.createElement('div');
   overlay.className = 'wr-result-overlay';
   overlay.id = 'wr-result-overlay';
-  overlay.innerHTML = '<div class="wr-result-box">' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">' +
-      '<div style="font-size:16px;font-weight:800;color:var(--text)">📊 Yazma Analizi</div>' +
-      '<button onclick="document.getElementById(\'wr-result-overlay\').remove()" style="background:none;border:1px solid var(--border2);border-radius:8px;padding:4px 10px;color:var(--text3);cursor:pointer;font-size:18px">✕</button>' +
-    '</div>' +
-    '<div class="wr-score-grid">' +
-      '<div class="wr-score-item"><div class="wr-score-num" style="color:' + scoreColor(result.topicScore) + '">' + result.topicScore + '</div><div class="wr-score-label">Konuya Uygunluk</div></div>' +
-      '<div class="wr-score-item"><div class="wr-score-num" style="color:' + scoreColor(result.grammarScore) + '">' + result.grammarScore + '</div><div class="wr-score-label">Gramer</div></div>' +
-      '<div class="wr-score-item"><div class="wr-score-num" style="color:' + scoreColor(result.meaningScore) + '">' + result.meaningScore + '</div><div class="wr-score-label">Anlam Doğruluğu</div></div>' +
-    '</div>' +
-    '<div style="background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--text2);line-height:1.7">' + (result.overallComment||'') + '</div>' +
-    (correctionsHtml ? '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px">Düzeltmeler</div>' + correctionsHtml + '<div style="margin-bottom:16px"></div>' : '') +
-    (result.highlight ? '<div style="background:var(--green-bg);border-left:3px solid var(--green);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--green)">⭐ ' + result.highlight + '</div>' : '') +
-    (result.suggestion ? '<div class="wr-suggestion">💡 ' + result.suggestion + '</div>' : '') +
-    '<div style="display:flex;gap:8px;margin-top:16px">' +
-      '<button onclick="document.getElementById(\'wr-result-overlay\').remove()" style="flex:1;padding:10px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:\'Syne\',sans-serif;font-size:13px;font-weight:700">Tekrar Düzenle</button>' +
-      '<button onclick="document.getElementById(\'wr-result-overlay\').remove();wrReset();" style="flex:1;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:\'Syne\',sans-serif;font-size:13px;font-weight:700">Yeni Konu ✦</button>' +
-    '</div>' +
-  '</div>';
 
+  var box = document.createElement('div');
+  box.className = 'wr-result-box';
+
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:20px';
+  header.innerHTML = '<div style="font-size:16px;font-weight:800;color:var(--text)">📊 Yazma Analizi</div>';
+
+  var closeBtn = document.createElement('button');
+  closeBtn.textContent = '✕';
+  closeBtn.style.cssText = 'background:none;border:1px solid var(--border2);border-radius:8px;padding:4px 10px;color:var(--text3);cursor:pointer;font-size:18px';
+  closeBtn.onclick = function(){ overlay.remove(); };
+  header.appendChild(closeBtn);
+
+  var body = document.createElement('div');
+  body.style.cssText = 'font-size:13px;line-height:1.8;color:var(--text);margin-bottom:20px';
+  body.innerHTML = htmlContent;
+
+  var btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px';
+
+  var editBtn = document.createElement('button');
+  editBtn.textContent = 'Tekrar Düzenle';
+  editBtn.style.cssText = 'flex:1;padding:10px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:Syne,sans-serif;font-size:13px;font-weight:700';
+  editBtn.onclick = function(){ overlay.remove(); wrShow('wr-writing'); };
+
+  var newBtn = document.createElement('button');
+  newBtn.textContent = 'Yeni Konu ✦';
+  newBtn.style.cssText = 'flex:1;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:Syne,sans-serif;font-size:13px;font-weight:700';
+  newBtn.onclick = function(){ overlay.remove(); wrReset(); };
+
+  btnRow.appendChild(editBtn);
+  btnRow.appendChild(newBtn);
+  box.appendChild(header);
+  box.appendChild(body);
+  box.appendChild(btnRow);
+  overlay.appendChild(box);
   document.body.appendChild(overlay);
   wrShow('wr-writing');
 }
