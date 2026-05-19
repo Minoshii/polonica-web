@@ -1369,6 +1369,34 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 [data-theme="skyline"] #fon-sec-spol thead th[style] { background:#b0b8c8!important; color:var(--text)!important; }
 [data-theme="skyline"] #fon-sec-spol tbody tr[style] { background:#d0d4dc!important; }
 [data-theme="skyline"] #fon-sec-spol tbody tr:not([style]) { background:#e0e4ec!important; }
+
+/* ── YAZMA PANELİ ─────────────────────────── */
+.wr-prompt-card{background:var(--surface2);border:1px solid var(--border2);border-radius:16px;padding:24px 28px;margin-bottom:20px;}
+.wr-topic-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px;}
+.wr-topic-text{font-size:20px;font-weight:800;color:var(--text);line-height:1.4;margin-bottom:8px;}
+.wr-target-info{font-size:12px;color:var(--text3);}
+.wr-textarea{width:100%;min-height:180px;font-size:15px;line-height:1.7;padding:16px 18px;border-radius:12px;border:2px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Mono',monospace;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box;}
+.wr-textarea:focus{border-color:var(--accent);}
+.wr-counter-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;margin-bottom:16px;}
+.wr-count{font-size:28px;font-weight:900;font-family:'Syne',sans-serif;transition:color .3s;}
+.wr-count.red{color:#ef4444;}
+.wr-count.green{color:#22c55e;}
+.wr-progress-track{flex:1;margin:0 16px;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.wr-progress-fill{height:100%;border-radius:3px;transition:width .3s,background .3s;}
+.wr-submit-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:800;font-family:'Syne',sans-serif;cursor:pointer;transition:all .2s;}
+.wr-submit-btn.disabled{background:var(--surface3);color:var(--text3);cursor:not-allowed;}
+.wr-submit-btn.enabled{background:var(--green);color:#fff;box-shadow:0 4px 16px rgba(34,197,94,.3);}
+.wr-submit-btn.enabled:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,197,94,.4);}
+/* Analiz popup */
+.wr-result-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.wr-result-box{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:28px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;position:relative;}
+.wr-score-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+.wr-score-item{background:var(--surface2);border-radius:12px;padding:14px;text-align:center;}
+.wr-score-num{font-size:32px;font-weight:900;font-family:'Syne',sans-serif;}
+.wr-score-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-top:4px;}
+.wr-correction{background:var(--surface2);border-left:3px solid var(--red);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:12px;line-height:1.7;}
+.wr-suggestion{background:var(--teal-bg);border-left:3px solid var(--teal);border-radius:8px;padding:10px 14px;font-size:12px;line-height:1.7;color:var(--text2);}
+@keyframes wrSpin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -1485,6 +1513,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
+  <button class="nav-btn" id="nav-writing" onclick="showPanel('writing')" style="color:#a0c8f0">✍️ Yazma</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
   <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:#e090c0;font-weight:800">🏛 Kültür</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0">📝 Notlarım</button>
@@ -6563,6 +6592,65 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   </div>
 
 
+  <!-- YAZMA PANELİ -->
+  <div class="panel" id="panel-writing">
+    <div class="panel-title">✍️ Yazma Pratiği <span class="mode-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue)">AI Destekli</span></div>
+    <div class="panel-sub" style="margin-bottom:20px">AI bir konu verir, sen Lehçe yazarsın. Kelime hedefine ulaş, analiz al.</div>
+
+    <!-- Başlangıç ekranı -->
+    <div id="wr-start">
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:48px;margin-bottom:16px">✍️</div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:8px">Yazma Pratiğine Başla</div>
+        <div style="font-size:13px;color:var(--text3);margin-bottom:28px;line-height:1.7">AI sana bir konu verir. Lehçe yazarsın.<br>Kelime hedefine ulaşınca AI geri bildirim verir.</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px">
+          <button onclick="wrGenerate('kisa')" style="padding:10px 20px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">⚡ Kısa (25-35 kelime)</button>
+          <button onclick="wrGenerate('orta')" style="padding:10px 20px;background:var(--surface2);color:var(--text2);border:1px solid var(--border2);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📝 Orta (50-60 kelime)</button>
+          <button onclick="wrGenerate('uzun')" style="padding:10px 20px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">📚 Uzun (80-90 kelime)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yükleniyor -->
+    <div id="wr-loading" style="display:none;text-align:center;padding:40px">
+      <div style="width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:wrSpin .8s linear infinite;margin:0 auto 16px"></div>
+      <div style="color:var(--text3);font-size:13px">Konu hazırlanıyor...</div>
+    </div>
+
+    <!-- Yazma ekranı -->
+    <div id="wr-writing" style="display:none">
+      <div class="wr-prompt-card">
+        <div class="wr-topic-badge" id="wr-category-badge">🎯 Konu</div>
+        <div class="wr-topic-text" id="wr-topic-text"></div>
+        <div class="wr-target-info" id="wr-target-info"></div>
+      </div>
+      <textarea id="wr-textarea" class="wr-textarea" placeholder="Lehçe yazını buraya yaz..." oninput="wrUpdateCount()"></textarea>
+      <div class="wr-counter-bar">
+        <div>
+          <div class="wr-count red" id="wr-word-count">0</div>
+          <div style="font-size:10px;color:var(--text3)">kelime</div>
+        </div>
+        <div class="wr-progress-track">
+          <div class="wr-progress-fill" id="wr-progress-fill" style="width:0%;background:#ef4444"></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:700;color:var(--text3)" id="wr-target-num">50</div>
+          <div style="font-size:10px;color:var(--text3)">hedef</div>
+        </div>
+      </div>
+      <button id="wr-submit-btn" class="wr-submit-btn disabled" onclick="wrSubmit()">Hedef kelimeye ulaş ✦</button>
+      <div style="display:flex;justify-content:center;margin-top:12px">
+        <button onclick="wrReset()" style="font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;padding:6px 12px">↩ Yeni konu al</button>
+      </div>
+    </div>
+
+    <!-- Analiz yükleniyor -->
+    <div id="wr-analyzing" style="display:none;text-align:center;padding:40px">
+      <div style="width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--purple);border-radius:50%;animation:wrSpin .8s linear infinite;margin:0 auto 16px"></div>
+      <div style="color:var(--text3);font-size:13px">Yazın analiz ediliyor...</div>
+    </div>
+  </div>
+
   <div class="panel" id="panel-vucut">
     <div class="panel-title">🫀 Vücut <span class="mode-badge" style="background:#1a0d0d;color:#e07070;border:1px solid #c05050">Ciało</span></div>
     <div class="panel-sub" style="margin-bottom:20px">Kelimeye tıkla → Burak Special Akademik'e ekle.</div>
@@ -7242,6 +7330,7 @@ function showPanel(name){
   if(name==='fonetik') { switchFonTab('samog'); }
   if(name==='vucut') { initVucutList(); }
   if(name==='notes') { loadNotes(); }
+  if(name==='writing') { wrInitPanel(); }
 
   if(window.innerWidth <= 640){
     const sb = document.getElementById('sidebar');
@@ -12178,6 +12267,214 @@ tcExitPlay = function() {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(tcRenderDailyGoal, 500);
 });
+
+
+// ══════════════════════════════════════════════════════
+// YAZMA PRATİĞİ — AI destekli yazma + analiz
+// ══════════════════════════════════════════════════════
+
+var _wrTarget = 50;
+var _wrTopicData = null;
+
+function wrInitPanel() {
+  wrReset();
+}
+
+function wrReset() {
+  ['wr-start','wr-loading','wr-writing','wr-analyzing'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  var start = document.getElementById('wr-start');
+  if(start) start.style.display = 'block';
+  var ta = document.getElementById('wr-textarea');
+  if(ta) ta.value = '';
+  var wc = document.getElementById('wr-word-count');
+  if(wc){ wc.textContent = '0'; wc.className = 'wr-count red'; }
+  var pf = document.getElementById('wr-progress-fill');
+  if(pf){ pf.style.width = '0%'; pf.style.background = '#ef4444'; }
+  var sb = document.getElementById('wr-submit-btn');
+  if(sb){ sb.className = 'wr-submit-btn disabled'; sb.textContent = 'Hedef kelimeye ulaş ✦'; }
+}
+
+function wrShow(id) {
+  ['wr-start','wr-loading','wr-writing','wr-analyzing'].forEach(function(i){
+    var el = document.getElementById(i);
+    if(el) el.style.display = 'none';
+  });
+  var el = document.getElementById(id);
+  if(el) el.style.display = 'block';
+}
+
+async function wrGenerate(level) {
+  wrShow('wr-loading');
+
+  var targets = { kisa: {min:25,max:35,label:'Kısa'}, orta: {min:50,max:60,label:'Orta'}, uzun: {min:80,max:90,label:'Uzun'} };
+  var t = targets[level] || targets['orta'];
+  _wrTarget = t.min;
+
+  var systemPrompt = 'Sen bir Lehçe dil öğretmenisin. Sadece JSON döndür, başka hiçbir şey yazma, markdown kullanma.';
+  var userPrompt = 'Lehçe öğrenen bir Türk öğrenci için yazma pratiği konusu üret. Konu günlük hayattan, ilginç ve motive edici olsun. JSON formatı: {"topic":"[Türkçe konu açıklaması]","example":"[Başlangıç için 1 örnek Lehçe cümle]","category":"[konu kategorisi emoji + kategori adı]","targetMin":' + t.min + ',"targetMax":' + t.max + '}. Kategori örnekleri: "🎂 Günlük Hayat", "🌍 Seyahat", "🍕 Yemek", "🎬 Kültür", "💼 İş", "🌿 Doğa", "👨‍👩‍👧 Aile", "🎓 Eğitim". Konuyu Türkçe yaz, öğrencinin ne yazacağını anlasın.';
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    var data = await response.json();
+    var raw = data.content[0].text.replace(/```json|```/g,'').trim();
+    _wrTopicData = JSON.parse(raw);
+    _wrTarget = _wrTopicData.targetMin;
+    wrRenderTopic();
+  } catch(e) {
+    console.error('Konu üretme hatası:', e);
+    // Fallback konular
+    var fallbacks = [
+      {topic:'Geçen hafta sonu ne yaptığını anlat. Nereye gittin, kiminle vakit geçirdin?', category:'📅 Günlük Hayat', example:'W ostatni weekend poszłam do parku z przyjaciółmi.', targetMin:t.min, targetMax:t.max},
+      {topic:'En sevdiğin yemeği tarif et. Nasıl yapılıyor, neden seviyorsun?', category:'🍕 Yemek', example:'Moje ulubione danie to bigos, tradycyjna polska potrawa.', targetMin:t.min, targetMax:t.max},
+      {topic:'Hayalindeki seyahat destinasyonunu anlat. Neden oraya gitmek istiyorsun?', category:'🌍 Seyahat', example:'Zawsze marzyłam o podróży do Japonii, ponieważ...', targetMin:t.min, targetMax:t.max},
+    ];
+    _wrTopicData = fallbacks[Math.floor(Math.random()*fallbacks.length)];
+    _wrTarget = _wrTopicData.targetMin;
+    wrRenderTopic();
+  }
+}
+
+function wrRenderTopic() {
+  if(!_wrTopicData) return;
+  var badge = document.getElementById('wr-category-badge');
+  var topic = document.getElementById('wr-topic-text');
+  var info = document.getElementById('wr-target-info');
+  var targetNum = document.getElementById('wr-target-num');
+
+  if(badge) badge.textContent = _wrTopicData.category || '🎯 Konu';
+  if(topic) topic.textContent = _wrTopicData.topic;
+  if(info) info.innerHTML = 'Örnek başlangıç: <em style="color:var(--teal)">' + (_wrTopicData.example||'') + '</em><br>Hedef: <strong>' + _wrTopicData.targetMin + '–' + _wrTopicData.targetMax + ' kelime</strong>';
+  if(targetNum) targetNum.textContent = _wrTopicData.targetMin;
+
+  wrShow('wr-writing');
+  var ta = document.getElementById('wr-textarea');
+  if(ta) { ta.value = ''; ta.focus(); }
+  wrUpdateCount();
+}
+
+function wrUpdateCount() {
+  var ta = document.getElementById('wr-textarea');
+  if(!ta) return;
+  var words = ta.value.trim() === '' ? [] : ta.value.trim().split(/\s+/);
+  var count = words.length;
+  var target = _wrTarget;
+  var pct = Math.min(100, Math.round(count / target * 100));
+
+  var wc = document.getElementById('wr-word-count');
+  var pf = document.getElementById('wr-progress-fill');
+  var sb = document.getElementById('wr-submit-btn');
+
+  if(wc) {
+    wc.textContent = count;
+    wc.className = 'wr-count ' + (count >= target ? 'green' : 'red');
+  }
+  if(pf) {
+    pf.style.width = pct + '%';
+    pf.style.background = count >= target ? '#22c55e' : (pct > 60 ? '#f97316' : '#ef4444');
+  }
+  if(sb) {
+    if(count >= target) {
+      sb.className = 'wr-submit-btn enabled';
+      sb.textContent = '✓ Gönder ve Analiz Et';
+    } else {
+      sb.className = 'wr-submit-btn disabled';
+      sb.textContent = (target - count) + ' kelime daha yaz ✦';
+    }
+  }
+}
+
+async function wrSubmit() {
+  var ta = document.getElementById('wr-textarea');
+  if(!ta || !_wrTopicData) return;
+  var words = ta.value.trim().split(/\s+/);
+  if(words.length < _wrTarget) return;
+
+  var userText = ta.value.trim();
+  wrShow('wr-analyzing');
+
+  var systemPrompt = 'Sen bir Lehçe dil öğretmenisin. Öğrenci yazısını analiz et. SADECE JSON döndür, markdown veya başka metin kullanma.';
+  var userPrompt = 'Konu: "' + _wrTopicData.topic + '"\n\nÖğrenci yazısı:\n' + userText + '\n\nBu yazıyı analiz et ve SADECE şu JSON formatında döndür:\n{"topicScore":8,"grammarScore":7,"meaningScore":9,"overallComment":"Genel değerlendirme Türkçe","corrections":[{"original":"yanlış kelime/yapı","fixed":"doğrusu","explanation":"açıklama"}],"suggestion":"Gelişim için Türkçe öneri","highlight":"En iyi kullanılan yapı veya kelime"}\n\nPuanlar 1-10 arası. Corrections dizisinde max 3 öğe olsun, en önemli hataları seç. Yazı yoksa veya çok kısaysa düşük puan ver.';
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    var data = await response.json();
+    var raw = data.content[0].text.replace(/```json|```/g,'').trim();
+    var result = JSON.parse(raw);
+    wrShowResult(result, userText);
+  } catch(e) {
+    console.error('Analiz hatası:', e);
+    wrShow('wr-writing');
+    alert('Analiz sırasında hata oluştu. Tekrar dene.');
+  }
+}
+
+function wrShowResult(result, userText) {
+  // Mevcut overlay varsa kaldır
+  var existing = document.getElementById('wr-result-overlay');
+  if(existing) existing.remove();
+
+  var scoreColor = function(s) {
+    if(s >= 8) return '#22c55e';
+    if(s >= 6) return '#f97316';
+    return '#ef4444';
+  };
+
+  var correctionsHtml = '';
+  if(result.corrections && result.corrections.length) {
+    result.corrections.forEach(function(c) {
+      correctionsHtml += '<div class="wr-correction"><strong style="color:var(--red)">' + (c.original||'') + '</strong> → <strong style="color:var(--green)">' + (c.fixed||'') + '</strong><br><span style="color:var(--text3)">' + (c.explanation||'') + '</span></div>';
+    });
+  }
+
+  var avg = Math.round((result.topicScore + result.grammarScore + result.meaningScore) / 3);
+
+  var overlay = document.createElement('div');
+  overlay.className = 'wr-result-overlay';
+  overlay.id = 'wr-result-overlay';
+  overlay.innerHTML = '<div class="wr-result-box">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">' +
+      '<div style="font-size:16px;font-weight:800;color:var(--text)">📊 Yazma Analizi</div>' +
+      '<button onclick="document.getElementById(\'wr-result-overlay\').remove()" style="background:none;border:1px solid var(--border2);border-radius:8px;padding:4px 10px;color:var(--text3);cursor:pointer;font-size:18px">✕</button>' +
+    '</div>' +
+    '<div class="wr-score-grid">' +
+      '<div class="wr-score-item"><div class="wr-score-num" style="color:' + scoreColor(result.topicScore) + '">' + result.topicScore + '</div><div class="wr-score-label">Konuya Uygunluk</div></div>' +
+      '<div class="wr-score-item"><div class="wr-score-num" style="color:' + scoreColor(result.grammarScore) + '">' + result.grammarScore + '</div><div class="wr-score-label">Gramer</div></div>' +
+      '<div class="wr-score-item"><div class="wr-score-num" style="color:' + scoreColor(result.meaningScore) + '">' + result.meaningScore + '</div><div class="wr-score-label">Anlam Doğruluğu</div></div>' +
+    '</div>' +
+    '<div style="background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--text2);line-height:1.7">' + (result.overallComment||'') + '</div>' +
+    (correctionsHtml ? '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px">Düzeltmeler</div>' + correctionsHtml + '<div style="margin-bottom:16px"></div>' : '') +
+    (result.highlight ? '<div style="background:var(--green-bg);border-left:3px solid var(--green);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--green)">⭐ ' + result.highlight + '</div>' : '') +
+    (result.suggestion ? '<div class="wr-suggestion">💡 ' + result.suggestion + '</div>' : '') +
+    '<div style="display:flex;gap:8px;margin-top:16px">' +
+      '<button onclick="document.getElementById(\'wr-result-overlay\').remove()" style="flex:1;padding:10px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:\'Syne\',sans-serif;font-size:13px;font-weight:700">Tekrar Düzenle</button>' +
+      '<button onclick="document.getElementById(\'wr-result-overlay\').remove();wrReset();" style="flex:1;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:\'Syne\',sans-serif;font-size:13px;font-weight:700">Yeni Konu ✦</button>' +
+    '</div>' +
+  '</div>';
+
+  document.body.appendChild(overlay);
+  wrShow('wr-writing');
+}
 
 </script>
 </body>
