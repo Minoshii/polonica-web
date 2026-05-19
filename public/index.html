@@ -1248,11 +1248,11 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   --pink-bg:#1e0e04;
 }
 /* Sidebar — koyu çelik gri, sinyal turuncusu vurgu */
-[data-theme="skyline"] #sidebar{background:#1a3a5c;border-right:2px solid #ff6a0040;}
+[data-theme="skyline"] #sidebar{background:#0e2a4a;border-right:2px solid #ff6a0050;}
 [data-theme="skyline"] .nav-section-title{color:rgba(255,255,255,.5)!important;font-weight:700;letter-spacing:.1em;}
-[data-theme="skyline"] .nav-btn{color:#c8d8f0!important;}
+[data-theme="skyline"] .nav-btn{color:#8ab8e8!important;}
 [data-theme="skyline"] .nav-btn:hover{background:rgba(255,255,255,.12)!important;color:#fff!important;}
-[data-theme="skyline"] .nav-btn.active{background:rgba(0,0,0,.2)!important;color:#ff6a00!important;border-left-color:#ff6a00!important;font-weight:700;}
+[data-theme="skyline"] .nav-btn.active{background:rgba(0,0,0,.3)!important;color:#ff6a00!important;border-left-color:#ff6a00!important;font-weight:700;}
 [data-theme="skyline"] .logo{color:#ffffff!important;-webkit-text-fill-color:unset!important;text-shadow:0 0 10px rgba(255,255,255,.3);}
 /* Sekmeler */
 [data-theme="skyline"] .gtab{background:#1c2434!important;border-color:#2e4060!important;color:#4a6080!important;}
@@ -1500,7 +1500,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <button onclick="setTheme('dragonking')" id="theme-btn-dragonking" class="custom-theme-btn" style="background:linear-gradient(135deg,#e8d8b8,#140808);border-color:#c41e3a88;color:#8b0000">🐉 Dragon King</button>
         <button onclick="setTheme('fullthrottle')" id="theme-btn-fullthrottle" class="custom-theme-btn" style="background:linear-gradient(135deg,#e30a17 50%,#f8f0f0 50%);border-color:#e30a1788;color:#fff">🇹🇷 Türkiye</button>
         <button onclick="setTheme('inheritance')" id="theme-btn-inheritance" class="custom-theme-btn" style="background:linear-gradient(135deg,#060a14,#0e1628);border-color:#c9a84c55;color:#c9a84c">👑 Inheritance</button>
-        <button onclick="setTheme('skyline')" id="theme-btn-skyline" class="custom-theme-btn" style="background:linear-gradient(135deg,#1a3a5c 50%,#2a2a2e 50%);border-color:#ff6a0066;color:#ff6a00">🚗 Skyline R34</button>
+        <button onclick="setTheme('skyline')" id="theme-btn-skyline" class="custom-theme-btn" style="background:linear-gradient(135deg,#0e2a4a 50%,#1a1e24 50%);border-color:#ff6a0066;color:#ff6a00">🚗 Skyline R34</button>
       </div>
       <div style="font-size:10px;color:var(--text3);margin-top:8px;line-height:1.6">Özel tema seçince logo yanında gösterge belirir. Koyu / Loş / Açık ile geri dönebilirsin.</div>
     </div>
@@ -7179,7 +7179,21 @@ function showPanel(name){
   if(name==='special')renderSpecialList();
   if(name==='lib-class'){renderLib('class');document.getElementById('nav-lib-class').classList.add('active');}
   if(name==='grammar'){document.getElementById('nav-grammar').classList.add('active'); switchGTab('cases');}
-  if(name==='fonetik'){ switchFonTab('samog'); }
+  if(name==='fonetik'){
+    // fon-sec-samog'u direkt göster, diğerlerini gizle
+    var fs = document.getElementById('fon-sec-samog');
+    var fs2 = document.getElementById('fon-sec-spol');
+    var fs3 = document.getElementById('fon-sec-tips');
+    if(fs) fs.style.display = 'block';
+    if(fs2) fs2.style.display = 'none';
+    if(fs3) fs3.style.display = 'none';
+    var fb = document.getElementById('fon-tab-samog');
+    var fb2 = document.getElementById('fon-tab-spol');
+    var fb3 = document.getElementById('fon-tab-tips');
+    if(fb){ fb.classList.add('active'); fb.style.background='var(--teal-bg)'; fb.style.borderColor='var(--teal)'; fb.style.color='var(--teal)'; }
+    if(fb2){ fb2.classList.remove('active'); fb2.style.background=''; fb2.style.borderColor=''; fb2.style.color=''; }
+    if(fb3){ fb3.classList.remove('active'); fb3.style.background=''; fb3.style.borderColor=''; fb3.style.color=''; }
+  }
   if(name==='vucut'){initVucutList();}
   if(name==='notes'){loadNotes();}
   // Mobilde sidebar'ı kapat
