@@ -1397,6 +1397,24 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .wr-correction{background:var(--surface2);border-left:3px solid var(--red);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:12px;line-height:1.7;}
 .wr-suggestion{background:var(--teal-bg);border-left:3px solid var(--teal);border-radius:8px;padding:10px 14px;font-size:12px;line-height:1.7;color:var(--text2);}
 @keyframes wrSpin{to{transform:rotate(360deg)}}
+
+/* ── OKUMA PANELİ ─────────────────────────── */
+.rd-level-btn{padding:12px 22px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;border:2px solid;transition:all .2s;}
+.rd-level-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.rd-text-box{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:28px 32px;margin-bottom:20px;line-height:2;font-size:15px;color:var(--text);position:relative;}
+.rd-word{cursor:pointer;border-radius:3px;padding:0 2px;transition:background .15s;}
+.rd-word:hover{background:var(--teal-bg);color:var(--teal);}
+.rd-word.highlighted{background:var(--accent-bg);color:var(--accent);font-weight:600;}
+.rd-tooltip{position:fixed;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text);z-index:3000;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.3);max-width:200px;}
+.rd-vocab-row{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--border);}
+.rd-vocab-pl{font-family:'DM Mono',monospace;font-weight:700;color:var(--teal);font-size:13px;}
+.rd-vocab-tr{font-size:12px;color:var(--text3);}
+.rd-option{width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;text-align:left;margin-bottom:8px;transition:all .2s;font-family:'Syne',sans-serif;}
+.rd-option:hover{border-color:var(--accent);background:var(--accent-bg);}
+.rd-option.correct{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important;font-weight:700;}
+.rd-option.wrong{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important;}
+.rd-option.reveal{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+@keyframes rdSpin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -1514,6 +1532,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="nav-section">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')">⟳ Test</button>
   <button class="nav-btn" id="nav-writing" onclick="showPanel('writing')" style="color:#a0c8f0">✍️ Yazma</button>
+  <button class="nav-btn" id="nav-reading" onclick="showPanel('reading')" style="color:#a0d8a0">📖 Okuma</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')">📊 İstatistik</button>
   <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:#e090c0;font-weight:800">🏛 Kültür</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0">📝 Notlarım</button>
@@ -6593,6 +6612,79 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 
   <!-- YAZMA PANELİ -->
+  <!-- OKUMA PANELİ -->
+  <div class="panel" id="panel-reading">
+    <div class="panel-title">📖 Okuma Pratiği <span class="mode-badge" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green)">AI Destekli</span></div>
+    <div class="panel-sub" style="margin-bottom:20px">AI Lehçe metin üretir, okursun, anlama sorularını cevapla.</div>
+
+    <!-- Başlangıç -->
+    <div id="rd-start">
+      <div style="text-align:center;padding:30px 20px 20px">
+        <div style="font-size:48px;margin-bottom:16px">📖</div>
+        <div style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:8px">Okuma Seviyesi Seç</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:28px">AI seviyene uygun bir Lehçe metin hazırlar</div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="rd-level-btn" onclick="rdGenerate('basit')" style="background:var(--green-bg);color:var(--green);border-color:var(--green)">🟢 Basit<br><span style="font-weight:400;font-size:11px">A1–A2 · ~80 kelime</span></button>
+          <button class="rd-level-btn" onclick="rdGenerate('orta')" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue)">🔵 Orta<br><span style="font-weight:400;font-size:11px">B1 · ~130 kelime</span></button>
+          <button class="rd-level-btn" onclick="rdGenerate('zor')" style="background:var(--purple-bg);color:var(--purple);border-color:var(--purple)">🟣 Zor<br><span style="font-weight:400;font-size:11px">B2–C1 · ~180 kelime</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yükleniyor -->
+    <div id="rd-loading" style="display:none;text-align:center;padding:60px 20px">
+      <div style="width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--green);border-radius:50%;animation:rdSpin .8s linear infinite;margin:0 auto 16px"></div>
+      <div style="color:var(--text3);font-size:13px">Metin hazırlanıyor...</div>
+    </div>
+
+    <!-- Okuma ekranı -->
+    <div id="rd-reading" style="display:none">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+        <span id="rd-level-badge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;"></span>
+        <span id="rd-category-badge" style="font-size:12px;color:var(--text3)"></span>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <span id="rd-word-count-badge" style="font-size:11px;color:var(--text3)"></span>
+          <button onclick="rdReset()" style="font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer">↩ Yeniden</button>
+        </div>
+      </div>
+      <div id="rd-title" style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:16px;font-family:'Syne',sans-serif"></div>
+      <div class="rd-text-box" id="rd-text-box"></div>
+
+      <!-- Kelime listesi -->
+      <div id="rd-vocab-section" style="display:none;margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px">📚 Önemli Kelimeler</div>
+        <div id="rd-vocab-list"></div>
+      </div>
+
+      <button onclick="rdShowQuiz()" style="width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Syne',sans-serif;box-shadow:0 4px 16px rgba(34,197,94,.3)">Anladım — Soruları Göster →</button>
+    </div>
+
+    <!-- Quiz -->
+    <div id="rd-quiz" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="font-size:15px;font-weight:800;color:var(--text)">❓ Anlama Soruları</div>
+        <div id="rd-quiz-score" style="font-size:13px;font-weight:700;color:var(--text3)">0 / 0</div>
+      </div>
+      <div id="rd-questions-container"></div>
+      <div id="rd-quiz-result" style="display:none;margin-top:16px">
+        <div id="rd-final-score" style="text-align:center;padding:20px;background:var(--surface2);border-radius:14px;margin-bottom:16px"></div>
+        <div style="display:flex;gap:8px">
+          <button onclick="rdReset()" style="flex:1;padding:12px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700">Yeni Metin</button>
+          <button onclick="rdRetryQuiz()" style="flex:1;padding:12px;background:var(--green);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700">Tekrar Dene</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz yükleniyor -->
+    <div id="rd-quiz-loading" style="display:none;text-align:center;padding:40px">
+      <div style="width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--purple);border-radius:50%;animation:rdSpin .8s linear infinite;margin:0 auto 16px"></div>
+      <div style="color:var(--text3);font-size:13px">Sorular hazırlanıyor...</div>
+    </div>
+
+    <!-- Kelime tooltip -->
+    <div id="rd-tooltip" class="rd-tooltip" style="display:none"></div>
+  </div>
+
   <div class="panel" id="panel-writing">
     <div class="panel-title">✍️ Yazma Pratiği <span class="mode-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue)">AI Destekli</span></div>
     <div class="panel-sub" style="margin-bottom:20px">AI bir konu verir, sen Lehçe yazarsın. Kelime hedefine ulaş, analiz al.</div>
@@ -7331,6 +7423,7 @@ function showPanel(name){
   if(name==='vucut') { initVucutList(); }
   if(name==='notes') { loadNotes(); }
   if(name==='writing') { wrInitPanel(); }
+  if(name==='reading') { rdInitPanel(); }
 
   if(window.innerWidth <= 640){
     const sb = document.getElementById('sidebar');
@@ -12473,6 +12566,313 @@ function wrShowResult(answerText, userText) {
   overlay.appendChild(box);
   document.body.appendChild(overlay);
   wrShow('wr-writing');
+}
+
+
+// ══════════════════════════════════════════════════════
+// OKUMA PRATİĞİ
+// ══════════════════════════════════════════════════════
+var _rdData = null; // {title, text, vocab, level, category}
+var _rdQuestions = null;
+var _rdAnswered = 0;
+var _rdCorrect = 0;
+
+function rdInitPanel() { rdReset(); }
+
+function rdShow(id) {
+  ['rd-start','rd-loading','rd-reading','rd-quiz','rd-quiz-loading'].forEach(function(i){
+    var el = document.getElementById(i);
+    if(el) el.style.display = 'none';
+  });
+  var el = document.getElementById(id);
+  if(el) el.style.display = 'block';
+}
+
+function rdReset() { _rdData = null; _rdQuestions = null; rdShow('rd-start'); }
+
+async function rdGenerate(level) {
+  rdShow('rd-loading');
+  var levelMap = {
+    basit: {label:'🟢 Basit', color:'var(--green)', wc:'70-90', grade:'A1-A2 seviyesi, basit cümleler, sık kullanılan kelimeler'},
+    orta:  {label:'🔵 Orta',  color:'var(--blue)',  wc:'120-140', grade:'B1 seviyesi, bileşik cümleler, günlük dil'},
+    zor:   {label:'🟣 Zor',   color:'var(--purple)',wc:'160-190', grade:'B2-C1 seviyesi, karmaşık yapılar, zengin kelime hazinesi'}
+  };
+  var lv = levelMap[level];
+
+  var topics = ['günlük hayat','seyahat','yemek kültürü','teknoloji','doğa','spor','tarih','aile','iş hayatı','müzik','sinema','şehir hayatı','tatil','alışveriş','sağlık'];
+  var topic = topics[Math.floor(Math.random() * topics.length)];
+
+  var query = 'Lehçe dil egzersizi icin ' + lv.wc + ' kelimelik bir metin yaz. Konu: ' + topic + '. Seviye: ' + lv.grade + '. Sadece sunlari yaz, baska hicbir sey ekleme:\nBASOT: [konuya uygun Lehce baslik]\nMETIN: [Lehce metin buraya]\nKELIME: [sozcuk1=Turkce anlam|sozcuk2=Turkce anlam|sozcuk3=Turkce anlam|sozcuk4=Turkce anlam|sozcuk5=Turkce anlam]\nKATEGORI: [konu kategorisi]';
+
+  try {
+    var data = await api.post('/api/grammar/query', { query: query });
+    var raw = data.answer || '';
+    _rdData = rdParseResponse(raw, level, lv, topic);
+    rdRenderText();
+  } catch(e) {
+    console.error('Metin uretme hatasi:', e);
+    _rdData = rdFallback(level, lv, topic);
+    rdRenderText();
+  }
+}
+
+function rdParseResponse(raw, level, lv, topic) {
+  var extract = function(key) {
+    var idx = raw.indexOf(key + ':');
+    if(idx < 0) return '';
+    var start = idx + key.length + 1;
+    var nextKey = raw.search(new RegExp('\\n[A-Z]+:'), start);
+    return (nextKey > start ? raw.slice(start, nextKey) : raw.slice(start)).trim();
+  };
+  var title = extract('BASOT') || extract('BASLIK') || extract('BAŞLIK') || topic;
+  var metin = extract('METIN') || extract('METİN') || raw;
+  var kelimeStr = extract('KELIME') || extract('KELİME') || '';
+  var kategori = extract('KATEGORI') || extract('KATEGORİ') || topic;
+
+  var vocab = [];
+  if(kelimeStr) {
+    kelimeStr.split('|').forEach(function(pair) {
+      var parts = pair.split('=');
+      if(parts.length === 2) vocab.push({pl: parts[0].trim(), tr: parts[1].trim()});
+    });
+  }
+
+  return { title: title, text: metin, vocab: vocab, level: level, lv: lv, category: kategori };
+}
+
+function rdFallback(level, lv, topic) {
+  var texts = {
+    basit: { title: 'Mój dzień', text: 'Rano wstaję o siódmej. Myję zęby i idę do kuchni. Jem śniadanie — chleb z masłem i piję kawę. Potem idę do pracy autobusem. W pracy pracuję przez osiem godzin. Wieczorem wracam do domu i oglądam telewizję. Przed snem czytam książkę. Lubię swój codzienny rytm życia.', vocab: [{pl:'wstaję',tr:'kalkarım'},{pl:'śniadanie',tr:'kahvaltı'},{pl:'pracuję',tr:'çalışırım'},{pl:'oglądam',tr:'izlerim'},{pl:'książkę',tr:'kitabı'}] },
+    orta:  { title: 'Warszawa nocą', text: 'Warszawa nocą jest zupełnie innym miastem. Kiedy zachodzi słońce, ulice wypełniają się ludźmi szukającymi rozrywki. Restauracje i kawiarnie są pełne gości, a muzyka wydobywa się z każdego lokalu. Stare Miasto świeci tysiącami świateł, przyciągając turystów z całego świata. Wisła błyszczy w blasku lamp, a mosty stają się idealnym miejscem na wieczorny spacer. To właśnie wtedy Warszawa pokazuje swój prawdziwy charakter.', vocab: [{pl:'zachodzi',tr:'batıyor'},{pl:'wypełniają',tr:'dolduruyor'},{pl:'rozrywki',tr:'eğlence'},{pl:'przyciągając',tr:'çekerek'},{pl:'charakter',tr:'karakter'}] },
+    zor:   { title: 'Wpływ technologii na współczesne społeczeństwo', text: 'Rewolucja cyfrowa, której jesteśmy świadkami od kilku dekad, fundamentalnie zmieniła sposób, w jaki postrzegamy rzeczywistość i wchodzimy w interakcje z otaczającym nas światem. Smartfony, media społecznościowe i sztuczna inteligencja stały się nieodłącznymi elementami codziennego życia, kształtując nasze nawyki, preferencje, a nawet tożsamość. Z jednej strony technologia umożliwia nam natychmiastową komunikację z ludźmi na całym świecie; z drugiej strony rodzi poważne pytania dotyczące prywatności, uzależnienia od urządzeń cyfrowych oraz zaniku bezpośrednich relacji międzyludzkich.', vocab: [{pl:'rewolucja',tr:'devrim'},{pl:'postrzegamy',tr:'algılıyoruz'},{pl:'nieodłącznymi',tr:'ayrılmaz'},{pl:'tożsamość',tr:'kimlik'},{pl:'zaniku',tr:'yok oluşu'}] }
+  };
+  var t = texts[level] || texts['orta'];
+  return { title: t.title, text: t.text, vocab: t.vocab, level: level, lv: lv, category: topic };
+}
+
+function rdRenderText() {
+  if(!_rdData) return;
+  var d = _rdData;
+
+  // Badge'ler
+  var lb = document.getElementById('rd-level-badge');
+  if(lb) { lb.textContent = d.lv.label; lb.style.background = 'var(--green-bg)'; lb.style.color = d.lv.color; lb.style.border = '1px solid ' + d.lv.color; }
+  var cb = document.getElementById('rd-category-badge');
+  if(cb) cb.textContent = '📌 ' + d.category;
+
+  // Başlık
+  var titleEl = document.getElementById('rd-title');
+  if(titleEl) titleEl.textContent = d.title;
+
+  // Kelime sayısı
+  var wc = d.text.trim().split(/\s+/).length;
+  var wcb = document.getElementById('rd-word-count-badge');
+  if(wcb) wcb.textContent = wc + ' kelime';
+
+  // Metni kelime kelime tıklanabilir yap
+  var textBox = document.getElementById('rd-text-box');
+  if(textBox) {
+    var vocabMap = {};
+    (d.vocab || []).forEach(function(v) { vocabMap[v.pl.toLowerCase()] = v.tr; });
+
+    var words = d.text.split(/(\s+|[.,!?;:«»""„"()])/);
+    var html = '';
+    words.forEach(function(w) {
+      var clean = w.replace(/[.,!?;:«»""„"()]/g,'').toLowerCase();
+      if(clean && vocabMap[clean]) {
+        html += '<span class="rd-word highlighted" data-word="' + w + '" data-tr="' + vocabMap[clean] + '" onclick="rdWordClick(this)">' + w + '</span>';
+      } else if(w.match(/\S/)) {
+        html += '<span class="rd-word" data-word="' + w + '" onclick="rdWordClick(this)">' + w + '</span>';
+      } else {
+        html += w;
+      }
+    });
+    textBox.innerHTML = html;
+  }
+
+  // Vocab listesi
+  if(d.vocab && d.vocab.length) {
+    var vs = document.getElementById('rd-vocab-section');
+    var vl = document.getElementById('rd-vocab-list');
+    if(vs) vs.style.display = 'block';
+    if(vl) {
+      vl.innerHTML = d.vocab.map(function(v) {
+        return '<div class="rd-vocab-row"><span class="rd-vocab-pl">' + v.pl + '</span><span class="rd-vocab-tr">= ' + v.tr + '</span></div>';
+      }).join('');
+    }
+  }
+
+  rdShow('rd-reading');
+}
+
+function rdWordClick(span) {
+  var tooltip = document.getElementById('rd-tooltip');
+  if(!tooltip) return;
+  var tr = span.getAttribute('data-tr');
+  if(!tr) {
+    // Burak Special'dan ara
+    var word = (span.getAttribute('data-word') || '').toLowerCase().replace(/[.,!?;:]/g,'');
+    var found = null;
+    if(typeof _specialData !== 'undefined' && _specialData) {
+      _specialData.forEach(function(item) {
+        if(!found && item.word && item.word.toLowerCase() === word) found = item.meaning || item.tr;
+      });
+    }
+    tr = found || null;
+  }
+  if(!tr) { tooltip.style.display = 'none'; return; }
+  tooltip.textContent = tr;
+  tooltip.style.display = 'block';
+  var rect = span.getBoundingClientRect();
+  tooltip.style.left = rect.left + 'px';
+  tooltip.style.top = (rect.bottom + 6) + 'px';
+  setTimeout(function() { tooltip.style.display = 'none'; }, 2500);
+}
+
+async function rdShowQuiz() {
+  rdShow('rd-quiz-loading');
+  if(!_rdData) return;
+
+  var query = 'Su Lehce metin icin 3 tane carpik sik secenekli anlama sorusu hazirla. Metin: ' + _rdData.text.slice(0, 500) + '. Sadece su formati kullan, baska hicbir sey yazma:\nSOROO1: [soru metni]\nA) [secenek]\nB) [secenek]\nC) [secenek]\nD) [secenek]\nCEVAP1: [dogru harf]\nSOROO2: ...\nCEVAP2: ...\nSOROO3: ...\nCEVAP3: ...';
+
+  try {
+    var data = await api.post('/api/grammar/query', { query: query });
+    var raw = data.answer || '';
+    _rdQuestions = rdParseQuestions(raw);
+  } catch(e) {
+    _rdQuestions = rdFallbackQuestions();
+  }
+
+  rdRenderQuiz();
+}
+
+function rdParseQuestions(raw) {
+  var questions = [];
+  for(var i = 1; i <= 3; i++) {
+    var qIdx = raw.indexOf('SOROO' + i + ':');
+    if(qIdx < 0) qIdx = raw.indexOf('SORU' + i + ':');
+    if(qIdx < 0) continue;
+    var qStart = raw.indexOf(':', qIdx) + 1;
+    var aIdx = raw.indexOf('\nA)', qStart);
+    if(aIdx < 0) continue;
+    var question = raw.slice(qStart, aIdx).trim();
+
+    var options = [];
+    ['A','B','C','D'].forEach(function(letter) {
+      var idx = raw.indexOf('\n' + letter + ')', qIdx);
+      if(idx < 0) return;
+      var end = raw.search(/\n[A-Z]\)|CEVAP|SOROO|SORU/, idx + 1);
+      options.push(raw.slice(idx + 3, end > 0 ? end : idx + 100).trim());
+    });
+
+    var cIdx = raw.indexOf('CEVAP' + i + ':');
+    var correct = cIdx >= 0 ? raw.slice(cIdx + 7, cIdx + 9).trim() : 'A';
+    var correctIdx = ['A','B','C','D'].indexOf(correct);
+
+    if(question && options.length >= 2) {
+      questions.push({ q: question, options: options, correct: correctIdx >= 0 ? correctIdx : 0 });
+    }
+  }
+  return questions.length ? questions : rdFallbackQuestions();
+}
+
+function rdFallbackQuestions() {
+  return [
+    { q: 'Metinde hangi konu işleniyor?', options: ['Günlük yaşam konuları', 'Tarihsel olaylar', 'Bilimsel araştırmalar', 'Spor müsabakaları'], correct: 0 },
+    { q: 'Metin hangi dilde yazılmıştır?', options: ['Almanca', 'Lehçe', 'Rusça', 'Çekçe'], correct: 1 },
+    { q: 'Metin ne tür bir yazıdır?', options: ['Şiir', 'Mektup', 'Kısa metin parçası', 'Haber'], correct: 2 }
+  ];
+}
+
+function rdRenderQuiz() {
+  if(!_rdQuestions) return;
+  _rdAnswered = 0; _rdCorrect = 0;
+
+  var qs = document.getElementById('rd-quiz-score');
+  if(qs) qs.textContent = '0 / ' + _rdQuestions.length;
+
+  var container = document.getElementById('rd-questions-container');
+  if(!container) return;
+  container.innerHTML = '';
+
+  _rdQuestions.forEach(function(q, qi) {
+    var qDiv = document.createElement('div');
+    qDiv.style.cssText = 'margin-bottom:24px;background:var(--surface2);border-radius:14px;padding:16px;border:1px solid var(--border)';
+    qDiv.id = 'rd-q-' + qi;
+
+    var qText = document.createElement('div');
+    qText.style.cssText = 'font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.5';
+    qText.textContent = (qi + 1) + '. ' + q.q;
+    qDiv.appendChild(qText);
+
+    q.options.forEach(function(opt, oi) {
+      var btn = document.createElement('button');
+      btn.className = 'rd-option';
+      btn.textContent = ['A','B','C','D'][oi] + ') ' + opt;
+      btn.onclick = (function(qi2, oi2) {
+        return function() { rdAnswer(qi2, oi2); };
+      })(qi, oi);
+      btn.id = 'rd-opt-' + qi + '-' + oi;
+      qDiv.appendChild(btn);
+    });
+
+    container.appendChild(qDiv);
+  });
+
+  var resultDiv = document.getElementById('rd-quiz-result');
+  if(resultDiv) resultDiv.style.display = 'none';
+
+  rdShow('rd-quiz');
+}
+
+function rdAnswer(qi, oi) {
+  if(!_rdQuestions || qi >= _rdQuestions.length) return;
+  var q = _rdQuestions[qi];
+
+  // Bu soruyu kilitle
+  for(var i = 0; i < q.options.length; i++) {
+    var btn = document.getElementById('rd-opt-' + qi + '-' + i);
+    if(btn) btn.disabled = true;
+  }
+
+  var selectedBtn = document.getElementById('rd-opt-' + qi + '-' + oi);
+  var correctBtn = document.getElementById('rd-opt-' + qi + '-' + q.correct);
+
+  if(oi === q.correct) {
+    if(selectedBtn) selectedBtn.className = 'rd-option correct';
+    _rdCorrect++;
+  } else {
+    if(selectedBtn) selectedBtn.className = 'rd-option wrong';
+    if(correctBtn) correctBtn.className = 'rd-option reveal';
+  }
+
+  _rdAnswered++;
+
+  var qs = document.getElementById('rd-quiz-score');
+  if(qs) qs.textContent = _rdCorrect + ' / ' + _rdQuestions.length;
+
+  if(_rdAnswered >= _rdQuestions.length) {
+    setTimeout(rdShowFinalScore, 600);
+  }
+}
+
+function rdShowFinalScore() {
+  var pct = Math.round(_rdCorrect / _rdQuestions.length * 100);
+  var emoji = pct === 100 ? '🏆' : pct >= 66 ? '⭐' : pct >= 33 ? '📚' : '💪';
+  var msg = pct === 100 ? 'Mükemmel! Tam puan!' : pct >= 66 ? 'Çok iyi! Devam et.' : pct >= 33 ? 'Fena değil, tekrar oku.' : 'Metni bir daha oku.';
+
+  var fs = document.getElementById('rd-final-score');
+  if(fs) fs.innerHTML = '<div style="font-size:40px;margin-bottom:8px">' + emoji + '</div>' +
+    '<div style="font-size:28px;font-weight:900;color:var(--text);font-family:Syne,sans-serif">' + _rdCorrect + ' / ' + _rdQuestions.length + '</div>' +
+    '<div style="font-size:13px;color:var(--text3);margin-top:6px">' + msg + '</div>';
+
+  var resultDiv = document.getElementById('rd-quiz-result');
+  if(resultDiv) resultDiv.style.display = 'block';
+}
+
+function rdRetryQuiz() {
+  _rdAnswered = 0; _rdCorrect = 0;
+  rdRenderQuiz();
 }
 
 </script>
