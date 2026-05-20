@@ -12602,7 +12602,7 @@ async function rdGenerate(level) {
   var topics = ['günlük hayat','seyahat','yemek kültürü','teknoloji','doğa','spor','tarih','aile','iş hayatı','müzik','sinema','şehir hayatı','tatil','alışveriş','sağlık'];
   var topic = topics[Math.floor(Math.random() * topics.length)];
 
-  var query = 'Lehçe dil egzersizi icin ' + lv.wc + ' kelimelik bir metin yaz. Konu: ' + topic + '. Seviye: ' + lv.grade + '. Sadece sunlari yaz, baska hicbir sey ekleme:\nBASOT: [konuya uygun Lehce baslik]\nMETIN: [Lehce metin buraya]\nKELIME: [sozcuk1=Turkce anlam|sozcuk2=Turkce anlam|sozcuk3=Turkce anlam|sozcuk4=Turkce anlam|sozcuk5=Turkce anlam]\nKATEGORI: [konu kategorisi]';
+  var query = 'Lehce metin olustur. Seviye: ' + lv.grade + '. Konu: ' + topic + '. Kelime sayisi: ' + lv.wc + '. Asagidaki formatta yaz, her bolum yeni satirda olsun:\n\n###BASLIK###\nBuraya Lehce baslik yaz\n\n###METIN###\nBuraya sadece Lehce metin yaz, baska hicbir bilgi ekleme\n\n###KELIMELER###\nsozcuk1=Turkce|sozcuk2=Turkce|sozcuk3=Turkce|sozcuk4=Turkce|sozcuk5=Turkce\n\n###KATEGORI###\nKonu kategorisi';
 
   try {
     var data = await api.post('/api/grammar/query', { query: query });
@@ -12617,23 +12617,42 @@ async function rdGenerate(level) {
 }
 
 function rdParseResponse(raw, level, lv, topic) {
-  var extract = function(key) {
-    var idx = raw.indexOf(key + ':');
-    if(idx < 0) return '';
-    var start = idx + key.length + 1;
-    var nextKey = raw.search(new RegExp('\\n[A-Z]+:'), start);
-    return (nextKey > start ? raw.slice(start, nextKey) : raw.slice(start)).trim();
+  // ### marker'larla parse et
+  var getSection = function(marker) {
+    var tag = '###' + marker + '###';
+    var idx = raw.indexOf(tag);
+    if(idx < 0) return null;
+    var start = raw.indexOf('\n', idx) + 1;
+    var nextTag = raw.indexOf('###', start);
+    return (nextTag > start ? raw.slice(start, nextTag) : raw.slice(start)).trim();
   };
-  var title = extract('BASOT') || extract('BASLIK') || extract('BAŞLIK') || topic;
-  var metin = extract('METIN') || extract('METİN') || raw;
-  var kelimeStr = extract('KELIME') || extract('KELİME') || '';
-  var kategori = extract('KATEGORI') || extract('KATEGORİ') || topic;
+
+  var title    = getSection('BASLIK') || getSection('BAŞLIK') || topic;
+  var metin    = getSection('METIN') || getSection('METİN');
+  var kelimeStr = getSection('KELIMELER') || getSection('KELİMELER') || getSection('KELIME');
+  var kategori = getSection('KATEGORI') || getSection('KATEGORİ') || topic;
+
+  // Metin bulunamazsa fallback: raw'ı temizle
+  if(!metin) {
+    metin = raw
+      .replace(/###[A-ZİŞĞÜÖÇ]+###[\s\S]*?(?=###|$)/g, '')
+      .replace(/[A-Z]+:/g, '')
+      .trim()
+      .slice(0, 800);
+  }
+
+  // Metinden marker kalıntılarını temizle
+  metin = metin
+    .replace(/###[\w]+###/g, '')
+    .replace(/KELIME[\s\S]*$/, '')
+    .replace(/KATEGORI[\s\S]*$/, '')
+    .trim();
 
   var vocab = [];
   if(kelimeStr) {
     kelimeStr.split('|').forEach(function(pair) {
       var parts = pair.split('=');
-      if(parts.length === 2) vocab.push({pl: parts[0].trim(), tr: parts[1].trim()});
+      if(parts.length >= 2) vocab.push({pl: parts[0].trim(), tr: parts[1].trim()});
     });
   }
 
