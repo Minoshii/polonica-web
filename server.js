@@ -15,12 +15,16 @@ const PDF_DIR   = path.join(DATA_DIR, 'pdfs');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(PDF_DIR))  fs.mkdirSync(PDF_DIR,  { recursive: true });
 
-let store = { profiles: {}, settings: {}, profileMeta: {} };
+const crypto = require('crypto');
+let store = { profiles: {}, settings: {}, profileMeta: {}, profileSessions: {} };
+function hashPin(pin){ return crypto.createHash('sha256').update(String(pin)).digest('hex'); }
+function genToken(){ return crypto.randomBytes(24).toString('hex'); }
 
 function loadStore() {
   try { if (fs.existsSync(DATA_FILE)) store = { ...store, ...JSON.parse(fs.readFileSync(DATA_FILE,'utf8')) }; }
   catch(e) { console.error('Store yukleme hatasi:', e.message); }
   if (!store.profiles)    store.profiles = {};
+  if (!store.profileSessions) store.profileSessions = {};
   if (!store.settings)    store.settings = {};
   if (!store.profileMeta) store.profileMeta = {};
 }
@@ -60,12 +64,29 @@ app.use(express.static(path.join(__dirname,'public')));
 // Auth
 app.use((req,res,next) => {
   const pass = process.env.APP_PASSWORD;
-  if (!pass) return next();
-  if (req.path.startsWith('/api/login')||req.path.startsWith('/api/profiles')) return next();
-  const token = req.headers['x-auth-token'];
-  if (token===pass) return next();
-  if (req.path.startsWith('/api/')) return res.status(401).json({error:'Yetkisiz.'});
+  if (pass) {
+    if (!req.path.startsWith('/api/login') && !req.path.startsWith('/api/profiles')) {
+      const token = req.headers['x-auth-token'];
+      if (token!==pass) {
+        if (req.path.startsWith('/api/')) return res.status(401).json({error:'Yetkisiz.'});
+      }
+    }
+  }
   next();
+});
+
+// PIN korumasi - profile bazli
+app.use((req,res,next) => {
+  if (req.path.startsWith('/api/login')) return next();
+  if (req.path.startsWith('/api/profiles')) return next();
+  if (!req.path.startsWith('/api/')) return next();
+  const profileKey = req.headers['x-profile'];
+  if (!profileKey) return next();
+  const meta = store.profileMeta[profileKey];
+  if (!meta || !meta.pinHash) return next();
+  const ptoken = req.headers['x-profile-token'];
+  if (ptoken && store.profileSessions[profileKey]===ptoken) return next();
+  return res.status(403).json({error:'PIN dogrulamasi gerekli.', pinRequired:true});
 });
 
 app.post('/api/login', (req,res) => {
@@ -76,23 +97,63 @@ app.post('/api/login', (req,res) => {
 
 // ── PROFİLLER ─────────────────────────────────────────────
 app.get('/api/profiles', (req,res) => {
-  const list = Object.keys(store.profileMeta).map(key => ({
-    key, ...store.profileMeta[key],
-    wordCount: (store.profiles[key]?.units||[]).reduce((a,u)=>a+u.words.length,0),
-    specialCount: (store.profiles[key]?.special||[]).length,
-  }));
+  const list = Object.keys(store.profileMeta).map(key => {
+    const meta = {...store.profileMeta[key]};
+    const pinSet = !!meta.pinHash;
+    delete meta.pinHash;
+    return {
+      key, ...meta, pinSet,
+      wordCount: (store.profiles[key]?.units||[]).reduce((a,u)=>a+u.words.length,0),
+      specialCount: (store.profiles[key]?.special||[]).length,
+    };
+  });
   res.json(list);
 });
 
 app.post('/api/profiles', (req,res) => {
-  const { name, color, emoji } = req.body;
+  const { name, color, emoji, pin } = req.body;
   if (!name||name.trim().length<2) return res.status(400).json({error:'En az 2 karakter.'});
   const key = name.trim().toLowerCase().replace(/[\s]+/g,'_').replace(/[^a-z0-9_]/g,'');
   if (store.profileMeta[key]) return res.status(400).json({error:'Bu isimde profil var.'});
   store.profileMeta[key] = { name:name.trim(), color:color||'#c8b89a', emoji:emoji||'📚', createdAt:new Date().toISOString() };
+  if (pin && String(pin).trim().length>=4) store.profileMeta[key].pinHash = hashPin(String(pin).trim());
   ensureProfile(key);
   saveStore();
-  res.json({ key, ...store.profileMeta[key] });
+  const resp = {...store.profileMeta[key]};
+  resp.pinSet = !!resp.pinHash;
+  delete resp.pinHash;
+  res.json({ key, ...resp });
+});
+
+
+app.post('/api/profiles/:key/verify', (req,res) => {
+  const meta = store.profileMeta[req.params.key];
+  if (!meta) return res.status(404).json({error:'Profil bulunamadi.'});
+  if (!meta.pinHash) return res.json({ok:true, token:null});
+  const pin = String(req.body.pin||'').trim();
+  if (hashPin(pin) !== meta.pinHash) return res.status(401).json({ok:false, error:'PIN hatali.'});
+  const token = genToken();
+  store.profileSessions[req.params.key] = token;
+  saveStore();
+  res.json({ok:true, token});
+});
+
+app.post('/api/profiles/:key/set-pin', (req,res) => {
+  const meta = store.profileMeta[req.params.key];
+  if (!meta) return res.status(404).json({error:'Profil bulunamadi.'});
+  const { oldPin, newPin } = req.body;
+  if (meta.pinHash) {
+    if (!oldPin || hashPin(String(oldPin).trim()) !== meta.pinHash) {
+      return res.status(401).json({error:'Eski PIN hatali.'});
+    }
+  }
+  if (newPin && String(newPin).trim().length>=4) {
+    meta.pinHash = hashPin(String(newPin).trim());
+  } else {
+    delete meta.pinHash;
+  }
+  saveStore();
+  res.json({ok:true, pinSet:!!meta.pinHash});
 });
 
 app.delete('/api/profiles/:key', (req,res) => {
