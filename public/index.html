@@ -2099,7 +2099,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <div class="panel" id="panel-special">
     <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:var(--accent-bg);color:#c8a050;border:1px solid var(--accent-dim)">Kişisel Sözlük</span></div>
     <div class="panel-sub"><span data-i18n="sub.special">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</span>
-    <div id="sp-translate-bar" style="display:none;margin-top:8px;margin-bottom:4px"><button id="sp-translate-btn" onclick="spTranslateAll()" style="padding:6px 14px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Syne,sans-serif">🌐 Tüm kelimeleri çevir</button></div></div>
+</div>
 
     <!-- Arama + giriş -->
     <div class="special-input-row">
@@ -7109,7 +7109,7 @@ window.polonica = {
   getStats:            ()   => api.get('/api/stats'),
   exportCsv:           ({unitId}) => { window.open('/api/export/csv?unitId='+unitId,'_blank'); return Promise.resolve({ok:true}); },
   exportData:          ()   => { window.open('/api/export/json','_blank'); return Promise.resolve({ok:true}); },
-  specialLookup:       (a)  => api.post('/api/special/lookup', a),
+  specialLookup:       (a)  => api.post('/api/special/lookup', {...a, lang: _lang}),
   specialSave:         (a)  => api.post('/api/special', a),
   specialList:         ()   => api.get('/api/special'),
   specialDelete:       (id) => api.del('/api/special/'+id),
@@ -13336,12 +13336,21 @@ function setLang(lang) {
   _lang = lang;
   localStorage.setItem('polonica_lang', lang);
   applyLang();
-  // .vc-m kartlarını her zaman güncelle (panel açık olmasa da)
+  // Vücut kartlarını güncelle
   document.querySelectorAll('.vc-m').forEach(function(el) {
     if (lang === 'zh' && el.dataset.zh) el.textContent = el.dataset.zh;
     else if (lang === 'en' && el.dataset.en) el.textContent = el.dataset.en;
     else if (el.dataset.tr) el.textContent = el.dataset.tr;
   });
+  // Burak Special'ı arka planda çevir
+  if (lang !== 'tr') {
+    setTimeout(function() { spAutoTranslate(); }, 200);
+  }
+  // Aktif panel special ise yeniden render et
+  var activePanel = document.querySelector('.panel.active');
+  if (activePanel && activePanel.id === 'panel-special') {
+    setTimeout(function() { renderSpecialList(); }, 100);
+  }
 }
 
 // Init: DOMContentLoaded'da uygula
@@ -13494,13 +13503,18 @@ function spGetMeaning(e) {
 }
 
 async function spAutoTranslate() {
-  if (_lang === 'tr' || !specialList || !specialList.length) return;
+  if (_lang === 'tr') return;
+  // specialList boşsa önce yükle
+  if (!specialList || !specialList.length) {
+    try {
+      specialList = await window.polonica.specialList();
+    } catch(e) { return; }
+  }
+  if (!specialList || !specialList.length) return;
   var missing = specialList.filter(function(e) {
     return !localStorage.getItem('sp2_' + _lang + '_' + String(e.id||e.pl||'').substring(0,20));
   });
   if (!missing.length) { renderSpecialList(); return; }
-  var btn = document.getElementById('sp-translate-btn');
-  if (btn) { btn.textContent = '\u23F3 ' + missing.length + ' kelime...'; btn.disabled = true; }
   var langName = _lang === 'en' ? 'English' : 'Traditional Chinese';
   var BATCH = 20;
   for (var i = 0; i < missing.length; i += BATCH) {
@@ -13520,10 +13534,9 @@ async function spAutoTranslate() {
         }
       });
     } catch(err) { console.warn('sp translate err', err); }
-    if (btn) btn.textContent = '\u23F3 ' + Math.min(i+BATCH, missing.length) + '/' + missing.length;
+  
     await new Promise(function(r){ setTimeout(r, 200); });
   }
-  if (btn) { btn.textContent = '\u2705 Tamam'; btn.disabled = false; }
   renderSpecialList();
 }
 
