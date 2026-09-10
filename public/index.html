@@ -1497,10 +1497,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   </div>
 </div>
 
-<div id="lang-picker" style="display:inline-flex;gap:2px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:3px;position:fixed;top:8px;right:280px;z-index:502">
-      <button onclick="setLang('tr')" id="lang-tr" title="Türkçe" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 5px;border-radius:5px;transition:all .15s">🇹🇷</button>
-      <button onclick="setLang('en')" id="lang-en" title="English" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 5px;border-radius:5px;opacity:.4;transition:all .15s">🇬🇧</button>
-      <button onclick="setLang('zh')" id="lang-zh" title="繁體中文" style="background:none;border:none;cursor:pointer;font-size:15px;padding:2px 5px;border-radius:5px;opacity:.4;transition:all .15s">🇹🇼</button>
+<div id="lang-picker" style="display:inline-flex;gap:2px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:4px;position:fixed;top:8px;right:280px;z-index:502">
+      <button onclick="setLang('tr')" id="lang-tr" title="Türkçe" style="background:none;border:none;cursor:pointer;padding:3px 8px;border-radius:7px;transition:all .2s;display:flex;align-items:center;gap:4px">
+        <svg width="16" height="11" viewBox="0 0 16 11"><rect width="16" height="11" fill="#E30A17"/><circle cx="5.5" cy="5.5" r="2.5" fill="white"/><circle cx="6.5" cy="5.5" r="2" fill="#E30A17"/><polygon points="9,5.5 10.2,4.4 10.2,6.6" fill="white"/><polygon points="10.5,5.5 11.4,4.7 11.4,6.3" fill="white"/></svg>
+        <span style="font-size:10px;font-weight:700;letter-spacing:.05em">TR</span>
+      </button>
+      <button onclick="setLang('en')" id="lang-en" title="English" style="background:none;border:none;cursor:pointer;padding:3px 8px;border-radius:7px;transition:all .2s;opacity:.45;display:flex;align-items:center;gap:4px">
+        <svg width="16" height="11" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="white" stroke-width="6"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><path d="M30,0 V40 M0,20 H60" stroke="white" stroke-width="10"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6"/></svg>
+        <span style="font-size:10px;font-weight:700;letter-spacing:.05em">EN</span>
+      </button>
+      <button onclick="setLang('zh')" id="lang-zh" title="繁體中文" style="background:none;border:none;cursor:pointer;padding:3px 8px;border-radius:7px;transition:all .2s;opacity:.45;display:flex;align-items:center;gap:4px">
+        <svg width="16" height="11" viewBox="0 0 30 20"><rect width="30" height="20" fill="#002395"/><rect width="30" height="4" y="4" fill="white"/><rect width="30" height="4" y="12" fill="white"/><rect width="4" x="4" height="20" fill="white"/><rect width="4" x="22" height="20" fill="white"/></svg>
+        <span style="font-size:10px;font-weight:700;letter-spacing:.05em">中文</span>
+      </button>
     </div>
     <div id="profile-badge" onclick="switchProfile()" title="Profil değiştir">
   <span id="badge-emoji" style="font-size:18px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;"></span>
@@ -1680,7 +1689,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- DERS MATERYALİ -->
   <div class="panel active" id="panel-lesson">
     <div class="panel-title">Ders Kitabı Tara <span class="mode-badge badge-lesson">Akademik</span></div>
-    <div class="panel-sub">Metni yapıştır → kelimeler parçalanır → istediğin kelimelere tıkla → analiz et.</div>
+    <div class="panel-sub"><span data-i18n="sub.lesson">Metni yapıştır → kelimeler parçalanır → istediğin kelimelere tıkla → analiz et.</span></div>
     <textarea id="lesson-text" placeholder="Lehçe metni buraya yapıştır..." oninput="tokenizeText('lesson')"></textarea>
     <div class="token-display" id="lesson-tokens"></div>
     <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
@@ -2074,7 +2083,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- BURAK SPECIAL -->
   <div class="panel" id="panel-special">
     <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:var(--accent-bg);color:#c8a050;border:1px solid var(--accent-dim)">Kişisel Sözlük</span></div>
-    <div class="panel-sub">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</div>
+    <div class="panel-sub"><span data-i18n="sub.special">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</span></div>
 
     <!-- Arama + giriş -->
     <div class="special-input-row">
@@ -2196,26 +2205,26 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   </div>
 
   <!-- GRAMMAR -->
-  <div class="panel" id="panel-grammar"><div class="panel-title">📖 Grammar <span class="mode-badge" style="background:var(--teal-bg);color:#5dc0b0;border:1px solid var(--teal)">Dilbilgisi Rehberi</span></div><div class="panel-sub">Case tabloları, aspect kuralları ve hızlı dilbilgisi sorgusu.</div>
+  <div class="panel" id="panel-grammar"><div class="panel-title" data-i18n="ptitle.grammar">📖 Grammar <span class="mode-badge" style="background:var(--teal-bg);color:#5dc0b0;border:1px solid var(--teal)">Dilbilgisi Rehberi</span></div><div class="panel-sub"><span data-i18n="sub.grammar">Case tabloları, aspect kuralları ve hızlı dilbilgisi sorgusu.</span></div>
     <div class="grammar-tabs">
-      <button class="gtab active" onclick="switchGTab('cases')">📋 Case Tabloları</button>
-      <button class="gtab" onclick="switchGTab('aspect')">⚡ Aspect</button>
-      <button class="gtab" onclick="switchGTab('decl')">📐 Çekim</button>
-      <button class="gtab" onclick="switchGTab('baglaç')">🔗 Bağlaçlar</button>
-      <button class="gtab" onclick="switchGTab('query')">💬 Soru</button>
-      <button class="gtab" onclick="switchGTab('zamirler')">🗂 Zamirler</button>
-      <button class="gtab" onclick="switchGTab('edatlar')">📍 Edatlar</button>
-      <button class="gtab" onclick="switchGTab('sayilar')">🔢 Sayılar</button>
-      <button class="gtab" onclick="switchGTab('zamanlar')">🕐 Fiil Zamanları</button>
-      <button class="gtab" onclick="switchGTab('fiilgr')">🎯 Fiil Grupları</button>
-      <button class="gtab" onclick="switchGTab('emirki')">❗ Emir Kipi</button>
-      <button class="gtab" onclick="switchGTab('rejim')">🔗 Fiil Rejimleri</button>
-      <button class="gtab" onclick="switchGTab('asplist')">⚡ Aspect Çiftleri</button>
-      <button class="gtab" onclick="switchGTab('harfdeg')">🔄 Harf Değişimleri</button>
-      <button class="gtab" onclick="switchGTab('modal')">⚙ Modaller</button>
-      <button class="gtab" onclick="switchGTab('prefix')">🧭 Prefiks Sistemi</button>
-      <button class="gtab" onclick="switchGTab('zdrobnienia')">🐾 Küçültmeler</button>
-      <button class="gtab" onclick="switchGTab('kiyaslama')">📊 Karşılaştırma</button>
+      <button class="gtab active" onclick="switchGTab('cases')" data-i18n="gtab.cases">📋 Case Tabloları</button>
+      <button class="gtab" onclick="switchGTab('aspect')" data-i18n="gtab.aspect">⚡ Aspect</button>
+      <button class="gtab" onclick="switchGTab('decl')" data-i18n="gtab.decl">📐 Çekim</button>
+      <button class="gtab" onclick="switchGTab('baglaç')" data-i18n="gtab.baglaç">🔗 Bağlaçlar</button>
+      <button class="gtab" onclick="switchGTab('query')" data-i18n="gtab.query">💬 Soru</button>
+      <button class="gtab" onclick="switchGTab('zamirler')" data-i18n="gtab.zamirler">🗂 Zamirler</button>
+      <button class="gtab" onclick="switchGTab('edatlar')" data-i18n="gtab.edatlar">📍 Edatlar</button>
+      <button class="gtab" onclick="switchGTab('sayilar')" data-i18n="gtab.sayilar">🔢 Sayılar</button>
+      <button class="gtab" onclick="switchGTab('zamanlar')" data-i18n="gtab.zamanlar">🕐 Fiil Zamanları</button>
+      <button class="gtab" onclick="switchGTab('fiilgr')" data-i18n="gtab.fiilgr">🎯 Fiil Grupları</button>
+      <button class="gtab" onclick="switchGTab('emirki')" data-i18n="gtab.emirki">❗ Emir Kipi</button>
+      <button class="gtab" onclick="switchGTab('rejim')" data-i18n="gtab.rejim">🔗 Fiil Rejimleri</button>
+      <button class="gtab" onclick="switchGTab('asplist')" data-i18n="gtab.asplist">⚡ Aspect Çiftleri</button>
+      <button class="gtab" onclick="switchGTab('harfdeg')" data-i18n="gtab.harfdeg">🔄 Harf Değişimleri</button>
+      <button class="gtab" onclick="switchGTab('modal')" data-i18n="gtab.modal">⚙ Modaller</button>
+      <button class="gtab" onclick="switchGTab('prefix')" data-i18n="gtab.prefix">🧭 Prefiks Sistemi</button>
+      <button class="gtab" onclick="switchGTab('zdrobnienia')" data-i18n="gtab.zdrobnienia">🐾 Küçültmeler</button>
+      <button class="gtab" onclick="switchGTab('kiyaslama')" data-i18n="gtab.kiyaslama">📊 Karşılaştırma</button>
     </div>
 
     <!-- CASE TABLOLARI -->
@@ -2244,19 +2253,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
           </tr>
         </thead>
         <tbody>
-          <tr><td><span class="case-name">Mianownik</span><span class="case-question">Yalın — kim/ne?</span></td><td style="color:var(--text3);font-size:11px">kto? co?</td>
+          <tr><td><span class="case-name">Mianownik</span><span class="case-question" data-i18n="case.mianownik">Yalın — kim/ne?</span></td><td style="color:var(--text3);font-size:11px">kto? co?</td>
             <td class="gender-m">-∅ / -a</td><td class="gender-m">-∅</td><td class="gender-f">-a / -i</td><td class="gender-n">-o / -e / -ę</td><td class="gender-pl-m">-i / -y / -owie</td><td class="gender-pl-nm">-y / -i / -a</td></tr>
-          <tr><td><span class="case-name">Dopełniacz</span><span class="case-question">İyelik — kogo/czego?</span></td><td style="color:var(--text3);font-size:11px">kogo? czego?</td>
+          <tr><td><span class="case-name">Dopełniacz</span><span class="case-question" data-i18n="case.dopelniacz">İyelik — kogo/czego?</span></td><td style="color:var(--text3);font-size:11px">kogo? czego?</td>
             <td class="gender-m">-a / -u</td><td class="gender-m">-a / -u</td><td class="gender-f">-y / -i</td><td class="gender-n">-a</td><td class="gender-pl-m">-ów / -y</td><td class="gender-pl-nm">-∅ / -y / -i</td></tr>
-          <tr><td><span class="case-name">Celownik</span><span class="case-question">Yönelme — komu/czemu?</span></td><td style="color:var(--text3);font-size:11px">komu? czemu?</td>
+          <tr><td><span class="case-name">Celownik</span><span class="case-question" data-i18n="case.celownik">Yönelme — komu/czemu?</span></td><td style="color:var(--text3);font-size:11px">komu? czemu?</td>
             <td class="gender-m">-owi / -u</td><td class="gender-m">-owi / -u</td><td class="gender-f">-ie / -y / -i</td><td class="gender-n">-u</td><td class="gender-pl-m">-om</td><td class="gender-pl-nm">-om</td></tr>
-          <tr><td><span class="case-name">Biernik</span><span class="case-question">Belirtme — kogo/co?</span></td><td style="color:var(--text3);font-size:11px">kogo? co?</td>
+          <tr><td><span class="case-name">Biernik</span><span class="case-question" data-i18n="case.biernik">Belirtme — kogo/co?</span></td><td style="color:var(--text3);font-size:11px">kogo? co?</td>
             <td class="gender-m">-a</td><td class="gender-m">= Mian.</td><td class="gender-f">-ę / = Dopeł.</td><td class="gender-n">= Mian.</td><td class="gender-pl-m">= Dopeł.</td><td class="gender-pl-nm">= Mian.</td></tr>
-          <tr><td><span class="case-name">Narzędnik</span><span class="case-question">Araç — kim/czym?</span></td><td style="color:var(--text3);font-size:11px">kim? czym?</td>
+          <tr><td><span class="case-name">Narzędnik</span><span class="case-question" data-i18n="case.narzednik">Araç — kim/czym?</span></td><td style="color:var(--text3);font-size:11px">kim? czym?</td>
             <td class="gender-m">-em / -iem</td><td class="gender-m">-em</td><td class="gender-f">-ą</td><td class="gender-n">-em</td><td class="gender-pl-m">-ami / -mi</td><td class="gender-pl-nm">-ami / -mi</td></tr>
-          <tr><td><span class="case-name">Miejscownik</span><span class="case-question">Bulunma — o kim/czym?</span></td><td style="color:var(--text3);font-size:11px">o kim? o czym?</td>
+          <tr><td><span class="case-name">Miejscownik</span><span class="case-question" data-i18n="case.miejscownik">Bulunma — o kim/czym?</span></td><td style="color:var(--text3);font-size:11px">o kim? o czym?</td>
             <td class="gender-m">-ie / -u</td><td class="gender-m">-ie / -u</td><td class="gender-f">-ie / -y / -i</td><td class="gender-n">-ie / -u</td><td class="gender-pl-m">-ach</td><td class="gender-pl-nm">-ach</td></tr>
-          <tr><td><span class="case-name">Wołacz</span><span class="case-question">Seslenme — ey kim!</span></td><td style="color:var(--text3);font-size:11px">!</td>
+          <tr><td><span class="case-name">Wołacz</span><span class="case-question" data-i18n="case.wolacz">Seslenme — ey kim!</span></td><td style="color:var(--text3);font-size:11px">!</td>
             <td class="gender-m">-ie / -u / -e</td><td class="gender-m">-ie / -u</td><td class="gender-f">-o / -i</td><td class="gender-n">= Mian.</td><td class="gender-pl-m">= Mian.</td><td class="gender-pl-nm">= Mian.</td></tr>
         </tbody>
       </table>
@@ -6355,13 +6364,13 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- FONETİK PANELİ -->
   <div class="panel" id="panel-fonetik" data-v="fonetik-fix-v3">
     <div class="panel-title">🗣 Fonetik <span class="mode-badge" style="background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal)">Wymowa</span></div>
-    <div class="panel-sub" style="margin-bottom:16px">Lehçe sesleri, telaffuz kuralları ve pratik ipuçları.</div>
+    <div class="panel-sub" style="margin-bottom:16px"><span data-i18n="sub.fonetik">Lehçe sesleri, telaffuz kuralları ve pratik ipuçları.</span></div>
 
     <!-- Fonetik Sekme Butonları -->
     <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-      <button id="fon-tab-samog" onclick="switchFonTab('samog')" class="gtab active" style="background:var(--teal-bg);border-color:var(--teal);color:var(--teal)">🔵 Sesli Harfler</button>
-      <button id="fon-tab-spol" onclick="switchFonTab('spol')" class="gtab">⬛ Sessiz Harfler</button>
-      <button id="fon-tab-tips" onclick="switchFonTab('tips')" class="gtab">💡 Telaffuz İpuçları</button>
+      <button id="fon-tab-samog" onclick="switchFonTab('samog')" class="gtab active" style="background:var(--teal-bg);border-color:var(--teal);color:var(--teal)" data-i18n="fon.samog">🔵 Sesli Harfler</button>
+      <button id="fon-tab-spol" onclick="switchFonTab('spol')" class="gtab" data-i18n="fon.spol">⬛ Sessiz Harfler</button>
+      <button id="fon-tab-tips" onclick="switchFonTab('tips')" class="gtab" data-i18n="fon.tips">💡 Telaffuz İpuçları</button>
     </div>
 
 <!-- ══ SAMOGŁOSKI ══ -->
@@ -6626,7 +6635,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- OKUMA PANELİ -->
   <div class="panel" id="panel-reading">
     <div class="panel-title">📖 Okuma Pratiği <span class="mode-badge" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green)">AI Destekli</span></div>
-    <div class="panel-sub" style="margin-bottom:20px">AI Lehçe metin üretir, okursun, anlama sorularını cevapla.</div>
+    <div class="panel-sub" style="margin-bottom:20px"><span data-i18n="sub.reading">AI Lehçe metin üretir, okursun, anlama sorularını cevapla.</span></div>
 
     <!-- Başlangıç -->
     <div id="rd-start">
@@ -6698,7 +6707,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="panel" id="panel-writing">
     <div class="panel-title">✍️ Yazma Pratiği <span class="mode-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue)">AI Destekli</span></div>
-    <div class="panel-sub" style="margin-bottom:20px">AI bir konu verir, sen Lehçe yazarsın. Kelime hedefine ulaş, analiz al.</div>
+    <div class="panel-sub" style="margin-bottom:20px"><span data-i18n="sub.writing">AI bir konu verir, sen Lehçe yazarsın. Kelime hedefine ulaş, analiz al.</span></div>
 
     <!-- Başlangıç ekranı -->
     <div id="wr-start">
@@ -12967,6 +12976,43 @@ var _i18n = {
     'ollama.connecting': 'Bağlanıyor...',
     'ollama.ready':      'Bağlı',
     'ollama.offline':    'Çevrimdışı',
+    // Grammar tabs
+    'gtab.cases': '📋 Case Tabloları',
+    'gtab.aspect': '⚡ Aspect',
+    'gtab.decl': '📐 Çekim',
+    'gtab.baglaç': '🔗 Bağlaçlar',
+    'gtab.query': '💬 Soru',
+    'gtab.zamirler': '🗂 Zamirler',
+    'gtab.edatlar': '📍 Edatlar',
+    'gtab.sayilar': '🔢 Sayılar',
+    'gtab.zamanlar': '🕐 Fiil Zamanları',
+    'gtab.fiilgr': '🎯 Fiil Grupları',
+    'gtab.emirki': '❗ Emir Kipi',
+    'gtab.rejim': '🔗 Fiil Rejimleri',
+    'gtab.asplist': '⚡ Aspect Çiftleri',
+    'gtab.harfdeg': '🔄 Harf Değişimleri',
+    'gtab.modal': '⚙ Modaller',
+    'gtab.prefix': '🧭 Prefiks Sistemi',
+    'gtab.zdrobnienia': '🐾 Küçültmeler',
+    'gtab.kiyaslama': '📊 Karşılaştırma',
+    // Fonetik
+    'fon.samog': '🔵 Sesli Harfler',
+    'fon.spol': '⬛ Sessiz Harfler',
+    'fon.tips': '💡 Telaffuz İpuçları',
+    // Panel subtitles
+    'sub.grammar': 'Case tabloları, aspect kuralları ve hızlı dilbilgisi sorgusu.',
+    'sub.fonetik': 'Lehçe sesleri, telaffuz kuralları ve pratik ipuçları.',
+    'sub.special': 'Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.',
+    'sub.lesson': 'Metni yapıştır → kelimeler parçalanır → istediğin kelimelere tıkla → analiz et.',
+    'sub.writing': 'AI bir konu verir, sen Lehçe yazarsın. Kelime hedefine ulaş, analiz al.',
+    'sub.reading': 'AI Lehçe metin üretir, okursun, anlama sorularını cevapla.',
+    // Vücut
+    'vucut.basyuz': 'BAŞ & YÜZ',
+    'vucut.govde': 'GÖVDE',
+    'vucut.kolel': 'KOL & EL',
+    'vucut.bacak': 'BACAK & AYAK',
+    'vucut.ic': 'İÇ ORGANLAR',
+    'vucut.deri': 'DERİ & SAÇ',
   },
   en: {
     'sec.tara':       'Browse',
@@ -13017,6 +13063,39 @@ var _i18n = {
     'ollama.connecting': 'Connecting...',
     'ollama.ready':      'Connected',
     'ollama.offline':    'Offline',
+    'gtab.cases': '📋 Cases',
+    'gtab.aspect': '⚡ Aspect',
+    'gtab.decl': '📐 Conjugation',
+    'gtab.baglaç': '🔗 Conjunctions',
+    'gtab.query': '💬 Questions',
+    'gtab.zamirler': '🗂 Pronouns',
+    'gtab.edatlar': '📍 Prepositions',
+    'gtab.sayilar': '🔢 Numbers',
+    'gtab.zamanlar': '🕐 Verb Tenses',
+    'gtab.fiilgr': '🎯 Verb Groups',
+    'gtab.emirki': '❗ Imperative',
+    'gtab.rejim': '🔗 Verb Regimes',
+    'gtab.asplist': '⚡ Aspect Pairs',
+    'gtab.harfdeg': '🔄 Letter Changes',
+    'gtab.modal': '⚙ Modals',
+    'gtab.prefix': '🧭 Prefix System',
+    'gtab.zdrobnienia': '🐾 Diminutives',
+    'gtab.kiyaslama': '📊 Comparison',
+    'fon.samog': '🔵 Vowels',
+    'fon.spol': '⬛ Consonants',
+    'fon.tips': '💡 Pronunciation Tips',
+    'sub.grammar': 'Case tables, aspect rules and quick grammar queries.',
+    'sub.fonetik': 'Polish sounds, pronunciation rules and practical tips.',
+    'sub.special': 'Type a word or phrase — get its meaning, add a note, save it.',
+    'sub.lesson': 'Paste text → words are split → click words you want → analyze.',
+    'sub.writing': 'AI gives you a topic, you write in Polish. Reach the word goal, get feedback.',
+    'sub.reading': 'AI generates a Polish text, you read it, answer comprehension questions.',
+    'vucut.basyuz': 'HEAD & FACE',
+    'vucut.govde': 'TORSO',
+    'vucut.kolel': 'ARM & HAND',
+    'vucut.bacak': 'LEG & FOOT',
+    'vucut.ic': 'INTERNAL ORGANS',
+    'vucut.deri': 'SKIN & HAIR',
   },
   zh: {
     'sec.tara':       '瀏覽',
@@ -13067,8 +13146,82 @@ var _i18n = {
     'ollama.connecting': '連接中...',
     'ollama.ready':      '已連接',
     'ollama.offline':    '離線',
+    'gtab.cases': '📋 格變化',
+    'gtab.aspect': '⚡ 體',
+    'gtab.decl': '📐 動詞變化',
+    'gtab.baglaç': '🔗 連接詞',
+    'gtab.query': '💬 疑問句',
+    'gtab.zamirler': '🗂 代詞',
+    'gtab.edatlar': '📍 介詞',
+    'gtab.sayilar': '🔢 數字',
+    'gtab.zamanlar': '🕐 動詞時態',
+    'gtab.fiilgr': '🎯 動詞組',
+    'gtab.emirki': '❗ 命令式',
+    'gtab.rejim': '🔗 動詞格支配',
+    'gtab.asplist': '⚡ 體對照',
+    'gtab.harfdeg': '🔄 字母變化',
+    'gtab.modal': '⚙ 情態詞',
+    'gtab.prefix': '🧭 前綴系統',
+    'gtab.zdrobnienia': '🐾 指小詞',
+    'gtab.kiyaslama': '📊 比較',
+    'fon.samog': '🔵 母音',
+    'fon.spol': '⬛ 子音',
+    'fon.tips': '💡 發音技巧',
+    'sub.grammar': '格變化表、體規則和快速文法查詢。',
+    'sub.fonetik': '波蘭語發音、發音規則和實用技巧。',
+    'sub.special': '輸入單字或片語——獲取意思、添加筆記、保存。',
+    'sub.lesson': '貼上文字 → 分析單字 → 點選要學的單字 → 分析。',
+    'sub.writing': 'AI 給你一個主題，用波蘭語寫作。達到字數目標，獲得反饋。',
+    'sub.reading': 'AI 生成波蘭語文章，你閱讀並回答理解問題。',
+    'vucut.basyuz': '頭部與臉部',
+    'vucut.govde': '軀幹',
+    'vucut.kolel': '手臂與手',
+    'vucut.bacak': '腿部與腳',
+    'vucut.ic': '內臟器官',
+    'vucut.deri': '皮膚與頭髮',
   }
 };
+
+
+  var _i18n_extra = {
+    tr: {
+      'case.mianownik':   'Yalın — kim/ne?',
+      'case.dopelniacz':  'İyelik — kimin/neyin?',
+      'case.celownik':    'Yönelme — kime/neye?',
+      'case.biernik':     'Belirtme — kimi/neyi?',
+      'case.narzednik':   'Araç — kiminle/neyle?',
+      'case.miejscownik': 'Bulunma — kimde/nerede?',
+      'case.wolacz':      'Seslenme — ey kim!',
+      'asp.imperfective': 'Tekrarlanabilir, süregelen, tamamlanmamış eylemler',
+      'asp.perfective':   'Tek seferlik, tamamlanmış, sonucu olan eylemler',
+    },
+    en: {
+      'case.mianownik':   'Nominative — who/what?',
+      'case.dopelniacz':  'Genitive — whose/of what?',
+      'case.celownik':    'Dative — to whom/what?',
+      'case.biernik':     'Accusative — whom/what?',
+      'case.narzednik':   'Instrumental — with whom/what?',
+      'case.miejscownik': 'Locative — about whom/what?',
+      'case.wolacz':      'Vocative — hey, who!',
+      'asp.imperfective': 'Repeated, ongoing, incomplete actions',
+      'asp.perfective':   'One-time, completed, result-oriented actions',
+    },
+    zh: {
+      'case.mianownik':   '主格 — 誰/什麼？',
+      'case.dopelniacz':  '所有格 — 誰的/什麼的？',
+      'case.celownik':    '與格 — 給誰/給什麼？',
+      'case.biernik':     '賓格 — 誰/什麼（受詞）？',
+      'case.narzednik':   '工具格 — 用什麼/和誰？',
+      'case.miejscownik': '處所格 — 關於誰/在哪裡？',
+      'case.wolacz':      '呼格 — 呼喚！',
+      'asp.imperfective': '重複性、持續性、未完成的動作',
+      'asp.perfective':   '一次性、完成的、有結果的動作',
+    }
+  };
+  // Merge extra into main
+  ['tr','en','zh'].forEach(function(l) {
+    if(_i18n[l] && _i18n_extra[l]) Object.assign(_i18n[l], _i18n_extra[l]);
+  });
 
 function t(key) {
   return (_i18n[_lang] && _i18n[_lang][key]) || (_i18n['tr'][key]) || key;
@@ -13085,7 +13238,16 @@ function applyLang() {
   // Dil buton aktif durumu
   ['tr','en','zh'].forEach(function(l) {
     var btn = document.getElementById('lang-' + l);
-    if(btn) btn.style.opacity = (l === _lang) ? '1' : '0.4';
+    if(!btn) return;
+    if(l === _lang) {
+      btn.style.opacity = '1';
+      btn.style.background = 'var(--surface3)';
+      btn.style.boxShadow = '0 1px 4px rgba(0,0,0,.2)';
+    } else {
+      btn.style.opacity = '0.4';
+      btn.style.background = 'none';
+      btn.style.boxShadow = 'none';
+    }
   });
 
   // html lang attribute
