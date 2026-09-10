@@ -13555,7 +13555,7 @@ async function autoTranslateWord(entry) {
     var langName = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : 'English';
     try {
       var resp = await api.post('/api/grammar/query', {
-        query: 'Translate this Turkish word meaning to ' + langName + '. Return ONLY the translation, nothing else: ' + (entry.tr || entry.meaning || '')
+        query: 'Dictionary task: translate the following word meaning from Turkish to ' + langName + '. Output ONLY the translated meaning, no explanation, no extra text. Turkish input: ' + (entry.tr || entry.meaning || '')
       });
       var translation = (resp.answer || '').trim().replace(/^["']|["']$/g,'');
       if (translation) localStorage.setItem(key, translation);
