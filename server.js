@@ -179,7 +179,9 @@ app.post('/api/distractors', async (req,res) => {
 // ── BURAK SPECIAL ─────────────────────────────────────────
 app.post('/api/special/lookup', async (req,res) => {
   try {
-    const {word, mode} = req.body;
+    const {word, mode, lang} = req.body;
+    const outputLang = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : lang === 'en' ? 'English' : 'Turkish';
+    const isNonTurkish = lang === 'zh' || lang === 'en';
     const isSlangMode = mode === 'lyrics';
 
     // Deyim/kalip tespiti - birden fazla kelimeyse veya bilinen kalip ise
@@ -212,7 +214,7 @@ app.post('/api/special/lookup', async (req,res) => {
       '- "pl": the canonical form of this word/phrase',
       '- "original": exactly as given',
       '- "inflection_note": grammar note if single word is inflected, else ""',
-      '- "tr": natural Turkish meaning/translation (2-8 words)',
+      '- "tr": natural ' + outputLang + ' meaning/translation (2-8 words)',
       '- "en": English meaning (1-5 words)',
       '- "category": "verb"|"noun"|"adj"|"other"|"phrase"',
       '- "type": czasownik/rzeczownik/przymiotnik/wyrazenie/idiom/kolokacja',
