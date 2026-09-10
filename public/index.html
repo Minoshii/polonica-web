@@ -13504,41 +13504,43 @@ function spGetMeaning(e) {
 
 async function spAutoTranslate() {
   if (_lang === 'tr') return;
-  // specialList boşsa önce yükle
   if (!specialList || !specialList.length) {
-    try {
-      specialList = await window.polonica.specialList();
-    } catch(e) { return; }
+    try { specialList = await window.polonica.specialList(); } catch(e) { return; }
   }
   if (!specialList || !specialList.length) return;
-  var missing = specialList.filter(function(e) {
-    return !localStorage.getItem('sp2_' + _lang + '_' + String(e.id||e.pl||'').substring(0,20));
-  });
-  if (!missing.length) { renderSpecialList(); return; }
-  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese';
+
+  var langName = _lang === 'zh' ? 'Traditional Chinese' : 'English';
   var BATCH = 20;
-  for (var i = 0; i < missing.length; i += BATCH) {
-    var batch = missing.slice(i, i + BATCH);
-    var lines = batch.map(function(e, j) {
-      return String(j+1) + '. ' + String(e.tr || e.meaning || '');
+  for (var i = 0; i < specialList.length; i += BATCH) {
+    var batch = specialList.slice(i, i + BATCH);
+    var toTranslate = [];
+    var indices = [];
+    batch.forEach(function(e, j) {
+      var key = 'sp2_' + _lang + '_' + String(e.id || '').substring(0, 20);
+      if (!localStorage.getItem(key) && (e.tr || e.meaning)) {
+        toTranslate.push({ idx: j, word: e, key: key, meaning: e.tr || e.meaning || '' });
+      }
     });
-    var query = 'Translate these Turkish word meanings to ' + langName + '. Return ONLY numbered translations, one per line, same order. Do not include any Polish words. Short and accurate:\n' + lines.join('\n');
+    if (!toTranslate.length) continue;
+    var nl = '\n';
+    var lines = toTranslate.map(function(t, j) { return (j+1) + '. ' + t.meaning; });
+    var query = 'You are a dictionary translator. Translate these Turkish word meanings to ' + langName + '. Output ONLY numbered translations, one per line, same order. No explanations:\n' + lines.join(nl);
     try {
       var resp = await api.post('/api/grammar/query', { query: query });
-      var raw = (resp.answer || '').split('\n').filter(function(l){ return l.trim(); });
-      raw.forEach(function(line, j) {
-        if (!batch[j]) return;
+      var raw = (resp.answer || '').split('\n').filter(function(l) { return l.trim(); });
+      toTranslate.forEach(function(t, j) {
+        var line = raw[j] || '';
         var cleaned = line.replace(/^[0-9]+[.)\- ]*/,'').trim();
-        if (cleaned) {
-          localStorage.setItem('sp2_' + _lang + '_' + String(batch[j].id||batch[j].pl||'').substring(0,20), cleaned);
+        if (cleaned && cleaned.length > 1 && cleaned !== t.meaning) {
+          localStorage.setItem(t.key, cleaned);
         }
       });
-    } catch(err) { console.warn('sp translate err', err); }
-  
-    await new Promise(function(r){ setTimeout(r, 200); });
+    } catch(e) { console.warn('batch err', e); }
+    await new Promise(function(r) { setTimeout(r, 300); });
   }
   renderSpecialList();
 }
+
 
 async function spTranslateAll() { await spAutoTranslate(); }
 
