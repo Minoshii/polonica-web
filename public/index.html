@@ -1507,7 +1507,22 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <span style="font-size:10px;font-weight:700;letter-spacing:.05em">EN</span>
       </button>
       <button onclick="setLang('zh')" id="lang-zh" title="繁體中文" style="background:none;border:none;cursor:pointer;padding:3px 8px;border-radius:7px;transition:all .2s;opacity:.45;display:flex;align-items:center;gap:4px">
-        <svg width="16" height="11" viewBox="0 0 30 20"><rect width="30" height="20" fill="#002395"/><rect width="30" height="4" y="4" fill="white"/><rect width="30" height="4" y="12" fill="white"/><rect width="4" x="4" height="20" fill="white"/><rect width="4" x="22" height="20" fill="white"/></svg>
+        <svg width="16" height="11" viewBox="0 0 32 22">
+          <rect width="32" height="22" fill="#FE0000"/>
+          <rect width="16" height="11" fill="#003F87"/>
+          <circle cx="8" cy="5.5" r="3.2" fill="white"/>
+          <circle cx="8" cy="5.5" r="2.2" fill="#003F87"/>
+          <g fill="white" transform="translate(8,5.5)">
+            <polygon points="0,-3.2 0.6,-1.8 -0.6,-1.8"/>
+            <polygon points="0,3.2 0.6,1.8 -0.6,1.8"/>
+            <polygon points="-3.2,0 -1.8,0.6 -1.8,-0.6"/>
+            <polygon points="3.2,0 1.8,0.6 1.8,-0.6"/>
+            <polygon points="-2.26,-2.26 -1.1,-1.6 -1.6,-1.1"/>
+            <polygon points="2.26,2.26 1.1,1.6 1.6,1.1"/>
+            <polygon points="-2.26,2.26 -1.6,1.1 -1.1,1.6"/>
+            <polygon points="2.26,-2.26 1.6,-1.1 1.1,-1.6"/>
+          </g>
+        </svg>
         <span style="font-size:10px;font-weight:700;letter-spacing:.05em">中文</span>
       </button>
     </div>
@@ -2083,7 +2098,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- BURAK SPECIAL -->
   <div class="panel" id="panel-special">
     <div class="panel-title">⭐ Burak Special <span class="mode-badge" style="background:var(--accent-bg);color:#c8a050;border:1px solid var(--accent-dim)">Kişisel Sözlük</span></div>
-    <div class="panel-sub"><span data-i18n="sub.special">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</span></div>
+    <div class="panel-sub"><span data-i18n="sub.special">Kelime, deyim veya kalıp yaz — anlamı gelsin, notunu ekle, kaydet.</span>
+    <div id="sp-translate-bar" style="display:none;margin-top:8px;margin-bottom:4px"><button id="sp-translate-btn" onclick="spTranslateAll()" style="padding:6px 14px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Syne,sans-serif">🌐 Tüm kelimeleri çevir</button></div></div>
 
     <!-- Arama + giriş -->
     <div class="special-input-row">
@@ -10077,7 +10093,7 @@ function _renderSpecialList(){
         row.onclick = () => quickLookupPhrase(e.pl||e.original);
         row.innerHTML =
           '<span class="muzyka-word-pl">'+esc(e.pl||e.original||'')+'</span>'+
-          '<span class="muzyka-word-tr">'+esc(e.tr||'')+'</span>'+
+          '<span class="muzyka-word-tr">'+esc(spGetMeaning(e))+'</span>'+
           (e.note?'<span class="muzyka-word-note">⭐ '+esc(e.note)+'</span>':'')+
           '<span class="muzyka-word-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>';
         wordsDiv.appendChild(row);
@@ -10133,7 +10149,7 @@ function _renderSpecialList(){
         row.onclick = () => quickLookupPhrase(e.pl||e.original);
         row.innerHTML =
           '<span class="muzyka-word-pl">'+slangBadge+esc(e.pl||e.original||'')+'</span>'+
-          '<span class="muzyka-word-tr">'+esc(e.tr||'')+'</span>'+
+          '<span class="muzyka-word-tr">'+esc(spGetMeaning(e))+'</span>'+
           (e.note ? '<span class="muzyka-word-note">⭐ '+esc(e.note)+'</span>' : '')+
           '<span class="muzyka-word-badge" style="color:'+tc+';border-color:'+tc+'44;background:'+tc+'11">'+tl+'</span>';
         wordsDiv.appendChild(row);
@@ -13183,7 +13199,26 @@ var _i18n = {
 };
 
 
-  var _i18n_extra = {
+  
+  var _i18n_kultur = {
+    tr: {
+      'kultur.title': '🏛 Kültür',
+      'kultur.sub': 'Polonya kültürü, gelenekleri ve tarihi hakkında.',
+    },
+    en: {
+      'kultur.title': '🏛 Culture',
+      'kultur.sub': 'About Polish culture, traditions and history.',
+    },
+    zh: {
+      'kultur.title': '🏛 文化',
+      'kultur.sub': '關於波蘭文化、傳統和歷史。',
+    }
+  };
+  ['tr','en','zh'].forEach(function(l){
+    if(_i18n[l] && _i18n_kultur[l]) Object.assign(_i18n[l], _i18n_kultur[l]);
+  });
+
+var _i18n_extra = {
     tr: {
       'case.mianownik':   'Yalın — kim/ne?',
       'case.dopelniacz':  'İyelik — kimin/neyin?',
@@ -13264,6 +13299,42 @@ function setLang(lang) {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(applyLang, 100);
 });
+
+
+// ── BURAK SPECIAL DİL DESTEĞİ ───────────────────────
+function spGetMeaning(entry) {
+  if (_lang === 'tr') return entry.tr || entry.meaning || '';
+  var cached = localStorage.getItem('sp_' + _lang + '_' + (entry.id||entry.pl));
+  if (cached) return cached;
+  return (entry.tr || entry.meaning || '') + ' ···';
+}
+
+async function spTranslateAll() {
+  if (_lang === 'tr') return;
+  var toTranslate = specialList.filter(function(e) {
+    return !localStorage.getItem('sp_' + _lang + '_' + (e.id||e.pl));
+  });
+  if (!toTranslate.length) { renderSpecialList(); return; }
+  var btn = document.getElementById('sp-translate-btn');
+  if (btn) { btn.textContent = '⏳ Çeviriliyor...'; btn.disabled = true; }
+  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
+  var batch = toTranslate.slice(0, 30); // max 30 per call
+  var pairs = batch.map(function(e) { return (e.pl||e.original||'') + '=' + (e.tr||e.meaning||''); }).join('|');
+  var query = 'Translate these Polish word meanings from Turkish to ' + langName + '. Format: word=translation, one per line, same order. Do not add explanations. Input: ' + pairs;
+  try {
+    var data = await api.post('/api/grammar/query', { query: query });
+    var raw = data.answer || '';
+    var lines = raw.split('\n').filter(function(l){ return l.trim(); });
+    lines.forEach(function(line, i) {
+      if (!batch[i]) return;
+      var eqIdx = line.indexOf('=');
+      var translation = eqIdx >= 0 ? line.slice(eqIdx+1).trim() : line.trim();
+      if (translation) localStorage.setItem('sp_' + _lang + '_' + (batch[i].id||batch[i].pl), translation);
+    });
+  } catch(e) { console.warn('Translate error:', e); }
+  if (btn) { btn.textContent = toTranslate.length > 30 ? '🔄 Devam et (' + (toTranslate.length-30) + ' kaldı)' : '✅ Çeviri tamam'; btn.disabled = false; }
+  renderSpecialList();
+}
 
 </script>
 </body>
