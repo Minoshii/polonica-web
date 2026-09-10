@@ -8894,16 +8894,19 @@ function renderDeclension(d) {
 }
 
 // ── VÜCUT ─────────────────────────────────────────────────
-const VUCUT_WORDS = [{'pl': 'głowa', 'tr': 'baş', 'en': 'head'}, {'pl': 'twarz', 'tr': 'yüz', 'en': 'face'}, {'pl': 'czoło', 'tr': 'alın', 'en': 'forehead'}, {'pl': 'oko', 'tr': 'göz', 'en': 'eye'}, {'pl': 'nos', 'tr': 'burun', 'en': 'nose'}, {'pl': 'usta', 'tr': 'ağız', 'en': 'mouth'}, {'pl': 'ucho', 'tr': 'kulak', 'en': 'ear'}, {'pl': 'zęby', 'tr': 'dişler', 'en': 'teeth'}, {'pl': 'język', 'tr': 'dil', 'en': 'tongue'}, {'pl': 'szyja', 'tr': 'boyun', 'en': 'neck'}, {'pl': 'ramię', 'tr': 'omuz/kol', 'en': 'shoulder/arm'}, {'pl': 'łokieć', 'tr': 'dirsek', 'en': 'elbow'}, {'pl': 'nadgarstek', 'tr': 'bilek', 'en': 'wrist'}, {'pl': 'ręka', 'tr': 'el', 'en': 'hand'}, {'pl': 'palec', 'tr': 'parmak', 'en': 'finger'}, {'pl': 'paznokieć', 'tr': 'tırnak', 'en': 'nail'}, {'pl': 'klatka piersiowa', 'tr': 'göğüs', 'en': 'chest'}, {'pl': 'serce', 'tr': 'kalp', 'en': 'heart'}, {'pl': 'płuca', 'tr': 'akciğerler', 'en': 'lungs'}, {'pl': 'żołądek', 'tr': 'mide', 'en': 'stomach'}, {'pl': 'brzuch', 'tr': 'karın', 'en': 'belly'}, {'pl': 'plecy', 'tr': 'sırt', 'en': 'back'}, {'pl': 'kręgosłup', 'tr': 'omurga', 'en': 'spine'}, {'pl': 'biodro', 'tr': 'kalça', 'en': 'hip'}, {'pl': 'noga', 'tr': 'bacak', 'en': 'leg'}, {'pl': 'udo', 'tr': 'uyluk', 'en': 'thigh'}, {'pl': 'kolano', 'tr': 'diz', 'en': 'knee'}, {'pl': 'łydka', 'tr': 'baldır', 'en': 'calf'}, {'pl': 'kostka', 'tr': 'ayak bileği', 'en': 'ankle'}, {'pl': 'stopa', 'tr': 'ayak', 'en': 'foot'}, {'pl': 'palec u nogi', 'tr': 'ayak parmağı', 'en': 'toe'}, {'pl': 'skóra', 'tr': 'cilt', 'en': 'skin'}, {'pl': 'krew', 'tr': 'kan', 'en': 'blood'}, {'pl': 'kość', 'tr': 'kemik', 'en': 'bone'}, {'pl': 'mięsień', 'tr': 'kas', 'en': 'muscle'}, {'pl': 'włosy', 'tr': 'saç', 'en': 'hair'}, {'pl': 'brwi', 'tr': 'kaşlar', 'en': 'eyebrows'}, {'pl': 'rzęsy', 'tr': 'kirpikler', 'en': 'eyelashes'}, {'pl': 'policzek', 'tr': 'yanak', 'en': 'cheek'}, {'pl': 'podbródek', 'tr': 'çene', 'en': 'chin'}];
+const VUCUT_WORDS = [{'pl': 'głowa', 'zh': '頭', 'tr': 'baş', 'en': 'head'}, {'pl': 'twarz', 'zh': '臉', 'tr': 'yüz', 'en': 'face'}, {'pl': 'czoło', 'zh': '額頭', 'tr': 'alın', 'en': 'forehead'}, {'pl': 'oko', 'zh': '眼睛', 'tr': 'göz', 'en': 'eye'}, {'pl': 'nos', 'zh': '鼻子', 'tr': 'burun', 'en': 'nose'}, {'pl': 'usta', 'zh': '嘴巴', 'tr': 'ağız', 'en': 'mouth'}, {'pl': 'ucho', 'zh': '耳朵', 'tr': 'kulak', 'en': 'ear'}, {'pl': 'zęby', 'zh': '牙齒', 'tr': 'dişler', 'en': 'teeth'}, {'pl': 'język', 'zh': '舌頭', 'tr': 'dil', 'en': 'tongue'}, {'pl': 'szyja', 'zh': '脖子', 'tr': 'boyun', 'en': 'neck'}, {'pl': 'ramię', 'zh': '肩膀/手臂', 'tr': 'omuz/kol', 'en': 'shoulder/arm'}, {'pl': 'łokieć', 'zh': '手肘', 'tr': 'dirsek', 'en': 'elbow'}, {'pl': 'nadgarstek', 'zh': '手腕', 'tr': 'bilek', 'en': 'wrist'}, {'pl': 'ręka', 'zh': '手', 'tr': 'el', 'en': 'hand'}, {'pl': 'palec', 'zh': '手指', 'tr': 'parmak', 'en': 'finger'}, {'pl': 'paznokieć', 'zh': '指甲', 'tr': 'tırnak', 'en': 'nail'}, {'pl': 'klatka piersiowa', 'zh': '胸部', 'tr': 'göğüs', 'en': 'chest'}, {'pl': 'serce', 'zh': '心臟', 'tr': 'kalp', 'en': 'heart'}, {'pl': 'płuca', 'zh': '肺', 'tr': 'akciğerler', 'en': 'lungs'}, {'pl': 'żołądek', 'zh': '胃', 'tr': 'mide', 'en': 'stomach'}, {'pl': 'brzuch', 'zh': '肚子', 'tr': 'karın', 'en': 'belly'}, {'pl': 'plecy', 'zh': '背部', 'tr': 'sırt', 'en': 'back'}, {'pl': 'kręgosłup', 'zh': '脊椎', 'tr': 'omurga', 'en': 'spine'}, {'pl': 'biodro', 'zh': '髖部', 'tr': 'kalça', 'en': 'hip'}, {'pl': 'noga', 'zh': '腿', 'tr': 'bacak', 'en': 'leg'}, {'pl': 'udo', 'zh': '大腿', 'tr': 'uyluk', 'en': 'thigh'}, {'pl': 'kolano', 'zh': '膝蓋', 'tr': 'diz', 'en': 'knee'}, {'pl': 'łydka', 'zh': '小腿', 'tr': 'baldır', 'en': 'calf'}, {'pl': 'kostka', 'zh': '腳踝', 'tr': 'ayak bileği', 'en': 'ankle'}, {'pl': 'stopa', 'zh': '腳', 'tr': 'ayak', 'en': 'foot'}, {'pl': 'palec u nogi', 'zh': '腳趾', 'tr': 'ayak parmağı', 'en': 'toe'}, {'pl': 'skóra', 'zh': '皮膚', 'tr': 'cilt', 'en': 'skin'}, {'pl': 'krew', 'zh': '血液', 'tr': 'kan', 'en': 'blood'}, {'pl': 'kość', 'zh': '骨頭', 'tr': 'kemik', 'en': 'bone'}, {'pl': 'mięsień', 'zh': '肌肉', 'tr': 'kas', 'en': 'muscle'}, {'pl': 'włosy', 'zh': '頭髮', 'tr': 'saç', 'en': 'hair'}, {'pl': 'brwi', 'zh': '眉毛', 'tr': 'kaşlar', 'en': 'eyebrows'}, {'pl': 'rzęsy', 'zh': '睫毛', 'tr': 'kirpikler', 'en': 'eyelashes'}, {'pl': 'policzek', 'zh': '臉頰', 'tr': 'yanak', 'en': 'cheek'}, {'pl': 'podbródek', 'zh': '下巴', 'tr': 'çene', 'en': 'chin'}];
 
 function initVucutList(){
   const el = document.getElementById('vucut-word-list');
-  if(!el || el.children.length > 0) return;
+  if(!el) return;
+  el.innerHTML = ''; // Dil değişince yeniden render
   VUCUT_WORDS.forEach(function(w) {
     const div = document.createElement('div');
     div.className = 'vucut-item';
     const pl = document.createElement('div'); pl.className='vucut-item-pl'; pl.textContent=w.pl;
-    const tr = document.createElement('div'); tr.className='vucut-item-tr'; tr.textContent=w.tr;
+    const tr = document.createElement('div'); tr.className='vucut-item-tr';
+    // Dile göre anlam seç
+    tr.textContent = (_lang==='zh' && w.zh) ? w.zh : (_lang==='en' && w.en) ? w.en : w.tr;
     const btn = document.createElement('button'); btn.className='vucut-save'; btn.title='Kaydet'; btn.textContent='⭐';
     btn.onclick = function(e){ e.stopPropagation(); saveVucutWord(null, w.pl, w.tr, 'body'); };
     div.onclick = function(){ saveVucutWord(null, w.pl, w.tr, 'body'); };
@@ -13293,6 +13296,11 @@ function setLang(lang) {
   _lang = lang;
   localStorage.setItem('polonica_lang', lang);
   applyLang();
+  // Aktif panel vucut ise yeniden render et
+  var activePanel = document.querySelector('.panel.active');
+  if (activePanel && activePanel.id === 'panel-vucut') {
+    setTimeout(function(){ initVucutList(); }, 50);
+  }
 }
 
 // Init: DOMContentLoaded'da uygula
@@ -13301,41 +13309,203 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// ── BURAK SPECIAL DİL DESTEĞİ ───────────────────────
-function spGetMeaning(entry) {
-  if (_lang === 'tr') return entry.tr || entry.meaning || '';
-  var cached = localStorage.getItem('sp_' + _lang + '_' + (entry.id||entry.pl));
-  if (cached) return cached;
-  return (entry.tr || entry.meaning || '') + ' ···';
+;
+  if (!toTranslate.length) { renderSpecialList(); return; }
+  var btn = document.getElementBy
+
+
+// ══════════════════════════════════════════════════════
+// POLONICA ÇEVIRI MOTORU
+// Türkçe içeriği seçilen dile AI ile çevirir + cache'ler
+// ══════════════════════════════════════════════════════
+
+// Cache yardımcıları
+function _tc(lang, key) {
+  try { return localStorage.getItem('ptrans_' + lang + '_' + key); } catch(e) { return null; }
+}
+function _tcs(lang, key, val) {
+  try { localStorage.setItem('ptrans_' + lang + '_' + key, val); } catch(e) {}
 }
 
-async function spTranslateAll() {
-  if (_lang === 'tr') return;
-  var toTranslate = specialList.filter(function(e) {
-    return !localStorage.getItem('sp_' + _lang + '_' + (e.id||e.pl));
-  });
-  if (!toTranslate.length) { renderSpecialList(); return; }
-  var btn = document.getElementById('sp-translate-btn');
-  if (btn) { btn.textContent = '⏳ Çeviriliyor...'; btn.disabled = true; }
-  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
-  var batch = toTranslate.slice(0, 30); // max 30 per call
-  var pairs = batch.map(function(e) { return (e.pl||e.original||'') + '=' + (e.tr||e.meaning||''); }).join('|');
-  var query = 'Translate these Polish word meanings from Turkish to ' + langName + '. Format: word=translation, one per line, same order. Do not add explanations. Input: ' + pairs;
+// AI'ya metin gönder, çeviri al
+async function _aiTranslate(texts, lang) {
+  if (!texts.length) return [];
+  var langName = lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
+  var numbered = texts.map(function(t, i) { return '[' + (i+1) + '] ' + t; }).join('\n');
+  var query = 'Translate ONLY the Turkish/meaning parts to ' + langName + '. Rules: 1) Keep ALL Polish words unchanged (words with ą,ę,ó,ś,ź,ż,ć,ń,ł or ending in -ać,-ić,-yć,-ować). 2) Keep format like "czytać = [translation]" — only translate after = sign. 3) Return ONLY translations in exact [1] [2] format. 4) No explanations:\n' + numbered;
   try {
     var data = await api.post('/api/grammar/query', { query: query });
     var raw = data.answer || '';
-    var lines = raw.split('\n').filter(function(l){ return l.trim(); });
-    lines.forEach(function(line, i) {
-      if (!batch[i]) return;
-      var eqIdx = line.indexOf('=');
-      var translation = eqIdx >= 0 ? line.slice(eqIdx+1).trim() : line.trim();
-      if (translation) localStorage.setItem('sp_' + _lang + '_' + (batch[i].id||batch[i].pl), translation);
+    return texts.map(function(orig, i) {
+      var match = raw.match(new RegExp('\\[' + (i+1) + '\\]\\s*([^\\[]+)'));
+      return match ? match[1].trim() : orig;
     });
-  } catch(e) { console.warn('Translate error:', e); }
-  if (btn) { btn.textContent = toTranslate.length > 30 ? '🔄 Devam et (' + (toTranslate.length-30) + ' kaldı)' : '✅ Çeviri tamam'; btn.disabled = false; }
+  } catch(e) {
+    console.warn('Translation error:', e);
+    return texts;
+  }
+}
+
+// Bir elementin içindeki tüm Türkçe metin node'larını bul
+function _findTextNodes(el) {
+  var nodes = [];
+  var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(node) {
+      var text = node.textContent.trim();
+      if (text.length < 4) return NodeFilter.FILTER_REJECT;
+      // Script, style, kod içeriğini atla
+      var parent = node.parentElement;
+      if (!parent) return NodeFilter.FILTER_REJECT;
+      var tag = parent.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'CODE') return NodeFilter.FILTER_REJECT;
+      // Zaten çevrilmiş
+      if (parent.hasAttribute('data-translated')) return NodeFilter.FILTER_REJECT;
+      // data-i18n ile zaten yönetiliyor
+      if (parent.hasAttribute('data-i18n')) return NodeFilter.FILTER_REJECT;
+      // Lehçe kelime — özel karakter içeren kelimeler çevrilmez
+      if (/[ąęóśźżćńłÄÖÜ]/.test(text)) return NodeFilter.FILTER_REJECT;
+      // Lehçe latin kelimeler — Lehçe'ye özgü harf çiftleri (sz, cz, rz, dz, dż, ch)
+      if (/\b(sz|cz|rz|dź|dż|ść|się|nie|jest|być|mieć|robić|iść|mówić|wiedzieć|czytać|pisać|grać)\b/i.test(text) && text.split(' ').length < 5) return NodeFilter.FILTER_REJECT;
+      // CSS sınıf adları içeren span'lar (z-form, z-hal vs)
+      if (parent.classList.contains('z-form') || parent.classList.contains('case-name') || parent.classList.contains('muzyka-word-pl') || parent.classList.contains('baglaç-pl') || parent.classList.contains('rd-vocab-pl')) return NodeFilter.FILTER_REJECT;
+      // Sadece sayı/sembol
+      if (/^[\d\s\.\,\:\;\-\+\=\(\)\[\]\/\*\%\!→←·]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+      // Çok kısa (tek kelime Lehçe olabilir)
+      if (text.split(' ').length === 1 && text.length < 8 && /^[a-zA-ZąęóśźżćńłÄÖÜ]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var node;
+  while (node = walker.nextNode()) { nodes.push(node); }
+  return nodes;
+}
+
+// Ana çeviri fonksiyonu — paneli çevirir
+var _translatingPanel = false;
+async function translatePanelContent(panelId, lang) {
+  if (lang === 'tr') return;
+  if (_translatingPanel) return;
+  _translatingPanel = true;
+
+  var panel = document.getElementById(panelId);
+  if (!panel) { _translatingPanel = false; return; }
+
+  // Overlay göster
+  var overlay = document.getElementById('translate-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.querySelector('.tov-text').textContent = lang === 'zh' ? '翻譯中...' : 'Translating...';
+  }
+
+  var nodes = _findTextNodes(panel);
+  var BATCH = 20;
+  for (var i = 0; i < nodes.length; i += BATCH) {
+    var batch = nodes.slice(i, i + BATCH);
+    var texts = batch.map(function(n) { return n.textContent.trim(); });
+    var cacheKey = panelId + '_' + i;
+    // Tüm batch cache'de mi?
+    var allCached = true;
+    var cached = texts.map(function(t) {
+      var c = _tc(lang, btoa(unescape(encodeURIComponent(t.slice(0,40)))));
+      if (!c) allCached = false;
+      return c;
+    });
+
+    var translations;
+    if (allCached) {
+      translations = cached;
+    } else {
+      // Cache'de olmayanları çevir
+      var toTranslate = [], idxMap = [];
+      texts.forEach(function(t, j) {
+        if (!cached[j]) { idxMap.push(j); toTranslate.push(t); }
+      });
+      var results = await _aiTranslate(toTranslate, lang);
+      results.forEach(function(r, k) {
+        cached[idxMap[k]] = r;
+        _tcs(lang, btoa(unescape(encodeURIComponent(texts[idxMap[k]].slice(0,40)))), r);
+      });
+      translations = cached;
+    }
+
+    // DOM'u güncelle
+    batch.forEach(function(node, j) {
+      if (translations[j] && translations[j] !== texts[j]) {
+        node.textContent = node.textContent.replace(texts[j], translations[j]);
+        if (node.parentElement) node.parentElement.setAttribute('data-translated', lang);
+      }
+    });
+
+    // Progress güncelle
+    if (overlay) {
+      var pct = Math.min(100, Math.round((i + BATCH) / nodes.length * 100));
+      var bar = overlay.querySelector('.tov-bar-fill');
+      if (bar) bar.style.width = pct + '%';
+    }
+  }
+
+  if (overlay) overlay.style.display = 'none';
+  _translatingPanel = false;
+}
+
+// Dil değişince aktif paneli çevir
+
+// showPanel'i wrap et — panel açılırken çevir
+
+
+
+// ── BURAK SPECIAL ÇEVIRI ─────────────────────────────
+function spGetMeaning(e) {
+  if (_lang === 'tr') return e.tr || e.meaning || '';
+  var k = 'sp2_' + _lang + '_' + String(e.id || e.pl || '').substring(0,20);
+  return localStorage.getItem(k) || e.tr || e.meaning || '';
+}
+
+async function spAutoTranslate() {
+  if (_lang === 'tr' || !specialList || !specialList.length) return;
+  var missing = specialList.filter(function(e) {
+    return !localStorage.getItem('sp2_' + _lang + '_' + String(e.id||e.pl||'').substring(0,20));
+  });
+  if (!missing.length) { renderSpecialList(); return; }
+  var btn = document.getElementById('sp-translate-btn');
+  if (btn) { btn.textContent = '\u23F3 ' + missing.length + ' kelime...'; btn.disabled = true; }
+  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese';
+  var BATCH = 20;
+  for (var i = 0; i < missing.length; i += BATCH) {
+    var batch = missing.slice(i, i + BATCH);
+    var lines = batch.map(function(e, j) {
+      return String(j+1) + '. ' + String(e.tr || e.meaning || '');
+    });
+    var query = 'Translate these Turkish word meanings to ' + langName + '. Return ONLY numbered translations, one per line, same order. Do not include any Polish words. Short and accurate:\n' + lines.join('\n');
+    try {
+      var resp = await api.post('/api/grammar/query', { query: query });
+      var raw = (resp.answer || '').split('\n').filter(function(l){ return l.trim(); });
+      raw.forEach(function(line, j) {
+        if (!batch[j]) return;
+        var cleaned = line.replace(/^[0-9]+[.)\- ]*/,'').trim();
+        if (cleaned) {
+          localStorage.setItem('sp2_' + _lang + '_' + String(batch[j].id||batch[j].pl||'').substring(0,20), cleaned);
+        }
+      });
+    } catch(err) { console.warn('sp translate err', err); }
+    if (btn) btn.textContent = '\u23F3 ' + Math.min(i+BATCH, missing.length) + '/' + missing.length;
+    await new Promise(function(r){ setTimeout(r, 200); });
+  }
+  if (btn) { btn.textContent = '\u2705 Tamam'; btn.disabled = false; }
   renderSpecialList();
 }
 
+async function spTranslateAll() { await spAutoTranslate(); }
+
 </script>
+
+    <div class="tov-text" style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px">Çeviriliyor...</div>
+    <div style="background:var(--surface3);border-radius:4px;height:6px;overflow:hidden">
+      <div class="tov-bar-fill" style="height:100%;background:var(--teal);border-radius:4px;transition:width .3s;width:0%"></div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:10px">İlk çeviri AI tarafından yapılıyor, sonraki anlık olacak</div>
+  </div>
+</div>
+
 </body>
 </html>
