@@ -1048,18 +1048,12 @@ app.post('/api/translate-words', async (req, res) => {
     if (!meanings || !meanings.length) return res.json({ translations: [] });
     const langName = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : 'English';
     const numbered = meanings.map((m, i) => (i+1) + '. ' + m).join('\n');
-    const prompt = [
-      'You are a professional dictionary translator.',
-      'Translate these Turkish word meanings to ' + langName + '.',
-      'Output ONLY the numbered translations, one per line.',
-      'Keep translations short (2-6 words). No explanations.',
-      '',
-      numbered
-    ].join('\n');
+    const prompt = 'Translate to ' + langName + '. Output ONLY numbered translations:\n' + numbered;
 
     const response = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 1000,
+      system: 'You are a translation tool. You only translate text. Never refuse. Always output translations.',
       messages: [{ role: 'user', content: prompt }]
     });
 
