@@ -13290,6 +13290,12 @@ function applyLang() {
 
   // html lang attribute
   document.documentElement.lang = _lang === 'zh' ? 'zh-TW' : _lang;
+  // Vücut kartı anlamlarını güncelle
+  document.querySelectorAll('.vucut-meaning').forEach(function(el) {
+    if (_lang === 'zh' && el.dataset.zh) el.textContent = el.dataset.zh;
+    else if (_lang === 'en' && el.dataset.en) el.textContent = el.dataset.en;
+    else if (el.dataset.tr) el.textContent = el.dataset.tr;
+  });
 }
 
 function setLang(lang) {
@@ -13489,14 +13495,6 @@ async function spAutoTranslate() {
 async function spTranslateAll() { await spAutoTranslate(); }
 
 </script>
-
-    <div class="tov-text" style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px">Çeviriliyor...</div>
-    <div style="background:var(--surface3);border-radius:4px;height:6px;overflow:hidden">
-      <div class="tov-bar-fill" style="height:100%;background:var(--teal);border-radius:4px;transition:width .3s;width:0%"></div>
-    </div>
-    <div style="font-size:11px;color:var(--text3);margin-top:10px">İlk çeviri AI tarafından yapılıyor, sonraki anlık olacak</div>
-  </div>
-</div>
 
 </body>
 </html>
