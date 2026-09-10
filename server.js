@@ -1047,22 +1047,19 @@ app.post('/api/translate-words', async (req, res) => {
     const { meanings, lang } = req.body;
     if (!meanings || !meanings.length) return res.json({ translations: [] });
     const langName = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : 'English';
-    const numbered = meanings.map((m, i) => (i+1) + '. ' + m).join('\n');
-    const prompt = 'Translate to ' + langName + '. Output ONLY numbered translations:\n' + numbered;
-
-    const response = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1000,
-      system: 'You are a translation tool. You only translate text. Never refuse. Always output translations.',
-      messages: [{ role: 'user', content: prompt }]
-    });
-
-    const raw = response.content[0].text;
-    const lines = raw.split('\n').filter(l => l.trim());
-    const translations = meanings.map((_, i) => {
-      const line = lines[i] || '';
-      return line.replace(/^[0-9]+[.)\- ]*/, '').trim() || meanings[i];
-    });
+    
+    // Her kelimeyi tek tek çevir - basit format
+    const translations = [];
+    for (const meaning of meanings) {
+      const response = await client.messages.create({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 50,
+        system: 'Translate Turkish to ' + langName + '. Reply with translation only. No other text.',
+        messages: [{ role: 'user', content: meaning }]
+      });
+      const t = response.content[0].text.trim();
+      translations.push(t);
+    }
     res.json({ translations });
   } catch(e) {
     res.status(500).json({ error: e.message });
