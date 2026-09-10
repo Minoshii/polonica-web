@@ -13500,20 +13500,40 @@ function spGetMeaning(e) {
   if (_lang === 'tr') return e.tr || e.meaning || '';
   var k = 'sp2_' + _lang + '_' + String(e.id || e.pl || '').substring(0,20);
   var cached = localStorage.getItem(k);
-  // AI red cevablarını filtrele
   if (cached) {
-    var low = cached.toLowerCase();
-    var isRefusal = low.indexOf('üzgünüm') >= 0 || low.indexOf('affedersiniz') >= 0 ||
-      low.indexOf('uyarı') >= 0 || low.indexOf('yerine getiremem') >= 0 ||
-      low.indexOf('uzmanlık') >= 0 || low.indexOf('bilgilendirme') >= 0 ||
-      cached.indexOf('##') >= 0 || cached.indexOf('⚠') >= 0;
-    if (isRefusal) {
-      localStorage.removeItem(k); // Temizle
+    // AI red cevabı mı?
+    if (cached.indexOf('##') >= 0 || cached.indexOf('⚠') >= 0 ||
+        cached.indexOf('üzgün') >= 0 || cached.indexOf('Affed') >= 0 ||
+        cached.indexOf('Açıkl') >= 0) {
+      localStorage.removeItem(k);
+      spFetchOne(e, k); // Yeniden dene
       return e.tr || e.meaning || '';
     }
     return cached;
   }
+  // Yok — arka planda çek
+  spFetchOne(e, k);
   return e.tr || e.meaning || '';
+}
+
+var _spFetching = {};
+async function spFetchOne(e, k) {
+  if (_spFetching[k]) return;
+  _spFetching[k] = true;
+  try {
+    var resp = await api.post('/api/translate-words', {
+      meanings: [e.tr || e.meaning || ''],
+      lang: _lang
+    });
+    var t = ((resp.translations || [])[0] || '').trim();
+    if (t && t.length > 0 && t.indexOf('##') < 0 && t.indexOf('⚠') < 0) {
+      localStorage.setItem(k, t);
+      // Sadece o kartı güncelle
+      var els = document.querySelectorAll('[data-sp-key="' + k + '"]');
+      els.forEach(function(el) { el.textContent = t; });
+    }
+  } catch(ex) {}
+  delete _spFetching[k];
 }
 
 async function spAutoTranslate() {
