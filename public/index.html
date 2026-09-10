@@ -13529,8 +13529,7 @@ async function spAutoTranslate() {
       var resp = await api.post('/api/grammar/query', { query: query });
       var raw = (resp.answer || '').split('\n').filter(function(l) { return l.trim(); });
       toTranslate.forEach(function(t, j) {
-        var line = raw[j] || '';
-        var cleaned = line.replace(/^[0-9]+[.)\- ]*/,'').trim();
+        var cleaned = (raw[j] || '').trim();
         if (cleaned && cleaned.length > 1 && cleaned !== t.meaning) {
           localStorage.setItem(t.key, cleaned);
         }
@@ -13559,7 +13558,7 @@ async function autoTranslateWord(entry) {
       var resp = await api.post('/api/grammar/query', {
         query: 'Dictionary task: translate the following word meaning from Turkish to ' + langName + '. Output ONLY the translated meaning, no explanation, no extra text. Turkish input: ' + (entry.tr || entry.meaning || '')
       });
-      var translation = (resp.answer || '').trim().replace(/^["']|["']$/g,'');
+      var translation = ((resp.translations || [])[0] || '').trim();
       if (translation) localStorage.setItem(key, translation);
     } catch(e) { /* sessizce geç */ }
   }
