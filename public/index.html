@@ -7456,7 +7456,7 @@ function showPanel(name){
   if(name==='lib-class') { renderLib('class'); }
   if(name==='grammar') { switchGTab('cases'); }
   if(name==='fonetik') { switchFonTab('samog'); }
-  if(name==='vucut') { initVucutList(); setTimeout(applyLang, 80); }
+  if(name==='vucut') { initVucutList(); setTimeout(applyLang, 150); }
   if(name==='notes') { loadNotes(); }
   if(name==='writing') { wrInitPanel(); }
   if(name==='reading') { rdInitPanel(); }
@@ -13291,7 +13291,7 @@ function applyLang() {
   // html lang attribute
   document.documentElement.lang = _lang === 'zh' ? 'zh-TW' : _lang;
   // Vücut kartı anlamlarını güncelle
-  document.querySelectorAll('.vucut-meaning').forEach(function(el) {
+  document.querySelectorAll('.vc-m').forEach(function(el) {
     if (_lang === 'zh' && el.dataset.zh) el.textContent = el.dataset.zh;
     else if (_lang === 'en' && el.dataset.en) el.textContent = el.dataset.en;
     else if (el.dataset.tr) el.textContent = el.dataset.tr;
@@ -13302,11 +13302,12 @@ function setLang(lang) {
   _lang = lang;
   localStorage.setItem('polonica_lang', lang);
   applyLang();
-  // Aktif panel vucut ise yeniden render et
-  var activePanel = document.querySelector('.panel.active');
-  if (activePanel && activePanel.id === 'panel-vucut') {
-    setTimeout(function(){ initVucutList(); }, 50);
-  }
+  // .vc-m kartlarını her zaman güncelle (panel açık olmasa da)
+  document.querySelectorAll('.vc-m').forEach(function(el) {
+    if (lang === 'zh' && el.dataset.zh) el.textContent = el.dataset.zh;
+    else if (lang === 'en' && el.dataset.en) el.textContent = el.dataset.en;
+    else if (el.dataset.tr) el.textContent = el.dataset.tr;
+  });
 }
 
 // Init: DOMContentLoaded'da uygula
