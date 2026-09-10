@@ -13301,203 +13301,41 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-;
+// ── BURAK SPECIAL DİL DESTEĞİ ───────────────────────
+function spGetMeaning(entry) {
+  if (_lang === 'tr') return entry.tr || entry.meaning || '';
+  var cached = localStorage.getItem('sp_' + _lang + '_' + (entry.id||entry.pl));
+  if (cached) return cached;
+  return (entry.tr || entry.meaning || '') + ' ···';
+}
+
+async function spTranslateAll() {
+  if (_lang === 'tr') return;
+  var toTranslate = specialList.filter(function(e) {
+    return !localStorage.getItem('sp_' + _lang + '_' + (e.id||e.pl));
+  });
   if (!toTranslate.length) { renderSpecialList(); return; }
-  var btn = document.getElementBy
-
-
-// ══════════════════════════════════════════════════════
-// POLONICA ÇEVIRI MOTORU
-// Türkçe içeriği seçilen dile AI ile çevirir + cache'ler
-// ══════════════════════════════════════════════════════
-
-// Cache yardımcıları
-function _tc(lang, key) {
-  try { return localStorage.getItem('ptrans_' + lang + '_' + key); } catch(e) { return null; }
-}
-function _tcs(lang, key, val) {
-  try { localStorage.setItem('ptrans_' + lang + '_' + key, val); } catch(e) {}
-}
-
-// AI'ya metin gönder, çeviri al
-async function _aiTranslate(texts, lang) {
-  if (!texts.length) return [];
-  var langName = lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
-  var numbered = texts.map(function(t, i) { return '[' + (i+1) + '] ' + t; }).join('\n');
-  var query = 'Translate ONLY the Turkish/meaning parts to ' + langName + '. Rules: 1) Keep ALL Polish words unchanged (words with ą,ę,ó,ś,ź,ż,ć,ń,ł or ending in -ać,-ić,-yć,-ować). 2) Keep format like "czytać = [translation]" — only translate after = sign. 3) Return ONLY translations in exact [1] [2] format. 4) No explanations:\n' + numbered;
+  var btn = document.getElementById('sp-translate-btn');
+  if (btn) { btn.textContent = '⏳ Çeviriliyor...'; btn.disabled = true; }
+  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
+  var batch = toTranslate.slice(0, 30); // max 30 per call
+  var pairs = batch.map(function(e) { return (e.pl||e.original||'') + '=' + (e.tr||e.meaning||''); }).join('|');
+  var query = 'Translate these Polish word meanings from Turkish to ' + langName + '. Format: word=translation, one per line, same order. Do not add explanations. Input: ' + pairs;
   try {
     var data = await api.post('/api/grammar/query', { query: query });
     var raw = data.answer || '';
-    return texts.map(function(orig, i) {
-      var match = raw.match(new RegExp('\\[' + (i+1) + '\\]\\s*([^\\[]+)'));
-      return match ? match[1].trim() : orig;
+    var lines = raw.split('\n').filter(function(l){ return l.trim(); });
+    lines.forEach(function(line, i) {
+      if (!batch[i]) return;
+      var eqIdx = line.indexOf('=');
+      var translation = eqIdx >= 0 ? line.slice(eqIdx+1).trim() : line.trim();
+      if (translation) localStorage.setItem('sp_' + _lang + '_' + (batch[i].id||batch[i].pl), translation);
     });
-  } catch(e) {
-    console.warn('Translation error:', e);
-    return texts;
-  }
-}
-
-// Bir elementin içindeki tüm Türkçe metin node'larını bul
-function _findTextNodes(el) {
-  var nodes = [];
-  var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
-    acceptNode: function(node) {
-      var text = node.textContent.trim();
-      if (text.length < 4) return NodeFilter.FILTER_REJECT;
-      // Script, style, kod içeriğini atla
-      var parent = node.parentElement;
-      if (!parent) return NodeFilter.FILTER_REJECT;
-      var tag = parent.tagName;
-      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'CODE') return NodeFilter.FILTER_REJECT;
-      // Zaten çevrilmiş
-      if (parent.hasAttribute('data-translated')) return NodeFilter.FILTER_REJECT;
-      // data-i18n ile zaten yönetiliyor
-      if (parent.hasAttribute('data-i18n')) return NodeFilter.FILTER_REJECT;
-      // Lehçe kelime — özel karakter içeren kelimeler çevrilmez
-      if (/[ąęóśźżćńłÄÖÜ]/.test(text)) return NodeFilter.FILTER_REJECT;
-      // Lehçe latin kelimeler — Lehçe'ye özgü harf çiftleri (sz, cz, rz, dz, dż, ch)
-      if (/\b(sz|cz|rz|dź|dż|ść|się|nie|jest|być|mieć|robić|iść|mówić|wiedzieć|czytać|pisać|grać)\b/i.test(text) && text.split(' ').length < 5) return NodeFilter.FILTER_REJECT;
-      // CSS sınıf adları içeren span'lar (z-form, z-hal vs)
-      if (parent.classList.contains('z-form') || parent.classList.contains('case-name') || parent.classList.contains('muzyka-word-pl') || parent.classList.contains('baglaç-pl') || parent.classList.contains('rd-vocab-pl')) return NodeFilter.FILTER_REJECT;
-      // Sadece sayı/sembol
-      if (/^[\d\s\.\,\:\;\-\+\=\(\)\[\]\/\*\%\!→←·]+$/.test(text)) return NodeFilter.FILTER_REJECT;
-      // Çok kısa (tek kelime Lehçe olabilir)
-      if (text.split(' ').length === 1 && text.length < 8 && /^[a-zA-ZąęóśźżćńłÄÖÜ]+$/.test(text)) return NodeFilter.FILTER_REJECT;
-      return NodeFilter.FILTER_ACCEPT;
-    }
-  });
-  var node;
-  while (node = walker.nextNode()) { nodes.push(node); }
-  return nodes;
-}
-
-// Ana çeviri fonksiyonu — paneli çevirir
-var _translatingPanel = false;
-async function translatePanelContent(panelId, lang) {
-  if (lang === 'tr') return;
-  if (_translatingPanel) return;
-  _translatingPanel = true;
-
-  var panel = document.getElementById(panelId);
-  if (!panel) { _translatingPanel = false; return; }
-
-  // Overlay göster
-  var overlay = document.getElementById('translate-overlay');
-  if (overlay) {
-    overlay.style.display = 'flex';
-    overlay.querySelector('.tov-text').textContent = lang === 'zh' ? '翻譯中...' : 'Translating...';
-  }
-
-  var nodes = _findTextNodes(panel);
-  var BATCH = 20;
-  for (var i = 0; i < nodes.length; i += BATCH) {
-    var batch = nodes.slice(i, i + BATCH);
-    var texts = batch.map(function(n) { return n.textContent.trim(); });
-    var cacheKey = panelId + '_' + i;
-    // Tüm batch cache'de mi?
-    var allCached = true;
-    var cached = texts.map(function(t) {
-      var c = _tc(lang, btoa(unescape(encodeURIComponent(t.slice(0,40)))));
-      if (!c) allCached = false;
-      return c;
-    });
-
-    var translations;
-    if (allCached) {
-      translations = cached;
-    } else {
-      // Cache'de olmayanları çevir
-      var toTranslate = [], idxMap = [];
-      texts.forEach(function(t, j) {
-        if (!cached[j]) { idxMap.push(j); toTranslate.push(t); }
-      });
-      var results = await _aiTranslate(toTranslate, lang);
-      results.forEach(function(r, k) {
-        cached[idxMap[k]] = r;
-        _tcs(lang, btoa(unescape(encodeURIComponent(texts[idxMap[k]].slice(0,40)))), r);
-      });
-      translations = cached;
-    }
-
-    // DOM'u güncelle
-    batch.forEach(function(node, j) {
-      if (translations[j] && translations[j] !== texts[j]) {
-        node.textContent = node.textContent.replace(texts[j], translations[j]);
-        if (node.parentElement) node.parentElement.setAttribute('data-translated', lang);
-      }
-    });
-
-    // Progress güncelle
-    if (overlay) {
-      var pct = Math.min(100, Math.round((i + BATCH) / nodes.length * 100));
-      var bar = overlay.querySelector('.tov-bar-fill');
-      if (bar) bar.style.width = pct + '%';
-    }
-  }
-
-  if (overlay) overlay.style.display = 'none';
-  _translatingPanel = false;
-}
-
-// Dil değişince aktif paneli çevir
-
-// showPanel'i wrap et — panel açılırken çevir
-
-
-
-// ── BURAK SPECIAL ÇEVIRI ─────────────────────────────
-function spGetMeaning(e) {
-  if (_lang === 'tr') return e.tr || e.meaning || '';
-  var k = 'sp2_' + _lang + '_' + String(e.id || e.pl || '').substring(0,20);
-  return localStorage.getItem(k) || e.tr || e.meaning || '';
-}
-
-async function spAutoTranslate() {
-  if (_lang === 'tr' || !specialList || !specialList.length) return;
-  var missing = specialList.filter(function(e) {
-    return !localStorage.getItem('sp2_' + _lang + '_' + String(e.id||e.pl||'').substring(0,20));
-  });
-  if (!missing.length) { renderSpecialList(); return; }
-  var btn = document.getElementById('sp-translate-btn');
-  if (btn) { btn.textContent = '\u23F3 ' + missing.length + ' kelime...'; btn.disabled = true; }
-  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese';
-  var BATCH = 20;
-  for (var i = 0; i < missing.length; i += BATCH) {
-    var batch = missing.slice(i, i + BATCH);
-    var lines = batch.map(function(e, j) {
-      return String(j+1) + '. ' + String(e.tr || e.meaning || '');
-    });
-    var query = 'Translate these Turkish word meanings to ' + langName + '. Return ONLY numbered translations, one per line, same order. Do not include any Polish words. Short and accurate:\n' + lines.join('\n');
-    try {
-      var resp = await api.post('/api/grammar/query', { query: query });
-      var raw = (resp.answer || '').split('\n').filter(function(l){ return l.trim(); });
-      raw.forEach(function(line, j) {
-        if (!batch[j]) return;
-        var cleaned = line.replace(/^[0-9]+[.)\- ]*/,'').trim();
-        if (cleaned) {
-          localStorage.setItem('sp2_' + _lang + '_' + String(batch[j].id||batch[j].pl||'').substring(0,20), cleaned);
-        }
-      });
-    } catch(err) { console.warn('sp translate err', err); }
-    if (btn) btn.textContent = '\u23F3 ' + Math.min(i+BATCH, missing.length) + '/' + missing.length;
-    await new Promise(function(r){ setTimeout(r, 200); });
-  }
-  if (btn) { btn.textContent = '\u2705 Tamam'; btn.disabled = false; }
+  } catch(e) { console.warn('Translate error:', e); }
+  if (btn) { btn.textContent = toTranslate.length > 30 ? '🔄 Devam et (' + (toTranslate.length-30) + ' kaldı)' : '✅ Çeviri tamam'; btn.disabled = false; }
   renderSpecialList();
 }
 
-async function spTranslateAll() { await spAutoTranslate(); }
-
 </script>
-
-    <div class="tov-text" style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px">Çeviriliyor...</div>
-    <div style="background:var(--surface3);border-radius:4px;height:6px;overflow:hidden">
-      <div class="tov-bar-fill" style="height:100%;background:var(--teal);border-radius:4px;transition:width .3s;width:0%"></div>
-    </div>
-    <div style="font-size:11px;color:var(--text3);margin-top:10px">İlk çeviri AI tarafından yapılıyor, sonraki anlık olacak</div>
-  </div>
-</div>
-
 </body>
 </html>
