@@ -13499,7 +13499,21 @@ async function translatePanelContent(panelId, lang) {
 function spGetMeaning(e) {
   if (_lang === 'tr') return e.tr || e.meaning || '';
   var k = 'sp2_' + _lang + '_' + String(e.id || e.pl || '').substring(0,20);
-  return localStorage.getItem(k) || e.tr || e.meaning || '';
+  var cached = localStorage.getItem(k);
+  // AI red cevablarını filtrele
+  if (cached) {
+    var low = cached.toLowerCase();
+    var isRefusal = low.indexOf('üzgünüm') >= 0 || low.indexOf('affedersiniz') >= 0 ||
+      low.indexOf('uyarı') >= 0 || low.indexOf('yerine getiremem') >= 0 ||
+      low.indexOf('uzmanlık') >= 0 || low.indexOf('bilgilendirme') >= 0 ||
+      cached.indexOf('##') >= 0 || cached.indexOf('⚠') >= 0;
+    if (isRefusal) {
+      localStorage.removeItem(k); // Temizle
+      return e.tr || e.meaning || '';
+    }
+    return cached;
+  }
+  return e.tr || e.meaning || '';
 }
 
 async function spAutoTranslate() {
