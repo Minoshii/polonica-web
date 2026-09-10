@@ -9548,7 +9548,7 @@ async function loadKultur() {
   btn.querySelector('span:last-child').textContent = 'Yükleniyor...';
   res.innerHTML = '';
   try {
-    const data = await api.post('/api/kultur', { category: _kulturCat });
+    const data = await api.post('/api/kultur', { category: _kulturCat, lang: _lang });
     renderKulturCard(data);
   } catch(e) {
     res.innerHTML = '<div style="color:var(--red);padding:20px">Hata: '+esc(e.message)+'</div>';
