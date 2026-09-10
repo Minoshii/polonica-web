@@ -7675,7 +7675,8 @@ async function sendToSpecial(mode) {
             source: source || (mode === 'lyrics' ? 'Şarkı Sözleri' : 'Ders Materyali'),
             source_type: mode
           };
-          await window.polonica.specialSave(entry);
+          var savedEntry = await window.polonica.specialSave(entry);
+          if (savedEntry && savedEntry.id) { entry.id = savedEntry.id; autoTranslateWord(entry); }
           successCount++;
         }
       }
@@ -9855,7 +9856,8 @@ async function ejMalaSave(item, sec, baseData) {
     source: 'Ej Mala: ' + (baseData.base || ''),
     source_type: 'ejmala'
   };
-  await window.polonica.specialSave(entry);
+  var saved = await window.polonica.specialSave(entry);
+  if (saved && saved.id) { entry.id = saved.id; autoTranslateWord(entry); }
   // Görsel feedback
   event.target.textContent = '✓';
   event.target.style.background = 'var(--green-bg)';
@@ -9999,7 +10001,9 @@ async function saveSpecial(){
   const entry = { ...lookupResult, note };
   // is_idiom yoksa false olarak set et
   if(entry.is_idiom === undefined) entry.is_idiom = false;
-  await window.polonica.specialSave(entry);
+  const savedResult = await window.polonica.specialSave(entry);
+  if (savedResult && savedResult.id) { entry.id = savedResult.id; }
+  autoTranslateWord(entry); // Arka planda çevir
   // Doğru sekmeye gec
   if(entry.slang && entry.source_type !== 'lyrics') switchSpecialTab('slang');
   else if(entry.source_type === 'lyrics' || (entry.source && !entry.slang)) switchSpecialTab('muzyka');
@@ -13524,6 +13528,27 @@ async function spAutoTranslate() {
 }
 
 async function spTranslateAll() { await spAutoTranslate(); }
+
+
+
+// ── BURAK SPECIAL OTOMATİK ÇEVİRİ ─────────────────
+async function autoTranslateWord(entry) {
+  if (!entry || !entry.tr) return;
+  var langs = ['zh', 'en'];
+  for (var i = 0; i < langs.length; i++) {
+    var lang = langs[i];
+    var key = 'sp2_' + lang + '_' + String(entry.id || entry.pl || entry.word || '').substring(0,20);
+    if (localStorage.getItem(key)) continue; // Zaten çevrilmiş
+    var langName = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : 'English';
+    try {
+      var resp = await api.post('/api/grammar/query', {
+        query: 'Translate this Turkish word meaning to ' + langName + '. Return ONLY the translation, nothing else: ' + (entry.tr || entry.meaning || '')
+      });
+      var translation = (resp.answer || '').trim().replace(/^["']|["']$/g,'');
+      if (translation) localStorage.setItem(key, translation);
+    } catch(e) { /* sessizce geç */ }
+  }
+}
 
 </script>
 
