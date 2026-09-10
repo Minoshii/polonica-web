@@ -13301,40 +13301,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// ── BURAK SPECIAL DİL DESTEĞİ ───────────────────────
-function spGetMeaning(entry) {
-  if (_lang === 'tr') return entry.tr || entry.meaning || '';
-  var cached = localStorage.getItem('sp_' + _lang + '_' + (entry.id||entry.pl));
-  if (cached) return cached;
-  return (entry.tr || entry.meaning || '') + ' ···';
-}
-
-async function spTranslateAll() {
-  if (_lang === 'tr') return;
-  var toTranslate = specialList.filter(function(e) {
-    return !localStorage.getItem('sp_' + _lang + '_' + (e.id||e.pl));
-  });
+;
   if (!toTranslate.length) { renderSpecialList(); return; }
-  var btn = document.getElementById('sp-translate-btn');
-  if (btn) { btn.textContent = '⏳ Çeviriliyor...'; btn.disabled = true; }
-  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
-  var batch = toTranslate.slice(0, 30); // max 30 per call
-  var pairs = batch.map(function(e) { return (e.pl||e.original||'') + '=' + (e.tr||e.meaning||''); }).join('|');
-  var query = 'Translate these Polish word meanings from Turkish to ' + langName + '. Format: word=translation, one per line, same order. Do not add explanations. Input: ' + pairs;
-  try {
-    var data = await api.post('/api/grammar/query', { query: query });
-    var raw = data.answer || '';
-    var lines = raw.split('\n').filter(function(l){ return l.trim(); });
-    lines.forEach(function(line, i) {
-      if (!batch[i]) return;
-      var eqIdx = line.indexOf('=');
-      var translation = eqIdx >= 0 ? line.slice(eqIdx+1).trim() : line.trim();
-      if (translation) localStorage.setItem('sp_' + _lang + '_' + (batch[i].id||batch[i].pl), translation);
-    });
-  } catch(e) { console.warn('Translate error:', e); }
-  if (btn) { btn.textContent = toTranslate.length > 30 ? '🔄 Devam et (' + (toTranslate.length-30) + ' kaldı)' : '✅ Çeviri tamam'; btn.disabled = false; }
-  renderSpecialList();
-}
+  var btn = document.getElementBy
 
 
 // ══════════════════════════════════════════════════════
@@ -13355,7 +13324,7 @@ async function _aiTranslate(texts, lang) {
   if (!texts.length) return [];
   var langName = lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
   var numbered = texts.map(function(t, i) { return '[' + (i+1) + '] ' + t; }).join('\n');
-  var query = 'Translate these Turkish texts to ' + langName + '. Return ONLY translations in exact same numbered format [1] [2] etc. Keep Polish words unchanged (words containing ą ę ó ś ź ż ć ń ł - these are Polish, do not translate). Keep proper nouns unchanged. No extra explanations:\n' + numbered;
+  var query = 'Translate ONLY the Turkish/meaning parts to ' + langName + '. Rules: 1) Keep ALL Polish words unchanged (words with ą,ę,ó,ś,ź,ż,ć,ń,ł or ending in -ać,-ić,-yć,-ować). 2) Keep format like "czytać = [translation]" — only translate after = sign. 3) Return ONLY translations in exact [1] [2] format. 4) No explanations:\n' + numbered;
   try {
     var data = await api.post('/api/grammar/query', { query: query });
     var raw = data.answer || '';
@@ -13385,10 +13354,16 @@ function _findTextNodes(el) {
       if (parent.hasAttribute('data-translated')) return NodeFilter.FILTER_REJECT;
       // data-i18n ile zaten yönetiliyor
       if (parent.hasAttribute('data-i18n')) return NodeFilter.FILTER_REJECT;
-      // Lehçe kelime (özel karakter içeriyor) — çevirme
-      if (/[ąęóśźżćńłÄÖÜ]/.test(text) && text.split(' ').length < 4) return NodeFilter.FILTER_REJECT;
+      // Lehçe kelime — özel karakter içeren kelimeler çevrilmez
+      if (/[ąęóśźżćńłÄÖÜ]/.test(text)) return NodeFilter.FILTER_REJECT;
+      // Lehçe latin kelimeler — Lehçe'ye özgü harf çiftleri (sz, cz, rz, dz, dż, ch)
+      if (/\b(sz|cz|rz|dź|dż|ść|się|nie|jest|być|mieć|robić|iść|mówić|wiedzieć|czytać|pisać|grać)\b/i.test(text) && text.split(' ').length < 5) return NodeFilter.FILTER_REJECT;
+      // CSS sınıf adları içeren span'lar (z-form, z-hal vs)
+      if (parent.classList.contains('z-form') || parent.classList.contains('case-name') || parent.classList.contains('muzyka-word-pl') || parent.classList.contains('baglaç-pl') || parent.classList.contains('rd-vocab-pl')) return NodeFilter.FILTER_REJECT;
       // Sadece sayı/sembol
-      if (/^[\d\s\.\,\:\;\-\+\=\(\)\[\]\/\*\%\!]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+      if (/^[\d\s\.\,\:\;\-\+\=\(\)\[\]\/\*\%\!→←·]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+      // Çok kısa (tek kelime Lehçe olabilir)
+      if (text.split(' ').length === 1 && text.length < 8 && /^[a-zA-ZąęóśźżćńłÄÖÜ]+$/.test(text)) return NodeFilter.FILTER_REJECT;
       return NodeFilter.FILTER_ACCEPT;
     }
   });
@@ -13491,12 +13466,55 @@ setLang = async function(lang) {
 var _origShowPanel = showPanel;
 showPanel = function(name) {
   _origShowPanel(name);
-  if (_lang !== 'tr') {
-    setTimeout(function() {
-      translatePanelContent('panel-' + name, _lang);
-    }, 300);
+  if (_lang !== 'tr' && (name === 'special')) {
+    setTimeout(function() { spAutoTranslate(); }, 400);
   }
 };
+
+
+
+// ── BURAK SPECIAL ÇEVIRI ─────────────────────────────
+function spGetMeaning(e) {
+  if (_lang === 'tr') return e.tr || e.meaning || '';
+  var k = 'sp2_' + _lang + '_' + String(e.id || e.pl || '').substring(0,20);
+  return localStorage.getItem(k) || e.tr || e.meaning || '';
+}
+
+async function spAutoTranslate() {
+  if (_lang === 'tr' || !specialList || !specialList.length) return;
+  var missing = specialList.filter(function(e) {
+    return !localStorage.getItem('sp2_' + _lang + '_' + String(e.id||e.pl||'').substring(0,20));
+  });
+  if (!missing.length) { renderSpecialList(); return; }
+  var btn = document.getElementById('sp-translate-btn');
+  if (btn) { btn.textContent = '\u23F3 ' + missing.length + ' kelime...'; btn.disabled = true; }
+  var langName = _lang === 'en' ? 'English' : 'Traditional Chinese';
+  var BATCH = 20;
+  for (var i = 0; i < missing.length; i += BATCH) {
+    var batch = missing.slice(i, i + BATCH);
+    var lines = batch.map(function(e, j) {
+      return String(j+1) + '. ' + String(e.tr || e.meaning || '');
+    });
+    var query = 'Translate these Turkish word meanings to ' + langName + '. Return ONLY numbered translations, one per line, same order. Do not include any Polish words. Short and accurate:\n' + lines.join('\n');
+    try {
+      var resp = await api.post('/api/grammar/query', { query: query });
+      var raw = (resp.answer || '').split('\n').filter(function(l){ return l.trim(); });
+      raw.forEach(function(line, j) {
+        if (!batch[j]) return;
+        var cleaned = line.replace(/^[0-9]+[.)\- ]*/,'').trim();
+        if (cleaned) {
+          localStorage.setItem('sp2_' + _lang + '_' + String(batch[j].id||batch[j].pl||'').substring(0,20), cleaned);
+        }
+      });
+    } catch(err) { console.warn('sp translate err', err); }
+    if (btn) btn.textContent = '\u23F3 ' + Math.min(i+BATCH, missing.length) + '/' + missing.length;
+    await new Promise(function(r){ setTimeout(r, 200); });
+  }
+  if (btn) { btn.textContent = '\u2705 Tamam'; btn.disabled = false; }
+  renderSpecialList();
+}
+
+async function spTranslateAll() { await spAutoTranslate(); }
 
 </script>
 
