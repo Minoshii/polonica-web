@@ -13336,6 +13336,181 @@ async function spTranslateAll() {
   renderSpecialList();
 }
 
+
+// ══════════════════════════════════════════════════════
+// POLONICA ÇEVIRI MOTORU
+// Türkçe içeriği seçilen dile AI ile çevirir + cache'ler
+// ══════════════════════════════════════════════════════
+
+// Cache yardımcıları
+function _tc(lang, key) {
+  try { return localStorage.getItem('ptrans_' + lang + '_' + key); } catch(e) { return null; }
+}
+function _tcs(lang, key, val) {
+  try { localStorage.setItem('ptrans_' + lang + '_' + key, val); } catch(e) {}
+}
+
+// AI'ya metin gönder, çeviri al
+async function _aiTranslate(texts, lang) {
+  if (!texts.length) return [];
+  var langName = lang === 'en' ? 'English' : 'Traditional Chinese (繁體中文)';
+  var numbered = texts.map(function(t, i) { return '[' + (i+1) + '] ' + t; }).join('\n');
+  var query = 'Translate these Turkish texts to ' + langName + '. Return ONLY translations in exact same numbered format [1] [2] etc. Keep Polish words unchanged (words containing ą ę ó ś ź ż ć ń ł - these are Polish, do not translate). Keep proper nouns unchanged. No extra explanations:\n' + numbered;
+  try {
+    var data = await api.post('/api/grammar/query', { query: query });
+    var raw = data.answer || '';
+    return texts.map(function(orig, i) {
+      var match = raw.match(new RegExp('\\[' + (i+1) + '\\]\\s*([^\\[]+)'));
+      return match ? match[1].trim() : orig;
+    });
+  } catch(e) {
+    console.warn('Translation error:', e);
+    return texts;
+  }
+}
+
+// Bir elementin içindeki tüm Türkçe metin node'larını bul
+function _findTextNodes(el) {
+  var nodes = [];
+  var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(node) {
+      var text = node.textContent.trim();
+      if (text.length < 4) return NodeFilter.FILTER_REJECT;
+      // Script, style, kod içeriğini atla
+      var parent = node.parentElement;
+      if (!parent) return NodeFilter.FILTER_REJECT;
+      var tag = parent.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'CODE') return NodeFilter.FILTER_REJECT;
+      // Zaten çevrilmiş
+      if (parent.hasAttribute('data-translated')) return NodeFilter.FILTER_REJECT;
+      // data-i18n ile zaten yönetiliyor
+      if (parent.hasAttribute('data-i18n')) return NodeFilter.FILTER_REJECT;
+      // Lehçe kelime (özel karakter içeriyor) — çevirme
+      if (/[ąęóśźżćńłÄÖÜ]/.test(text) && text.split(' ').length < 4) return NodeFilter.FILTER_REJECT;
+      // Sadece sayı/sembol
+      if (/^[\d\s\.\,\:\;\-\+\=\(\)\[\]\/\*\%\!]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var node;
+  while (node = walker.nextNode()) { nodes.push(node); }
+  return nodes;
+}
+
+// Ana çeviri fonksiyonu — paneli çevirir
+var _translatingPanel = false;
+async function translatePanelContent(panelId, lang) {
+  if (lang === 'tr') return;
+  if (_translatingPanel) return;
+  _translatingPanel = true;
+
+  var panel = document.getElementById(panelId);
+  if (!panel) { _translatingPanel = false; return; }
+
+  // Overlay göster
+  var overlay = document.getElementById('translate-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.querySelector('.tov-text').textContent = lang === 'zh' ? '翻譯中...' : 'Translating...';
+  }
+
+  var nodes = _findTextNodes(panel);
+  var BATCH = 20;
+  for (var i = 0; i < nodes.length; i += BATCH) {
+    var batch = nodes.slice(i, i + BATCH);
+    var texts = batch.map(function(n) { return n.textContent.trim(); });
+    var cacheKey = panelId + '_' + i;
+    // Tüm batch cache'de mi?
+    var allCached = true;
+    var cached = texts.map(function(t) {
+      var c = _tc(lang, btoa(unescape(encodeURIComponent(t.slice(0,40)))));
+      if (!c) allCached = false;
+      return c;
+    });
+
+    var translations;
+    if (allCached) {
+      translations = cached;
+    } else {
+      // Cache'de olmayanları çevir
+      var toTranslate = [], idxMap = [];
+      texts.forEach(function(t, j) {
+        if (!cached[j]) { idxMap.push(j); toTranslate.push(t); }
+      });
+      var results = await _aiTranslate(toTranslate, lang);
+      results.forEach(function(r, k) {
+        cached[idxMap[k]] = r;
+        _tcs(lang, btoa(unescape(encodeURIComponent(texts[idxMap[k]].slice(0,40)))), r);
+      });
+      translations = cached;
+    }
+
+    // DOM'u güncelle
+    batch.forEach(function(node, j) {
+      if (translations[j] && translations[j] !== texts[j]) {
+        node.textContent = node.textContent.replace(texts[j], translations[j]);
+        if (node.parentElement) node.parentElement.setAttribute('data-translated', lang);
+      }
+    });
+
+    // Progress güncelle
+    if (overlay) {
+      var pct = Math.min(100, Math.round((i + BATCH) / nodes.length * 100));
+      var bar = overlay.querySelector('.tov-bar-fill');
+      if (bar) bar.style.width = pct + '%';
+    }
+  }
+
+  if (overlay) overlay.style.display = 'none';
+  _translatingPanel = false;
+}
+
+// Dil değişince aktif paneli çevir
+var _origSetLang = setLang;
+setLang = async function(lang) {
+  _origSetLang(lang);
+  if (lang === 'tr') {
+    // TR'ye dönünce sayfayı yenile — orijinal içerik geri gelsin
+    var activePanel = document.querySelector('.panel.active');
+    if (activePanel) {
+      activePanel.querySelectorAll('[data-translated]').forEach(function(el) {
+        el.removeAttribute('data-translated');
+      });
+      // Sayfayı tam reload et (en güvenli yol)
+      setTimeout(function() { location.reload(); }, 100);
+    }
+    return;
+  }
+  var activePanel = document.querySelector('.panel.active');
+  if (activePanel) {
+    await translatePanelContent(activePanel.id, lang);
+  }
+};
+
+// showPanel'i wrap et — panel açılırken çevir
+var _origShowPanel = showPanel;
+showPanel = function(name) {
+  _origShowPanel(name);
+  if (_lang !== 'tr') {
+    setTimeout(function() {
+      translatePanelContent('panel-' + name, _lang);
+    }, 300);
+  }
+};
+
 </script>
+
+<!-- ÇEVIRI OVERLAY -->
+<div id="translate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:5000;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px)">
+  <div style="background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:28px 36px;text-align:center;min-width:260px">
+    <div style="font-size:32px;margin-bottom:12px">🌐</div>
+    <div class="tov-text" style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px">Çeviriliyor...</div>
+    <div style="background:var(--surface3);border-radius:4px;height:6px;overflow:hidden">
+      <div class="tov-bar-fill" style="height:100%;background:var(--teal);border-radius:4px;transition:width .3s;width:0%"></div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:10px">İlk çeviri AI tarafından yapılıyor, sonraki anlık olacak</div>
+  </div>
+</div>
+
 </body>
 </html>
