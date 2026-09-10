@@ -1040,6 +1040,41 @@ app.post('/api/kultur', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+
+// ── KELIME ÇEVİRİ ENDPOİNT ──────────────────────────
+app.post('/api/translate-words', async (req, res) => {
+  try {
+    const { meanings, lang } = req.body;
+    if (!meanings || !meanings.length) return res.json({ translations: [] });
+    const langName = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : 'English';
+    const numbered = meanings.map((m, i) => (i+1) + '. ' + m).join('\n');
+    const prompt = [
+      'You are a professional dictionary translator.',
+      'Translate these Turkish word meanings to ' + langName + '.',
+      'Output ONLY the numbered translations, one per line.',
+      'Keep translations short (2-6 words). No explanations.',
+      '',
+      numbered
+    ].join('\n');
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    });
+
+    const raw = response.content[0].text;
+    const lines = raw.split('\n').filter(l => l.trim());
+    const translations = meanings.map((_, i) => {
+      const line = lines[i] || '';
+      return line.replace(/^[0-9]+[.)\- ]*/, '').trim() || meanings[i];
+    });
+    res.json({ translations });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(PORT,'0.0.0.0',()=>{
   console.log('\n╔══════════════════════════════════════╗');
   console.log('║     POLONICA SUNUCUSU BAŞLADI        ║');
