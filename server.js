@@ -996,7 +996,9 @@ app.post('/api/spotify/previous', async (req, res) => {
 // ── POLONYA KÜLTÜR ────────────────────────────────────────
 app.post('/api/kultur', async (req, res) => {
   try {
-    const { category } = req.body;
+    const { category, lang } = req.body;
+    const outputLang = lang === 'zh' ? 'Traditional Chinese (繁體中文)' : lang === 'en' ? 'English' : 'Turkish';
+    const isNonTurkish = lang === 'zh' || lang === 'en';
     const cats = {
       'edebiyat': 'Polish literature, poets, novelists, their famous works and why they matter',
       'tarih': 'Polish history, key events, heroes, turning points',
@@ -1012,7 +1014,7 @@ app.post('/api/kultur', async (req, res) => {
     const prompt = [
       'You are an expert on Polish culture and history. Give ONE fascinating, detailed cultural fact about Poland.',
       'Focus on: ' + focus,
-      'The user is a Turkish student learning Polish — make it relevant and memorable.',
+      'The user is learning Polish. Write ALL text fields (fact, why_matters, etc.) in ' + outputLang + '.',
       '',
       'Return ONLY valid JSON:',
       '{',
@@ -1020,8 +1022,8 @@ app.post('/api/kultur', async (req, res) => {
       '  "title": "name of person/work/event in Polish/original",',
       '  "title_tr": "Turkish translation or explanation of the title",',
       '  "period": "time period (e.g. 1884, 19. yüzyıl, Orta Çağ)",',
-      '  "fact": "3-5 sentence fascinating fact in Turkish. Be specific, include context, why it matters, interesting details. Write as if telling a friend something amazing.",',
-      '  "why_matters": "1-2 sentences: why every Polish learner should know this",',
+      '  "fact": "3-5 sentence fascinating fact in ' + outputLang + '. Be specific, include context. Write as if telling a friend something amazing.",',
+      '  "why_matters": "1-2 sentences in ' + outputLang + ': why every Polish learner should know this",',
       '  "polish_connection": "a Polish word or phrase related to this fact with Turkish meaning",',
       '  "emoji": "2-3 relevant emojis"',
       '}',
