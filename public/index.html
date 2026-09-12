@@ -1445,9 +1445,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 [data-theme="skyline"] [style*="background:#0d0"] { background:#e0e4ec!important; }
 
 /* ── AYDINLIK TEMA: Ej Mala kartları ── */
-[data-theme="light"] .ejmala-item { color:#111!important; }
 [data-theme="light"] .ejmala-item-pl { color:#111!important; }
-[data-theme="light"] .ejmala-item-tr { color:#333!important; }
+[data-theme="light"] .ejmala-item-tr { color:#222!important; }
 [data-theme="light"] .ejmala-item-note { color:#555!important; }
 [data-theme="light"] .ejmala-base { background:linear-gradient(135deg,#f0e8f4,#e8e0f0)!important; }
 [data-theme="light"] .ejmala-base-pl { color:#8020a0!important; }
@@ -9807,13 +9806,16 @@ function quickQuery(q) {
 
 // ── EJ MAŁA ───────────────────────────────────────────────
 function getEjmalaSections() {
-  var light = document.documentElement.getAttribute('data-theme') === 'light';
+  var theme = document.documentElement.getAttribute('data-theme') || 'default';
+  var light = theme === 'light';
+  var dark_bg = { formal:'#0d1a30', everyday:'#0d1a10', slang:'#1a0d0d', patterns:'#0d1515', alternatives:'#1a100d' };
+  var dark_col = { formal:'#7090d0', everyday:'#6dbf9a', slang:'#e07070', patterns:'#5dc0b0', alternatives:'#c8a050' };
   return [
-    { key:'formal',      title:'Resmi',        icon:'📋', bg: light?'#e8eef8':'#0d1a30', border:'#5080c0', color: light?'#2050a0':'#7090d0' },
-    { key:'everyday',    title:'Gündelik',     icon:'💬', bg: light?'#e8f4ec':'#0d1a10', border:'#4a9a6a', color: light?'#1a6a3a':'#6dbf9a' },
-    { key:'slang',       title:'Slang',        icon:'🔥', bg: light?'#f4e8e8':'#1a0d0d', border:'#c05050', color: light?'#802020':'#e07070' },
-    { key:'patterns',    title:'Kalıplar',     icon:'🔗', bg: light?'#e8f4f4':'#0d1515', border:'#5dc0b0', color: light?'#1a7060':'#5dc0b0' },
-    { key:'alternatives',title:'Alternatifler',icon:'🔄', bg: light?'#f4f0e8':'#1a100d', border:'#c8a050', color: light?'#806010':'#c8a050' },
+    { key:'formal',      title:'Resmi',        icon:'📋', bg: light?'#e8eef8':dark_bg.formal,      border:'#5080c0', color: light?'#2050a0':dark_col.formal },
+    { key:'everyday',    title:'Gündelik',     icon:'💬', bg: light?'#e8f4ec':dark_bg.everyday,    border:'#4a9a6a', color: light?'#1a6a3a':dark_col.everyday },
+    { key:'slang',       title:'Slang',        icon:'🔥', bg: light?'#f4e8e8':dark_bg.slang,       border:'#c05050', color: light?'#802020':dark_col.slang },
+    { key:'patterns',    title:'Kalıplar',     icon:'🔗', bg: light?'#e8f4f4':dark_bg.patterns,    border:'#5dc0b0', color: light?'#1a7060':dark_col.patterns },
+    { key:'alternatives',title:'Alternatifler',icon:'🔄', bg: light?'#f4f0e8':dark_bg.alternatives,border:'#c8a050', color: light?'#806010':dark_col.alternatives },
   ];
 }
 const EJMALA_SECTIONS = getEjmalaSections();
