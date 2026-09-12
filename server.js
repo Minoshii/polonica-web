@@ -793,6 +793,38 @@ app.post('/api/kurwa-lookup', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── OKUMA PRATİĞİ: metin üretimi ──────────────────────────
+app.post('/api/reading/generate', async (req, res) => {
+  try {
+    const { grade, wc, topic } = req.body;
+    if (!grade || !topic) return res.status(400).json({ error: 'Seviye ve konu gerekli.' });
+    const prompt = [
+      'You are creating reading practice material for a Turkish student learning Polish.',
+      'Write an original Polish text.',
+      'Level: ' + grade,
+      'Topic: ' + topic,
+      'Word count: approximately ' + (wc || '100') + ' words',
+      '',
+      'Return ONLY valid JSON, no markdown, no code fences, no extra text before or after:',
+      '{',
+      '  "title": "a short Polish title for the text",',
+      '  "text": "the Polish reading text itself, plain text only, no markdown formatting",',
+      '  "vocab": [ {"pl": "polish word", "tr": "turkish meaning"} ],',
+      '  "category": "a short Turkish topic label"',
+      '}',
+      '',
+      'Rules:',
+      '- "text" must be natural, original Polish prose at the requested level and approximate length, with NO markdown formatting inside it (no **, no ##, no code fences)',
+      '- "vocab" should list exactly 5 useful or challenging words actually used in the text, each with its Turkish meaning',
+      '- Return ONLY valid JSON, nothing else'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 1400);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 // ── OKUMA PRATİĞİ: anlama quiz'i ──────────────────────────
 app.post('/api/reading/quiz', async (req, res) => {
   try {
