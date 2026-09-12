@@ -9806,13 +9806,17 @@ function quickQuery(q) {
 }
 
 // ── EJ MAŁA ───────────────────────────────────────────────
-const EJMALA_SECTIONS = [
-  { key:'formal',      title:'Resmi',       icon:'📋', bg:'#0d1a30', border:'#5080c0', color:'#7090d0' },
-  { key:'everyday',    title:'Gündelik',    icon:'💬', bg:'#0d1a10', border:'#4a9a6a', color:'#6dbf9a' },
-  { key:'slang',       title:'Slang',       icon:'🔥', bg:'#1a0d0d', border:'#c05050', color:'#e07070' },
-  { key:'patterns',    title:'Kalıplar',    icon:'🔗', bg:'#0d1515', border:'#5dc0b0', color:'#5dc0b0' },
-  { key:'alternatives',title:'Alternatifler',icon:'🔄',bg:'#1a100d', border:'#c8a050', color:'#c8a050' },
-];
+function getEjmalaSections() {
+  var light = document.documentElement.getAttribute('data-theme') === 'light';
+  return [
+    { key:'formal',      title:'Resmi',        icon:'📋', bg: light?'#e8eef8':'#0d1a30', border:'#5080c0', color: light?'#2050a0':'#7090d0' },
+    { key:'everyday',    title:'Gündelik',     icon:'💬', bg: light?'#e8f4ec':'#0d1a10', border:'#4a9a6a', color: light?'#1a6a3a':'#6dbf9a' },
+    { key:'slang',       title:'Slang',        icon:'🔥', bg: light?'#f4e8e8':'#1a0d0d', border:'#c05050', color: light?'#802020':'#e07070' },
+    { key:'patterns',    title:'Kalıplar',     icon:'🔗', bg: light?'#e8f4f4':'#0d1515', border:'#5dc0b0', color: light?'#1a7060':'#5dc0b0' },
+    { key:'alternatives',title:'Alternatifler',icon:'🔄', bg: light?'#f4f0e8':'#1a100d', border:'#c8a050', color: light?'#806010':'#c8a050' },
+  ];
+}
+const EJMALA_SECTIONS = getEjmalaSections();
 
 async function ejMalaSearch() {
   const word = document.getElementById('ejmala-input').value.trim();
@@ -9841,7 +9845,7 @@ function renderEjMala(d, word) {
   const sectionsEl = document.getElementById('ejmala-sections');
   sectionsEl.innerHTML = '';
 
-  EJMALA_SECTIONS.forEach(sec => {
+  getEjmalaSections().forEach(sec => {
     const items = d[sec.key];
     if (!items || !items.length) return;
     const section = document.createElement('div');
