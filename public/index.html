@@ -1443,6 +1443,19 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 [data-theme="skyline"] [style*="background:#0a0"] { background:#d8dce8!important; }
 [data-theme="skyline"] [style*="background:#13"] { background:#e0e4ec!important; }
 [data-theme="skyline"] [style*="background:#0d0"] { background:#e0e4ec!important; }
+
+/* ── AYDINLIK TEMA: Ej Mala kartları ── */
+[data-theme="light"] .ejmala-item { color:#111!important; }
+[data-theme="light"] .ejmala-item-pl { color:#111!important; }
+[data-theme="light"] .ejmala-item-tr { color:#333!important; }
+[data-theme="light"] .ejmala-item-note { color:#555!important; }
+[data-theme="light"] .ejmala-base { background:linear-gradient(135deg,#f0e8f4,#e8e0f0)!important; }
+[data-theme="light"] .ejmala-base-pl { color:#8020a0!important; }
+[data-theme="light"] .ejmala-base-tr { color:#222!important; }
+[data-theme="light"] .ejmala-base-en { color:#555!important; }
+[data-theme="light"] [style*="background:#0d"] { background:#f0f4ff!important; color:#111!important; }
+[data-theme="light"] [style*="background:#1a0"] { background:#f0fff0!important; color:#111!important; }
+[data-theme="light"] [style*="background:#1a1"] { background:#fff0f0!important; color:#111!important; }
 </style>
 </head>
 <body>
@@ -8804,14 +8817,13 @@ function switchEjMalaTab(tab) {
 }
 
 // ── CÜMLE KURUCU ───────────────────────────────────────────
-const CUMLE_COLORS = {
+const CUMLE_COLORS = (function(){ var light = document.documentElement.getAttribute('data-theme')==='light'; return {
   'Gündelik': {bg:'#0d1a10',border:'#4a9a6a',color:'#6dbf9a'},
   'Soru':     {bg:'#0d1020',border:'#5080c0',color:'#7090d0'},
   'Olumsuz':  {bg:'#1a0d0d',border:'#c05050',color:'#e07070'},
   'Resmi':    {bg:'#0d1515',border:'#5dc0b0',color:'#5dc0b0'},
   'Sokak':    {bg:'#1a0d16',border:'#c060a0',color:'#e090c0'},
-};
-
+};})();
 async function buildSentences() {
   const word = document.getElementById('cumle-input').value.trim();
   if (!word) return;
@@ -8996,24 +9008,16 @@ function switchFonTab(tab) {
 
 // ── JAK SIĘ MÓWI ──────────────────────────────────────────
 function getJakColors() {
-  var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  var s = getComputedStyle(document.documentElement);
-  var surf = s.getPropertyValue('--surface2').trim() || (isDark ? '#0d1020' : '#e8eef8');
+  var light = document.documentElement.getAttribute('data-theme') === 'light';
   return {
-    'Resmi':   {bg: isDark ? '#0d1020' : '#e8eef8', border:'#5080c0', color: isDark ? '#7090d0' : '#3060a0'},
-    'Gündelik':{bg: isDark ? '#0d1a10' : '#e8f4ec', border:'#4a9a6a', color: isDark ? '#6dbf9a' : '#2a7a4a'},
-    'Kanka':   {bg: isDark ? '#1a0d10' : '#f4e8f0', border:'#c060a0', color: isDark ? '#e090c0' : '#a03070'},
-    'Slang':   {bg: isDark ? '#1a0d0d' : '#f4e8e8', border:'#c05050', color: isDark ? '#e07070' : '#a03030'},
-    'Yazılı':  {bg: isDark ? '#0d1515' : '#e8f4f4', border:'#5dc0b0', color: isDark ? '#5dc0b0' : '#2a8a80'},
+    'Resmi':   {bg: light?'#e8eef8':'#0d1020', border:'#5080c0', color: light?'#2050a0':'#7090d0'},
+    'Gündelik':{bg: light?'#e8f4ec':'#0d1a10', border:'#4a9a6a', color: light?'#1a6a3a':'#6dbf9a'},
+    'Kanka':   {bg: light?'#f4e8f0':'#1a0d10', border:'#c060a0', color: light?'#802060':'#e090c0'},
+    'Slang':   {bg: light?'#f4e8e8':'#1a0d0d', border:'#c05050', color: light?'#802020':'#e07070'},
+    'Yazılı':  {bg: light?'#e8f4f4':'#0d1515', border:'#5dc0b0', color: light?'#1a7060':'#5dc0b0'},
   };
 }
-var JAK_COLORS = {
-  'Resmi':   {bg:'#0d1020',border:'#5080c0',color:'#7090d0'},
-  'Gündelik':{bg:'#0d1a10',border:'#4a9a6a',color:'#6dbf9a'},
-  'Kanka':   {bg:'#1a0d10',border:'#c060a0',color:'#e090c0'},
-  'Slang':   {bg:'#1a0d0d',border:'#c05050',color:'#e07070'},
-  'Yazılı':  {bg:'#0d1515',border:'#5dc0b0',color:'#5dc0b0'},
-};
+var JAK_COLORS = getJakColors();
 
 function setJakSituation(text) {
   const inp = document.getElementById('jak-input');
@@ -9032,7 +9036,7 @@ async function jakSieMowi() {
     if(!data.phrases || !data.phrases.length) throw new Error('Sonuç alınamadı.');
     res.innerHTML = '';
     data.phrases.forEach(function(p, i) {
-      const JAK_C = getJakColors(); const c = JAK_C[p.register] || JAK_C['Gündelik'];
+      const JAK_COLORS2 = getJakColors(); const c = JAK_COLORS2[p.register] || JAK_COLORS2['Gündelik'];
       const card = document.createElement('div');
       card.className = 'jak-card';
       card.style.cssText = 'border-color:'+c.border+'44;animation-delay:'+(i*50)+'ms';
