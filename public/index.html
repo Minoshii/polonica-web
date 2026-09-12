@@ -1929,7 +1929,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <div id="daily-goal-bar" style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:16px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
           <div style="font-size:12px;font-weight:700;color:var(--text)">📅 Günlük Hedef <span id="streak-badge" style="font-size:11px;color:var(--teal)"></span></div>
-          <div style="font-size:11px;color:var(--text3)" id="daily-progress-txt">0 / 10 kelime</div>
+          <div style="font-size:11px;color:var(--text3)" id="daily-progress-txt">0 / 30 XP</div>
         </div>
         <div style="background:var(--surface3);border-radius:4px;height:6px;overflow:hidden">
           <div id="daily-progress-bar" style="height:100%;background:var(--teal);border-radius:4px;transition:width .5s ease;width:0%"></div>
@@ -7323,6 +7323,7 @@ async function awardXp(amount, reason) {
   renderXpPanel();
   const newInfo = xpLevelInfo(_xp);
   if (newInfo.level > prevLevel) showLevelUpPopup(newInfo);
+  if (reason !== 'daily_goal' && typeof tcAddDailyXp === 'function') tcAddDailyXp(amount);
 }
 
 async function unlockBadge(id) {
@@ -7650,6 +7651,7 @@ async function init(){
     await checkOllamaStatus();
     setupPaste(); // OCR paste dinleyicisi
     loadXpState();
+    tcRenderDailyGoal();
     var _hr = new Date().getHours();
     if (_hr >= 0 && _hr < 5) unlockBadge('night_owl');
   } catch(e) {
@@ -8125,6 +8127,7 @@ async function saveSelected(){
   }
   store=await window.polonica.getStore();
   clearSel();updateCounts();updateTestSelect();
+  if (fresh.length) awardXp(10, 'unit_created');
   // Dersten Gelenler'e yönlendir
   if(scanMode === 'class' || document.getElementById('panel-lib-class')) {
     showPanel('lib-class');
@@ -12568,7 +12571,6 @@ function twCheck() {
     if (fb) { fb.textContent = '✓ Doğru!'; fb.style.color = 'var(--green)'; }
     _tcCorrect++; tcCheckCombo(true);
     _tcIdx++;
-    tcUpdateDailyProgress();
     setTimeout(twRenderQuestion, 700);
   } else {
     inp.style.borderColor = 'var(--red)';
@@ -12780,16 +12782,34 @@ function tmSelect(btn) {
   }
 }
 
-// ── GÜNLÜK HEDEF SİSTEMİ ──
-var DAILY_GOAL = 10;
+// ── GÜNLÜK HEDEF & STREAK SİSTEMİ ──
+// Herhangi bir aktiviteden gelen XP sayılır (test, kayıt, okuma, yazma, kültür...)
+var DAILY_XP_GOAL = 30;
 
-function tcUpdateDailyProgress() {
-  var today = new Date().toISOString().slice(0,10);
+function _todayStr() { return new Date().toISOString().slice(0,10); }
+function _yesterdayStr() { var d = new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); }
+
+function tcGetDailyData() {
   var data = JSON.parse(localStorage.getItem('polonica_daily') || '{}');
-  if (data.date !== today) { data = {date: today, count: 0, streak: (data.streak || 0)}; }
-  data.count = (data.count || 0) + 1;
-  if (data.count === DAILY_GOAL) {
+  var today = _todayStr();
+  if (data.date !== today) {
+    // Gün değişti — dün hedef tutmadıysa (ne dün ne bugün tamamlanmışsa) seri kırılır
+    if (data.lastGoalDate && data.lastGoalDate !== _yesterdayStr() && data.lastGoalDate !== today) {
+      data.streak = 0;
+    }
+    data = { date: today, xpToday: 0, streak: data.streak || 0, lastGoalDate: data.lastGoalDate || null };
+    localStorage.setItem('polonica_daily', JSON.stringify(data));
+  }
+  return data;
+}
+
+function tcAddDailyXp(amount) {
+  var data = tcGetDailyData();
+  var wasComplete = data.xpToday >= DAILY_XP_GOAL;
+  data.xpToday += amount;
+  if (!wasComplete && data.xpToday >= DAILY_XP_GOAL) {
     data.streak = (data.streak || 0) + 1;
+    data.lastGoalDate = data.date;
     if (typeof showToast === 'function') showToast('🎯 Günlük hedef tamamlandı! ' + data.streak + ' gün seri 🔥');
     awardXp(20, 'daily_goal');
     if (data.streak >= 7) unlockBadge('streak_7');
@@ -12800,17 +12820,14 @@ function tcUpdateDailyProgress() {
 }
 
 function tcRenderDailyGoal() {
-  var today = new Date().toISOString().slice(0,10);
-  var data = JSON.parse(localStorage.getItem('polonica_daily') || '{}');
-  var count = (data.date === today) ? (data.count || 0) : 0;
-  var streak = data.streak || 0;
-  var pct = Math.min(100, Math.round(count / DAILY_GOAL * 100));
+  var data = tcGetDailyData();
+  var pct = Math.min(100, Math.round(data.xpToday / DAILY_XP_GOAL * 100));
   var bar = document.getElementById('daily-progress-bar');
   var txt = document.getElementById('daily-progress-txt');
   var badge = document.getElementById('streak-badge');
   if (bar) bar.style.width = pct + '%';
-  if (txt) txt.textContent = count + ' / ' + DAILY_GOAL + ' kelime';
-  if (badge) badge.textContent = streak > 0 ? '🔥 ' + streak + ' gün' : '';
+  if (txt) txt.textContent = Math.min(data.xpToday, DAILY_XP_GOAL) + ' / ' + DAILY_XP_GOAL + ' XP';
+  if (badge) badge.textContent = data.streak > 0 ? '🔥 ' + data.streak + ' gün' : '';
 }
 
 // ── SPACED REPETITION ──
