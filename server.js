@@ -793,6 +793,37 @@ app.post('/api/kurwa-lookup', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── OKUMA PRATİĞİ: anlama quiz'i ──────────────────────────
+app.post('/api/reading/quiz', async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text) return res.status(400).json({ error: 'Metin gerekli.' });
+    const prompt = [
+      'You are creating a reading comprehension quiz for a Turkish student learning Polish.',
+      'Polish text: "' + text.slice(0, 800) + '"',
+      '',
+      'Create exactly 3 multiple-choice comprehension questions about this text, in Turkish, each with exactly 4 options and one correct answer.',
+      'Return ONLY valid JSON, no markdown, no asterisks, no bold formatting anywhere inside any string value:',
+      '{',
+      '  "questions": [',
+      '    { "q": "question text in Turkish", "options": ["option A", "option B", "option C", "option D"], "correct": 0 }',
+      '  ]',
+      '}',
+      '',
+      'Rules:',
+      '- "correct" is the 0-based index (0,1,2,3) of the right option',
+      '- Questions should test understanding of the text (meaning, vocabulary, grammar points actually used in it), asked in Turkish',
+      '- NEVER use markdown formatting (no **, no ##, no backticks) inside any string value — plain text only',
+      '- Exactly 3 questions, exactly 4 options each',
+      '- Return ONLY valid JSON, nothing else'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 1200);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.post('/api/jaksiemowi', async (req, res) => {
   try {
     const { situation } = req.body;
