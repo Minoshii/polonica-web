@@ -8824,7 +8824,7 @@ async function buildSentences() {
     if (!data.sentences || !data.sentences.length) throw new Error('Sonuç alınamadı.');
     res.innerHTML = '';
     data.sentences.forEach((s, i) => {
-      const c = CUMLE_COLORS[s.context] || CUMLE_COLORS['Gündelik'];
+      const _cc = { 'Resmi':{bg:document.documentElement.getAttribute('data-theme')==='light'?'#e8eef8':'#0d1515',border:'#5dc0b0',color:document.documentElement.getAttribute('data-theme')==='light'?'#2a8a80':'#5dc0b0'}, 'Gündelik':{bg:document.documentElement.getAttribute('data-theme')==='light'?'#e8f4ec':'#0d1a10',border:'#4a9a6a',color:document.documentElement.getAttribute('data-theme')==='light'?'#2a7a4a':'#6dbf9a'}, 'Kanka':{bg:document.documentElement.getAttribute('data-theme')==='light'?'#f4e8f0':'#1a0d10',border:'#c060a0',color:document.documentElement.getAttribute('data-theme')==='light'?'#a03070':'#e090c0'}, 'Slang':{bg:document.documentElement.getAttribute('data-theme')==='light'?'#f4e8e8':'#1a0d0d',border:'#c05050',color:document.documentElement.getAttribute('data-theme')==='light'?'#a03030':'#e07070'}, 'Yazılı':{bg:document.documentElement.getAttribute('data-theme')==='light'?'#e8f4f4':'#0d1515',border:'#5dc0b0',color:document.documentElement.getAttribute('data-theme')==='light'?'#2a8a80':'#5dc0b0'} }; const c = _cc[s.context] || _cc['Gündelik'];
       const card = document.createElement('div');
       card.className = 'cumle-card';
       card.style.cssText = 'background:'+c.bg+';border-color:'+c.border+'44;animation:rowIn .25s ease both;animation-delay:'+(i*60)+'ms;';
@@ -8995,7 +8995,19 @@ function switchFonTab(tab) {
 }
 
 // ── JAK SIĘ MÓWI ──────────────────────────────────────────
-const JAK_COLORS = {
+function getJakColors() {
+  var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  var s = getComputedStyle(document.documentElement);
+  var surf = s.getPropertyValue('--surface2').trim() || (isDark ? '#0d1020' : '#e8eef8');
+  return {
+    'Resmi':   {bg: isDark ? '#0d1020' : '#e8eef8', border:'#5080c0', color: isDark ? '#7090d0' : '#3060a0'},
+    'Gündelik':{bg: isDark ? '#0d1a10' : '#e8f4ec', border:'#4a9a6a', color: isDark ? '#6dbf9a' : '#2a7a4a'},
+    'Kanka':   {bg: isDark ? '#1a0d10' : '#f4e8f0', border:'#c060a0', color: isDark ? '#e090c0' : '#a03070'},
+    'Slang':   {bg: isDark ? '#1a0d0d' : '#f4e8e8', border:'#c05050', color: isDark ? '#e07070' : '#a03030'},
+    'Yazılı':  {bg: isDark ? '#0d1515' : '#e8f4f4', border:'#5dc0b0', color: isDark ? '#5dc0b0' : '#2a8a80'},
+  };
+}
+var JAK_COLORS = {
   'Resmi':   {bg:'#0d1020',border:'#5080c0',color:'#7090d0'},
   'Gündelik':{bg:'#0d1a10',border:'#4a9a6a',color:'#6dbf9a'},
   'Kanka':   {bg:'#1a0d10',border:'#c060a0',color:'#e090c0'},
@@ -9020,7 +9032,7 @@ async function jakSieMowi() {
     if(!data.phrases || !data.phrases.length) throw new Error('Sonuç alınamadı.');
     res.innerHTML = '';
     data.phrases.forEach(function(p, i) {
-      const c = JAK_COLORS[p.register] || JAK_COLORS['Gündelik'];
+      const JAK_C = getJakColors(); const c = JAK_C[p.register] || JAK_C['Gündelik'];
       const card = document.createElement('div');
       card.className = 'jak-card';
       card.style.cssText = 'border-color:'+c.border+'44;animation-delay:'+(i*50)+'ms';
