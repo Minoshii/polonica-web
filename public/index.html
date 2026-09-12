@@ -1597,6 +1597,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-fonetik" onclick="showPanel('fonetik')" style="color:#b080e0" data-i18n="nav.fonetik">🗣 Fonetik</button>
   <button class="nav-btn" id="nav-vucut" onclick="showPanel('vucut')" style="color:#e07070" data-i18n="nav.vucut">🫀 Vücut</button>
   <button class="nav-btn" id="nav-ejmala" onclick="showPanel('ejmala')" style="color:#e090c0;font-weight:800">✨ Ej Mała</button>
+  <button class="nav-btn" id="nav-kurwa" onclick="showPanel('kurwa')" style="display:none;color:#ff4444;font-weight:800">🤬 Kurwa Modu</button>
 
   <div class="nav-section" data-i18n="sec.calis">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')" data-i18n="nav.test">⟳ Test</button>
@@ -2170,6 +2171,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="special-tab" id="stab-akademik" onclick="switchSpecialTab('akademik')" style="border-color:#1a2a3a;color:#7090d0">📚 Akademik <span id="stab-akademik-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka');muzykaClick()" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-slang" onclick="switchSpecialTab('slang')" style="border-color:#5a1a1a;color:#e07070">🔥 Slang <span id="stab-slang-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-kurwa" onclick="switchSpecialTab('kurwa')" style="border-color:#5a1a1a;color:#ff5555;display:none">🤬 Kurwa Log <span id="stab-kurwa-count" style="font-size:10px;opacity:.6"></span></button>
     </div>
 
     <input type="text" id="special-search" class="special-search" placeholder="Ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
@@ -2252,6 +2254,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         </div>
         <div id="cevap-result"></div>
       </div>
+  </div>
+
+  <!-- KURWA MODU (gizli) -->
+  <div class="panel" id="panel-kurwa">
+    <div class="panel-title">🤬 Kurwa Modu <span class="mode-badge" style="background:#2a0d0d;color:#ff5555;border:1px solid #c03030">Gizli Sekme</span></div>
+    <div class="panel-sub" style="margin-bottom:16px">Lehçe küfür ve argo yeminler — sokakta gerçekten böyle konuşuluyor. Yoğunluk seviyesine göre sıralı, dikkatli kullan 😏</div>
+
+    <div class="ejmala-input-wrap">
+      <input type="text" class="ejmala-input" id="kurwa-situation-input" placeholder="Bir küfür ya da durum yaz... (örn: siktir, fuck, kahrolası, off ya)" onkeydown="if(event.key==='Enter')kurwaLookup()" style="border-color:#c03030">
+      <button class="ejmala-btn" onclick="kurwaLookup()" id="kurwa-situation-btn" style="border-color:#c03030;color:#ff5555;background:#1a0d0d">Bul →</button>
+    </div>
+    <div id="kurwa-lookup-result" style="margin-bottom:20px"></div>
+
+    <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 10px">📖 Sözlük</div>
+    <div id="kurwa-list"></div>
   </div>
 
   <!-- GRAMMAR -->
@@ -7499,6 +7516,7 @@ function showPanel(name){
   if(name==='notes') { loadNotes(); }
   if(name==='writing') { wrInitPanel(); }
   if(name==='reading') { rdInitPanel(); }
+  if(name==='kurwa') { renderKurwaList(); }
 
   if(window.innerWidth <= 640){
     const sb = document.getElementById('sidebar');
@@ -9521,7 +9539,137 @@ const _spEasterMap = {
   }
 };
 
-// Oturum bazlı — F5'e kadar her sanatçı 1 kere
+// ══════════════════════════════════════════════════════
+// KURWA MODU — gizli küfür/argo sekmesi
+// ══════════════════════════════════════════════════════
+const _kurwaData = [
+  { pl:'cholera', tr:'lanet olsun', literal:'kolera (hastalık)', level:1, note:'Hafif — çocuklar bile kullanır, gerçek küfür sayılmaz.', ex_pl:'Cholera jasna, znowu spóźniony autobus!', ex_tr:'Lanet olsun, otobüs yine geç kaldı!' },
+  { pl:'do diabła', tr:'canı cehenneme / hay allah', literal:'şeytana (git)', level:1, note:'Hafif küfür, günlük şaşkınlık/sinir ifadesi.', ex_pl:'Do diabła z tym!', ex_tr:'Canı cehenneme, bırak şunu!' },
+  { pl:'dupa', tr:'göt', literal:'kıç', level:2, note:'Kaba ama günlük konuşmada rahatça geçer, "dupa zbita" gibi kalıplarda da kullanılır.', ex_pl:'To jest kompletna dupa.', ex_tr:'Bu tam bir bok (işe yaramaz şey).' },
+  { pl:'gówno', tr:'bok', literal:'bok', level:2, note:'Türkçe "bok" ile birebir aynı yoğunlukta — hem gerçek anlamda hem mecazi kullanılır.', ex_pl:'To nie ma znaczenia, gówno mnie to obchodzi.', ex_tr:'Önemi yok, umurumda bile değil.' },
+  { pl:'zajebiście', tr:'acayip iyi / müthiş', literal:'"jebać" kökünden — ama burada pozitif', level:3, note:'Küfürlü kökten gelse de gündelik dilde çoğu zaman OLUMLU bir vurgu sözcüğü olarak kullanılır.', ex_pl:'Ten koncert był zajebiście dobry.', ex_tr:'O konser resmen müthişti.' },
+  { pl:'zajebisty', tr:'acayip, müthiş (sıfat)', literal:'"jebać" kökünden', level:3, note:'Bir önceki kelimenin sıfat hali — arkadaş ortamında sık geçer.', ex_pl:'Masz zajebisty samochód.', ex_tr:'Müthiş bir araban var.' },
+  { pl:'kurwa', tr:'orospu / lan / kahretsin', literal:'orospu', level:4, note:'En yaygın Lehçe küfür — çoğu zaman gerçek anlamıyla değil, her cümleye serpiştirilen bir dolgu/vurgu kelimesi olarak kullanılır.', ex_pl:'Kurwa, znowu zapomniałem kluczy!', ex_tr:'Lan, yine anahtarları unuttum!' },
+  { pl:'skurwysyn', tr:'orospu çocuğu', literal:'"kurwa"nın oğlu', level:5, note:'Ağır hakaret — birine doğrudan söylenirse kavga sebebi olur.', ex_pl:'Ten skurwysyn mnie oszukał.', ex_tr:'O orospu çocuğu beni kandırdı.' },
+  { pl:'chuj', tr:'yarrak', literal:'penis (kaba)', level:5, note:'En kaba kelimelerden biri — "chuj wie" (kim bilir) gibi kalıplarda argo şekilde de geçer.', ex_pl:'Chuj wie, co on sobie myśli.', ex_tr:'Yarrak bilir ne düşünüyor kafasında.' },
+  { pl:'pierdolić', tr:'siktir etmek / sikmek (argo)', literal:'"osurmak" kökünden gelişmiş kaba fiil', level:5, note:'Çok yönlü kaba fiil — bağlama göre "saçmalamak", "sikmek", "boş vermek" anlamlarına gelebilir.', ex_pl:'Nie pierdol głupot.', ex_tr:'Saçma sapan konuşma.' },
+  { pl:'spierdalaj', tr:'siktir git', literal:'"pierdolić" fiilinin emir kipi', level:5, note:'Doğrudan birine söylenen en sert kovma ifadelerinden biri.', ex_pl:'Spierdalaj stąd!', ex_tr:'Siktir git buradan!' },
+  { pl:'pierdolony', tr:'siktiğimin (sıfat olarak)', literal:'"pierdolić" fiilinin sıfat hali', level:4, note:'İngilizce "fucking ___" kalıbının Lehçe karşılığı gibi düşünülebilir.', ex_pl:'Ten pierdolony komputer znowu się zawiesił.', ex_tr:'Siktiğimin bilgisayarı yine kilitlendi.' },
+];
+
+function renderKurwaList() {
+  var el = document.getElementById('kurwa-list');
+  if (!el) return;
+  var levelColor = { 1:'#6dbf9a', 2:'#c8a050', 3:'#e090c0', 4:'#e07070', 5:'#ff3333' };
+  el.innerHTML = _kurwaData.map(function(w) {
+    var dots = '';
+    for (var i = 1; i <= 5; i++) {
+      dots += '<span style="color:' + (i <= w.level ? levelColor[w.level] : 'var(--border)') + ';font-size:11px">●</span>';
+    }
+    return '<div class="word-card" style="margin-bottom:10px;border-color:' + levelColor[w.level] + '33">' +
+      '<div class="word-card-header"><strong style="font-size:16px;color:var(--text)">' + esc(w.pl) + '</strong>' +
+      '<span class="slang-badge" style="margin-left:8px">🔥 Yoğunluk ' + dots + '</span></div>' +
+      '<div style="font-size:13px;color:var(--text2);margin:6px 0"><strong>' + esc(w.tr) + '</strong> <span style="color:var(--text3)">— birebir: ' + esc(w.literal) + '</span></div>' +
+      '<div style="font-size:12px;color:var(--text3);margin-bottom:8px">' + esc(w.note) + '</div>' +
+      '<div style="font-size:12px;color:var(--accent);font-style:italic">' + esc(w.ex_pl) + '</div>' +
+      '<div style="font-size:12px;color:var(--text3)">' + esc(w.ex_tr) + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── Durum bazlı küfür arama ──────────────────────────────
+async function kurwaLookup() {
+  var situation = (document.getElementById('kurwa-situation-input')||{}).value || '';
+  if (!situation.trim()) return;
+  var btn = document.getElementById('kurwa-situation-btn');
+  var res = document.getElementById('kurwa-lookup-result');
+  btn.disabled = true; btn.textContent = '...';
+  res.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)"><span class="spinner"></span> Aranıyor...</div>';
+  var levelColor = { 1:'#6dbf9a', 2:'#c8a050', 3:'#e090c0', 4:'#e07070', 5:'#ff3333' };
+  try {
+    var data = await api.post('/api/kurwa-lookup', { situation: situation.trim() });
+    if (!data.phrases || !data.phrases.length) throw new Error('Sonuç alınamadı.');
+    res.innerHTML = '';
+    data.phrases.forEach(function(p, i) {
+      var lvl = p.level || 3;
+      var dots = '';
+      for (var d = 1; d <= 5; d++) {
+        dots += '<span style="color:' + (d <= lvl ? levelColor[lvl] : 'var(--border)') + ';font-size:10px">●</span>';
+      }
+      var card = document.createElement('div');
+      card.className = 'word-card';
+      card.style.cssText = 'margin-bottom:10px;border-color:' + levelColor[lvl] + '33;animation:rowIn .22s ease both;animation-delay:' + (i*50) + 'ms';
+      card.innerHTML =
+        '<div class="word-card-header" style="justify-content:space-between">' +
+          '<div><strong style="font-size:16px;color:var(--text)">' + esc(p.pl) + '</strong>' +
+          '<span class="slang-badge" style="margin-left:8px">' + dots + '</span></div>' +
+          '<button class="btn" onclick="kurwaSaveBtnClick(this)" style="padding:4px 10px;font-size:11px;border-color:#c8a050;color:#c8a050" data-pl="' + esc(p.pl) + '" data-tr="' + esc(p.tr) + '" data-literal="' + esc(p.literal||'') + '" data-note="' + esc(p.note||'') + '" data-ex-pl="' + esc(p.example_pl||'') + '" data-ex-tr="' + esc(p.example_tr||'') + '" data-level="' + lvl + '">⭐ Kaydet</button>' +
+        '</div>' +
+        '<div style="font-size:13px;color:var(--text2);margin:6px 0"><strong>' + esc(p.tr) + '</strong>' + (p.literal ? ' <span style="color:var(--text3)">— birebir: ' + esc(p.literal) + '</span>' : '') + '</div>' +
+        (p.note ? '<div style="font-size:12px;color:var(--text3);margin-bottom:8px">' + esc(p.note) + '</div>' : '') +
+        (p.example_pl ? '<div style="font-size:12px;color:var(--accent);font-style:italic">' + esc(p.example_pl) + '</div>' : '') +
+        (p.example_tr ? '<div style="font-size:12px;color:var(--text3)">' + esc(p.example_tr) + '</div>' : '');
+      res.appendChild(card);
+    });
+  } catch(e) {
+    res.innerHTML = '<div style="color:var(--red);padding:14px">Hata: ' + esc(e.message) + '</div>';
+  }
+  btn.disabled = false; btn.textContent = 'Bul →';
+}
+
+async function kurwaSaveBtnClick(btn) {
+  var d = btn.dataset;
+  await window.polonica.specialSave({
+    pl: d.pl, original: d.pl, tr: d.tr, en: '',
+    category: 'other', type: 'kufur',
+    is_idiom: false, slang: true, slang_note: 'küfür · seviye ' + d.level,
+    example_pl: d.exPl || '', example_tr: d.exTr || '',
+    usage_note: d.note || '',
+    register: 'sokak',
+    source: 'Kurwa Modu', source_type: 'kurwa'
+  });
+  btn.textContent = '✓'; btn.style.color = 'var(--green)'; btn.style.borderColor = 'var(--green)';
+  setTimeout(function() { btn.textContent = '⭐ Kaydet'; btn.style.color = '#c8a050'; btn.style.borderColor = '#c8a050'; }, 1500);
+}
+
+
+// Gizli tetikleyici — bir input'a odaklı değilken klavyeden "kurwa" yazınca açılır
+(function() {
+  var buffer = '';
+  document.addEventListener('keydown', function(e) {
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) return;
+    if (e.key.length === 1) {
+      buffer = (buffer + e.key.toLowerCase()).slice(-10);
+      if (buffer.indexOf('kurwa') !== -1) {
+        unlockKurwaMode();
+        buffer = '';
+      }
+    }
+  });
+})();
+
+function unlockKurwaMode() {
+  var nb = document.getElementById('nav-kurwa');
+  var tb = document.getElementById('stab-kurwa');
+  var firstTime = !localStorage.getItem('polonica_kurwa_unlocked');
+  if (firstTime) localStorage.setItem('polonica_kurwa_unlocked', '1');
+  if (nb) nb.style.display = 'flex';
+  if (tb) tb.style.display = 'flex';
+  if (firstTime && typeof showToast === 'function') showToast('🔓 Kurwa Modu açıldı! Kenar çubuğuna bak 🤬');
+  showPanel('kurwa');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (localStorage.getItem('polonica_kurwa_unlocked')) {
+    var nb = document.getElementById('nav-kurwa');
+    var tb = document.getElementById('stab-kurwa');
+    if (nb) nb.style.display = 'flex';
+    if (tb) tb.style.display = 'flex';
+  }
+});
+
+
 const _spShownThisSession = new Set();
 let _lastSpTrack = '';
 
@@ -9948,10 +10096,12 @@ function switchSpecialTab(tab) {
   if(aBtn) aBtn.className = 'special-tab' + (tab==='akademik' ? ' active-akademik' : '');
   const sBtn = document.getElementById('stab-slang');
   if(sBtn) sBtn.className = 'special-tab' + (tab==='slang' ? ' active-slang' : '');
+  const kBtn = document.getElementById('stab-kurwa');
+  if(kBtn) kBtn.className = 'special-tab' + (tab==='kurwa' ? ' active-slang' : '');
   const searchEl = document.getElementById('special-search');
   const countEl = document.getElementById('special-count');
-  if(searchEl) searchEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik') ? 'none' : '';
-  if(countEl) countEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik') ? 'none' : '';
+  if(searchEl) searchEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik'||tab==='kurwa') ? 'none' : '';
+  if(countEl) countEl.style.display = (tab==='muzyka'||tab==='slang'||tab==='akademik'||tab==='kurwa') ? 'none' : '';
   // Liste animasyonu
   const listEl = document.getElementById('special-list');
   if(listEl){ listEl.style.opacity='0'; listEl.style.transform='translateY(6px)'; }
@@ -10097,17 +10247,20 @@ function _renderSpecialList(){
   const idioms = specialList.filter(e => e.is_idiom && e.source_type !== 'akademik' && e.source_type !== 'lesson');
 
   const slangAll = specialList.filter(e => e.slang && e.source_type !== 'lyrics' && !e.source);
+  const kurwaAll = specialList.filter(e => e.source_type === 'kurwa');
 
   const wc = document.getElementById('stab-words-count');
   const ic = document.getElementById('stab-idioms-count');
   const ac = document.getElementById('stab-akademik-count');
   const mc = document.getElementById('stab-muzyka-count');
   const sc = document.getElementById('stab-slang-count');
+  const kc = document.getElementById('stab-kurwa-count');
   if(wc) wc.textContent = words.length ? '('+words.length+')' : '';
   if(ic) ic.textContent = idioms.length ? '('+idioms.length+')' : '';
   if(ac) ac.textContent = akademikAll.length ? '('+akademikAll.length+')' : '';
   if(mc) mc.textContent = muzykaAll.length ? '('+muzykaAll.length+')' : '';
   if(sc) sc.textContent = slangAll.length ? '('+slangAll.length+')' : '';
+  if(kc) kc.textContent = kurwaAll.length ? '('+kurwaAll.length+')' : '';
 
   // Muzyka sekmesi - şarkı bazlı grupla
   // Akademik sekmesi - ünite/tarih bazlı grupla
@@ -10239,6 +10392,34 @@ function _renderSpecialList(){
         '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
         (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
         '<span class="special-row-badge" style="color:#e07070;border-color:#c0505044;background:#1a0d0d">argo</span>'+
+        '<span class="special-row-arrow">▾</span>';
+      const det = document.createElement('div');
+      det.className = 'special-detail'; det.id = 'sd-'+e.id;
+      buildDetailHTML(det, e, {verb:'#5080c0',noun:'#c8a050',adj:'#4a9a6a',other:'#888',phrase:'#5dc0b0'}, {verb:'fiil',noun:'isim',adj:'sifat/zarf',other:'diger',phrase:'ifade'});
+      container.appendChild(row);
+      container.appendChild(det);
+    });
+    return;
+  }
+
+  if(_specialTab === 'kurwa') {
+    container.innerHTML = '';
+    if(!kurwaAll.length) {
+      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">🤬</div><div style=\"font-size:16px;font-weight:700\">Kurwa Log bos</div><div style=\"font-size:13px\">Kurwa Modu'ndan bir kufur ara ve kaydet.</div></div>";
+      return;
+    }
+    const list3 = [...kurwaAll].reverse();
+    list3.forEach(e => {
+      const row = document.createElement('div');
+      row.className = 'special-row';
+      row.id = 'sr-'+e.id;
+      row.style.cssText = 'animation:rowIn .22s ease both;animation-delay:'+(list3.indexOf(e)*30)+'ms;';
+      row.onclick = () => toggleSpecialDetail(e.id);
+      row.innerHTML =
+        '<span class="special-row-pl"><span class="slang-badge">🤬</span>'+esc(e.pl)+'</span>'+
+        '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
+        (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
+        '<span class="special-row-badge" style="color:#ff5555;border-color:#c0303044;background:#1a0d0d">'+esc(e.slang_note||'kufur')+'</span>'+
         '<span class="special-row-arrow">▾</span>';
       const det = document.createElement('div');
       det.className = 'special-detail'; det.id = 'sd-'+e.id;
