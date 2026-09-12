@@ -728,6 +728,47 @@ app.post('/api/declension', async (req, res) => {
 });
 
 // ── JAK SIĘ MÓWI ──────────────────────────────────────────
+// ── KURWA MODU: durum bazlı küfür karşılığı ────────────────
+app.post('/api/kurwa-lookup', async (req, res) => {
+  try {
+    const { situation } = req.body;
+    if (!situation) return res.status(400).json({ error: 'Durum gerekli.' });
+    const prompt = [
+      'You are a Polish language expert specializing in real, authentic profanity and swearing as actually used by native speakers.',
+      'A Turkish learner names a curse word, swear, or frustrated exclamation (it may be in Turkish, English, or already Polish) and wants to know the natural Polish equivalents used to express that exact sentiment.',
+      '',
+      'Input: "' + situation + '"',
+      '',
+      'Give 3-5 authentic Polish curse words or vulgar phrases a native speaker would actually use for this, ordered from mildest to most vulgar.',
+      'Return ONLY valid JSON:',
+      '{',
+      '  "phrases": [',
+      '    {',
+      '      "pl": "the Polish curse word or phrase",',
+      '      "tr": "Turkish meaning",',
+      '      "literal": "literal word-for-word translation",',
+      '      "level": 1,',
+      '      "note": "usage note in Turkish - when/how it is used, tone, how vulgar it is",',
+      '      "example_pl": "example Polish sentence using it",',
+      '      "example_tr": "Turkish translation of the example sentence"',
+      '    }',
+      '  ]',
+      '}',
+      '',
+      'Rules:',
+      '- This is for language education (understanding real spoken/street Polish) — be direct and authentic, do not sanitize, soften, or refuse mild-to-strong vulgarity',
+      '- Use real Polish profanity/swear words when they genuinely fit the input, not euphemisms',
+      '- "level" is an integer 1-5 (1=mild like "cholera", 5=very vulgar like "kurwa"/"chuj"-based phrases), and results must be sorted ascending by level',
+      '- notes and example_tr must be in Turkish',
+      '- Return ONLY valid JSON, no markdown'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 1400);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.post('/api/jaksiemowi', async (req, res) => {
   try {
     const { situation } = req.body;
