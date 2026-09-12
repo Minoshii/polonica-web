@@ -13245,47 +13245,22 @@ async function rdShowQuiz() {
   rdShow('rd-quiz-loading');
   if(!_rdData) return;
 
-  var query = 'Su Lehce metin icin 3 tane carpik sik secenekli anlama sorusu hazirla. Metin: ' + _rdData.text.slice(0, 500) + '. Sadece su formati kullan, baska hicbir sey yazma:\nSOROO1: [soru metni]\nA) [secenek]\nB) [secenek]\nC) [secenek]\nD) [secenek]\nCEVAP1: [dogru harf]\nSOROO2: ...\nCEVAP2: ...\nSOROO3: ...\nCEVAP3: ...';
-
   try {
-    var data = await api.post('/api/grammar/query', { query: query });
-    var raw = data.answer || '';
-    _rdQuestions = rdParseQuestions(raw);
+    var data = await api.post('/api/reading/quiz', { text: _rdData.text });
+    if(!data.questions || !data.questions.length) throw new Error('Sorular alınamadı.');
+    _rdQuestions = data.questions.map(function(q) {
+      return {
+        q: (q.q || '').replace(/\*\*/g, ''),
+        options: (q.options || []).map(function(o) { return (o || '').replace(/\*\*/g, '').trim(); }).filter(Boolean),
+        correct: typeof q.correct === 'number' ? q.correct : 0
+      };
+    }).filter(function(q) { return q.q && q.options.length >= 2; });
+    if(!_rdQuestions.length) throw new Error('Gecerli soru yok.');
   } catch(e) {
     _rdQuestions = rdFallbackQuestions();
   }
 
   rdRenderQuiz();
-}
-
-function rdParseQuestions(raw) {
-  var questions = [];
-  for(var i = 1; i <= 3; i++) {
-    var qIdx = raw.indexOf('SOROO' + i + ':');
-    if(qIdx < 0) qIdx = raw.indexOf('SORU' + i + ':');
-    if(qIdx < 0) continue;
-    var qStart = raw.indexOf(':', qIdx) + 1;
-    var aIdx = raw.indexOf('\nA)', qStart);
-    if(aIdx < 0) continue;
-    var question = raw.slice(qStart, aIdx).trim();
-
-    var options = [];
-    ['A','B','C','D'].forEach(function(letter) {
-      var idx = raw.indexOf('\n' + letter + ')', qIdx);
-      if(idx < 0) return;
-      var end = raw.search(/\n[A-Z]\)|CEVAP|SOROO|SORU/, idx + 1);
-      options.push(raw.slice(idx + 3, end > 0 ? end : idx + 100).trim());
-    });
-
-    var cIdx = raw.indexOf('CEVAP' + i + ':');
-    var correct = cIdx >= 0 ? raw.slice(cIdx + 7, cIdx + 9).trim() : 'A';
-    var correctIdx = ['A','B','C','D'].indexOf(correct);
-
-    if(question && options.length >= 2) {
-      questions.push({ q: question, options: options, correct: correctIdx >= 0 ? correctIdx : 0 });
-    }
-  }
-  return questions.length ? questions : rdFallbackQuestions();
 }
 
 function rdFallbackQuestions() {
