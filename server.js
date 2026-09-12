@@ -29,12 +29,14 @@ function saveStore() { fs.writeFileSync(DATA_FILE, JSON.stringify(store, null, 2
 
 function ensureProfile(key) {
   if (!key) key = 'default';
-  if (!store.profiles[key]) store.profiles[key] = { units:[], special:[], progressLog:[], pdfs:[], createdAt:new Date().toISOString() };
+  if (!store.profiles[key]) store.profiles[key] = { units:[], special:[], progressLog:[], pdfs:[], xp:0, badges:[], createdAt:new Date().toISOString() };
   const p = store.profiles[key];
   if (!p.units)       p.units = [];
   if (!p.special)     p.special = [];
   if (!p.progressLog) p.progressLog = [];
   if (!p.pdfs)        p.pdfs = [];
+  if (p.xp === undefined || p.xp === null) p.xp = 0;
+  if (!p.badges)      p.badges = [];
   return p;
 }
 
@@ -267,6 +269,28 @@ app.post('/api/progress',(req,res)=>{
   saveStore();res.json(word.progress);
 });
 app.post('/api/progress/reset/:id',(req,res)=>{const p=ensureProfile(req.headers['x-profile']);const u=p.units.find(u=>u.id===req.params.id);if(u){u.words.forEach(w=>{w.progress={correct:0,wrong:0};delete w.srs;});saveStore();}res.json({ok:true});});
+
+// ── XP & ROZET SİSTEMİ ───────────────────────────────────────
+app.get('/api/progress/xp', (req,res) => {
+  const p = ensureProfile(req.headers['x-profile']);
+  res.json({ xp: p.xp||0, badges: p.badges||[] });
+});
+app.post('/api/progress/xp', (req,res) => {
+  const p = ensureProfile(req.headers['x-profile']);
+  const amount = Number(req.body.amount) || 0;
+  p.xp = Math.max(0, (p.xp||0) + amount);
+  saveStore();
+  res.json({ xp: p.xp, badges: p.badges||[] });
+});
+app.post('/api/progress/badge', (req,res) => {
+  const p = ensureProfile(req.headers['x-profile']);
+  const id = req.body.id;
+  if (!id) return res.status(400).json({ error: 'Rozet id gerekli.' });
+  if (!p.badges) p.badges = [];
+  const already = p.badges.some(b => b.id === id);
+  if (!already) { p.badges.push({ id, unlockedAt: new Date().toISOString() }); saveStore(); }
+  res.json({ xp: p.xp||0, badges: p.badges, isNew: !already });
+});
 
 // ── PDF ────────────────────────────────────────────────────
 app.get('/api/pdfs',(req,res)=>{const p=ensureProfile(req.headers['x-profile']);res.json(p.pdfs);});
