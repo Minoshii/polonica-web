@@ -1038,6 +1038,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .sp-easter-text{position:fixed;pointer-events:none;z-index:9999;font-family:'Syne',sans-serif;font-weight:900;text-align:center;left:50%;transform:translateX(-50%);animation:spTextPop .6s cubic-bezier(.34,1.56,.64,1) forwards, spTextFade 1.5s ease 1s forwards;}
 @keyframes spTextPop{0%{opacity:0;scale:0.3;top:30%;}100%{opacity:1;scale:1;top:35%;}}
 @keyframes spTextFade{0%{opacity:1;}100%{opacity:0;}}
+/* BAŞARIM POPUP */
+@keyframes achPopIn{0%{opacity:0;transform:scale(.6) translateY(20px);}60%{opacity:1;transform:scale(1.05) translateY(-4px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+.ach-confetti{position:fixed;pointer-events:none;z-index:9999;font-size:24px;animation:spEasterFall linear forwards;}
 /* KÜLTÜR PANELİ */
 .kultur-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
 .kultur-cat-btn{padding:7px 14px;border-radius:99px;border:1px solid var(--border2);background:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
@@ -1579,6 +1582,16 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <div id="sidebar">
   <div class="logo" id="polonica-logo" onclick="logoClick()" style="cursor:pointer;user-select:none">Polonica<span id="theme-emoji" style="font-size:10px;vertical-align:super;line-height:1;margin-left:2px;opacity:.9"></span></div>
 
+  <div id="xp-sidebar-block" onclick="showPanel('stats')" style="cursor:pointer;margin:2px 8px 12px;padding:8px 10px;border-radius:10px;background:var(--surface2);border:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+      <span id="xp-level-label" style="font-size:11px;font-weight:800;color:#c8a050">🧳 Turysta</span>
+      <span id="xp-amount-label" style="font-size:10px;color:var(--text3)">0 XP</span>
+    </div>
+    <div style="height:6px;background:var(--surface3);border-radius:99px;overflow:hidden">
+      <div id="xp-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c8a050,#e0c080);border-radius:99px;transition:width .5s ease"></div>
+    </div>
+  </div>
+
   <div class="nav-section" data-i18n="sec.tara">Tara</div>
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')" data-i18n="nav.lesson">📚 Ders Materyali</button>
   <button class="nav-btn" id="nav-lyrics" onclick="showPanel('lyrics')" data-i18n="nav.lyrics">🎵 Şarkı Sözleri</button>
@@ -1597,7 +1610,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-fonetik" onclick="showPanel('fonetik')" style="color:#b080e0" data-i18n="nav.fonetik">🗣 Fonetik</button>
   <button class="nav-btn" id="nav-vucut" onclick="showPanel('vucut')" style="color:#e07070" data-i18n="nav.vucut">🫀 Vücut</button>
   <button class="nav-btn" id="nav-ejmala" onclick="showPanel('ejmala')" style="color:#e090c0;font-weight:800">✨ Ej Mała</button>
-  <button class="nav-btn" id="nav-kurwa" onclick="showPanel('kurwa')" style="display:none;color:#ff4444;font-weight:800">🤬 Kurwa Modu</button>
+  <button class="nav-btn" id="nav-kurwa" onclick="showPanel('kurwa')" style="display:none;color:#ff4444;font-weight:800">Ouchh!</button>
 
   <div class="nav-section" data-i18n="sec.calis">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')" data-i18n="nav.test">⟳ Test</button>
@@ -2171,7 +2184,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="special-tab" id="stab-akademik" onclick="switchSpecialTab('akademik')" style="border-color:#1a2a3a;color:#7090d0">📚 Akademik <span id="stab-akademik-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-muzyka" onclick="switchSpecialTab('muzyka');muzykaClick()" style="border-color:#3a1a5a;color:#9060c0">🎵 Muzyka <span id="stab-muzyka-count" style="font-size:10px;opacity:.6"></span></button>
       <button class="special-tab" id="stab-slang" onclick="switchSpecialTab('slang')" style="border-color:#5a1a1a;color:#e07070">🔥 Slang <span id="stab-slang-count" style="font-size:10px;opacity:.6"></span></button>
-      <button class="special-tab" id="stab-kurwa" onclick="switchSpecialTab('kurwa')" style="border-color:#5a1a1a;color:#ff5555;display:none">🤬 Kurwa Log <span id="stab-kurwa-count" style="font-size:10px;opacity:.6"></span></button>
+      <button class="special-tab" id="stab-kurwa" onclick="switchSpecialTab('kurwa')" style="border-color:#5a1a1a;color:#ff5555;display:none">Ouchh Log <span id="stab-kurwa-count" style="font-size:10px;opacity:.6"></span></button>
     </div>
 
     <input type="text" id="special-search" class="special-search" placeholder="Ara..." oninput="renderSpecialList()" style="border-color:var(--border2);">
@@ -2258,17 +2271,17 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <!-- KURWA MODU (gizli) -->
   <div class="panel" id="panel-kurwa">
-    <div class="panel-title">🤬 Kurwa Modu <span class="mode-badge" style="background:#2a0d0d;color:#ff5555;border:1px solid #c03030">Gizli Sekme</span></div>
+    <div class="panel-title">Ouchh! <span class="mode-badge" style="background:#2a0d0d;color:#ff5555;border:1px solid #c03030">Gizli Sekme</span></div>
     <div class="panel-sub" style="margin-bottom:16px">Lehçe küfür ve argo yeminler — sokakta gerçekten böyle konuşuluyor. Yoğunluk seviyesine göre sıralı, dikkatli kullan 😏</div>
 
     <div class="ejmala-input-wrap">
       <input type="text" class="ejmala-input" id="kurwa-situation-input" placeholder="Bir küfür ya da durum yaz... (örn: siktir, fuck, kahrolası, off ya)" onkeydown="if(event.key==='Enter')kurwaLookup()" style="border-color:#c03030">
       <button class="ejmala-btn" onclick="kurwaLookup()" id="kurwa-situation-btn" style="border-color:#c03030;color:#ff5555;background:#1a0d0d">Bul →</button>
     </div>
-    <div id="kurwa-lookup-result" style="margin-bottom:20px"></div>
+    <div id="kurwa-lookup-result" style="margin-bottom:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px"></div>
 
     <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 10px">📖 Sözlük</div>
-    <div id="kurwa-list"></div>
+    <div id="kurwa-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px"></div>
   </div>
 
   <!-- GRAMMAR -->
@@ -7094,12 +7107,23 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- İSTATİSTİK -->
   <div class="panel" id="panel-stats">
     <div class="panel-title">İstatistik</div>
+    <div id="xp-panel-block" style="margin-bottom:20px"></div>
     <div id="stats-content" style="color:var(--text3)">Yükleniyor...</div>
   </div>
 
 </div>
 
 
+
+<!-- BAŞARIM / SEVİYE POPUP -->
+<div id="achievement-overlay" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.55);align-items:center;justify-content:center;" onclick="closeAchievementPopup()">
+  <div id="achievement-card" style="background:var(--surface);border:2px solid #c8a050;border-radius:20px;padding:32px 28px;text-align:center;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:achPopIn .5s cubic-bezier(.34,1.56,.64,1) forwards;">
+    <div id="achievement-icon" style="font-size:52px;margin-bottom:10px">🏆</div>
+    <div id="achievement-kicker" style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#c8a050;margin-bottom:6px">Yeni Başarım</div>
+    <div id="achievement-title" style="font-size:20px;font-weight:900;color:var(--text);font-family:'Syne',sans-serif;margin-bottom:6px">Başlık</div>
+    <div id="achievement-subtitle" style="font-size:13px;color:var(--text3)">Açıklama</div>
+  </div>
+</div>
 
 <!-- ÇEKİM MODAL -->
 <div id="modal-conj" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeConj()">
@@ -7170,6 +7194,9 @@ window.polonica = {
   specialList:         ()   => api.get('/api/special'),
   specialDelete:       (id) => api.del('/api/special/'+id),
   specialUpdateNote:   (a)  => api.put('/api/special/'+a.id+'/note', {note:a.note}),
+  getXp:               ()   => api.get('/api/progress/xp'),
+  addXp:               (amount) => api.post('/api/progress/xp', {amount}),
+  unlockBadge:         (id) => api.post('/api/progress/badge', {id}),
   ocrImage:            ()   => Promise.resolve({text:'',error:'OCR web versiyonunda yok.'}),
   readClipboardImage:  ()   => Promise.resolve({base64:null}),
   openFile:            ()   => Promise.resolve({text:null}),
@@ -7197,7 +7224,172 @@ window.polonica = {
   }),
 };
 
-// ── PROFİL SİSTEMİ ────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+// XP, SEVİYE & ROZET SİSTEMİ
+// ══════════════════════════════════════════════════════
+const LEVELS = [
+  { min: 0,    name: 'Turysta',      icon: '🧳' },
+  { min: 60,   name: 'Uczeń',        icon: '📖' },
+  { min: 150,  name: 'Podróżnik',    icon: '🗺' },
+  { min: 300,  name: 'Kumam',        icon: '💡' },
+  { min: 550,  name: 'Gaduła',       icon: '🗣' },
+  { min: 900,  name: 'Aktor',        icon: '🎭' },
+  { min: 1400, name: 'Rodowity',     icon: '🏠' },
+  { min: 2000, name: 'Mistrz Słowa', icon: '🎓' },
+  { min: 2800, name: 'Legenda',      icon: '🔥' },
+  { min: 4000, name: 'Native',       icon: '👑' },
+];
+
+const BADGES = {
+  first_word:    { icon: '📝', name: 'İlk Adım',        desc: 'İlk kelimeni kaydettin.' },
+  words_50:      { icon: '📚', name: '50 Kelime Kulübü', desc: 'Defterinde 50 kelime birikti.' },
+  words_200:     { icon: '📖', name: '200 Kelime Kulübü', desc: 'Defterinde 200 kelime birikti.' },
+  words_500:     { icon: '🏆', name: '500 Kelime Kulübü', desc: 'Defterinde 500 kelime birikti.' },
+  streak_7:      { icon: '🔥', name: '7 Gün Seri',       desc: '7 gün üst üste hedefini tamamladın.' },
+  streak_30:     { icon: '🔥', name: '30 Gün Seri',      desc: '30 gün üst üste hedefini tamamladın.' },
+  first_reading: { icon: '📗', name: 'İlk Okuma',        desc: 'İlk okuma pratiğini tamamladın.' },
+  first_writing: { icon: '✍️', name: 'İlk Yazma',        desc: 'İlk yazma pratiğini tamamladın.' },
+  hidden_door:   { icon: '🚪', name: 'Gizli Kapı',       desc: 'Sitede gizli bir şey buldun.' },
+  kultur_10:     { icon: '🏛', name: 'Kültür Kurdu',     desc: '10 kültür kartı okudun.' },
+  night_owl:     { icon: '🦉', name: 'Gece Kuşu',        desc: 'Gece yarısından sonra çalıştın.' },
+  combo_10:      { icon: '⚡', name: 'Seri Ustası',      desc: 'Testte 10\'luk seri yaptın.' },
+};
+
+let _xp = 0;
+let _badges = [];
+
+function xpLevelInfo(xp) {
+  let idx = 0;
+  for (let i = 0; i < LEVELS.length; i++) { if (xp >= LEVELS[i].min) idx = i; }
+  const cur = LEVELS[idx];
+  const next = LEVELS[idx + 1] || null;
+  const pct = next ? Math.min(100, Math.round((xp - cur.min) / (next.min - cur.min) * 100)) : 100;
+  return { level: idx + 1, name: cur.name, icon: cur.icon, next: next, pct: pct, xp: xp };
+}
+
+function renderSidebarXp() {
+  const info = xpLevelInfo(_xp);
+  const lbl = document.getElementById('xp-level-label');
+  const amt = document.getElementById('xp-amount-label');
+  const bar = document.getElementById('xp-progress-bar');
+  if (lbl) lbl.textContent = info.icon + ' ' + info.name;
+  if (amt) amt.textContent = _xp + ' XP' + (info.next ? ' · ' + info.next.min + ' XP\'de ' + info.next.icon + ' ' + info.next.name : ' · MAX');
+  if (bar) bar.style.width = info.pct + '%';
+}
+
+function renderXpPanel() {
+  const el = document.getElementById('xp-panel-block');
+  if (!el) return;
+  const info = xpLevelInfo(_xp);
+  let html = '<div style="display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;background:var(--surface2);border:1px solid var(--border);margin-bottom:16px">' +
+    '<div style="font-size:40px">' + info.icon + '</div>' +
+    '<div style="flex:1"><div style="font-size:16px;font-weight:900;color:var(--text);font-family:Syne,sans-serif">Lv.' + info.level + ' — ' + info.name + '</div>' +
+    '<div style="font-size:12px;color:var(--text3);margin:4px 0 6px">' + _xp + ' XP' + (info.next ? ' / ' + info.next.min + ' XP' : ' (maksimum seviye)') + '</div>' +
+    '<div style="height:8px;background:var(--surface3);border-radius:99px;overflow:hidden"><div style="height:100%;width:' + info.pct + '%;background:linear-gradient(90deg,#c8a050,#e0c080);border-radius:99px"></div></div>' +
+    '</div></div>';
+
+  html += '<div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">🏅 Rozetler (' + _badges.length + '/' + Object.keys(BADGES).length + ')</div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px">';
+  Object.keys(BADGES).forEach(function(id) {
+    const b = BADGES[id];
+    const unlocked = _badges.some(function(x) { return x.id === id; });
+    html += '<div style="text-align:center;padding:12px 8px;border-radius:12px;background:' + (unlocked ? 'var(--accent-bg)' : 'var(--surface2)') + ';border:1px solid ' + (unlocked ? 'var(--accent-dim)' : 'var(--border)') + ';opacity:' + (unlocked ? '1' : '.4')  + '">' +
+      '<div style="font-size:26px;margin-bottom:6px;filter:' + (unlocked ? 'none' : 'grayscale(1)') + '">' + b.icon + '</div>' +
+      '<div style="font-size:10px;font-weight:700;color:var(--text)">' + esc(b.name) + '</div>' +
+      '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+async function loadXpState() {
+  try {
+    const data = await window.polonica.getXp();
+    _xp = data.xp || 0;
+    _badges = data.badges || [];
+    renderSidebarXp();
+    renderXpPanel();
+  } catch (e) { console.warn('XP yuklenemedi:', e.message); }
+}
+
+async function awardXp(amount, reason) {
+  const prevLevel = xpLevelInfo(_xp).level;
+  try {
+    const data = await window.polonica.addXp(amount);
+    _xp = data.xp;
+    _badges = data.badges || _badges;
+  } catch (e) { _xp += amount; }
+  renderSidebarXp();
+  renderXpPanel();
+  const newInfo = xpLevelInfo(_xp);
+  if (newInfo.level > prevLevel) showLevelUpPopup(newInfo);
+}
+
+async function unlockBadge(id) {
+  if (_badges.some(function(x) { return x.id === id; })) return;
+  const b = BADGES[id];
+  if (!b) return;
+  try {
+    const data = await window.polonica.unlockBadge(id);
+    _badges = data.badges || _badges;
+    if (!data.isNew) return;
+  } catch (e) { _badges.push({ id }); }
+  renderXpPanel();
+  showBadgePopup(b);
+}
+
+function _achConfettiBurst() {
+  const emojis = ['🎉','✨','⭐','🏆','🔥'];
+  for (let i = 0; i < 14; i++) {
+    const el = document.createElement('div');
+    el.className = 'ach-confetti';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = (5 + Math.random() * 90) + 'vw';
+    el.style.top = '-30px';
+    el.style.animationDuration = (1.2 + Math.random() * 1) + 's';
+    el.style.animationDelay = (Math.random() * 0.3) + 's';
+    document.body.appendChild(el);
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 2500);
+  }
+}
+
+function showBadgePopup(b) {
+  document.getElementById('achievement-icon').textContent = b.icon;
+  document.getElementById('achievement-kicker').textContent = 'Yeni Rozet';
+  document.getElementById('achievement-title').textContent = b.name;
+  document.getElementById('achievement-subtitle').textContent = b.desc;
+  const ov = document.getElementById('achievement-overlay');
+  ov.style.display = 'flex';
+  _achConfettiBurst();
+  setTimeout(closeAchievementPopup, 3200);
+}
+
+function showLevelUpPopup(info) {
+  document.getElementById('achievement-icon').textContent = info.icon;
+  document.getElementById('achievement-kicker').textContent = 'Seviye Atladın!';
+  document.getElementById('achievement-title').textContent = 'Lv.' + info.level + ' — ' + info.name;
+  document.getElementById('achievement-subtitle').textContent = 'Toplam ' + info.xp + ' XP topladın.';
+  const ov = document.getElementById('achievement-overlay');
+  ov.style.display = 'flex';
+  _achConfettiBurst();
+  setTimeout(closeAchievementPopup, 3200);
+}
+
+function closeAchievementPopup() {
+  const ov = document.getElementById('achievement-overlay');
+  if (ov) ov.style.display = 'none';
+}
+
+// Kelime sayısı rozetlerini kontrol et (Burak Special listesine göre)
+function checkWordCountBadges() {
+  const count = specialList.length;
+  if (count >= 1) unlockBadge('first_word');
+  if (count >= 50) unlockBadge('words_50');
+  if (count >= 200) unlockBadge('words_200');
+  if (count >= 500) unlockBadge('words_500');
+}
+
+
 const EMOJIS = ['📚','🎓','⭐','🦁','🐺','🦊','🌙','🔥','💎','🎯','🎵','🌿','⚡','🍀','🏆'];
 const COLORS  = ['#c8b89a','#5080c0','#4a9a6a','#c05050','#9060c0','#c060a0','#3a9a8a','#c8a050','#888'];
 let pnfEmoji = EMOJIS[0], pnfColor = COLORS[0];
@@ -7457,6 +7649,9 @@ async function init(){
     renderSpecialList();
     await checkOllamaStatus();
     setupPaste(); // OCR paste dinleyicisi
+    loadXpState();
+    var _hr = new Date().getHours();
+    if (_hr >= 0 && _hr < 5) unlockBadge('night_owl');
   } catch(e) {
     document.getElementById('ollama-label').textContent='HATA: '+e.message;
     document.getElementById('ollama-dot').style.background='#c05050';
@@ -9097,6 +9292,8 @@ async function saveJakBtnClick(btn) {
   });
   btn.textContent = '✓'; btn.style.color = 'var(--green)';
   setTimeout(function(){ btn.textContent = '⭐ Kaydet'; btn.style.color = ''; }, 1500);
+  awardXp(3, 'save_word');
+  window.polonica.specialList().then(function(list) { specialList = list; checkWordCountBadges(); });
 }
 
 // ── CEVAP VER ─────────────────────────────────────────────
@@ -9626,10 +9823,12 @@ async function kurwaSaveBtnClick(btn) {
     example_pl: d.exPl || '', example_tr: d.exTr || '',
     usage_note: d.note || '',
     register: 'sokak',
-    source: 'Kurwa Modu', source_type: 'kurwa'
+    source: 'Ouchh!', source_type: 'kurwa'
   });
   btn.textContent = '✓'; btn.style.color = 'var(--green)'; btn.style.borderColor = 'var(--green)';
   setTimeout(function() { btn.textContent = '⭐ Kaydet'; btn.style.color = '#c8a050'; btn.style.borderColor = '#c8a050'; }, 1500);
+  awardXp(3, 'save_word');
+  window.polonica.specialList().then(function(list) { specialList = list; checkWordCountBadges(); });
 }
 
 
@@ -9652,23 +9851,12 @@ async function kurwaSaveBtnClick(btn) {
 function unlockKurwaMode() {
   var nb = document.getElementById('nav-kurwa');
   var tb = document.getElementById('stab-kurwa');
-  var firstTime = !localStorage.getItem('polonica_kurwa_unlocked');
-  if (firstTime) localStorage.setItem('polonica_kurwa_unlocked', '1');
   if (nb) nb.style.display = 'flex';
   if (tb) tb.style.display = 'flex';
-  if (firstTime && typeof showToast === 'function') showToast('🔓 Kurwa Modu açıldı! Kenar çubuğuna bak 🤬');
+  if (typeof showToast === 'function') showToast('🔓 Ouchh! açıldı — kenar çubuğuna bak');
   showPanel('kurwa');
+  unlockBadge('hidden_door');
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  if (localStorage.getItem('polonica_kurwa_unlocked')) {
-    var nb = document.getElementById('nav-kurwa');
-    var tb = document.getElementById('stab-kurwa');
-    if (nb) nb.style.display = 'flex';
-    if (tb) tb.style.display = 'flex';
-  }
-});
-
 
 const _spShownThisSession = new Set();
 let _lastSpTrack = '';
@@ -9749,6 +9937,10 @@ async function loadKultur() {
 }
 
 function renderKulturCard(d) {
+  awardXp(2, 'kultur_view');
+  var kc = parseInt(localStorage.getItem('polonica_kultur_count') || '0', 10) + 1;
+  localStorage.setItem('polonica_kultur_count', String(kc));
+  if (kc >= 10) unlockBadge('kultur_10');
   const res = document.getElementById('kultur-result');
   const card = document.createElement('div');
   card.className = 'kultur-card';
@@ -10059,6 +10251,8 @@ async function ejMalaSave(item, sec, baseData) {
   event.target.textContent = '✓';
   event.target.style.background = 'var(--green-bg)';
   setTimeout(() => { event.target.textContent = '⭐ Kaydet'; event.target.style.background = 'none'; }, 1500);
+  awardXp(3, 'save_word');
+  window.polonica.specialList().then(function(list) { specialList = list; checkWordCountBadges(); });
 }
 
 function markdownToHtml(md) {
@@ -10210,6 +10404,8 @@ async function saveSpecial(){
   specialList = await window.polonica.specialList();
   clearLookup();
   renderSpecialList();
+  awardXp(3, 'save_word');
+  checkWordCountBadges();
   // Küçük onay animasyonu
   const btn = document.querySelector('[onclick="saveSpecial()"]');
   if(btn){ const orig=btn.textContent; btn.textContent='✓ Kaydedildi!'; setTimeout(()=>btn.textContent=orig,1500); }
@@ -10405,7 +10601,7 @@ function _renderSpecialList(){
   if(_specialTab === 'kurwa') {
     container.innerHTML = '';
     if(!kurwaAll.length) {
-      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">🤬</div><div style=\"font-size:16px;font-weight:700\">Kurwa Log bos</div><div style=\"font-size:13px\">Kurwa Modu'ndan bir kufur ara ve kaydet.</div></div>";
+      container.innerHTML = "<div class=\"special-empty\"><div style=\"font-size:40px;margin-bottom:12px\">🤕</div><div style=\"font-size:16px;font-weight:700\">Ouchh Log bos</div><div style=\"font-size:13px\">Ouchh!'dan bir kufur ara ve kaydet.</div></div>";
       return;
     }
     const list3 = [...kurwaAll].reverse();
@@ -10416,7 +10612,7 @@ function _renderSpecialList(){
       row.style.cssText = 'animation:rowIn .22s ease both;animation-delay:'+(list3.indexOf(e)*30)+'ms;';
       row.onclick = () => toggleSpecialDetail(e.id);
       row.innerHTML =
-        '<span class="special-row-pl"><span class="slang-badge">🤬</span>'+esc(e.pl)+'</span>'+
+        '<span class="special-row-pl"><span class="slang-badge">🤕</span>'+esc(e.pl)+'</span>'+
         '<span class="special-row-tr">'+esc(e.tr)+'</span>'+
         (e.note?'<span class="special-row-note">⭐ '+esc(e.note)+'</span>':'<span class="special-row-note" style="opacity:.3">not yok</span>')+
         '<span class="special-row-badge" style="color:#ff5555;border-color:#c0303044;background:#1a0d0d">'+esc(e.slang_note||'kufur')+'</span>'+
@@ -12226,6 +12422,8 @@ var _tcCombo = 0;
 function tcCheckCombo(correct) {
   if (correct) {
     _tcCombo++;
+    awardXp(5, 'test_correct');
+    if (_tcCombo >= 10) unlockBadge('combo_10');
     if (_tcCombo >= 3 && _tcCombo % 3 === 0) {
       var area = document.getElementById('tc-card-area');
       if (!area) return;
@@ -12593,6 +12791,9 @@ function tcUpdateDailyProgress() {
   if (data.count === DAILY_GOAL) {
     data.streak = (data.streak || 0) + 1;
     if (typeof showToast === 'function') showToast('🎯 Günlük hedef tamamlandı! ' + data.streak + ' gün seri 🔥');
+    awardXp(20, 'daily_goal');
+    if (data.streak >= 7) unlockBadge('streak_7');
+    if (data.streak >= 30) unlockBadge('streak_30');
   }
   localStorage.setItem('polonica_daily', JSON.stringify(data));
   tcRenderDailyGoal();
@@ -12784,6 +12985,8 @@ async function wrSubmit() {
     }
     answerText = answerText.trim();
     wrShowResult(answerText, userText);
+    awardXp(15, 'writing_complete');
+    unlockBadge('first_writing');
   } catch(e) {
     console.error('Analiz hatası:', e);
     wrShow('wr-writing');
@@ -13160,6 +13363,8 @@ function rdShowFinalScore() {
 
   var resultDiv = document.getElementById('rd-quiz-result');
   if(resultDiv) resultDiv.style.display = 'block';
+  awardXp(15, 'reading_complete');
+  unlockBadge('first_reading');
 }
 
 function rdRetryQuiz() {
