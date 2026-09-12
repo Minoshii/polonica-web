@@ -13095,61 +13095,23 @@ async function rdGenerate(level) {
   var topics = ['günlük hayat','seyahat','yemek kültürü','teknoloji','doğa','spor','tarih','aile','iş hayatı','müzik','sinema','şehir hayatı','tatil','alışveriş','sağlık'];
   var topic = topics[Math.floor(Math.random() * topics.length)];
 
-  var query = 'Lehce metin olustur. Seviye: ' + lv.grade + '. Konu: ' + topic + '. Kelime sayisi: ' + lv.wc + '. Asagidaki formatta yaz, her bolum yeni satirda olsun:\n\n###BASLIK###\nBuraya Lehce baslik yaz\n\n###METIN###\nBuraya sadece Lehce metin yaz, baska hicbir bilgi ekleme\n\n###KELIMELER###\nsozcuk1=Turkce|sozcuk2=Turkce|sozcuk3=Turkce|sozcuk4=Turkce|sozcuk5=Turkce\n\n###KATEGORI###\nKonu kategorisi';
-
   try {
-    var data = await api.post('/api/grammar/query', { query: query });
-    var raw = data.answer || '';
-    _rdData = rdParseResponse(raw, level, lv, topic);
+    var data = await api.post('/api/reading/generate', { level: level, grade: lv.grade, wc: lv.wc, topic: topic });
+    if(!data.text) throw new Error('Metin alınamadı.');
+    _rdData = {
+      title: (data.title || topic).replace(/\*\*/g, '').trim(),
+      text: (data.text || '').replace(/\*\*/g, '').trim(),
+      vocab: Array.isArray(data.vocab) ? data.vocab.map(function(v) {
+        return { pl: (v.pl || '').trim(), tr: (v.tr || '').trim() };
+      }).filter(function(v) { return v.pl && v.tr; }) : [],
+      level: level, lv: lv, category: data.category || topic
+    };
     rdRenderText();
   } catch(e) {
     console.error('Metin uretme hatasi:', e);
     _rdData = rdFallback(level, lv, topic);
     rdRenderText();
   }
-}
-
-function rdParseResponse(raw, level, lv, topic) {
-  // ### marker'larla parse et
-  var getSection = function(marker) {
-    var tag = '###' + marker + '###';
-    var idx = raw.indexOf(tag);
-    if(idx < 0) return null;
-    var start = raw.indexOf('\n', idx) + 1;
-    var nextTag = raw.indexOf('###', start);
-    return (nextTag > start ? raw.slice(start, nextTag) : raw.slice(start)).trim();
-  };
-
-  var title    = getSection('BASLIK') || getSection('BAŞLIK') || topic;
-  var metin    = getSection('METIN') || getSection('METİN');
-  var kelimeStr = getSection('KELIMELER') || getSection('KELİMELER') || getSection('KELIME');
-  var kategori = getSection('KATEGORI') || getSection('KATEGORİ') || topic;
-
-  // Metin bulunamazsa fallback: raw'ı temizle
-  if(!metin) {
-    metin = raw
-      .replace(/###[A-ZİŞĞÜÖÇ]+###[\s\S]*?(?=###|$)/g, '')
-      .replace(/[A-Z]+:/g, '')
-      .trim()
-      .slice(0, 800);
-  }
-
-  // Metinden marker kalıntılarını temizle
-  metin = metin
-    .replace(/###[\w]+###/g, '')
-    .replace(/KELIME[\s\S]*$/, '')
-    .replace(/KATEGORI[\s\S]*$/, '')
-    .trim();
-
-  var vocab = [];
-  if(kelimeStr) {
-    kelimeStr.split('|').forEach(function(pair) {
-      var parts = pair.split('=');
-      if(parts.length >= 2) vocab.push({pl: parts[0].trim(), tr: parts[1].trim()});
-    });
-  }
-
-  return { title: title, text: metin, vocab: vocab, level: level, lv: lv, category: kategori };
 }
 
 function rdFallback(level, lv, topic) {
