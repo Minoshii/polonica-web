@@ -822,21 +822,38 @@ app.post('/api/games/memory', async (req, res) => {
 });
 
 // ── OYUN: Cümle kurma — rastgele üretilmiş cümleyi kelime kelime dizme ──
+const SENTENCE_TOPICS = [
+  'zamawianie jedzenia w restauracji','planowanie wakacji','codzienna rutyna poranna',
+  'zakupy spożywcze','wizyta u lekarza','praca w biurze','hobby i zainteresowania',
+  'pytanie o drogę w mieście','rozmowa telefoniczna z przyjacielem','opisywanie własnego mieszkania',
+  'plany na weekend','uczucia po trudnym dniu','sport i aktywność fizyczna','pogoda dzisiaj',
+  'szkoła i nauka','zwierzęta domowe','koncert lub kino','zakupy ubrań','gotowanie obiadu',
+  'spotkanie z rodziną','podróż pociągiem','praca w ogrodzie','czytanie książki','pierwszy dzień w nowej pracy',
+  'spacer po parku','naprawa czegoś w domu','rozmowa w sklepie','planowanie urodzin','nauka języka obcego',
+  'poranna kawa','wieczór z przyjaciółmi','problem z komputerem','wizyta u fryzjera','jazda samochodem',
+];
+const SENTENCE_TYPES = ['zwykłe zdanie oznajmujące','pytanie','zdanie w czasie przeszłym','zdanie w czasie przyszłym','zdanie z przeczeniem (nie)','zdanie rozkazujące (polecenie/prośba)'];
+
 app.post('/api/games/sentence', async (req, res) => {
   try {
     const { level } = req.body;
+    const topic = SENTENCE_TOPICS[Math.floor(Math.random() * SENTENCE_TOPICS.length)];
+    const sentType = SENTENCE_TYPES[Math.floor(Math.random() * SENTENCE_TYPES.length)];
     const prompt = [
       'You are generating a sentence-building exercise for a Turkish student learning Polish.',
       'Level: ' + (level || 'A1-A2'),
+      'Topic (mandatory, build the sentence around this specific situation): ' + topic,
+      'Sentence type (mandatory): ' + sentType,
       '',
-      'Generate ONE natural, original Polish sentence at this level (5-9 words), plus its Turkish translation.',
+      'Generate ONE natural, original Polish sentence at this level (5-9 words) about the given topic, in the given sentence type, plus its Turkish translation.',
       'Return ONLY valid JSON, no markdown:',
       '{ "sentence": "the full Polish sentence with correct punctuation", "translation": "Turkish translation", "words": ["Word1","word2","word3", "..."] }',
       '',
       'Rules:',
       '- "words" must be the sentence split into individual words IN THE CORRECT ORDER, each array element is exactly one word (keep trailing punctuation like a comma attached to its word, but put the final sentence-ending punctuation as part of the LAST word)',
-      '- The sentence must be a complete, natural, grammatically correct Polish sentence a real person would say',
-      '- Vary the topic each time (daily life, work, travel, feelings, family, etc.)',
+      '- The sentence must be a complete, natural, grammatically correct Polish sentence a real person would say in that exact situation',
+      '- Do NOT default to generic polite-request templates like "Czy mógłbyś/mogłabyś pomóc mi..." — use varied, concrete vocabulary specific to the topic instead',
+      '- Use varied subjects across calls (ja, ty, on, ona, my, oni) — do not always use "ja" or "ty"',
       '- Return ONLY valid JSON'
     ].join('\n');
     const raw = await claudeAsk(prompt, 700);
