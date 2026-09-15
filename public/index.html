@@ -1523,7 +1523,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
           <div id="spotify-progress" style="height:100%;background:#1db954;border-radius:99px;width:0%;transition:width .8s linear;"></div>
         </div>
       </div>
-      <button id="spotify-close" onclick="hideSpotifyWidget()" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:16px;padding:2px 4px;flex-shrink:0;" title="Kapat">✕</button>
+      <button id="spotify-close" onclick="spotifyUserClose()" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:16px;padding:2px 4px;flex-shrink:0;" title="Kapat">✕</button>
     </div>
     <!-- Kontroller -->
     <div id="spotify-controls">
@@ -10038,6 +10038,7 @@ document.addEventListener('click', function(e) {
 // ── SPOTIFY ───────────────────────────────────────────────
 let _spotifyInterval = null;
 let _spotifyVisible = false;
+let _spotifyDismissed = false;
 let _spotifyDragging = false;
 let _dragOffset = {x:0, y:0};
 
@@ -10059,6 +10060,11 @@ function hideSpotifyWidget() {
   const bar = document.getElementById('spotify-bar');
   bar.classList.add('hiding');
   setTimeout(() => { w.classList.remove('visible'); bar.classList.remove('hiding'); _spotifyVisible = false; }, 400);
+}
+
+function spotifyUserClose() {
+  _spotifyDismissed = true;
+  hideSpotifyWidget();
 }
 
 async function checkSpotify() {
@@ -10094,7 +10100,7 @@ async function checkSpotify() {
     const pct = data.duration_ms > 0 ? (data.progress_ms / data.duration_ms * 100) : 0;
     document.getElementById('spotify-progress').style.width = pct + '%';
 
-    if(!_spotifyVisible) {
+    if(!_spotifyVisible && !_spotifyDismissed) {
       widget.style.left = '';
       widget.style.top = '';
       widget.style.bottom = '24px';
