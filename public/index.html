@@ -7497,6 +7497,7 @@ window.polonica = {
   getXp:               ()   => api.get('/api/progress/xp'),
   addXp:               (amount) => api.post('/api/progress/xp', {amount}),
   unlockBadge:         (id) => api.post('/api/progress/badge', {id}),
+  logProgress:         (a)  => api.post('/api/progress/log', a),
   ocrImage:            ()   => Promise.resolve({text:'',error:'OCR web versiyonunda yok.'}),
   readClipboardImage:  ()   => Promise.resolve({base64:null}),
   openFile:            ()   => Promise.resolve({text:null}),
@@ -7761,10 +7762,16 @@ function hafizaFlip(idx) {
       a.matched = true; b.matched = true;
       st.matched++;
       st.flipped = [];
+      if (window.polonica && window.polonica.logProgress) {
+        window.polonica.logProgress({ wordPl: a.value, correct: true });
+      }
       hafizaRender();
       document.getElementById('hafiza-moves').textContent = st.moves;
       if (st.matched === st.total) setTimeout(hafizaFinish, 500);
     } else {
+      if (window.polonica && window.polonica.logProgress) {
+        window.polonica.logProgress({ wordPl: a.value, correct: false });
+      }
       setTimeout(function() { st.flipped = []; hafizaRender(); document.getElementById('hafiza-moves').textContent = st.moves; }, 800);
     }
   }
@@ -7888,6 +7895,9 @@ function cumleCheck() {
   var built = st.answer.map(function(a) { return a.word; }).join(' ');
   var normalize = function(s) { return s.toLowerCase().replace(/[.,!?]/g, '').trim(); };
   var correct = normalize(built) === normalize(st.sentence);
+  if (window.polonica && window.polonica.logProgress) {
+    window.polonica.logProgress({ wordPl: st.sentence, correct: correct });
+  }
   var fb = document.getElementById('cumle-feedback');
   if (correct) {
     fb.innerHTML = '<div style="padding:14px;border-radius:10px;background:var(--green-bg);color:var(--green);font-weight:700">✓ Doğru! <span style="font-weight:400;color:var(--text3)">' + esc(st.translation) + '</span></div>' +
@@ -12968,6 +12978,11 @@ function tcAnimateNewCard() {
 // Combo streak sistemi
 var _tcCombo = 0;
 function tcCheckCombo(correct) {
+  var _w = _tcWords[_tcIdx];
+  var _pl = (_w && (_w.back || _w.pl || _w.word || _w.front)) || '(test)';
+  if (window.polonica && window.polonica.logProgress) {
+    window.polonica.logProgress({ wordPl: _pl, correct: correct });
+  }
   if (correct) {
     _tcCombo++;
     awardXp(5, 'test_correct');
