@@ -276,6 +276,30 @@ app.post('/api/progress',(req,res)=>{
 });
 app.post('/api/progress/reset/:id',(req,res)=>{const p=ensureProfile(req.headers['x-profile']);const u=p.units.find(u=>u.id===req.params.id);if(u){u.words.forEach(w=>{w.progress={correct:0,wrong:0};delete w.srs;});saveStore();}res.json({ok:true});});
 
+// Genel ilerleme kaydı — Test modu (Burak Special dahil), oyunlar vb. buradan geçer.
+// Kelime p.units ya da p.special icinde bulunursa progress/srs guncellenir; bulunmasa bile
+// haftalik aktivite grafigi icin progressLog'a her zaman yazilir.
+app.post('/api/progress/log', (req,res) => {
+  const p = ensureProfile(req.headers['x-profile']);
+  const { wordPl, correct } = req.body;
+  if (!wordPl) return res.json({ ok:false });
+  let word = null;
+  for (const u of p.units) { word = u.words.find(w => w.pl === wordPl); if (word) break; }
+  if (!word) word = (p.special||[]).find(w => w.pl === wordPl);
+  if (word) {
+    if (!word.progress) word.progress = { correct:0, wrong:0 };
+    if (correct) word.progress.correct++; else word.progress.wrong++;
+    if (!word.srs) word.srs = { interval:1, easeFactor:2.5 };
+    if (correct) { word.srs.interval = Math.round(word.srs.interval*word.srs.easeFactor); word.srs.easeFactor = Math.min(3.0, word.srs.easeFactor+0.1); }
+    else { word.srs.interval = 1; word.srs.easeFactor = Math.max(1.3, word.srs.easeFactor-0.2); }
+    const next = new Date(); next.setDate(next.getDate()+word.srs.interval); word.srs.nextReview = next.toISOString();
+  }
+  p.progressLog.push({ wordPl, unitId:null, correct: !!correct, date: new Date().toISOString() });
+  if (p.progressLog.length > 10000) p.progressLog = p.progressLog.slice(-10000);
+  saveStore();
+  res.json({ ok:true, matched: !!word });
+});
+
 // ── XP & ROZET SİSTEMİ ───────────────────────────────────────
 app.get('/api/progress/xp', (req,res) => {
   const p = ensureProfile(req.headers['x-profile']);
@@ -323,11 +347,13 @@ app.delete('/api/pdfs/:id',(req,res)=>{
 // ── İSTATİSTİK ────────────────────────────────────────────
 app.get('/api/stats',(req,res)=>{
   const p=ensureProfile(req.headers['x-profile']);
-  const allWords=p.units.flatMap(u=>u.words.map(w=>({...w,mode:u.mode})));
+  const unitWords=p.units.flatMap(u=>u.words.map(w=>({...w,mode:u.mode})));
+  const specialWords=(p.special||[]).map(w=>({...w}));
+  const allWords=[...unitWords,...specialWords];
   const total=allWords.length;
   const learned=allWords.filter(w=>w.progress&&w.progress.correct>=2).length;
   const weak=allWords.filter(w=>w.progress&&w.progress.wrong>=2&&(w.progress.correct||0)<2).length;
-  const byCategory={verb:0,noun:0,adj:0,other:0};allWords.forEach(w=>{byCategory[w.category||'other']++;});
+  const byCategory={verb:0,noun:0,adj:0,other:0};allWords.forEach(w=>{const cat=(w.category&&byCategory.hasOwnProperty(w.category))?w.category:'other';byCategory[cat]++;});
   const now=new Date();const weekLog=[];
   for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);const ds=d.toISOString().slice(0,10);const entries=(p.progressLog||[]).filter(e=>e.date&&e.date.startsWith(ds));weekLog.push({date:ds,label:['Paz','Pts','Sal','Çar','Per','Cum','Cmt'][d.getDay()],correct:entries.filter(e=>e.correct).length,wrong:entries.filter(e=>!e.correct).length});}
   const wordStats={};(p.progressLog||[]).forEach(e=>{if(!wordStats[e.wordPl])wordStats[e.wordPl]={wrong:0,correct:0};if(e.correct)wordStats[e.wordPl].correct++;else wordStats[e.wordPl].wrong++;});
