@@ -794,6 +794,58 @@ app.post('/api/kurwa-lookup', async (req, res) => {
 });
 
 // ── OKUMA PRATİĞİ: metin üretimi ──────────────────────────
+// ── OYUN: Hafıza eşleştirme — konuya göre taze kelime çiftleri ────
+app.post('/api/games/memory', async (req, res) => {
+  try {
+    const { topic, level } = req.body;
+    if (!topic) return res.status(400).json({ error: 'Konu gerekli.' });
+    const prompt = [
+      'You are generating vocabulary for a memory-matching game for a Turkish student learning Polish.',
+      'Topic: ' + topic,
+      'Level: ' + (level || 'A1-A2'),
+      '',
+      'Generate exactly 8 common, real Polish words related to this topic, each with its Turkish meaning.',
+      'Return ONLY valid JSON, no markdown:',
+      '{ "pairs": [ {"pl": "polish word", "tr": "turkish meaning"} ] }',
+      '',
+      'Rules:',
+      '- Exactly 8 pairs, all different words, no duplicates',
+      '- Words must genuinely relate to the given topic and fit the requested level',
+      '- Single words or very short common phrases only (max 2-3 words)',
+      '- Return ONLY valid JSON'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 900);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── OYUN: Cümle kurma — rastgele üretilmiş cümleyi kelime kelime dizme ──
+app.post('/api/games/sentence', async (req, res) => {
+  try {
+    const { level } = req.body;
+    const prompt = [
+      'You are generating a sentence-building exercise for a Turkish student learning Polish.',
+      'Level: ' + (level || 'A1-A2'),
+      '',
+      'Generate ONE natural, original Polish sentence at this level (5-9 words), plus its Turkish translation.',
+      'Return ONLY valid JSON, no markdown:',
+      '{ "sentence": "the full Polish sentence with correct punctuation", "translation": "Turkish translation", "words": ["Word1","word2","word3", "..."] }',
+      '',
+      'Rules:',
+      '- "words" must be the sentence split into individual words IN THE CORRECT ORDER, each array element is exactly one word (keep trailing punctuation like a comma attached to its word, but put the final sentence-ending punctuation as part of the LAST word)',
+      '- The sentence must be a complete, natural, grammatically correct Polish sentence a real person would say',
+      '- Vary the topic each time (daily life, work, travel, feelings, family, etc.)',
+      '- Return ONLY valid JSON'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 700);
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('JSON parse hatasi.');
+    res.json(JSON.parse(match[0]));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.post('/api/reading/generate', async (req, res) => {
   try {
     const { grade, wc, topic } = req.body;
