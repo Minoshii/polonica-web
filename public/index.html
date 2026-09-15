@@ -7302,8 +7302,10 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <div class="sentence-answer" id="cumle-answer"></div>
       <div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Kelimeler</div>
       <div class="sentence-pool" id="cumle-pool"></div>
-      <div style="display:flex;gap:10px;margin-top:18px">
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
         <button class="btn" onclick="cumleUndo()">↩ Geri Al</button>
+        <button class="btn" onclick="cumleHint()" style="border-color:#c8a050;color:#c8a050">💡 İpucu</button>
+        <button class="btn" onclick="cumleSkip()" style="border-color:#888;color:var(--text3)">⏭ Pas Geç</button>
         <button class="ejmala-btn" onclick="cumleCheck()" id="cumle-check-btn">✓ Kontrol Et</button>
       </div>
       <div id="cumle-feedback" style="margin-top:16px"></div>
@@ -7809,7 +7811,7 @@ async function cumleNext() {
       var j = Math.floor(Math.random() * (i + 1));
       var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
     }
-    _cumleState = { sentence: data.sentence, translation: data.translation, pool: shuffled, answer: [] };
+    _cumleState = { sentence: data.sentence, translation: data.translation, pool: shuffled, answer: [], usedHint: false };
     document.getElementById('cumle-start-wrap').style.display = 'none';
     document.getElementById('cumle-game').style.display = '';
     cumleRender();
@@ -7857,6 +7859,29 @@ function cumleUndo() {
   cumleRemove(st.answer[st.answer.length - 1].id);
 }
 
+function cumleHint() {
+  var st = _cumleState;
+  if (!st) return;
+  var remaining = st.pool.filter(function(p) { return !p.used; }).sort(function(a, b) { return a.id - b.id; });
+  if (!remaining.length) return;
+  st.usedHint = true;
+  cumleAdd(remaining[0].id);
+}
+
+function cumleSkip() {
+  var st = _cumleState;
+  if (!st) return;
+  var remaining = st.pool.filter(function(p) { return !p.used; }).sort(function(a, b) { return a.id - b.id; });
+  remaining.forEach(function(p) { p.used = true; st.answer.push(p); });
+  cumleRender();
+  var fb = document.getElementById('cumle-feedback');
+  fb.innerHTML = '<div style="padding:14px;border-radius:10px;background:var(--surface2);border:1px solid var(--border)">' +
+    '<div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:6px">Doğru Cümle</div>' +
+    '<div style="font-weight:800;font-family:\'DM Mono\',monospace;margin-bottom:4px;color:var(--text)">' + esc(st.sentence) + '</div>' +
+    '<div style="font-size:12px;color:var(--text3)">' + esc(st.translation) + '</div>' +
+  '</div><button class="ejmala-btn" style="margin-top:12px" onclick="cumleNext()">Sonraki Cümle →</button>';
+}
+
 function cumleCheck() {
   var st = _cumleState;
   if (!st) return;
@@ -7867,7 +7892,7 @@ function cumleCheck() {
   if (correct) {
     fb.innerHTML = '<div style="padding:14px;border-radius:10px;background:var(--green-bg);color:var(--green);font-weight:700">✓ Doğru! <span style="font-weight:400;color:var(--text3)">' + esc(st.translation) + '</span></div>' +
       '<button class="ejmala-btn" style="margin-top:12px" onclick="cumleNext()">Sonraki Cümle →</button>';
-    awardXp(12, 'sentence_game');
+    awardXp(st.usedHint ? 6 : 12, 'sentence_game');
     unlockBadge('sentence_win');
   } else {
     fb.innerHTML = '<div style="padding:14px;border-radius:10px;background:var(--red-bg);color:var(--red);font-weight:700">✗ Doğru değil, tekrar dene.</div>';
