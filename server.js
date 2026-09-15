@@ -57,7 +57,13 @@ async function claudeAsk(prompt, maxTokens=1024) {
 }
 
 app.use(express.json({ limit:'200mb' }));
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('index.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  }
+}));
 
 // Auth
 app.use((req,res,next) => {
