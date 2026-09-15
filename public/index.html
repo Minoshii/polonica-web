@@ -829,6 +829,23 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .prep-ex-tr{font-size:11.5px;color:var(--text3);margin-top:2px;}
 .prep-ex-save{background:none;border:none;cursor:pointer;font-size:13px;opacity:.4;flex-shrink:0;padding:2px 4px;transition:opacity .15s,transform .15s;}
 .prep-ex-save:hover{opacity:1;transform:scale(1.2);}
+/* Hafıza Oyunu */
+.memory-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;perspective:800px;}
+.memory-card{aspect-ratio:1/1;position:relative;cursor:pointer;}
+.memory-card-inner{position:absolute;inset:0;transition:transform .5s;transform-style:preserve-3d;}
+.memory-card.flipped .memory-card-inner,.memory-card.matched .memory-card-inner{transform:rotateY(180deg);}
+.memory-card-face{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;padding:6px;text-align:center;}
+.memory-card-front{background:var(--accent);background-image:linear-gradient(135deg,var(--accent),var(--accent-dim));font-size:26px;}
+.memory-card-back{background:var(--surface2);border:2px solid var(--border);transform:rotateY(180deg);font-size:13px;font-weight:800;color:var(--text);font-family:'DM Mono',monospace;line-height:1.25;}
+.memory-card.matched .memory-card-back{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+/* Cümle Kurma */
+.sentence-answer{min-height:56px;border:2px dashed var(--border2);border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;margin-bottom:16px;background:var(--surface2);}
+.sentence-chip{background:var(--accent);color:#fff;font-weight:800;font-size:15px;font-family:'DM Mono',monospace;padding:8px 14px;border-radius:10px;cursor:pointer;border:none;transition:transform .12s;box-shadow:0 3px 8px rgba(0,0,0,.2);}
+.sentence-chip:hover{transform:translateY(-2px);}
+.sentence-chip.used{opacity:.25;pointer-events:none;background:var(--surface3);color:var(--text3);box-shadow:none;}
+.sentence-pool{display:flex;flex-wrap:wrap;gap:8px;}
+.sentence-answer .sentence-chip{background:var(--surface3);color:var(--text);}
+.cumle-lv-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .vucut-item:hover{background:var(--surface2);border-color:var(--border);}
 .vucut-item-pl{font-size:14px;font-weight:700;color:var(--text);font-family:'DM Mono',monospace;}
 .vucut-item-tr{font-size:12px;color:var(--text3);}
@@ -1648,6 +1665,10 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')" data-i18n="nav.stats">📊 İstatistik</button>
   <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:#e090c0;font-weight:800" data-i18n="nav.kultur">🏛 Kültür</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0" data-i18n="nav.notes">📝 Notlarım</button>
+
+  <div class="nav-section">Oyunlar</div>
+  <button class="nav-btn" id="nav-hafiza" onclick="showPanel('hafiza')" style="color:#c060a0;font-weight:800">🧠 Hafıza Oyunu</button>
+  <button class="nav-btn" id="nav-cumle" onclick="showPanel('cumle')" style="color:#5dc0b0;font-weight:800">🔤 Cümle Kurma</button>
   <button id="spotify-sidebar-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px" data-i18n="nav.about">ℹ Hakkında</button>
 
@@ -7230,6 +7251,65 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     </div>
   </div>
 
+  <!-- HAFIZA OYUNU -->
+  <div class="panel" id="panel-hafiza">
+    <div class="panel-title">🧠 Hafıza Oyunu <span class="mode-badge" style="background:#1a0d16;color:#e090c0;border:1px solid #c060a0">AI Destekli</span></div>
+    <div class="panel-sub" style="margin-bottom:16px">Bir konu yaz, AI o konudan taze kelimeler üretsin — her seferinde farklı kartlar.</div>
+
+    <div id="hafiza-setup">
+      <div class="ejmala-input-wrap">
+        <input type="text" class="ejmala-input" id="hafiza-topic-input" placeholder="Konu yaz... (örn: yemek, ev, seyahat, duygular)" onkeydown="if(event.key==='Enter')hafizaStart()">
+        <button class="ejmala-btn" onclick="hafizaStart()" id="hafiza-start-btn">Başlat →</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn" onclick="document.getElementById('hafiza-topic-input').value='yemek';hafizaStart()" style="font-size:12px">🍽️ Yemek</button>
+        <button class="btn" onclick="document.getElementById('hafiza-topic-input').value='ev';hafizaStart()" style="font-size:12px">🏠 Ev</button>
+        <button class="btn" onclick="document.getElementById('hafiza-topic-input').value='seyahat';hafizaStart()" style="font-size:12px">✈️ Seyahat</button>
+        <button class="btn" onclick="document.getElementById('hafiza-topic-input').value='iş hayatı';hafizaStart()" style="font-size:12px">💼 İş Hayatı</button>
+        <button class="btn" onclick="document.getElementById('hafiza-topic-input').value='doğa';hafizaStart()" style="font-size:12px">🌳 Doğa</button>
+      </div>
+    </div>
+
+    <div id="hafiza-game" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;color:var(--text3)">Hamle: <strong id="hafiza-moves" style="color:var(--text)">0</strong> · Eşleşen: <strong id="hafiza-matched" style="color:var(--text)">0/8</strong></div>
+        <button class="btn" onclick="showPanel('hafiza')" style="font-size:12px">↺ Yeni Oyun</button>
+      </div>
+      <div class="memory-grid" id="hafiza-grid"></div>
+    </div>
+
+    <div id="hafiza-result" style="display:none;text-align:center;padding:30px"></div>
+  </div>
+
+  <!-- CÜMLE KURMA -->
+  <div class="panel" id="panel-cumle">
+    <div class="panel-title">🔤 Cümle Kurma <span class="mode-badge" style="background:#0d1a18;color:#5dc0b0;border:1px solid #2a7a68">AI Destekli</span></div>
+    <div class="panel-sub" style="margin-bottom:16px">AI rastgele bir Lehçe cümle üretir, kelimeleri doğru sıraya dizmen gerekiyor.</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center">
+      <span style="font-size:12px;color:var(--text3)">Seviye:</span>
+      <button class="btn cumle-lv-btn active" onclick="cumleSetLevel(this,'A1-A2')" style="font-size:12px">Kolay (A1-A2)</button>
+      <button class="btn cumle-lv-btn" onclick="cumleSetLevel(this,'B1')" style="font-size:12px">Orta (B1)</button>
+      <button class="btn cumle-lv-btn" onclick="cumleSetLevel(this,'B2')" style="font-size:12px">Zor (B2)</button>
+    </div>
+
+    <div id="cumle-start-wrap">
+      <button class="ejmala-btn" onclick="cumleNext()" id="cumle-start-btn">🎲 Cümle Üret</button>
+    </div>
+
+    <div id="cumle-game" style="display:none">
+      <div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Cevabın</div>
+      <div class="sentence-answer" id="cumle-answer"></div>
+      <div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Kelimeler</div>
+      <div class="sentence-pool" id="cumle-pool"></div>
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <button class="btn" onclick="cumleUndo()">↩ Geri Al</button>
+        <button class="ejmala-btn" onclick="cumleCheck()" id="cumle-check-btn">✓ Kontrol Et</button>
+      </div>
+      <div id="cumle-feedback" style="margin-top:16px"></div>
+    </div>
+  </div>
+
   <!-- DERSTEN GELENLER -->
 
   <div class="panel" id="panel-lib-class">
@@ -7471,6 +7551,8 @@ const BADGES = {
   kultur_10:     { icon: '🏛', name: 'Kültür Kurdu',     desc: '10 kültür kartı okudun.' },
   night_owl:     { icon: '🦉', name: 'Gece Kuşu',        desc: 'Gece yarısından sonra çalıştın.' },
   combo_10:      { icon: '⚡', name: 'Seri Ustası',      desc: 'Testte 10\'luk seri yaptın.' },
+  memory_win:    { icon: '🧠', name: 'Hafıza Ustası',    desc: 'İlk hafıza oyununu tamamladın.' },
+  sentence_win:  { icon: '🔤', name: 'Cümle Mimarı',     desc: 'İlk cümleyi doğru dizdin.' },
 };
 
 let _xp = 0;
@@ -7606,6 +7688,190 @@ function checkWordCountBadges() {
   if (count >= 50) unlockBadge('words_50');
   if (count >= 200) unlockBadge('words_200');
   if (count >= 500) unlockBadge('words_500');
+}
+
+// ══════════════════════════════════════════════════════
+// HAFIZA OYUNU — konuya göre AI'ın ürettiği taze kelimelerle
+// ══════════════════════════════════════════════════════
+let _hafizaState = null;
+
+async function hafizaStart() {
+  var input = document.getElementById('hafiza-topic-input');
+  var topic = (input.value || '').trim();
+  if (!topic) return;
+  var btn = document.getElementById('hafiza-start-btn');
+  btn.disabled = true; btn.textContent = '...';
+  document.getElementById('hafiza-result').style.display = 'none';
+  try {
+    var data = await api.post('/api/games/memory', { topic: topic, level: 'A1-B1' });
+    if (!data.pairs || data.pairs.length < 4) throw new Error('Kelime alınamadı.');
+    var pairs = data.pairs.slice(0, 8);
+    var cards = [];
+    pairs.forEach(function(p, i) {
+      cards.push({ pairId: i, value: p.pl, matched: false });
+      cards.push({ pairId: i, value: p.tr, matched: false });
+    });
+    for (var i = cards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+    }
+    _hafizaState = { cards: cards, flipped: [], matched: 0, moves: 0, total: pairs.length, topic: topic };
+    document.getElementById('hafiza-setup').style.display = 'none';
+    document.getElementById('hafiza-game').style.display = '';
+    hafizaRender();
+  } catch(e) {
+    if (typeof showToast === 'function') showToast('Hata: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = 'Başlat →';
+}
+
+function hafizaRender() {
+  var st = _hafizaState;
+  var grid = document.getElementById('hafiza-grid');
+  if (!grid || !st) return;
+  grid.innerHTML = '';
+  st.cards.forEach(function(c, idx) {
+    var flippedNow = st.flipped.indexOf(idx) !== -1;
+    var el = document.createElement('div');
+    el.className = 'memory-card' + (c.matched ? ' matched' : '') + (flippedNow ? ' flipped' : '');
+    el.onclick = function() { hafizaFlip(idx); };
+    el.innerHTML = '<div class="memory-card-inner">' +
+      '<div class="memory-card-face memory-card-front">❓</div>' +
+      '<div class="memory-card-face memory-card-back">' + esc(c.value) + '</div>' +
+    '</div>';
+    grid.appendChild(el);
+  });
+  document.getElementById('hafiza-moves').textContent = st.moves;
+  document.getElementById('hafiza-matched').textContent = st.matched + '/' + st.total;
+}
+
+function hafizaFlip(idx) {
+  var st = _hafizaState;
+  if (!st) return;
+  var c = st.cards[idx];
+  if (c.matched || st.flipped.indexOf(idx) !== -1 || st.flipped.length >= 2) return;
+  st.flipped.push(idx);
+  hafizaRender();
+  if (st.flipped.length === 2) {
+    st.moves++;
+    var a = st.cards[st.flipped[0]], b = st.cards[st.flipped[1]];
+    if (a.pairId === b.pairId) {
+      a.matched = true; b.matched = true;
+      st.matched++;
+      st.flipped = [];
+      hafizaRender();
+      document.getElementById('hafiza-moves').textContent = st.moves;
+      if (st.matched === st.total) setTimeout(hafizaFinish, 500);
+    } else {
+      setTimeout(function() { st.flipped = []; hafizaRender(); document.getElementById('hafiza-moves').textContent = st.moves; }, 800);
+    }
+  }
+}
+
+function hafizaFinish() {
+  var st = _hafizaState;
+  document.getElementById('hafiza-game').style.display = 'none';
+  var res = document.getElementById('hafiza-result');
+  res.style.display = '';
+  var bonus = st.moves <= st.total ? 15 : (st.moves <= st.total * 1.5 ? 8 : 0);
+  res.innerHTML = '<div style="font-size:44px;margin-bottom:10px">🎉</div>' +
+    '<div style="font-size:20px;font-weight:900;color:var(--text);font-family:Syne,sans-serif">Tamamlandı!</div>' +
+    '<div style="font-size:13px;color:var(--text3);margin:8px 0 18px">"' + esc(st.topic) + '" konusunu ' + st.moves + ' hamlede eşleştirdin.</div>' +
+    '<button class="ejmala-btn" onclick="showPanel(\'hafiza\')">↺ Tekrar Oyna</button>';
+  awardXp(20 + bonus, 'memory_game');
+  unlockBadge('memory_win');
+}
+
+// ══════════════════════════════════════════════════════
+// CÜMLE KURMA — AI'ın ürettiği cümleyi doğru sıraya dizme
+// ══════════════════════════════════════════════════════
+let _cumleState = null;
+let _cumleLevel = 'A1-A2';
+
+function cumleSetLevel(btn, level) {
+  _cumleLevel = level;
+  document.querySelectorAll('.cumle-lv-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+async function cumleNext() {
+  var btn = document.getElementById('cumle-start-btn') || document.getElementById('cumle-check-btn');
+  document.getElementById('cumle-feedback').innerHTML = '';
+  var startWrap = document.getElementById('cumle-start-wrap');
+  var startBtn = document.getElementById('cumle-start-btn');
+  if (startBtn) { startBtn.disabled = true; startBtn.textContent = '...'; }
+  try {
+    var data = await api.post('/api/games/sentence', { level: _cumleLevel });
+    if (!data.words || !data.words.length) throw new Error('Cümle alınamadı.');
+    var words = data.words.slice();
+    var shuffled = words.map(function(w, i) { return { word: w, id: i, used: false }; });
+    for (var i = shuffled.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
+    }
+    _cumleState = { sentence: data.sentence, translation: data.translation, pool: shuffled, answer: [] };
+    document.getElementById('cumle-start-wrap').style.display = 'none';
+    document.getElementById('cumle-game').style.display = '';
+    cumleRender();
+  } catch(e) {
+    if (typeof showToast === 'function') showToast('Hata: ' + e.message);
+  }
+  if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🎲 Cümle Üret'; }
+}
+
+function cumleRender() {
+  var st = _cumleState;
+  if (!st) return;
+  var answerEl = document.getElementById('cumle-answer');
+  var poolEl = document.getElementById('cumle-pool');
+  answerEl.innerHTML = st.answer.map(function(item) {
+    return '<button class="sentence-chip" onclick="cumleRemove(' + item.id + ')">' + esc(item.word) + '</button>';
+  }).join('');
+  poolEl.innerHTML = st.pool.map(function(item) {
+    return '<button class="sentence-chip' + (item.used ? ' used' : '') + '" onclick="cumleAdd(' + item.id + ')">' + esc(item.word) + '</button>';
+  }).join('');
+}
+
+function cumleAdd(id) {
+  var st = _cumleState;
+  var item = st.pool.find(function(p) { return p.id === id; });
+  if (!item || item.used) return;
+  item.used = true;
+  st.answer.push(item);
+  cumleRender();
+}
+
+function cumleRemove(id) {
+  var st = _cumleState;
+  var idx = st.answer.findIndex(function(p) { return p.id === id; });
+  if (idx === -1) return;
+  var item = st.answer[idx];
+  item.used = false;
+  st.answer.splice(idx, 1);
+  cumleRender();
+}
+
+function cumleUndo() {
+  var st = _cumleState;
+  if (!st || !st.answer.length) return;
+  cumleRemove(st.answer[st.answer.length - 1].id);
+}
+
+function cumleCheck() {
+  var st = _cumleState;
+  if (!st) return;
+  var built = st.answer.map(function(a) { return a.word; }).join(' ');
+  var normalize = function(s) { return s.toLowerCase().replace(/[.,!?]/g, '').trim(); };
+  var correct = normalize(built) === normalize(st.sentence);
+  var fb = document.getElementById('cumle-feedback');
+  if (correct) {
+    fb.innerHTML = '<div style="padding:14px;border-radius:10px;background:var(--green-bg);color:var(--green);font-weight:700">✓ Doğru! <span style="font-weight:400;color:var(--text3)">' + esc(st.translation) + '</span></div>' +
+      '<button class="ejmala-btn" style="margin-top:12px" onclick="cumleNext()">Sonraki Cümle →</button>';
+    awardXp(12, 'sentence_game');
+    unlockBadge('sentence_win');
+  } else {
+    fb.innerHTML = '<div style="padding:14px;border-radius:10px;background:var(--red-bg);color:var(--red);font-weight:700">✗ Doğru değil, tekrar dene.</div>';
+  }
 }
 
 
@@ -7932,6 +8198,18 @@ function showPanel(name){
   if(name==='writing') { wrInitPanel(); }
   if(name==='reading') { rdInitPanel(); }
   if(name==='kurwa') { renderKurwaList(); }
+  if(name==='hafiza') {
+    _hafizaState = null;
+    document.getElementById('hafiza-setup').style.display = '';
+    document.getElementById('hafiza-game').style.display = 'none';
+    document.getElementById('hafiza-result').style.display = 'none';
+  }
+  if(name==='cumle') {
+    _cumleState = null;
+    document.getElementById('cumle-start-wrap').style.display = '';
+    document.getElementById('cumle-game').style.display = 'none';
+    document.getElementById('cumle-feedback').innerHTML = '';
+  }
 
   if(window.innerWidth <= 640){
     const sb = document.getElementById('sidebar');
