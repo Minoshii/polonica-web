@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Polonica">
 <meta name="theme-color" content="#c8b89a">
 <title>Polonica</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Marck+Script&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--bg:#0c0c0c;--surface:#111;--surface2:#161616;--surface3:#1c1c1c;--border:#222;--border2:#2a2a2a;--accent:#c8b89a;--accent-dim:#6b5d48;--accent-bg:#1a160e;--text:#e8e6e1;--text2:#888;--text3:#444;--green:#4a9a6a;--green-bg:#0d2017;--red:#c05050;--red-bg:#200d0d;--blue:#5080c0;--blue-bg:#0d1a30;--purple:#9060c0;--purple-bg:#1a0d30;--pink:#c060a0;--pink-bg:#1a0d16;--teal:#3a9a8a;--teal-bg:#0d1e1c;}
@@ -845,6 +845,44 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 .sentence-chip.used{opacity:.25;pointer-events:none;background:var(--surface3);color:var(--text3);box-shadow:none;}
 .sentence-pool{display:flex;flex-wrap:wrap;gap:8px;}
 .sentence-answer .sentence-chip{background:var(--surface3);color:var(--text);}
+
+/* ===== RUSÇA ===== */
+.ru-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 16px}
+.ru-tab{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:8px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif}
+.ru-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ru-sec{display:none}.ru-sec.active{display:block}
+.ru-hand{font-family:'Marck Script','Segoe Script',cursive}
+.ru-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.ru-letter{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px 8px;text-align:center;cursor:pointer;transition:transform .12s,border-color .12s}
+.ru-letter:hover{transform:translateY(-2px);border-color:var(--accent)}
+.ru-letter.v{border-top:3px solid #e08050}.ru-letter.c{border-top:3px solid #5080c0}.ru-letter.s{border-top:3px solid #a060c0}
+.ru-print{font-size:30px;font-weight:800;color:var(--text);line-height:1.1}
+.ru-hw{font-size:34px;color:var(--accent);line-height:1.2;margin-top:2px}
+.ru-lat{font-size:13px;font-weight:800;color:var(--text);margin-top:4px;font-family:'DM Mono',monospace}
+.ru-read{font-size:10px;color:var(--text3);margin-top:2px}
+.ru-detail{background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:16px;margin-bottom:16px;display:none}
+.ru-detail.show{display:block}
+.ru-detail-row{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+.ru-big{font-size:72px;line-height:1;font-weight:800;color:var(--text)}
+.ru-big.h{color:var(--accent);font-weight:400}
+.ru-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.ru-box h4{margin:0 0 8px;font-size:14px;font-family:'Syne',sans-serif;color:var(--text)}
+.ru-box p,.ru-box li{font-size:12.5px;color:var(--text2);line-height:1.6;margin:4px 0}
+.ru-box ul{padding-left:18px;margin:6px 0}
+.ru-tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0}
+.ru-tbl th{background:var(--surface2);color:var(--text);text-align:left;padding:7px 9px;font-size:11px;letter-spacing:.3px}
+.ru-tbl td{padding:7px 9px;border-top:1px solid var(--border);color:var(--text2);vertical-align:top}
+.ru-tbl td b{color:var(--text)}
+.ru-m{color:#5aa0f0;font-weight:800}.ru-f{color:#f070a0;font-weight:800}.ru-n{color:#60c080;font-weight:800}
+.ru-tblwrap{overflow-x:auto}
+.ru-warn{background:rgba(224,160,64,.12);border-left:3px solid #e0a040;padding:8px 12px;border-radius:6px;font-size:12px;color:var(--text2);margin:8px 0;line-height:1.55}
+.ru-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ru-opt{flex:1;min-width:90px;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:800;cursor:pointer;font-size:13px}
+.ru-opt.ok{background:#1f6a3a;color:#fff;border-color:#2a9a50}.ru-opt.bad{background:#7a2a2a;color:#fff;border-color:#b04040}
+.ru-qword{font-size:38px;font-weight:800;text-align:center;margin:10px 0;color:var(--text)}
+.ru-leg{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--text3);margin-bottom:12px}
+.ru-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+
 .cumle-lv-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .vucut-item:hover{background:var(--surface2);border-color:var(--border);}
 .vucut-item-pl{font-size:14px;font-weight:700;color:var(--text);font-family:'DM Mono',monospace;}
@@ -1670,6 +1708,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-hafiza" onclick="showPanel('hafiza')" style="color:#c060a0;font-weight:800">🧠 Hafıza Oyunu</button>
   <button class="nav-btn" id="nav-cumle" onclick="showPanel('cumle')" style="color:#5dc0b0;font-weight:800">🔤 Cümle Kurma</button>
   <button id="spotify-sidebar-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
+  <button class="nav-btn" id="nav-rusca" onclick="showPanel('rusca')" style="color:#e06060;font-weight:800">🇷🇺 Rusça</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:#555;margin-top:8px" data-i18n="nav.about">ℹ Hakkında</button>
 
 
@@ -7148,6 +7187,224 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="panel-sub" style="margin-bottom:8px">Kelimeye tıkla → Burak Special Akademik'e ekle. (28 kelime)</div>
 <div class="theme-cat-header" style="--cat-color:#c05050"><div class="theme-cat-icon">🎂</div><div class="theme-cat-title">Doğum Günü & Kutlamalar</div></div><div class="theme-cat-grid"><div class="theme-word-card" onclick="saveVucutWord('urodziny','doğum günü','kutlama')"><div class="theme-word-icon">🎂</div><div class="theme-word-pl">urodziny</div><div class="theme-word-tr">doğum günü</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('prezent','hediye','kutlama')"><div class="theme-word-icon">🎁</div><div class="theme-word-pl">prezent</div><div class="theme-word-tr">hediye</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('tort','pasta','kutlama')"><div class="theme-word-icon">🍰</div><div class="theme-word-pl">tort</div><div class="theme-word-tr">pasta</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('świeczka','mum','kutlama')"><div class="theme-word-icon">🕯️</div><div class="theme-word-pl">świeczka</div><div class="theme-word-tr">mum</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('balony','balonlar','kutlama')"><div class="theme-word-icon">🎈</div><div class="theme-word-pl">balony</div><div class="theme-word-tr">balonlar</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('życzenia','dilekler / tebrik','kutlama')"><div class="theme-word-icon">💌</div><div class="theme-word-pl">życzenia</div><div class="theme-word-tr">dilekler / tebrik</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('niespodzianka','sürpriz','kutlama')"><div class="theme-word-icon">🎉</div><div class="theme-word-pl">niespodzianka</div><div class="theme-word-tr">sürpriz</div><div class="theme-word-star">⭐</div></div></div><div class="theme-cat-header" style="--cat-color:#4a9a6a"><div class="theme-cat-icon">🎄</div><div class="theme-cat-title">Bayramlar & Tatiller</div></div><div class="theme-cat-grid"><div class="theme-word-card" onclick="saveVucutWord('Boże Narodzenie','Noel','kutlama')"><div class="theme-word-icon">🎄</div><div class="theme-word-pl">Boże Narodzenie</div><div class="theme-word-tr">Noel</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Wielkanoc','Paskalya','kutlama')"><div class="theme-word-icon">🐣</div><div class="theme-word-pl">Wielkanoc</div><div class="theme-word-tr">Paskalya</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Nowy Rok','Yeni Yıl','kutlama')"><div class="theme-word-icon">🎆</div><div class="theme-word-pl">Nowy Rok</div><div class="theme-word-tr">Yeni Yıl</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Dzień Kobiet','Kadınlar Günü','kutlama')"><div class="theme-word-icon">🌷</div><div class="theme-word-pl">Dzień Kobiet</div><div class="theme-word-tr">Kadınlar Günü</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Dzień Matki','Anneler Günü','kutlama')"><div class="theme-word-icon">💐</div><div class="theme-word-pl">Dzień Matki</div><div class="theme-word-tr">Anneler Günü</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Dzień Ojca','Babalar Günü','kutlama')"><div class="theme-word-icon">👔</div><div class="theme-word-pl">Dzień Ojca</div><div class="theme-word-tr">Babalar Günü</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Walentynki','Sevgililer Günü','kutlama')"><div class="theme-word-icon">💘</div><div class="theme-word-pl">Walentynki</div><div class="theme-word-tr">Sevgililer Günü</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('Andrzejki','Andrzejki (kehanet gecesi)','kutlama')"><div class="theme-word-icon">🔮</div><div class="theme-word-pl">Andrzejki</div><div class="theme-word-tr">Andrzejki (kehanet gecesi)</div><div class="theme-word-star">⭐</div></div></div><div class="theme-cat-header" style="--cat-color:#5080c0"><div class="theme-cat-icon">💒</div><div class="theme-cat-title">Yaşam Olayları</div></div><div class="theme-cat-grid"><div class="theme-word-card" onclick="saveVucutWord('ślub','düğün (nikah)','kutlama')"><div class="theme-word-icon">💒</div><div class="theme-word-pl">ślub</div><div class="theme-word-tr">düğün (nikah)</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('wesele','düğün eğlencesi','kutlama')"><div class="theme-word-icon">🥂</div><div class="theme-word-pl">wesele</div><div class="theme-word-tr">düğün eğlencesi</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('chrzest','vaftiz','kutlama')"><div class="theme-word-icon">👶</div><div class="theme-word-pl">chrzest</div><div class="theme-word-tr">vaftiz</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('pogrzeb','cenaze','kutlama')"><div class="theme-word-icon">⚱️</div><div class="theme-word-pl">pogrzeb</div><div class="theme-word-tr">cenaze</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('rocznica','yıldönümü','kutlama')"><div class="theme-word-icon">💑</div><div class="theme-word-pl">rocznica</div><div class="theme-word-tr">yıldönümü</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('studniówka','mezuniyet balosu','kutlama')"><div class="theme-word-icon">🎓</div><div class="theme-word-pl">studniówka</div><div class="theme-word-tr">mezuniyet balosu</div><div class="theme-word-star">⭐</div></div></div><div class="theme-cat-header" style="--cat-color:#c8a050"><div class="theme-cat-icon">🎊</div><div class="theme-cat-title">Kutlama Kelimeleri</div></div><div class="theme-cat-grid"><div class="theme-word-card" onclick="saveVucutWord('gratulacje','tebrikler','kutlama')"><div class="theme-word-icon">🎉</div><div class="theme-word-pl">gratulacje</div><div class="theme-word-tr">tebrikler</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('wszystkiego najlepszego','iyi ki doğdun / her şey gönlünce','kutlama')"><div class="theme-word-icon">🎊</div><div class="theme-word-pl">wszystkiego najlepszego</div><div class="theme-word-tr">iyi ki doğdun / her şey gönlünce</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('toast','kadeh kaldırma','kutlama')"><div class="theme-word-icon">🥂</div><div class="theme-word-pl">toast</div><div class="theme-word-tr">kadeh kaldırma</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('fajerwerki','havai fişek','kutlama')"><div class="theme-word-icon">🎆</div><div class="theme-word-pl">fajerwerki</div><div class="theme-word-tr">havai fişek</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('impreza','parti','kutlama')"><div class="theme-word-icon">🥳</div><div class="theme-word-pl">impreza</div><div class="theme-word-tr">parti</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('gość','misafir','kutlama')"><div class="theme-word-icon">🚪</div><div class="theme-word-pl">gość</div><div class="theme-word-tr">misafir</div><div class="theme-word-star">⭐</div></div><div class="theme-word-card" onclick="saveVucutWord('dekoracje','süslemeler','kutlama')"><div class="theme-word-icon">🎀</div><div class="theme-word-pl">dekoracje</div><div class="theme-word-tr">süslemeler</div><div class="theme-word-star">⭐</div></div></div>  </div>
 
+  <!-- RUSÇA -->
+  <div class="panel" id="panel-rusca">
+    <div class="panel-title">🇷🇺 Rusça 1 <span class="mode-badge" style="background:#1a0d10;color:#e06060;border:1px solid #a04040">Русский язык</span></div>
+    <div class="panel-sub">Kiril alfabesi · baskı & el yazısı · cinsiyet · tekil/çoğul. Harfe tıkla → büyük görünüm ve sesli okunuş.</div>
+    <div class="ru-tabs">
+      <button class="ru-tab active" onclick="ruTab('alfabe',this)">🔤 Alfabe</button>
+      <button class="ru-tab" onclick="ruTab('okuma',this)">👁 Okuma İpuçları</button>
+      <button class="ru-tab" onclick="ruTab('cins',this)">⚥ Cinsiyet</button>
+      <button class="ru-tab" onclick="ruTab('cogul',this)">➕ Tekil / Çoğul</button>
+      <button class="ru-tab" onclick="ruTab('pratik',this)">🎯 Pratik</button>
+    </div>
+
+    <div class="ru-sec active" id="ru-alfabe">
+      <div class="ru-detail" id="ru-detail"></div>
+      <div class="ru-leg"><span><i style="background:#e08050"></i>Ünlü</span><span><i style="background:#5080c0"></i>Ünsüz</span><span><i style="background:#a060c0"></i>İşaret (sesi yok)</span></div>
+      <div class="ru-grid" id="ru-grid"></div>
+      <div class="ru-warn">💡 Kartta üstteki büyük harf <b>baskı</b> (печатные), altındaki eğik harf <b>el yazısı</b> (прописные) şeklidir. Latin karşılıklar ISO 9 / bilimsel çeviriye yakındır; "Okunuş" satırı Türkçe okunuşu verir.</div>
+    </div>
+
+    <div class="ru-sec" id="ru-okuma">
+      <div class="ru-box"><h4>✍️ El yazısında karışan harfler</h4>
+        <p>Rusça el yazısında bazı harfler baskıdan çok farklıdır. En çok karışanlar:</p>
+        <div class="ru-tblwrap"><table class="ru-tbl"><tr><th>Baskı</th><th>El yazısı</th><th>Neye benzer?</th></tr>
+        <tr><td><b>т</b></td><td class="ru-hand" style="font-size:24px">т</td><td>Latin <b>m</b> gibi görünür (üstü çizili yazılırsa)</td></tr>
+        <tr><td><b>д</b></td><td class="ru-hand" style="font-size:24px">д</td><td>Latin <b>g</b> gibi görünür</td></tr>
+        <tr><td><b>и</b></td><td class="ru-hand" style="font-size:24px">и</td><td>Latin <b>u</b> gibi görünür</td></tr>
+        <tr><td><b>п</b></td><td class="ru-hand" style="font-size:24px">п</td><td>Latin <b>n</b> gibi görünür</td></tr>
+        <tr><td><b>л</b></td><td class="ru-hand" style="font-size:24px">л</td><td>Tepesi sivri, <b>Λ</b> gibi</td></tr>
+        <tr><td><b>м</b></td><td class="ru-hand" style="font-size:24px">м</td><td>Sivri başlangıçlı Λ-biçimli, alt kısmı yuvarlak</td></tr>
+        <tr><td><b>у</b></td><td class="ru-hand" style="font-size:24px">у</td><td>Latin <b>y</b> gibi</td></tr>
+        <tr><td><b>ш</b></td><td class="ru-hand" style="font-size:24px">ш</td><td>Altı çizgili (<b>ɯ</b>) – щ'de ek kuyruk eklenir</td></tr>
+        <tr><td><b>з</b></td><td class="ru-hand" style="font-size:24px">з</td><td>Rakam <b>3</b> gibi (kuyruklu)</td></tr>
+        <tr><td><b>б</b></td><td class="ru-hand" style="font-size:24px">б</td><td>Rakam <b>6</b>'ya benzer, kuyruğu sağa uzanır</td></tr>
+        </table></div>
+      </div>
+      <div class="ru-box"><h4>👀 Latin harfe benzeyip başka ses veren harfler ("yalancı arkadaşlar")</h4>
+        <div class="ru-tblwrap"><table class="ru-tbl"><tr><th>Harf</th><th>Latin gibi görünür</th><th>Gerçek sesi</th></tr>
+        <tr><td><b>В в</b></td><td>B</td><td><b>v</b></td></tr>
+        <tr><td><b>Н н</b></td><td>H</td><td><b>n</b></td></tr>
+        <tr><td><b>Р р</b></td><td>P</td><td><b>r</b> (diliyle titrek)</td></tr>
+        <tr><td><b>С с</b></td><td>C</td><td><b>s</b></td></tr>
+        <tr><td><b>У у</b></td><td>Y</td><td><b>u</b></td></tr>
+        <tr><td><b>Х х</b></td><td>X</td><td><b>h</b> (gırtlaktan, "kh")</td></tr>
+        <tr><td><b>З з</b></td><td>3</td><td><b>z</b></td></tr>
+        <tr><td><b>Ч ч</b></td><td>4</td><td><b>ç</b></td></tr>
+        </table></div>
+      </div>
+      <div class="ru-box"><h4>🔊 Önemli okunuş kuralları</h4>
+        <ul>
+        <li><b>Vurgusuz о → "a" gibi</b> (akanye): <b>молоко</b> = "malako", <b>хорошо</b> = "haraşo".</li>
+        <li><b>Vurgusuz е/я → "i" gibi</b> (ikanye): <b>язык</b> = "yizık".</li>
+        <li><b>Sonda ötümlü ünsüz sertleşir</b>: <b>хлеб</b> = "hlep", <b>друг</b> = "druk", <b>город</b> = "gorat".</li>
+        <li><b>ж, ш, ц</b> her zaman sert; <b>ч, щ</b> her zaman yumuşaktır.</li>
+        <li><b>ь</b> önceki ünsüzü yumuşatır; <b>ъ</b> ünsüz ile ünlü arasına küçük bir ayrım koyar (<b>объект</b> = "ob-yekt").</li>
+        <li><b>Ы</b> sadece sert ünsüzden sonra gelir; Türkçedeki <b>ı</b> gibi okunur.</li>
+        <li><b>Е ve Я, Ю, Ё</b> kelime başında/ünlüden sonra "y" ile başlar: ye, ya, yu, yo.</li>
+        <li>Rusçada <b>vurgu serbest ve hareketlidir</b>; kelimenin vurgusunu ayrıca öğrenmek gerekir.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ru-sec" id="ru-cins">
+      <div class="ru-box"><h4>⚥ Üç cinsiyet: <span class="ru-m">мужской</span> · <span class="ru-f">женский</span> · <span class="ru-n">средний</span></h4>
+        <p>Rusçada her isim bir cinsiyete sahiptir: <span class="ru-m">мужской род</span> (erkek, m), <span class="ru-f">женский род</span> (dişi, f), <span class="ru-n">средний род</span> (nötr, n). Cinsiyet, <b>ismin sonundaki harften</b> (yani nominatifteki hâlinden) anlaşılır. Lehçeyle benzerlik: Lehçede de m / ż / n vardır.</p>
+      </div>
+      <div class="ru-box"><h4>📋 Ana kural tablosu</h4>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Cinsiyet</th><th>Sonluk</th><th>Örnek</th><th>Anlam</th></tr>
+        <tr><td class="ru-m" rowspan="3">Мужской (m)</td><td>sert ünsüz</td><td><b>стол, дом, брат, город</b></td><td>masa, ev, erkek kardeş, şehir</td></tr>
+        <tr><td>-й</td><td><b>музей, чай, герой</b></td><td>müze, çay, kahraman</td></tr>
+        <tr><td>-ь (çoğu)</td><td><b>день, учитель, словарь</b></td><td>gün, öğretmen, sözlük</td></tr>
+        <tr><td class="ru-f" rowspan="3">Женский (f)</td><td>-а</td><td><b>книга, мама, комната</b></td><td>kitap, anne, oda</td></tr>
+        <tr><td>-я</td><td><b>неделя, земля, семья</b></td><td>hafta, yer/toprak, aile</td></tr>
+        <tr><td>-ь (çoğu)</td><td><b>дверь, ночь, любовь</b></td><td>kapı, gece, aşk</td></tr>
+        <tr><td class="ru-n" rowspan="3">Средний (n)</td><td>-о</td><td><b>окно, слово, письмо</b></td><td>pencere, söz/kelime, mektup</td></tr>
+        <tr><td>-е</td><td><b>море, поле, здание</b></td><td>deniz, tarla, bina</td></tr>
+        <tr><td>-мя</td><td><b>имя, время, племя</b></td><td>isim, zaman, kabile</td></tr>
+        </table></div>
+      </div>
+      <div class="ru-box"><h4>🔎 Yumuşak işaret (-ь) ile biten isimler nasıl ayrılır?</h4>
+        <p>-ь tek başına cinsiyeti göstermez. Pratik ipuçları:</p>
+        <ul>
+        <li><span class="ru-f">Dişi</span>: <b>-ость</b> (радость), <b>-жь/-чь/-шь/-щь</b> (ночь, вещь, рожь), <b>-знь</b> (жизнь), <b>-ь</b> ile biten çoğu soyut isim (любовь, соль, дверь, мать, дочь).</li>
+        <li><span class="ru-m">Erkek</span>: <b>-тель</b> (учитель), <b>-арь</b> (словарь, календарь), <b>-ень</b> (день, олень), <b>-ь</b> ile biten aylar (январь, сентябрь), <b>-ь</b> ile biten madeni/aletler (рубль, гость, медведь).</li>
+        <li>Emin değilsen sözlükten <b>м / ж</b> işaretine bak.</li>
+        </ul>
+      </div>
+      <div class="ru-box"><h4>⚠️ İstisnalar</h4>
+        <ul>
+        <li><b>-а / -я ile biten ERKEK isimler</b> (anlamı erkek olduğu için eril sayılır, ama çekimi dişi gibi): <b>мужчина</b> (erkek), <b>дедушка</b> (büyükbaba), <b>папа</b> (baba), <b>дядя</b> (amca/dayı), <b>юноша</b> (genç), <b>Ваня, Саша, Миша</b> (kısaltma isimler).</li>
+        <li><b>Değişmeyen (indeclinable) yabancı sözcükler</b> çoğunlukla <span class="ru-n">nötr</span>tür: <b>метро, кино, радио, пальто, такси, кафе, меню, интервью</b>.</li>
+        <li><b>Ama</b>: <b>кофе</b> eril'dir (<i>чёрный кофе</i>). <b>Хобби</b> nötr.</li>
+        <li><b>Meslek isimleri</b> kadın için de eril kalabilir: <b>врач, инженер, директор</b> (<i>она — хороший врач</i>). Dişi karşılığı olanlar: <b>учительница, студентка, актриса</b>.</li>
+        <li><b>Büyüklük/küçüklük</b> ekiyle cinsiyet değişmez: <b>дом → домик</b> (m), <b>домище</b> (m).</li>
+        <li>Soyadlarında: <b>Иванов → Иванова</b> (f), <b>Чайковский → Чайковская</b>.</li>
+        </ul>
+      </div>
+      <div class="ru-box"><h4>🔗 Cinsiyet uyumu: sıfat, iyelik, zamir, geçmiş zaman</h4>
+        <p>Sıfatlar, iyelik ve işaret zamirleri ve geçmiş zaman fiilleri ismin cinsiyetine uyar.</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th></th><th class="ru-m">Мужской</th><th class="ru-f">Женский</th><th class="ru-n">Средний</th></tr>
+        <tr><td>Zamir</td><td><b>он</b></td><td><b>она</b></td><td><b>оно</b></td></tr>
+        <tr><td>Sıfat (yeni)</td><td><b>новый</b> стол</td><td><b>новая</b> книга</td><td><b>новое</b> окно</td></tr>
+        <tr><td>Sıfat (yumuşak gövde)</td><td><b>синий</b> дом</td><td><b>синяя</b> ручка</td><td><b>синее</b> море</td></tr>
+        <tr><td>Sıfat (vurgulu: genç)</td><td><b>молодой</b> человек</td><td><b>молодая</b> девушка</td><td><b>молодое</b> дерево</td></tr>
+        <tr><td>Benim</td><td><b>мой</b> брат</td><td><b>моя</b> сестра</td><td><b>моё</b> письмо</td></tr>
+        <tr><td>Senin</td><td><b>твой</b></td><td><b>твоя</b></td><td><b>твоё</b></td></tr>
+        <tr><td>Bu</td><td><b>этот</b> дом</td><td><b>эта</b> книга</td><td><b>это</b> окно</td></tr>
+        <tr><td>Geçmiş zaman (-л)</td><td>он чита<b>л</b></td><td>она чита<b>ла</b></td><td>оно чита<b>ло</b></td></tr>
+        <tr><td>Var mı? (быть)</td><td>был</td><td>была</td><td>было</td></tr>
+        </table></div>
+        <div class="ru-warn">📌 Sıfat sonlukları: m <b>-ый / -ой / -ий</b> · f <b>-ая / -яя</b> · n <b>-ое / -ее</b>. Cümle örneği: <b>Это новая книга.</b> (Bu yeni bir kitap.) · <b>Моё окно большое.</b> (Penceram büyük.)</div>
+      </div>
+    </div>
+
+    <div class="ru-sec" id="ru-cogul">
+      <div class="ru-box"><h4>➕ Çoğul yapma — özet</h4>
+        <p>Rusçada çoğul, ismin sonluğunu değiştirerek yapılır (Türkçe'deki -ler/-lar gibi ek yok). İsmin cinsiyeti ve son harfi çoğul sonluğunu belirler.</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Cinsiyet</th><th>Tekil sonluk</th><th>Çoğul sonluk</th><th>Tekil → Çoğul</th></tr>
+        <tr><td class="ru-m" rowspan="3">Мужской</td><td>sert ünsüz</td><td><b>+ы</b></td><td>стол → <b>столы</b>, журнал → <b>журналы</b></td></tr>
+        <tr><td>-й / -ь</td><td><b>-и</b></td><td>музей → <b>музеи</b>, словарь → <b>словари</b></td></tr>
+        <tr><td>г, к, х, ж, ч, ш, щ</td><td><b>+и</b></td><td>врач → <b>врачи</b>, нож → <b>ножи</b></td></tr>
+        <tr><td class="ru-f" rowspan="3">Женский</td><td>-а</td><td><b>-ы</b></td><td>комната → <b>комнаты</b>, школа → <b>школы</b></td></tr>
+        <tr><td>-я / -ь</td><td><b>-и</b></td><td>неделя → <b>недели</b>, дверь → <b>двери</b></td></tr>
+        <tr><td>-ия</td><td><b>-ии</b></td><td>станция → <b>станции</b></td></tr>
+        <tr><td class="ru-n" rowspan="3">Средний</td><td>-о</td><td><b>-а</b></td><td>окно → <b>окна</b>, слово → <b>слова</b></td></tr>
+        <tr><td>-е</td><td><b>-я</b></td><td>море → <b>моря</b>, поле → <b>поля</b></td></tr>
+        <tr><td>-ие / -мя</td><td><b>-ия / -мена</b></td><td>здание → <b>здания</b>, имя → <b>имена</b></td></tr>
+        </table></div>
+      </div>
+      <div class="ru-box"><h4>📏 İmla kuralı (7 harf kuralı)</h4>
+        <p><b>г, к, х, ж, ч, ш, щ</b> harflerinden sonra <b>ы yazılmaz</b> → yerine <b>и</b> gelir.</p>
+        <p>книга → <b>книги</b> (<s>книгы</s>) · девочка → <b>девочки</b> · рука → <b>руки</b> · ночь → <b>ночи</b> · карандаш → <b>карандаши</b></p>
+        
+      </div>
+      <div class="ru-box"><h4>🔀 "-а/-я" ile çoğul yapan erkek isimler (yaygın grup)</h4>
+        <p>Bazı eril isimler <b>-ы/-и</b> yerine vurgulu <b>-а / -я</b> alır. Ezberlenmesi gerekir:</p>
+        <p><b>дом → дома</b> · <b>город → города</b> · <b>глаз → глаза</b> · <b>берег → берега</b> · <b>вечер → вечера</b> · <b>учитель → учителя</b> · <b>профессор → профессора</b> · <b>номер → номера</b> · <b>лес → леса</b> · <b>поезд → поезда</b> · <b>паспорт → паспорта</b></p>
+      </div>
+      <div class="ru-box"><h4>🧩 Düzensiz çoğullar</h4>
+        <div class="ru-tblwrap"><table class="ru-tbl"><tr><th>Tekil</th><th>Çoğul</th><th>Anlam</th></tr>
+        <tr><td>человек</td><td><b>люди</b></td><td>insan → insanlar</td></tr>
+        <tr><td>ребёнок</td><td><b>дети</b></td><td>çocuk → çocuklar</td></tr>
+        <tr><td>друг</td><td><b>друзья</b></td><td>arkadaş → arkadaşlar</td></tr>
+        <tr><td>брат</td><td><b>братья</b></td><td>erkek kardeş</td></tr>
+        <tr><td>сын</td><td><b>сыновья</b></td><td>oğul</td></tr>
+        <tr><td>муж</td><td><b>мужья</b></td><td>koca</td></tr>
+        <tr><td>стул</td><td><b>стулья</b></td><td>sandalye</td></tr>
+        <tr><td>лист</td><td><b>листья</b></td><td>yaprak</td></tr>
+        <tr><td>дерево</td><td><b>деревья</b></td><td>ağaç</td></tr>
+        <tr><td>мать</td><td><b>матери</b></td><td>anne</td></tr>
+        <tr><td>дочь</td><td><b>дочери</b></td><td>kız evlat</td></tr>
+        <tr><td>имя</td><td><b>имена</b></td><td>isim</td></tr>
+        <tr><td>время</td><td><b>времена</b></td><td>zaman/dönem</td></tr>
+        <tr><td>ухо</td><td><b>уши</b></td><td>kulak</td></tr>
+        <tr><td>глаз</td><td><b>глаза</b></td><td>göz</td></tr>
+        <tr><td>яблоко</td><td><b>яблоки</b></td><td>elma (-ки)</td></tr>
+        <tr><td>место</td><td><b>места</b></td><td>yer</td></tr>
+        </table></div>
+      </div>
+      <div class="ru-box"><h4>🚫 Tekil/çoğul ile ilgili özel durumlar</h4>
+        <ul>
+        <li><b>Hep çoğul</b> (pluralia tantum): <b>деньги</b> (para), <b>часы</b> (saat), <b>очки</b> (gözlük), <b>брюки</b> (pantolon), <b>ножницы</b> (makas), <b>родители</b> (ebeveynler), <b>каникулы</b> (tatil).</li>
+        <li><b>Hep tekil</b>: <b>молоко</b> (süt), <b>мебель</b> (mobilya), <b>золото</b> (altın), <b>информация</b>.</li>
+        <li><b>Değişmeyenler</b>: <b>метро, кино, пальто, такси, кофе, радио</b> — çoğulda aynı kalır.</li>
+        <li><b>Gizli ünlü</b> (беглая гласная): <b>день → дни</b>, <b>отец → отцы</b>, <b>конец → концы</b>, <b>сон → сны</b> (ünlü düşer).</li>
+        <li>Çoğulda <b>cinsiyet ayrımı ortadan kalkar</b>: sıfat, iyelik ve geçmiş zaman hepsi tek sonluk alır.</li>
+        </ul>
+      </div>
+      <div class="ru-box"><h4>🔗 Çoğulda uyum: sıfat, iyelik, zamir, fiil</h4>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Tekil (m / f / n)</th><th>Çoğul</th></tr>
+        <tr><td>он / она / оно</td><td><b>они</b></td></tr>
+        <tr><td>я</td><td><b>мы</b> (biz)</td></tr>
+        <tr><td>ты</td><td><b>вы</b> (siz / sen-saygı)</td></tr>
+        <tr><td>новый / новая / новое</td><td><b>новые</b> (столы, книги, окна)</td></tr>
+        <tr><td>русский / русская / русское</td><td><b>русские</b></td></tr>
+        <tr><td>хороший / хорошая / хорошее</td><td><b>хорошие</b></td></tr>
+        <tr><td>мой / моя / моё</td><td><b>мои</b></td></tr>
+        <tr><td>твой / твоя / твоё</td><td><b>твои</b></td></tr>
+        <tr><td>этот / эта / это</td><td><b>эти</b></td></tr>
+        <tr><td>читал / читала / читало</td><td><b>читали</b></td></tr>
+        <tr><td>был / была / было</td><td><b>были</b></td></tr>
+        </table></div>
+        <div class="ru-warn">📌 Sıfat çoğulu: sert gövde <b>-ые</b> (новые), <b>г, к, х, ж, ч, ш, щ</b> veya yumuşak gövde sonrası <b>-ие</b> (русские, хорошие, синие). Örnek: <b>Мои друзья — русские студенты.</b> (Arkadaşlarım Rus öğrenciler.)</div>
+      </div>
+    </div>
+
+    <div class="ru-sec" id="ru-pratik">
+      <div class="ru-box"><h4>🎯 Cinsiyet testi</h4>
+        <div class="ru-qword" id="ru-g-word">—</div>
+        <div style="text-align:center;font-size:12px;color:var(--text3)" id="ru-g-tr"></div>
+        <div class="ru-opts">
+          <button class="ru-opt" data-g="m" onclick="ruAnswerG('m',this)">Мужской (m)</button>
+          <button class="ru-opt" data-g="f" onclick="ruAnswerG('f',this)">Женский (f)</button>
+          <button class="ru-opt" data-g="n" onclick="ruAnswerG('n',this)">Средний (n)</button>
+        </div>
+        <div id="ru-g-fb" style="margin-top:10px;font-size:12px;color:var(--text2);min-height:34px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><span style="font-size:12px;color:var(--text3)">Skor: <b id="ru-g-score">0/0</b></span><button class="btn" onclick="ruNextG()">Sonraki →</button></div>
+      </div>
+      <div class="ru-box"><h4>🎯 Çoğul testi</h4>
+        <div class="ru-qword" id="ru-p-word">—</div>
+        <div style="text-align:center;font-size:12px;color:var(--text3)" id="ru-p-tr"></div>
+        <div class="ru-opts" id="ru-p-opts"></div>
+        <div id="ru-p-fb" style="margin-top:10px;font-size:12px;color:var(--text2);min-height:34px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><span style="font-size:12px;color:var(--text3)">Skor: <b id="ru-p-score">0/0</b></span><button class="btn" onclick="ruNextP()">Sonraki →</button></div>
+      </div>
+      <div class="ru-box"><h4>🔤 Harf testi: Latin → Kiril</h4>
+        <div class="ru-qword" id="ru-l-word">—</div>
+        <div style="text-align:center;font-size:12px;color:var(--text3)" id="ru-l-tr"></div>
+        <div class="ru-opts" id="ru-l-opts"></div>
+        <div id="ru-l-fb" style="margin-top:10px;font-size:12px;color:var(--text2);min-height:24px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><span style="font-size:12px;color:var(--text3)">Skor: <b id="ru-l-score">0/0</b></span><button class="btn" onclick="ruNextL()">Sonraki →</button></div>
+      </div>
+    </div>
+  </div>
+
   <!-- HARİTA -->
   <div class="panel" id="panel-harita">
     <div class="panel-title">🗺️ Harita <span class="mode-badge" style="background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-dim)">Ünite Ağacı</span></div>
@@ -7264,6 +7521,14 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <div>
           <div style="font-size:15px;font-weight:900;color:var(--text);font-family:'Syne',sans-serif">Kutlamalar & Özel Günler</div>
           <div style="font-size:11px;color:var(--text3);margin-top:2px">Doğum günü, bayramlar, yaşam olayları · 28 kelime</div>
+        </div>
+      </div>
+
+      <div class="harita-node" onclick="showPanel('rusca')" style="display:flex;align-items:center;gap:16px;margin-bottom:22px;position:relative;z-index:1;cursor:pointer;">
+        <div style="width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;background:#1a0d10;border:3px solid var(--surface);box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform='scale(1)'">🇷🇺</div>
+        <div>
+          <div style="font-size:15px;font-weight:900;color:var(--text);font-family:'Syne',sans-serif">Rusça 1</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">Kiril alfabesi, cinsiyet, tekil/çoğul · 33 harf</div>
         </div>
       </div>
 
@@ -8229,6 +8494,166 @@ async function checkOllamaStatus(){
   }
 }
 
+
+/* ===== RUSÇA JS ===== */
+const RU_ALPHA = [
+ // [BÜYÜK, küçük, latin, okunuş, tip, örnek RU, örnek okunuş, TR anlam, ipucu]
+ ['А','а','a','a (Türkçe a)','v','арбуз','arbuz','karpuz',''],
+ ['Б','б','b','b','c','банк','bank','banka','El yazısında 6 gibi, kuyruğu sağa'],
+ ['В','в','v','v','c','вода','voda','su','Latin B gibi görünür, ama V okunur'],
+ ['Г','г','g','g','c','газета','gazeta','gazete','El yazısında ters r gibi'],
+ ['Д','д','d','d','c','дом','dom','ev','El yazısında Latin g gibi'],
+ ['Е','е','e / ye','ye (başta) / e','v','еда','yeda','yemek','Kelime başında ve ünlüden sonra "ye"'],
+ ['Ё','ё','yo','yo','v','ёлка','yolka','çam ağacı','Üstünde iki nokta var, hep vurgulu'],
+ ['Ж','ж','ž','j (Fr. jour)','c','жена','jena','eş / karı','Daima sert; "ş"nin ötümlüsü'],
+ ['З','з','z','z','c','зима','zima','kış','El yazısında 3 gibi'],
+ ['И','и','i','i','v','история','istoriya','tarih','El yazısında u gibi'],
+ ['Й','й','j','y (kısa)','c','чай','çay','çay','И üstü kısa işaretli, ünlüden sonra y'],
+ ['К','к','k','k','c','книга','kniga','kitap',''],
+ ['Л','л','l','l (sert)','c','лампа','lampa','lamba','El yazısında Λ gibi'],
+ ['М','м','m','m','c','мама','mama','anne','El yazısında kuyruklu Λ'],
+ ['Н','н','n','n','c','нос','nos','burun','Latin H gibi, ama N'],
+ ['О','о','o','o','v','окно','akno','pencere','Vurgusuz = "a" gibi'],
+ ['П','п','p','p','c','папа','papa','baba','El yazısında n gibi'],
+ ['Р','р','r','r (titrek)','c','рыба','ırba','balık','Latin P gibi, ama R'],
+ ['С','с','s','s','c','стол','stol','masa','Latin C gibi, ama S'],
+ ['Т','т','t','t','c','театр','teatr','tiyatro','El yazısında m gibi'],
+ ['У','у','u','u','v','улица','ulitsa','sokak','El yazısında y gibi'],
+ ['Ф','ф','f','f','c','фото','foto','fotoğraf',''],
+ ['Х','х','h','h (hırıltılı)','c','хлеб','hlep','ekmek','"kh" gibi gırtlak sesi'],
+ ['Ц','ц','c','ts','c','цирк','tsirk','sirk','Daima sert; ts okunur'],
+ ['Ч','ч','č','ç','c','чай','çay','çay','Daima yumuşak'],
+ ['Ш','ш','š','ş','c','школа','şkola','okul','Daima sert; El yazısında altı çizgili'],
+ ['Щ','щ','šč','şç (uzun, yumuşak ş)','c','борщ','borşç','pancar çorbası','Uzun yumuşak ş; ш+kuyruk'],
+ ['Ъ','ъ','"','sert işaret','s','объект','ob-yekt','nesne','Sesi yok; ünsüzü ünlüden ayırır'],
+ ['Ы','ы','y','ı','v','рыба','ırba','balık','Türkçe ı; sert ünsüzden sonra'],
+ ['Ь','ь','\'','yumuşak işaret','s','день','den\'','gün','Sesi yok; önceki ünsüzü yumuşatır'],
+ ['Э','э','è','e (açık e)','v','это','eto','bu','Sadece "e"; kelime başında yaygın'],
+ ['Ю','ю','ju','yu','v','юг','yuk','güney','Ünsüzden sonra yumuşatır: люблю'],
+ ['Я','я','ja','ya','v','яблоко','yabloko','elma','Ünsüzden sonra yumuşatır: мясо']
+];
+function ruTab(id,btn){
+  document.querySelectorAll('.ru-sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ru-tab').forEach(b=>b.classList.remove('active'));
+  var el=document.getElementById('ru-'+id); if(el) el.classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(id==='pratik'){ ruNextG(); ruNextP(); ruNextL(); }
+}
+function ruSpeak(txt){
+  try{
+    if(!window.speechSynthesis) return;
+    var u=new SpeechSynthesisUtterance(txt); u.lang='ru-RU'; u.rate=.8;
+    var v=speechSynthesis.getVoices().find(x=>/^ru/i.test(x.lang)); if(v) u.voice=v;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+function ruRenderAlpha(){
+  var g=document.getElementById('ru-grid'); if(!g||g.dataset.done) return;
+  g.dataset.done='1';
+  g.innerHTML=RU_ALPHA.map(function(a,i){
+    return '<div class="ru-letter '+a[4]+'" onclick="ruShowLetter('+i+')">'
+      +'<div class="ru-print">'+a[0]+a[1]+'</div>'
+      +'<div class="ru-hw ru-hand">'+a[0]+a[1]+'</div>'
+      +'<div class="ru-lat">'+a[2]+'</div>'
+      +'<div class="ru-read">'+a[3]+'</div></div>';
+  }).join('');
+}
+function ruShowLetter(i){
+  var a=RU_ALPHA[i], d=document.getElementById('ru-detail');
+  d.classList.add('show');
+  d.innerHTML='<div class="ru-detail-row">'
+   +'<div style="text-align:center"><div class="ru-big">'+a[0]+a[1]+'</div><div style="font-size:11px;color:var(--text3)">baskı</div></div>'
+   +'<div style="text-align:center"><div class="ru-big h">'+a[0]+a[1]+'</div><div style="font-size:11px;color:var(--text3)">el yazısı</div></div>'
+   +'<div style="flex:1;min-width:200px">'
+   +'<div style="font-size:13px;color:var(--text2);line-height:1.7"><b>Latin:</b> '+a[2]+'<br><b>Okunuş:</b> '+a[3]+'<br><b>Örnek:</b> <span style="font-size:18px;font-weight:800;color:var(--text)">'+a[5]+'</span> ('+a[6]+') = '+a[7]+(a[8]?'<br><b>İpucu:</b> '+a[8]:'')+'</div>'
+   +'<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="ruSpeak(\''+a[1]+'\')">🔊 Harf</button><button class="btn" onclick="ruSpeak(\''+a[5]+'\')">🔊 Örnek kelime</button>'
+   +'<button class="btn" onclick="saveVucutWord(\''+a[5]+'\',\''+a[7]+'\',\'rusca\')">⭐ Kelimeyi kaydet</button></div>'
+   +'</div></div>';
+  ruSpeak(a[1]);
+  d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ---- Cinsiyet testi ----
+const RU_NOUNS = [
+ ['стол','m','masa'],['дом','m','ev'],['брат','m','erkek kardeş'],['город','m','şehir'],['музей','m','müze'],['чай','m','çay'],
+ ['учитель','m','öğretmen'],['день','m','gün'],['словарь','m','sözlük'],['мужчина','m','erkek'],['дедушка','m','büyükbaba'],['папа','m','baba'],['дядя','m','amca/dayı'],['кофе','m','kahve'],
+ ['книга','f','kitap'],['мама','f','anne'],['комната','f','oda'],['неделя','f','hafta'],['семья','f','aile'],['земля','f','toprak'],
+ ['дверь','f','kapı'],['ночь','f','gece'],['любовь','f','aşk'],['соль','f','tuz'],['мать','f','anne'],['дочь','f','kız evlat'],['жизнь','f','hayat'],['станция','f','istasyon'],
+ ['окно','n','pencere'],['слово','n','kelime'],['письмо','n','mektup'],['море','n','deniz'],['поле','n','tarla'],['здание','n','bina'],
+ ['имя','n','isim'],['время','n','zaman'],['метро','n','metro'],['кино','n','sinema'],['пальто','n','palto'],['такси','n','taksi'],['радио','n','radyo']
+];
+const RU_G_NAME={m:'мужской (erkek)',f:'женский (dişi)',n:'средний (nötr)'};
+var ruG={cur:null,ok:0,n:0,done:false};
+function ruNextG(){
+  var i=Math.floor(Math.random()*RU_NOUNS.length); ruG.cur=RU_NOUNS[i]; ruG.done=false;
+  document.getElementById('ru-g-word').textContent=ruG.cur[0];
+  document.getElementById('ru-g-tr').textContent=ruG.cur[2];
+  document.getElementById('ru-g-fb').textContent='';
+  document.querySelectorAll('#ru-pratik .ru-opt[data-g]').forEach(b=>b.classList.remove('ok','bad'));
+}
+function ruAnswerG(g,btn){
+  if(ruG.done) return; ruG.done=true; ruG.n++;
+  var right=g===ruG.cur[1];
+  if(right){ ruG.ok++; btn.classList.add('ok'); try{awardXp(2,'Rusça cinsiyet');}catch(e){} }
+  else { btn.classList.add('bad'); var c=document.querySelector('#ru-pratik .ru-opt[data-g="'+ruG.cur[1]+'"]'); if(c) c.classList.add('ok'); }
+  document.getElementById('ru-g-fb').innerHTML=(right?'✅ Doğru! ':'❌ Yanlış. ')+'<b>'+ruG.cur[0]+'</b> → '+RU_G_NAME[ruG.cur[1]];
+  document.getElementById('ru-g-score').textContent=ruG.ok+'/'+ruG.n;
+}
+
+// ---- Çoğul testi ----
+const RU_PLURALS = [
+ ['стол','столы','masa',['столи','столя']],['книга','книги','kitap',['книгы','книга']],['окно','окна','pencere',['окны','окнё']],
+ ['музей','музеи','müze',['музеы','музея']],['неделя','недели','hafta',['недели','недельи']],['дом','дома','ev',['домы','доми']],
+ ['город','города','şehir',['городы','городи']],['дверь','двери','kapı',['дверы','дверя']],['море','моря','deniz',['мори','морэ']],
+ ['врач','врачи','doktor',['врачы','врача']],['нож','ножи','bıçak',['ножы','ножа']],['школа','школы','okul',['школи','школа']],
+ ['слово','слова','kelime',['слове','слови']],['здание','здания','bina',['здание','здании']],['станция','станции','istasyon',['станцы','станцыи']],
+ ['человек','люди','insan',['человеки','человека']],['ребёнок','дети','çocuk',['ребёнки','ребёнка']],['друг','друзья','arkadaş',['други','друзи']],
+ ['мать','матери','anne',['маты','матеры']],['имя','имена','isim',['имени','имя']],['день','дни','gün',['дени','дьни']],
+ ['учитель','учителя','öğretmen',['учителы','учитили']],['яблоко','яблоки','elma',['яблока','яблоки']],['рука','руки','el/kol',['руки','рукы']],
+ ['ночь','ночи','gece',['ночы','ночя']],['карандаш','карандаши','kurşun kalem',['карандашы','карандаша']]
+];
+var ruP={cur:null,ok:0,n:0,done:false};
+function ruShuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+function ruNextP(){
+  var it=RU_PLURALS[Math.floor(Math.random()*RU_PLURALS.length)];
+  ruP.cur=it; ruP.done=false;
+  var wrong=it[3].filter(function(x){return x!==it[1];});
+  var opts=ruShuffle([it[1]].concat(wrong.slice(0,2)));
+  document.getElementById('ru-p-word').textContent=it[0];
+  document.getElementById('ru-p-tr').textContent=it[2]+' — çoğulu hangisi?';
+  document.getElementById('ru-p-fb').textContent='';
+  document.getElementById('ru-p-opts').innerHTML=opts.map(function(o){return '<button class="ru-opt" onclick="ruAnswerP(this,\''+o+'\')">'+o+'</button>';}).join('');
+}
+function ruAnswerP(btn,val){
+  if(ruP.done) return; ruP.done=true; ruP.n++;
+  var right=val===ruP.cur[1];
+  if(right){ ruP.ok++; btn.classList.add('ok'); try{awardXp(2,'Rusça çoğul');}catch(e){} }
+  else { btn.classList.add('bad'); document.querySelectorAll('#ru-p-opts .ru-opt').forEach(function(b){ if(b.textContent===ruP.cur[1]) b.classList.add('ok'); }); }
+  document.getElementById('ru-p-fb').innerHTML=(right?'✅ Doğru! ':'❌ Yanlış. ')+'<b>'+ruP.cur[0]+' → '+ruP.cur[1]+'</b>';
+  document.getElementById('ru-p-score').textContent=ruP.ok+'/'+ruP.n;
+}
+
+// ---- Harf testi (Latin okunuş -> Kiril) ----
+var ruL={cur:null,ok:0,n:0,done:false};
+function ruNextL(){
+  var pool=RU_ALPHA.filter(function(a){return a[4]!=='s';});
+  var a=pool[Math.floor(Math.random()*pool.length)]; ruL.cur=a; ruL.done=false;
+  var wrong=ruShuffle(pool.filter(function(x){return x!==a;})).slice(0,3);
+  var opts=ruShuffle([a].concat(wrong));
+  document.getElementById('ru-l-word').textContent=a[2];
+  document.getElementById('ru-l-tr').textContent='Bu sese karşılık gelen Kiril harfi hangisi?';
+  document.getElementById('ru-l-fb').textContent='';
+  document.getElementById('ru-l-opts').innerHTML=opts.map(function(o){return '<button class="ru-opt" style="font-size:22px" onclick="ruAnswerL(this,\''+o[1]+'\')">'+o[0]+o[1]+'</button>';}).join('');
+}
+function ruAnswerL(btn,val){
+  if(ruL.done) return; ruL.done=true; ruL.n++;
+  var right=val===ruL.cur[1];
+  if(right){ ruL.ok++; btn.classList.add('ok'); try{awardXp(1,'Kiril harf');}catch(e){} }
+  else { btn.classList.add('bad'); document.querySelectorAll('#ru-l-opts .ru-opt').forEach(function(b){ if(b.textContent===ruL.cur[0]+ruL.cur[1]) b.classList.add('ok'); }); }
+  document.getElementById('ru-l-fb').innerHTML=(right?'✅ ':'❌ ')+ruL.cur[0]+ruL.cur[1]+' = '+ruL.cur[2]+' ('+ruL.cur[3]+')';
+  document.getElementById('ru-l-score').textContent=ruL.ok+'/'+ruL.n;
+}
+
 function showPanel(name){
   document.querySelectorAll('.panel').forEach(p=>{
     p.classList.remove('active');
@@ -8259,6 +8684,7 @@ function showPanel(name){
   if(name==='writing') { wrInitPanel(); }
   if(name==='reading') { rdInitPanel(); }
   if(name==='kurwa') { renderKurwaList(); }
+  if(name==='rusca') { ruRenderAlpha(); }
   if(name==='hafiza') {
     _hafizaState = null;
     document.getElementById('hafiza-setup').style.display = '';
