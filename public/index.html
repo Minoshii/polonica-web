@@ -7194,6 +7194,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div class="ru-tabs">
       <button class="ru-tab active" onclick="ruTab('alfabe',this)">🔤 Alfabe</button>
       <button class="ru-tab" onclick="ruTab('okuma',this)">👁 Okuma İpuçları</button>
+      <button class="ru-tab" onclick="ruTab('vurgu',this)">🎚 Vurgu & Yumuşama</button>
       <button class="ru-tab" onclick="ruTab('cins',this)">⚥ Cinsiyet</button>
       <button class="ru-tab" onclick="ruTab('cogul',this)">➕ Tekil / Çoğul</button>
       <button class="ru-tab" onclick="ruTab('pratik',this)">🎯 Pratik</button>
@@ -7245,6 +7246,143 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <li><b>Е ve Я, Ю, Ё</b> kelime başında/ünlüden sonra "y" ile başlar: ye, ya, yu, yo.</li>
         <li>Rusçada <b>vurgu serbest ve hareketlidir</b>; kelimenin vurgusunu ayrıca öğrenmek gerekir.</li>
         </ul>
+      </div>
+    </div>
+
+    <div class="ru-sec" id="ru-vurgu">
+      <div class="ru-box"><h4>🎚 Büyük resim: Rusçada 3 ayrı "ses oyunu" var</h4>
+        <ul>
+        <li><b>Yumuşama / sertlik</b> (мягкость / твёрдость): ünsüzler sert ya da yumuşak olabilir.</li>
+        <li><b>Vurgu</b> (ударение): hangi ünlüye basıldığı, ünlünün nasıl okunacağını değiştirir.</li>
+        <li><b>Sertleşme / tonlulaşma-tonsuzlaşma</b>: sonda ve yan yana gelen ünsüzlerin sesi değişir (хлеб = "hlep").</li>
+        </ul>
+      </div>
+
+      <div class="ru-box"><h4>1️⃣ Ünlü harflerin iki takımı</h4>
+        <p>10 ünlü harf var, ama sadece <b>5 ünlü ses</b>. Her ünlünün "sert" ve "yumuşatıcı" bir eşi vardır. Eşin hangisi olduğu, <b>kendinden önceki ünsüzü</b> sert ya da yumuşak yapar.</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Sert ünlü (ünsüzü sert bırakır)</th><th>Yumuşatıcı ünlü (ünsüzü yumuşatır)</th><th>Ses</th></tr>
+        <tr><td><b>а</b></td><td><b>я</b></td><td>a / ya</td></tr>
+        <tr><td><b>э</b></td><td><b>е</b></td><td>e / ye</td></tr>
+        <tr><td><b>о</b></td><td><b>ё</b></td><td>o / yo</td></tr>
+        <tr><td><b>у</b></td><td><b>ю</b></td><td>u / yu</td></tr>
+        <tr><td><b>ы</b></td><td><b>и</b></td><td>ı / i</td></tr>
+        </table></div>
+        <div class="ru-warn">📌 Kelime başında ya da ünlüden sonra я, е, ё, ю "y" ile başlar (<b>яблоко</b> = yabloko). Ünsüzden sonra ise "y" duyulmaz, ama <b>önceki ünsüz yumuşar</b> (<b>мяч</b> = m'aç, "mıyaç" değil).</div>
+      </div>
+
+      <div class="ru-box"><h4>2️⃣ Sert ve yumuşak ünsüzler</h4>
+        <p>Yumuşak ünsüz = dilin orta kısmı damağa doğru kalkar ("i-ye benzeyen" bir renk katar; Lehçedeki <b>si, ci, ni, zi</b> gibi).</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Grup</th><th>Harfler</th><th>Not</th></tr>
+        <tr><td><b>Çift olanlar</b> (hem sert hem yumuşak)</td><td><b>б в г д з к л м н п р с т ф х</b></td><td>Sonraki harfe göre değişir</td></tr>
+        <tr><td><b>Hep sert</b></td><td><b>ж ш ц</b></td><td>Yanında я/е/и/ю olsa bile sert kalır</td></tr>
+        <tr><td><b>Hep yumuşak</b></td><td><b>ч щ й</b></td><td>Yanında а/у/о olsa bile yumuşak</td></tr>
+        </table></div>
+        <p style="margin-top:8px"><b>Ünsüzü yumuşatmanın 3 yolu:</b></p>
+        <ul>
+        <li>Arkasından yumuşatıcı ünlü gelmesi: <b>я е ё ю и</b> (<b>мя</b>со, <b>ли</b>ст, <b>ню</b>).</li>
+        <li>Arkasından <b>ь</b> (yumuşak işaret) gelmesi: <b>мать, день, конь</b>.</li>
+        <li>Önündeki ünsüzle birleşen yumuşak ünsüz (<b>нь, ть</b> gibi): <b>пять, письмо</b>.</li>
+        </ul>
+      </div>
+
+      <div class="ru-box"><h4>3️⃣ Sert–yumuşak = anlam farkı</h4>
+        <p>Sertlik/yumuşaklık yanlış telaffuz edilirse kelime anlamı değişir. Minimal çiftler:</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Sert</th><th>Yumuşak</th></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('мат')">мат 🔊</b> — küfür/mat</td><td><b style="cursor:pointer" onclick="ruSpeak('мать')">мать 🔊</b> — anne</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('угол')">угол 🔊</b> — köşe</td><td><b style="cursor:pointer" onclick="ruSpeak('уголь')">уголь 🔊</b> — kömür</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('лук')">лук 🔊</b> — soğan</td><td><b style="cursor:pointer" onclick="ruSpeak('люк')">люк 🔊</b> — kapak</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('мыл')">мыл 🔊</b> — yıkadı</td><td><b style="cursor:pointer" onclick="ruSpeak('мил')">мил 🔊</b> — sevimli</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('был')">был 🔊</b> — idi</td><td><b style="cursor:pointer" onclick="ruSpeak('бил')">бил 🔊</b> — vurdu</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('мал')">мал 🔊</b> — küçüktü</td><td><b style="cursor:pointer" onclick="ruSpeak('мял')">мял 🔊</b> — ezdi</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('вес')">вес 🔊</b> — ağırlık</td><td><b style="cursor:pointer" onclick="ruSpeak('весь')">весь 🔊</b> — bütün</td></tr>
+        <tr><td><b style="cursor:pointer" onclick="ruSpeak('брат')">брат 🔊</b> — erkek kardeş</td><td><b style="cursor:pointer" onclick="ruSpeak('брать')">брать 🔊</b> — almak</td></tr>
+        </table></div>
+      </div>
+
+      <div class="ru-box"><h4>4️⃣ ж ш ц ve ч щ: "kalınlaştırma" ve "yumuşatma" istisnaları</h4>
+        <p>Bu harfler kendi karakterini <b>yazım kurallarına rağmen</b> korur:</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Yazım</th><th>Gerçek okunuş</th><th>Örnek</th></tr>
+        <tr><td><b>жи, ши</b></td><td>"jı", "şı" (hep sert)</td><td><b style="cursor:pointer" onclick="ruSpeak('жить')">жить 🔊</b> (jıt'), <b style="cursor:pointer" onclick="ruSpeak('шить')">шить 🔊</b> (şıt')</td></tr>
+        <tr><td><b>ци</b></td><td>"tsı"</td><td><b style="cursor:pointer" onclick="ruSpeak('цирк')">цирк 🔊</b> (tsırk)</td></tr>
+        <tr><td><b>же, ше, це</b></td><td>"je, şe, tse" (e sert gibi, "ye" değil)</td><td><b style="cursor:pointer" onclick="ruSpeak('шесть')">шесть 🔊</b> (şest')</td></tr>
+        <tr><td><b>ча, ща</b></td><td>"ça, şça" (yumuşak)</td><td><b style="cursor:pointer" onclick="ruSpeak('чай')">чай 🔊</b>, <b style="cursor:pointer" onclick="ruSpeak('щука')">щука 🔊</b></td></tr>
+        <tr><td><b>чу, щу</b></td><td>"çu, şçu"</td><td><b style="cursor:pointer" onclick="ruSpeak('чудо')">чудо 🔊</b></td></tr>
+        </table></div>
+        <p style="margin-top:8px"><b>Üç altın yazım kuralı</b> (bu yüzden "ы" ve "я/ю" her yerde yazılmaz):</p>
+        <ul>
+        <li><b>жи, ши</b> yazılır; <s>жы, шы</s> yazılmaz.</li>
+        <li><b>ча, ща</b> yazılır; <s>чя, щя</s> yazılmaz.</li>
+        <li><b>чу, щу</b> yazılır; <s>чю, щю</s> yazılmaz.</li>
+        <li>Bonus: <b>г, к, х</b> harflerinden sonra da <b>ы</b> yazılmaz → <b>и</b> (кни<b>г</b>и).</li>
+        </ul>
+      </div>
+
+      <div class="ru-box"><h4>5️⃣ Sert → yumuşak değişimi: çekimde "kalınlaştırma/yumuşama"</h4>
+        <p>Aynı kelime çekilirken sertlik, sonluğa göre değişir. Önemli olan <b>gövdenin son ünsüzü</b>:</p>
+        <ul>
+        <li><b>Sert gövde</b>: стол, окно, книга, новый → sonluklar <b>-ы, -а, -у, -о</b> (стол<b>ы</b>, окн<b>а</b>).</li>
+        <li><b>Yumuşak gövde</b>: словарь, море, неделя, синий → sonluklar <b>-и, -я, -ю, -е</b> (словар<b>и</b>, мор<b>я</b>).</li>
+        <li>İsim sonluğunda: <b>-а ↔ -я</b>, <b>-о ↔ -е</b>, <b>-ы ↔ -и</b>, <b>-ый ↔ -ий</b>. Yani "yeni" <b>новый</b> (sert) ↔ "mavi" <b>синий</b> (yumuşak).</li>
+        <li>Fiil çekiminde de var: <b>читать → читают</b> (sert), <b>говорить → говорят</b> (yumuşak).</li>
+        </ul>
+        <div class="ru-warn">📌 Ünsüz harfler zaman zaman "değişir" (г→ж, к→ч, х→ш, с→ш, т→ч…): <b>друг → друзья</b>, <b>рука → ручной</b>, <b>писать → пишу</b>. Bu ünsüz değişimi (чередование) A1'de ezberlenen birkaç kelime ile başlar.</div>
+      </div>
+
+      <div class="ru-box"><h4>6️⃣ Vurgu (ударение) nedir ve neden bu kadar önemli?</h4>
+        <ul>
+        <li>Rusça vurgusu <b>serbest</b>tir (Türkçe gibi sona, Lehçe gibi sondan bir önceki heceye gelmez).</li>
+        <li><b>Hareketlidir</b>: aynı kelimenin çekiminde yer değiştirebilir (<b>рука́</b> → <b>ру́ки</b>).</li>
+        <li><b>Anlam ayırır</b>: <b style="cursor:pointer" onclick="ruSpeak('замо́к')">замо́к 🔊</b> (kilit) ≠ <b style="cursor:pointer" onclick="ruSpeak('за́мок')">за́мок 🔊</b> (kale); <b style="cursor:pointer" onclick="ruSpeak('мука́')">мука́ 🔊</b> (azap) ≠ <b style="cursor:pointer" onclick="ruSpeak('му́ка')">му́ка 🔊</b> (un).</li>
+        <li><b>ё harfi hep vurguludur</b> (<b>всё</b>, <b>её</b>); yazıda ё yerine е yazılabilir ama okunuşta hâlâ vurgu üstündedir.</li>
+        <li>Tek heceli kelimelerde vurgu yazılmaz. Ders kitaplarında vurgulu ünlünün üstüne <b>´</b> konur; sözlükte vurguya mutlaka bak.</li>
+        <li>Lehçede vurgu sondan bir öncedir, Rusçada böyle bir kural yok; bunun için her yeni kelimeyi vurgusuyla birlikte öğren.</li>
+        </ul>
+      </div>
+
+      <div class="ru-box"><h4>7️⃣ Vurgusuz ünlüler zayıflar (редукция)</h4>
+        <p>Vurgusuz ünlüler kısalır ve değişir. Okunuş yazıdan farklıdır:</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Yazı</th><th>Vurgusuz okunuş</th><th>Örnek</th></tr>
+        <tr><td><b>о</b> (ilk hecede)</td><td>"a"</td><td><b style="cursor:pointer" onclick="ruSpeak('молоко')">молоко 🔊</b> → "malako"</td></tr>
+        <tr><td><b>о</b> (diğer vurgusuz)</td><td>kısa, belirsiz "ı/a"</td><td><b style="cursor:pointer" onclick="ruSpeak('хорошо')">хорошо 🔊</b> → "haraşo"</td></tr>
+        <tr><td><b>а</b> (vurgusuz)</td><td>kısa "a/ı"</td><td><b style="cursor:pointer" onclick="ruSpeak('голова')">голова 🔊</b> → "galava"</td></tr>
+        <tr><td><b>е, я</b> (vurgusuz)</td><td>"i" gibi</td><td><b style="cursor:pointer" onclick="ruSpeak('язык')">язык 🔊</b> → "yizık", <b style="cursor:pointer" onclick="ruSpeak('деревня')">деревня 🔊</b> → "diryevnya"</td></tr>
+        <tr><td><b>е</b> (ж, ш sonrası, vurgusuz)</td><td>"ı" gibi</td><td><b style="cursor:pointer" onclick="ruSpeak('жена')">жена 🔊</b> → "jına"</td></tr>
+        </table></div>
+        <div class="ru-warn">📌 Vurgulu ünlüler tam okunur. Bu yüzden Rusçada <b>vurguyu doğru yerleştirmek, anlaşılmanın yarısıdır</b>. Vurguyu yanlış yerleştirirsen ünlüler değişir, dinleyen seni anlamaz.</div>
+      </div>
+
+      <div class="ru-box"><h4>8️⃣ Ünsüzlerde sertleşme (оглушение) ve uyum</h4>
+        <p><b>Sonda ötümlü ünsüz ötümsüze döner</b> (Türkçe'deki kitap→kitabı olayının tersi gibi düşün):</p>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Ötümlü</th><th>б</th><th>в</th><th>г</th><th>д</th><th>ж</th><th>з</th></tr>
+        <tr><td>Ötümsüz</td><td><b>п</b></td><td><b>ф</b></td><td><b>к</b></td><td><b>т</b></td><td><b>ш</b></td><td><b>с</b></td></tr>
+        </table></div>
+        <ul>
+        <li><b style="cursor:pointer" onclick="ruSpeak('хлеб')">хлеб 🔊</b> → "hlep", <b style="cursor:pointer" onclick="ruSpeak('друг')">друг 🔊</b> → "druk", <b style="cursor:pointer" onclick="ruSpeak('город')">город 🔊</b> → "gorat", <b style="cursor:pointer" onclick="ruSpeak('глаз')">глаз 🔊</b> → "glas", <b style="cursor:pointer" onclick="ruSpeak('нож')">нож 🔊</b> → "noş".</li>
+        <li><b>Birleşik ünsüzlerde</b> ikincisine uyar: <b style="cursor:pointer" onclick="ruSpeak('вход')">вход 🔊</b> → "fhod", <b style="cursor:pointer" onclick="ruSpeak('ложка')">ложка 🔊</b> → "loşka", <b style="cursor:pointer" onclick="ruSpeak('сделать')">сделать 🔊</b> → "zdyelat'".</li>
+        <li>Özel: <b>что</b> = "şto", <b>его</b> = "yevo", <b>сегодня</b> = "sivodnya", <b>здравствуйте</b> = "zdrastvuyte" (ilk в okunmaz).</li>
+        </ul>
+      </div>
+
+      <div class="ru-box"><h4>🇵🇱 Lehçe ile bağlantı (senin için kolaylık)</h4>
+        <div class="ru-tblwrap"><table class="ru-tbl">
+        <tr><th>Rusça</th><th>Lehçe benzeri</th><th>Not</th></tr>
+        <tr><td><b>л</b> (sert)</td><td><b>ł</b></td><td>mama, <b>łapa</b> ~ лапа</td></tr>
+        <tr><td><b>ль / ля / ле</b> (yumuşak)</td><td><b>l, li</b></td><td><b>lis</b> ~ лес (benzer ses)</td></tr>
+        <tr><td><b>нь, ня</b></td><td><b>ń, ni</b></td><td><b>koń</b> ~ конь</td></tr>
+        <tr><td><b>ть, дь, сь, зь</b></td><td><b>ć, dź, ś, ź</b></td><td><b>pięć</b> ~ пять</td></tr>
+        <tr><td><b>ч</b></td><td><b>cz</b> (değil, ć'ye yakın)</td><td>Rusça ч Lehçe cz'den daha yumuşaktır</td></tr>
+        <tr><td><b>ш</b></td><td><b>sz</b></td><td>Lehçe sz'ye yakın</td></tr>
+        <tr><td><b>ж</b></td><td><b>ż / rz</b></td><td><b>żona</b> ~ жена</td></tr>
+        <tr><td><b>ц</b></td><td><b>c</b></td><td>Lehçe c = ts</td></tr>
+        <tr><td><b>х</b></td><td><b>ch / h</b></td><td><b>chleb</b> ~ хлеб</td></tr>
+        </table></div>
+        <div class="ru-warn">📌 Lehçe öğrendiğin için yumuşak ünsüzlere (ń, ś, ć, ź) zaten aşinasın. Rusçada yumuşaklık, ayrı bir harf yerine <b>ь</b> ile ya da sonraki ünlü harfle gösterilir.</div>
       </div>
     </div>
 
