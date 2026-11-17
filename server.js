@@ -1042,6 +1042,25 @@ app.post('/api/cevapver', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── SINAV İLERLEMESİ ──────────────────────────────────────
+// Sınav içerikleri public/sinav/*.json (statik, herkese açık).
+// Burada sadece profil bazlı ilerleme tutulur.
+app.get('/api/exams/progress/:id', (req, res) => {
+  const p = ensureProfile(req.headers['x-profile']);
+  if (!p.exams) p.exams = {};
+  res.json(p.exams[req.params.id] || {});
+});
+app.post('/api/exams/progress/:id', (req, res) => {
+  const id = String(req.params.id || '');
+  if (!/^[a-z0-9-]{1,60}$/.test(id)) return res.status(400).json({ error: 'Geçersiz sınav id.' });
+  const p = ensureProfile(req.headers['x-profile']);
+  if (!p.exams) p.exams = {};
+  const body = req.body || {};
+  p.exams[id] = { q: body.q || {}, total: body.total || 0, mastered: body.mastered || 0, updatedAt: new Date().toISOString() };
+  saveStore();
+  res.json({ ok: true });
+});
+
 // ── NOTLAR ────────────────────────────────────────────────
 app.get('/api/notes', (req, res) => {
   const p = ensureProfile(req.headers['x-profile']);
