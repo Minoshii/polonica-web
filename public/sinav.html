@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#c8b89a">
+<title>Sınav · Polonica</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0c0c0c;--surface:#111;--surface2:#161616;--surface3:#1c1c1c;--border:#222;--border2:#2a2a2a;--accent:#c8b89a;--accent-dim:#6b5d48;--accent-bg:#1a160e;--text:#e8e6e1;--text2:#888;--text3:#555;--green:#4a9a6a;--green-bg:#0d2017;--red:#c05050;--red-bg:#200d0d;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Syne',system-ui,sans-serif;display:flex;justify-content:center;padding:24px 14px 40px}
+  .brand{position:fixed;bottom:10px;right:14px;font-size:11px;color:var(--text3);text-decoration:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<a class="brand" href="/">Polonica</a>
+<script src="/sinav.js"></script>
+<script>
+  // Herkese açık sayfa: giriş yok, ilerleme bu tarayıcıda (localStorage) tutulur.
+  var id = new URLSearchParams(location.search).get('d');
+  var app = new SinavApp(document.getElementById('app'), { standalone: !!id });
+  if (id) app.open(id); else app.showList();
+</script>
+</body>
+</html>

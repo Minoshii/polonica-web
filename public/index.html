@@ -1701,6 +1701,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')" data-i18n="nav.test">⟳ Test</button>
   <button class="nav-btn" id="nav-writing" onclick="showPanel('writing')" style="color:#a0c8f0" data-i18n="nav.writing">✍️ Yazma</button>
   <button class="nav-btn" id="nav-reading" onclick="showPanel('reading')" style="color:#a0d8a0" data-i18n="nav.reading">📖 Okuma</button>
+  <button class="nav-btn" id="nav-sinav" onclick="showPanel('sinav')" style="color:#e0b060;font-weight:800">📝 Sınav</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')" data-i18n="nav.stats">📊 İstatistik</button>
   <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:#e090c0;font-weight:800" data-i18n="nav.kultur">🏛 Kültür</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:#7090d0" data-i18n="nav.notes">📝 Notlarım</button>
@@ -7859,6 +7860,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div id="kultur-result"></div>
   </div>
 
+  <!-- SINAV -->
+  <div class="panel" id="panel-sinav"><div id="sinav-root"></div></div>
+
   <!-- HAKKINDA -->
   <div class="panel" id="panel-about">
     <div class="about-wrap">
@@ -7949,6 +7953,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="btn" onclick="clearSel()">İptal</button>
 </div>
 
+<script src="/sinav.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -8921,6 +8926,7 @@ function showPanel(name){
   if(name==='reading') { rdInitPanel(); }
   if(name==='kurwa') { renderKurwaList(); }
   if(name==='rusca') { ruRenderAlpha(); }
+  if(name==='sinav') { sinavInit(); }
   if(name==='hafiza') {
     _hafizaState = null;
     document.getElementById('hafiza-setup').style.display = '';
@@ -8939,6 +8945,23 @@ function showPanel(name){
     const ov = document.getElementById('sidebar-overlay');
     if(sb && sb.classList.contains('mobile-open')) sb.classList.remove('mobile-open');
     if(ov && ov.classList.contains('visible')) ov.classList.remove('visible');
+  }
+}
+
+// ── SINAV ─────────────────────────────────────────
+// Motor public/sinav.js içinde. İlerleme profil bazlı sunucuda tutulur.
+var _sinavApp = null;
+function sinavInit(){
+  if (typeof SinavApp === 'undefined') { document.getElementById('sinav-root').innerHTML = 'sinav.js yüklenemedi.'; return; }
+  if (!_sinavApp) {
+    _sinavApp = new SinavApp(document.getElementById('sinav-root'), {
+      store: {
+        load: function(id){ return api.get('/api/exams/progress/' + encodeURIComponent(id)).catch(function(){ return {}; }); },
+        save: function(id, d){ return api.post('/api/exams/progress/' + encodeURIComponent(id), d).catch(function(){}); }
+      },
+      onXp: function(n){ try { awardXp(n, 'Sınav'); } catch(e){} }
+    });
+    _sinavApp.showList();   // sonraki girişlerde kaldığın yerden devam eder
   }
 }
 

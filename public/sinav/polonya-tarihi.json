@@ -1,0 +1,226 @@
+{
+  "id": "polonya-tarihi",
+  "title": "Polonya Tarihi",
+  "emoji": "🏰",
+  "teacher": "Hacer hoca",
+  "scope": "Piastlar ve Jagiellonlar · 966–1572 (+ Brest 1596)",
+  "examDate": "",
+  "note": "Sınav yorum ağırlıklı. Önce dönem özetine bak, sonra kısa sorularla pekiştir.",
+  "periods": [
+    {
+      "id": "p1", "short": "Mieszko & Vaftiz", "title": "Mieszko I ve Polonya'nın Vaftizi", "years": "960'lar – 992",
+      "cause": "Mieszko güçlenen Alman (Sakson) baskısı altındaydı. Hristiyanlığı Almanlardan zorla almak yerine kendisi seçerse hem meşruiyet kazanacak hem de bağımsız kalacaktı.",
+      "events": [
+        "Çek prensesi Dobrawa ile evlilik (965), Çekler üzerinden Hristiyanlık",
+        "966: Mieszko'nun vaftizi (Chrzest Polski)",
+        "968: Poznań'da ilk piskoposluk",
+        "Dagome iudex (~991): devlet Papa'nın himayesine verildi"
+      ],
+      "result": "Polonya Latin Avrupa'nın parçası oldu, Alman kilisesine bağlanmadan Roma ile doğrudan ilişki kurdu. Devlet kimliği bu tarihten başlatılır.",
+      "terms": ["chrzest", "mieszko", "dobrawa", "dagome", "piast"]
+    },
+    {
+      "id": "p2", "short": "Chrobry & Gniezno", "title": "Bolesław Chrobry: Gniezno Kongresi ve Krallık", "years": "992 – 1025",
+      "cause": "Bolesław, kilisede ve siyasette bağımsızlık istiyordu. Prusyalılar arasında öldürülen Aziz Wojciech'in (Adalbert) kalıntılarını satın alıp Gniezno'yu bir hac merkezine dönüştürdü.",
+      "events": [
+        "1000: İmparator III. Otto Wojciech'in mezarını ziyaret etti (Gniezno Kongresi)",
+        "Gniezno başpiskoposluğu kuruldu; Kraków, Wrocław ve Kołobrzeg ona bağlandı",
+        "II. Heinrich ile savaşlar, Bautzen (Budziszyn) barışı (1018)",
+        "1025: Bolesław ilk Polonya kralı olarak taç giydi"
+      ],
+      "result": "Polonya kilisesi Magdeburg'dan bağımsızlaştı, Polonya imparatorluğun gözünde eşit bir ortak gibi görüldü. Krallık tacı devletin egemenliğini mühürledi.",
+      "terms": ["gniezno", "wojciech", "otto", "chrobry", "arcybiskupstwo"]
+    },
+    {
+      "id": "p3", "short": "Bölünme Dönemi", "title": "Kriz ve Bölünme (Rozbicie dzielnicowe)", "years": "1038 – 1320",
+      "cause": "Erken devlet merkezî bir hükümdara dayanıyordu. Krzywousty'nin vasiyeti ülkeyi oğulları arasında paylaştırınca merkezî güç dağıldı.",
+      "events": [
+        "1030'lar krizi; Kazimierz Odnowiciel merkezi Kraków'a taşıdı",
+        "1138: Bolesław Krzywousty'nin vasiyeti (seniorat ilkesi)",
+        "1226: Konrad Mazowiecki Töton Şövalyeleri'ni Prusyalılara karşı çağırdı",
+        "1241: Moğol istilası, Legnica savaşı",
+        "Alman kolonizasyonu, Magdeburg hukuku ile şehirler (Kraków 1257)"
+      ],
+      "result": "Polonya yaklaşık iki yüzyıl tek bir devlet olarak hareket edemedi. Töton Devleti kuzeyde kalıcı bir tehdit hâline geldi, 1308'de Gdańsk Pomeranyası'nı ele geçirdi.",
+      "terms": ["rozbicie", "testament", "krzyzacy", "konrad", "legnica", "magdeburg"]
+    },
+    {
+      "id": "p4", "short": "Kazimierz Wielki", "title": "Yeniden Birleşme: Łokietek ve Kazimierz Wielki", "years": "1320 – 1370",
+      "cause": "Bölünmüşlük dış tehditlere karşı Polonya'yı savunmasız bırakıyordu. Kilise ve şövalyeler birleşik bir krallık istiyordu.",
+      "events": [
+        "1320: Władysław Łokietek Kraków'da taç giydi",
+        "Kazimierz Wielki diplomasiyi seçti: Wyszehrad (1335) ve Kalisz barışı (1343)",
+        "Kızıl Rutenya (Lwów) krallığa katıldı",
+        "Hukuk birleştirildi (Wiślica ve Piotrków statüleri)",
+        "1364: Kraków Akademisi kuruldu, Kraków Kongresi toplandı"
+      ],
+      "result": "Polonya savaşla değil, reform ve diplomasiyle güçlendi: 'Ahşap bir Polonya buldu, taştan bıraktı.' Kazimierz oğulsuz ölünce Piast hanedanı sona erdi.",
+      "terms": ["lokietek", "kazimierz", "kalisz", "akademia", "kongres"]
+    },
+    {
+      "id": "p5", "short": "Krewo Birliği", "title": "Anjou Dönemi ve Krewo Birliği", "years": "1370 – 1399",
+      "cause": "Tahtta erkek varis yoktu. Polonya da Litvanya da aynı düşmanla, Töton Şövalyeleri'yle karşı karşıyaydı. Litvanya Hristiyan değildi ve Haçlı baskısı altındaydı.",
+      "events": [
+        "Macar kralı Ludwik (Anjou) Polonya tahtına geçti",
+        "1374: Koszyce ayrıcalığı, szlachta vergiden büyük ölçüde muaf tutuldu",
+        "1384: Jadwiga 'kral' olarak taç giydi",
+        "1385: Krewo Birliği; Jogaila vaftiz oldu ve Jadwiga ile evlendi (1386)",
+        "1392: Ostrów anlaşması, Witold Litvanya'yı yönetti"
+      ],
+      "result": "Jagiellon hanedanı başladı. Litvanya Hristiyanlaştı ve Doğu Avrupa'nın en büyük devlet birliği oluştu. Koszyce ile szlachta'nın imtiyazlar dönemi başladı.",
+      "terms": ["koszyce", "jadwiga", "krewo", "jagiello", "witold", "szlachta"]
+    },
+    {
+      "id": "p6", "short": "Grunwald & Toruń", "title": "Töton Şövalyelerine Karşı: Grunwald'dan Toruń'a", "years": "1409 – 1466",
+      "cause": "Töton Devleti Polonya'yı denizden, Litvanya'yı Żmudź üzerinden sıkıştırıyordu. Prusya şehirleri de Tötonların ağır vergilerinden bıkmıştı.",
+      "events": [
+        "15 Temmuz 1410: Grunwald zaferi",
+        "1411: I. Toruń barışı, toprak kazancı az, Tötonlara ağır tazminat",
+        "1413: Horodło birliği, Litvanyalı boyarlar Polonya armalarını aldı",
+        "Konstanz Konsili: Paweł Włodkowic zorla Hristiyanlaştırmaya karşı çıktı",
+        "1454–1466: On Üç Yıl Savaşı",
+        "1466: II. Toruń barışı"
+      ],
+      "result": "Kraliyet Prusyası (Gdańsk dahil) Polonya'ya geçti, Polonya Baltık'a ve tahıl ticaretine açıldı. Kalan Töton Devleti Polonya'nın vasalı oldu.",
+      "terms": ["grunwald", "torun1", "horodlo", "wlodkowic", "torun2", "prusy"]
+    },
+    {
+      "id": "p7", "short": "Szlachta Demokrasisi", "title": "Szlachta Demokrasisinin Doğuşu", "years": "1430 – 1505",
+      "cause": "Krallar savaş ve tahtı garanti altına almak için szlachta'nın desteğine muhtaçtı. Her yeni destek yeni bir imtiyazla ödendi.",
+      "events": [
+        "Neminem captivabimus (1430/33): mahkeme kararı olmadan tutuklama yok",
+        "1454: Nieszawa statüleri, sejmik onayı olmadan vergi ve sefer yok",
+        "1493: Piotrków'da iki meclisli ilk genel Sejm",
+        "1505: Nihil novi anayasası (Radom)"
+      ],
+      "result": "Kral, Senato ve Temsilciler Meclisi birlikte yönetir oldu. Bu Avrupa'da benzersiz bir soylu demokrasisiydi. Ama güç kentlilerden ve köylülerden uzaklaştı.",
+      "terms": ["neminem", "nieszawa", "sejm", "nihil", "sejmik"]
+    },
+    {
+      "id": "p8", "short": "Altın Çağ", "title": "Son Jagiellonlar ve Altın Çağ", "years": "1506 – 1572",
+      "cause": "Baltık tahıl ticareti zenginlik getirdi. İtalyan Rönesansı (Bona Sforza aracılığıyla) ve Reform hareketi yeni fikirler taşıdı.",
+      "events": [
+        "1525: Prusya Biati (Hołd pruski), Albrecht Hohenzollern vasal Lutheran dük oldu",
+        "1526: Mohaç, Jagiellonlar Çek ve Macar tahtlarını kaybetti",
+        "1543: Kopernik, De revolutionibus",
+        "Rej ve Kochanowski ile Lehçe edebiyat dili oldu",
+        "Folwark ve angarya (pańszczyzna) sistemi güçlendi"
+      ],
+      "result": "Polonya kültürde ve ekonomide zirveye çıktı. Dinî hoşgörüyle 'kazıksız devlet' olarak bilindi. Fakat köylülerin bağımlılığı arttı.",
+      "terms": ["bona", "hold", "kopernik", "rej", "folwark", "tolerancja"]
+    },
+    {
+      "id": "p9", "short": "Lublin & Brest", "title": "Lublin Birliği, Hanedanın Sonu ve Brest Birliği", "years": "1569 – 1596",
+      "cause": "II. Zygmunt August'un çocuğu yoktu, ölünce kişisel birlik de bitecekti. Litvanya Moskova (IV. İvan) karşısında zor durumdaydı, Połock 1563'te düşmüştü.",
+      "events": [
+        "Podlasie, Volhynia ve Kiev Litvanya'dan Polonya Krallığı'na geçti",
+        "1569: Lublin Birliği, İki Milletli Cumhuriyet (Rzeczpospolita Obojga Narodów)",
+        "Ortak kral, ortak Sejm, ortak para ve dış politika; ordu, hazine ve hukuk ayrı",
+        "1572: Zygmunt August öldü, Jagiellon hanedanı sona erdi",
+        "1596: Brest Birliği, Ortodoks kilisesinin bir kısmı Papa'ya bağlandı"
+      ],
+      "result": "Kişisel birlik gerçek bir devlet birliğine dönüştü ve seçimli krallık dönemi başladı. Brest ile Grek Katolik (Unit) kilisesi doğdu ama Ortodokslarla gerginlik derinleşti.",
+      "terms": ["lublin", "rzeczpospolita", "zygmunt", "brest", "unici"]
+    }
+  ],
+  "terms": [
+    {"id":"piast","period":"p1","term":"Piastlar","short":"Polonya'nın ilk hanedanı","detail":"Efsanevi köylü Piast'tan adını alır; 1370'te Kazimierz Wielki ile sona erer."},
+    {"id":"mieszko","period":"p1","term":"Mieszko I","short":"Tarihî ilk Polonya hükümdarı","detail":"966'da vaftiz oldu; Wielkopolska merkezli devleti kurdu."},
+    {"id":"chrzest","period":"p1","term":"Chrzest Polski","short":"966, Polonya'nın vaftizi","detail":"Çekler üzerinden Latin Hristiyanlığı; devletin doğum tarihi sayılır."},
+    {"id":"dobrawa","period":"p1","term":"Dobrawa","short":"Mieszko'nun Çek eşi","detail":"Hristiyanlığın Çekler üzerinden gelmesinde rol oynadı."},
+    {"id":"dagome","period":"p1","term":"Dagome iudex","short":"Devletin Papa'ya emanet edildiği belge","detail":"~991; Alman etkisine karşı Roma'nın korumasını aradı."},
+    {"id":"gniezno","period":"p2","term":"Gniezno Kongresi","short":"1000, III. Otto'nun Gniezno ziyareti","detail":"Ayrı bir Polonya kilise teşkilatı kuruldu; Polonya imparatorluk tarafından tanındı."},
+    {"id":"wojciech","period":"p2","term":"Aziz Wojciech (Adalbert)","short":"Prusyalılar arasında öldürülen misyoner","detail":"997'de öldü; kalıntıları Gniezno'yu hac merkezi yaptı."},
+    {"id":"otto","period":"p2","term":"III. Otto","short":"Kutsal Roma imparatoru","detail":"Hristiyan Avrupa'yı eşit krallıkların birliği olarak hayal ediyordu."},
+    {"id":"chrobry","period":"p2","term":"Bolesław Chrobry","short":"İlk taç giyen kral (1025)","detail":"'Cesur'; Gniezno Kongresi'nin ev sahibi."},
+    {"id":"arcybiskupstwo","period":"p2","term":"Gniezno başpiskoposluğu","short":"Bağımsız Polonya kilisesinin merkezi","detail":"Kraków, Wrocław ve Kołobrzeg piskoposlukları ona bağlandı."},
+    {"id":"rozbicie","period":"p3","term":"Rozbicie dzielnicowe","short":"Bölünme dönemi (1138–1320)","detail":"Polonya prenslere ait küçük bölgelere (dzielnice) ayrıldı."},
+    {"id":"testament","period":"p3","term":"Krzywousty'nin vasiyeti","short":"1138, ülkeyi oğullarına bölen vasiyet","detail":"Seniorat ilkesi: en yaşlı prens Kraków'u alır ve princeps olur."},
+    {"id":"krzyzacy","period":"p3","term":"Krzyżacy","short":"Töton Şövalyeleri","detail":"Prusya'da kendi devletlerini kurdular; Polonya'nın kuzeydeki baş düşmanı oldular."},
+    {"id":"konrad","period":"p3","term":"Konrad Mazowiecki","short":"Tötonları Polonya'ya çağıran prens","detail":"1226; pagan Prusyalılara karşı Chełmno toprağını verdi."},
+    {"id":"legnica","period":"p3","term":"Legnica savaşı","short":"1241, Moğollara karşı yenilgi","detail":"Henryk Pobożny öldü; Silezya'yı birleştirme umudu da öldü."},
+    {"id":"magdeburg","period":"p3","term":"Magdeburg hukuku","short":"Şehirlere özerklik veren Alman hukuku","detail":"Kraków 1257'de bu hukukla yeniden kuruldu (lokacja)."},
+    {"id":"lokietek","period":"p4","term":"Władysław Łokietek","short":"Krallığı yeniden birleştiren kral","detail":"1320'de Kraków'da taç giydi; ilk Wawel taç giyme töreni."},
+    {"id":"kazimierz","period":"p4","term":"Kazimierz Wielki","short":"Son Piast; reformcu kral","detail":"Savaştan çok diplomasi; hukuk, şehirler, kaleler, üniversite."},
+    {"id":"kalisz","period":"p4","term":"Kalisz barışı","short":"1343, Tötonlarla uzlaşma","detail":"Kujawy ve Dobrzyń geri alındı; Pomeranya Tötonlarda kaldı."},
+    {"id":"akademia","period":"p4","term":"Akademia Krakowska","short":"1364, Orta Avrupa'nın ikinci üniversitesi","detail":"Bugünkü Jagiellon Üniversitesi; Prag'dan sonra bölgedeki ilk üniversite."},
+    {"id":"kongres","period":"p4","term":"Kraków Kongresi","short":"1364, krallar zirvesi","detail":"Kazimierz'in prestiji; Wierzynek ziyafeti efsanesi."},
+    {"id":"koszyce","period":"p5","term":"Koszyce ayrıcalığı","short":"1374, szlachta'ya vergi muafiyeti","detail":"Ludwik kızının tahta geçmesi karşılığında verdi; ilk büyük genel imtiyaz."},
+    {"id":"jadwiga","period":"p5","term":"Jadwiga","short":"'Kral' olarak taç giyen kraliçe","detail":"Jogaila ile evlendi; Kraków Akademisi'ni yeniledi."},
+    {"id":"krewo","period":"p5","term":"Krewo Birliği","short":"1385, Polonya–Litvanya kişisel birliği","detail":"Jogaila vaftiz olup Jadwiga ile evlenecek, Litvanya Hristiyanlaşacaktı."},
+    {"id":"jagiello","period":"p5","term":"Władysław II Jagiełło","short":"Jagiellon hanedanının kurucusu","detail":"Litvanya büyük dükü Jogaila; Grunwald'ın kazananı."},
+    {"id":"witold","period":"p5","term":"Witold (Vytautas)","short":"Litvanya'yı fiilen yöneten kuzen","detail":"Ostrów 1392; Litvanya'nın ayrı kimliğini korudu."},
+    {"id":"szlachta","period":"p5","term":"Szlachta","short":"Polonya soylu sınıfı","detail":"Nüfusun yaklaşık %8–10'u; zamanla devletin asıl sahibi oldu."},
+    {"id":"grunwald","period":"p6","term":"Grunwald","short":"1410, Tötonlara karşı büyük zafer","detail":"Askerî zafer büyük, siyasî kazanç küçük oldu."},
+    {"id":"torun1","period":"p6","term":"I. Toruń barışı","short":"1411, Grunwald'dan sonraki barış","detail":"Żmudź Litvanya'ya, Dobrzyń Polonya'ya; Tötonlar tazminatla zayıfladı."},
+    {"id":"horodlo","period":"p6","term":"Horodło birliği","short":"1413, birliğin güçlendirilmesi","detail":"Katolik Litvanyalı boyarlar Polonya arma ailelerine kabul edildi."},
+    {"id":"wlodkowic","period":"p6","term":"Paweł Włodkowic","short":"Konstanz'da Polonya'yı savunan hukukçu","detail":"Paganlar da devlet kurma hakkına sahiptir; zorla din değiştirme yanlıştır."},
+    {"id":"torun2","period":"p6","term":"II. Toruń barışı","short":"1466, On Üç Yıl Savaşı'nın sonu","detail":"Gdańsk Pomeranyası, Malbork, Warmia Polonya'ya geçti."},
+    {"id":"prusy","period":"p6","term":"Kraliyet Prusyası","short":"1466'da Polonya'ya katılan Prusya","detail":"Gdańsk üzerinden Vistül–Baltık tahıl ticaretinin anahtarı."},
+    {"id":"neminem","period":"p7","term":"Neminem captivabimus","short":"Mahkemesiz tutuklama yasağı","detail":"1430/1433; bir soylu mahkeme kararı olmadan tutuklanamaz."},
+    {"id":"nieszawa","period":"p7","term":"Nieszawa statüleri","short":"1454, sejmik onayı şartı","detail":"Savaş sırasında verildi; yeni vergi ve sefer için sejmik onayı gerekir."},
+    {"id":"sejmik","period":"p7","term":"Sejmik","short":"Bölgesel soylu meclisi","detail":"Sejm'e temsilci (poseł) seçer ve onlara talimat verirdi."},
+    {"id":"sejm","period":"p7","term":"Sejm walny","short":"1493'ten itibaren genel meclis","detail":"Üç 'stan': kral, Senato ve Temsilciler Meclisi."},
+    {"id":"nihil","period":"p7","term":"Nihil novi","short":"1505, Radom anayasası","detail":"Senato ve temsilcilerin ortak onayı olmadan yeni bir şey (yasa) çıkarılamaz."},
+    {"id":"bona","period":"p8","term":"Bona Sforza","short":"I. Zygmunt'un İtalyan eşi","detail":"Rönesans saray kültürünü, mimariyi ve İtalyan mutfağını getirdi."},
+    {"id":"hold","period":"p8","term":"Hołd pruski","short":"1525, Prusya Biati","detail":"Tarikat devleti laikleşti; Albrecht Hohenzollern Polonya'nın vasalı oldu."},
+    {"id":"kopernik","period":"p8","term":"Kopernik","short":"Güneş merkezli sistem","detail":"De revolutionibus 1543; Kraków Akademisi mezunu."},
+    {"id":"rej","period":"p8","term":"Mikołaj Rej","short":"'Lehçe edebiyatın babası'","detail":"'Polacy nie gęsi, iż swój język mają' — Lehçenin edebiyat dili olması."},
+    {"id":"folwark","period":"p8","term":"Folwark & pańszczyzna","short":"Soylu çiftliği ve angarya","detail":"Tahıl ihracatı için köylü emeği; 1520 Toruń: haftada en az 1 gün angarya."},
+    {"id":"tolerancja","period":"p8","term":"Kazıksız devlet","short":"Dinî hoşgörü (Państwo bez stosów)","detail":"Zygmunt August: 'Ben vicdanlarınızın kralı değilim.'"},
+    {"id":"lublin","period":"p9","term":"Lublin Birliği","short":"1569, kişisel birlikten gerçek birliğe","detail":"Ortak kral, ortak Sejm, ortak para; ordu, hazine ve hukuk ayrı."},
+    {"id":"rzeczpospolita","period":"p9","term":"Rzeczpospolita Obojga Narodów","short":"İki Milletli Cumhuriyet","detail":"Polonya Krallığı (Korona) + Litvanya Büyük Dükalığı."},
+    {"id":"zygmunt","period":"p9","term":"II. Zygmunt August","short":"Son Jagiellon (ö. 1572)","detail":"Çocuksuzdu; Lublin Birliği'ni bu yüzden zorladı."},
+    {"id":"brest","period":"p9","term":"Brest Birliği","short":"1596, Ortodoks–Katolik kilise birliği","detail":"Doğu ayini korundu ama Papa'nın otoritesi tanındı."},
+    {"id":"unici","period":"p9","term":"Unitler (Grek Katolikler)","short":"Brest'ten doğan kilise","detail":"Ortodokslar birliği reddetti; Ruten topraklarında ikilik doğdu."}
+  ],
+  "quick": [
+    {"period":"p1","q":"Mieszko Hristiyanlığı neden Çekler üzerinden aldı?","options":["Alman kilisesine bağlanmamak için","Çeklerle savaşı bitirmek için","Bizans'a yakınlaşmak için"],"answer":0,"why":"Almanlardan alınan Hristiyanlık, Alman kilisesine ve imparatora bağımlılık demekti. Çek eşi Dobrawa daha bağımsız bir yol açtı.","terms":["chrzest","dobrawa"]},
+    {"period":"p1","q":"966 vaftizi Polonya'ya en çok ne kazandırdı?","options":["Avrupa'da meşru bir devlet statüsü","Baltık kıyısında yeni topraklar","Kalıcı bir Moğol ittifakı"],"answer":0,"why":"Hristiyan olmak, Latin Avrupa'da tanınan ve eşit muamele gören bir devlet olmak demekti.","terms":["chrzest","mieszko"]},
+    {"period":"p1","q":"Dagome iudex belgesinin amacı neydi?","options":["Devleti Papa'nın korumasına vermek","Krallığı oğullar arasında bölmek"],"answer":0,"why":"Mieszko devletini doğrudan Roma'ya emanet ederek Alman müdahalesine karşı bir kalkan aradı.","terms":["dagome"]},
+    {"period":"p2","q":"Gniezno Kongresi'nin en önemli sonucu neydi?","options":["Bağımsız bir Polonya kilise teşkilatı","Polonya'nın imparatorluğa katılması","Prusya'nın Polonya'ya verilmesi"],"answer":0,"why":"Gniezno başpiskoposluğu kuruldu; Polonya kilisesi Magdeburg'a bağlı olmaktan kurtuldu.","terms":["gniezno","arcybiskupstwo"]},
+    {"period":"p2","q":"III. Otto neden Gniezno'ya geldi?","options":["Aziz Wojciech'in mezarını ziyaret etmek için","Bolesław'ı tahttan indirmek için","Prusyalılarla barış yapmak için"],"answer":0,"why":"Otto, arkadaşı olan Wojciech'in mezarına hacca geldi. Bolesław bu ziyareti diplomatik bir zafere çevirdi.","terms":["wojciech","otto"]},
+    {"period":"p2","q":"Bolesław Chrobry'nin 1025'teki taç giymesi neyi gösteriyordu?","options":["Polonya'nın tam egemen bir krallık olduğunu","Polonya'nın Bizans'a bağlandığını"],"answer":0,"why":"Taç, hükümdarın kimseye bağlı olmadığını ve imparatorla aynı Hristiyan dünyasında eşit olduğunu simgeliyordu.","terms":["chrobry"]},
+    {"period":"p3","q":"Krzywousty'nin vasiyeti uzun vadede neye yol açtı?","options":["İki yüzyıllık siyasi bölünmeye","Güçlü bir merkezî krallığa","Litvanya ile birleşmeye"],"answer":0,"why":"Seniorat ilkesi kardeşleri barıştırmak için tasarlanmıştı ama kısa sürede çöktü. Ülke küçük prensliklere dağıldı.","terms":["testament","rozbicie"]},
+    {"period":"p3","q":"Konrad Mazowiecki Tötonları neden çağırdı?","options":["Pagan Prusyalılara karşı yardım için","Moğolları durdurmak için","Kraków tahtını almak için"],"answer":0,"why":"Prusyalıların akınlarına karşı yardım istedi. Ama tarikat kendi devletini kurdu ve Polonya'nın en büyük tehdidi oldu.","terms":["konrad","krzyzacy"]},
+    {"period":"p3","q":"Magdeburg hukuku şehirlere ne getirdi?","options":["Kendi kendini yönetme hakkı","Soylulara tam bağımlılık"],"answer":0,"why":"Şehirler kendi meclisleri ve mahkemeleriyle özerk hâle geldi; bu da ticaret ve zanaatin gelişmesini sağladı.","terms":["magdeburg"]},
+    {"period":"p4","q":"Kazimierz Wielki Tötonlar konusunda hangi yolu seçti?","options":["Savaş yerine diplomatik uzlaşmayı","Hemen yeni bir haçlı seferini"],"answer":0,"why":"Kalisz barışı (1343) ile Kujawy ve Dobrzyń'ı geri aldı, Pomeranya'dan şimdilik vazgeçti. Önce güçlenmeyi seçti.","terms":["kalisz","kazimierz"]},
+    {"period":"p4","q":"'Ahşap buldu, taştan bıraktı' sözü neyi anlatır?","options":["Kazimierz'in kapsamlı iç reformlarını","Tötonlara karşı kazanılan zaferleri","Kraków'un Moğollarca yıkılmasını"],"answer":0,"why":"Kaleler, şehir surları, birleştirilmiş hukuk ve üniversite: Kazimierz devleti içeriden inşa etti.","terms":["kazimierz"]},
+    {"period":"p4","q":"Kraków Akademisi'nin kurulması neyi gösterir?","options":["Devletin yetişmiş hukukçu ihtiyacını","Kilisenin eğitimi yasaklamasını"],"answer":0,"why":"Kazimierz'in yönetim ve hukuk reformları, eğitimli memur ve hukukçu gerektiriyordu.","terms":["akademia"]},
+    {"period":"p4","q":"Kazimierz'in ölümü hanedan açısından ne demekti?","options":["Piast hanedanının sona ermesi","Jagiellonların sona ermesi","Anjouların tahtı kaybetmesi"],"answer":0,"why":"Oğlu olmadığı için taç, önceden anlaşıldığı gibi yeğeni Macar kralı Ludwik'e geçti.","terms":["piast","kazimierz"]},
+    {"period":"p5","q":"Koszyce ayrıcalığı hangi ihtiyaçtan doğdu?","options":["Ludwik'in kızına tahtı garanti etmesinden","Tötonlara karşı ordu toplanmasından"],"answer":0,"why":"Oğlu olmayan Ludwik, szlachta'nın kızlarından birini tanıması karşılığında vergi muafiyeti verdi.","terms":["koszyce","szlachta"]},
+    {"period":"p5","q":"Krewo Birliği'nin iki tarafı birleştiren ortak sebebi neydi?","options":["Töton Şövalyeleri tehdidi","Osmanlıların Balkan ilerleyişi","Yeni bir Moğol istilası"],"answer":0,"why":"Tötonlar hem Polonya'nın Pomeranya'sını tutuyor hem de pagan Litvanya'ya haçlı seferleri düzenliyordu.","terms":["krewo","krzyzacy"]},
+    {"period":"p5","q":"Krewo ile Litvanya ne kazandı?","options":["Hristiyanlık ve haçlılara karşı meşruiyet","Polonya tahtı üzerinde tam kontrol"],"answer":0,"why":"Vaftiz olunca Tötonların 'paganlara karşı haçlı seferi' bahanesi ortadan kalktı.","terms":["krewo","jagiello"]},
+    {"period":"p5","q":"Witold'un rolü birliği nasıl etkiledi?","options":["Litvanya'nın ayrı kimliğini korudu","Litvanya'yı Polonya'ya tamamen kattı"],"answer":0,"why":"Ostrów anlaşmasıyla Litvanya'yı fiilen yönetti; birlik bir eritme değil, bir ortaklık olarak kaldı.","terms":["witold"]},
+    {"period":"p6","q":"Grunwald zaferi neden büyük toprak kazancı getirmedi?","options":["Malbork kuşatması başarısız oldu","Polonya ordusu dağıldı","Papa savaşı yasakladı"],"answer":0,"why":"Tötonların başkenti alınamadı. I. Toruń barışı mütevazı kaldı ama tarikatı mali açıdan çökertti.","terms":["grunwald","torun1"]},
+    {"period":"p6","q":"Włodkowic Konstanz'da neyi savundu?","options":["Paganların da devlet hakkı olduğunu","Tötonların haçlı seferini"],"answer":0,"why":"Zorla din değiştirmenin meşru olmadığını savunarak Tötonların varlık sebebini hukuken sarstı.","terms":["wlodkowic"]},
+    {"period":"p6","q":"Horodło birliğinin amacı neydi?","options":["Litvanyalı soyluları Polonya'ya yakınlaştırmak","Litvanya'yı Polonya'dan ayırmak"],"answer":0,"why":"Katolik boyarlar Polonya arma ailelerine 'evlat edinildi'. Birlik soylular arasında da kök saldı.","terms":["horodlo"]},
+    {"period":"p6","q":"On Üç Yıl Savaşı'nı ne başlattı?","options":["Prusya şehirlerinin Polonya'ya katılma isteği","Litvanya'nın birlikten çekilmesi"],"answer":0,"why":"Tötonların vergilerinden bıkan Prusya Konfederasyonu (Gdańsk, Toruń vb.) Polonya kralına bağlanmak istedi.","terms":["torun2"]},
+    {"period":"p6","q":"II. Toruń barışının ekonomik önemi neydi?","options":["Vistül üzerinden Baltık'a erişim","Karadeniz limanlarının kazanılması"],"answer":0,"why":"Gdańsk ile Polonya tahılı doğrudan Baltık'tan Batı'ya satılabildi; Altın Çağ'ın temeli buydu.","terms":["prusy","torun2"]},
+    {"period":"p7","q":"Nieszawa statüleri gücü kime kaydırdı?","options":["Bölgesel soylu meclislerine","Şehir burjuvazisine","Kilise hiyerarşisine"],"answer":0,"why":"Kral savaş sırasında, sejmik onayı olmadan yeni vergi ya da sefer kararı alamayacağını kabul etti.","terms":["nieszawa","sejmik"]},
+    {"period":"p7","q":"Nihil novi anayasası kralı nasıl sınırladı?","options":["Meclis onayı olmadan yasa çıkaramaz","Savaş ilan etme hakkını kaybetti"],"answer":0,"why":"Senato ve temsilcilerin ortak onayı şarttı. Bu, soylu demokrasisinin temel taşıdır.","terms":["nihil","sejm"]},
+    {"period":"p7","q":"Szlachta demokrasisinin gölgede kalan yüzü neydi?","options":["Kentliler ve köylüler siyasetten dışlandı","Kral bütün yetkisini kiliseye devretti"],"answer":0,"why":"'Demokrasi' sadece soylular içindi. Köylüler giderek angaryaya bağlandı, şehirler etkisizleşti.","terms":["szlachta","folwark"]},
+    {"period":"p8","q":"Hołd pruski Polonya için neyi ifade ediyordu?","options":["Tarikat devletinin vasal düklüğe dönüşmesi","Prusya'nın tamamen Polonya'ya katılması"],"answer":0,"why":"Albrecht tarikatı laikleştirip Lutheran oldu ve Polonya'ya biat etti. Ancak Hohenzollernlar ileride tehdit olacaktı.","terms":["hold"]},
+    {"period":"p8","q":"Bona Sforza'nın etkisi en çok nerede görülür?","options":["Rönesans saray kültüründe","Töton savaşlarında"],"answer":0,"why":"İtalyan sanatçılar, Wawel'in revaklı avlusu ve İtalyan mutfağı onunla geldi.","terms":["bona"]},
+    {"period":"p8","q":"Altın Çağ zenginliğinin temel kaynağı neydi?","options":["Baltık üzerinden tahıl ihracatı","Osmanlı ile ipek ticareti","Silezya'daki gümüş madenleri"],"answer":0,"why":"Folwarklarda üretilen tahıl Vistül'den Gdańsk'a, oradan Batı Avrupa'ya gidiyordu.","terms":["folwark","prusy"]},
+    {"period":"p8","q":"'Kazıksız devlet' ifadesi neyi anlatır?","options":["Din savaşlarının yaşanmadığı hoşgörüyü","Ölüm cezasının kaldırılmasını"],"answer":0,"why":"Batı'da din savaşları ve engizisyon sürerken Polonya'da Protestanlar büyük ölçüde güvendeydi.","terms":["tolerancja"]},
+    {"period":"p8","q":"Rej'in 'Polacy nie gęsi' sözü neyi savunur?","options":["Lehçenin Latince kadar değerli olduğunu","Polonya'nın Litvanya'dan üstün olduğunu"],"answer":0,"why":"'Polonyalılar kaz değildir, kendi dilleri vardır': edebiyatın Latince değil Lehçe yazılması çağrısı.","terms":["rej"]},
+    {"period":"p9","q":"Lublin Birliği neden 1569'da zorunlu hâle geldi?","options":["Kral çocuksuzdu, Moskova da tehditti","Tötonlar yeniden güçlenmişti","Papa iki devletten birlik istedi"],"answer":0,"why":"Zygmunt August ölünce kişisel birlik bitecekti. IV. İvan karşısında Litvanya'nın yardıma ihtiyacı vardı.","terms":["lublin","zygmunt"]},
+    {"period":"p9","q":"Lublin'den sonra ne ayrı kaldı?","options":["Ordu, hazine ve hukuk","Kral, Sejm ve para"],"answer":0,"why":"Kral ve Sejm ortaktı. Litvanya kendi ordusunu, hazinesini, memurlarını ve hukukunu korudu.","terms":["lublin","rzeczpospolita"]},
+    {"period":"p9","q":"Litvanyalı soylular Lublin'e neden direndi?","options":["Topraklarını Korona'ya kaptırdılar","Katolikliği tamamen reddediyorlardı"],"answer":0,"why":"Podlasie, Volhynia ve Kiev Sejm sırasında Korona'ya bağlandı; Litvanyalı magnatlar güç kaybetti.","terms":["lublin"]},
+    {"period":"p9","q":"Jagiellonların sona ermesi siyasete ne getirdi?","options":["Soyluların kralı seçmesini","Kalıtsal mutlak monarşiyi"],"answer":0,"why":"Hanedan yoktu; artık kralı szlachta seçecekti (wolna elekcja) ve gücü daha da arttı.","terms":["zygmunt","szlachta"]},
+    {"period":"p9","q":"Brest Birliği'nin sonucu neydi?","options":["Ortodokslar arasında derin bir bölünme","Bütün Rutenlerin Katolikleşmesi"],"answer":0,"why":"Piskoposların bir kısmı Roma'ya bağlandı, halkın ve din adamlarının çoğu ise Ortodoks kaldı.","terms":["brest","unici"]}
+  ],
+  "yorum": [
+    {"period":"p1","q":"966 vaftizi genellikle sadece dinî bir olay değil, siyasi bir hamle olarak yorumlanır. Bu yorumu en iyi destekleyen hangisidir?","options":["Mieszko, Hristiyanlığı Çekler üzerinden alarak Alman kilisesine ve imparatora bağlanmaktan kaçındı.","Mieszko, vaftizden sonra pagan halkı hemen ve tamamen Hristiyanlaştırarak dinî birliği sağladı.","Mieszko, vaftiz sayesinde Bizans imparatorundan kraliyet tacını ve yeni toprakları aldı."],"answer":0,"why":"Halkın Hristiyanlaşması yüzyıllar sürdü, Bizans'la bir ilişki de yoktu. Asıl kazanç, bağımsızlığı koruyan bir meşruiyetti.","terms":["chrzest","dobrawa","dagome"]},
+    {"period":"p2","q":"Gniezno Kongresi neden Polonya'nın 'Avrupa'ya kabulü' olarak görülür?","options":["İmparator Polonya'yı vasal değil ortak olarak tanıdı ve ayrı bir kilise teşkilatı kurulmasına izin verdi.","İmparator Polonya'yı resmen Kutsal Roma İmparatorluğu'na kattı ve Alman piskoposlarına bağladı.","İmparator Bolesław'ı tahttan indirip yerine Gniezno başpiskoposunu bölgenin yöneticisi yaptı."],"answer":0,"why":"III. Otto'nun eşit krallıklardan oluşan bir Hristiyan Avrupa fikri vardı. Polonya bu düzende onurlu bir yer aldı.","terms":["gniezno","otto","arcybiskupstwo"]},
+    {"period":"p3","q":"Bölünme dönemi bazen tamamen bir 'çöküş' olarak anlatılır. Bu yaklaşıma hangi itiraz yapılabilir?","options":["Siyasi bölünmeye rağmen şehirler kuruldu, ekonomi ve kilise gelişti, ortak kimlik korundu.","Bölünme döneminde Polonya hiçbir dış saldırıyla karşılaşmadı ve sınırları sürekli genişledi.","Bölünme döneminde prensler tek bir başkentten ortak bir orduyla düzenli olarak yönetildi."],"answer":0,"why":"Magdeburg hukuku ile şehirler, kolonizasyon ve Gniezno başpiskoposluğunun birleştirici rolü, 1320'deki birleşmeyi mümkün kıldı.","terms":["rozbicie","magdeburg","testament"]},
+    {"period":"p4","q":"Kazimierz Wielki'nin Kalisz barışında Pomeranya'dan vazgeçmesi nasıl yorumlanmalıdır?","options":["Zayıf bir ülkeyle savaşmak yerine önce devleti güçlendirmeyi seçen gerçekçi bir politikaydı.","Kazimierz'in Baltık'a hiç önem vermediğini ve sadece güneydeki topraklarla ilgilendiğini gösterir.","Töton Şövalyeleri'nin Polonya'yı tamamen yendiğini ve kralı tahttan indirdiğini gösterir."],"answer":0,"why":"Kazimierz kısa vadeli kaybı kabul edip uzun vadede güçlendi. Pomeranya 1466'da bu temel üzerinde geri alındı.","terms":["kalisz","kazimierz"]},
+    {"period":"p5","q":"Krewo Birliği'ni iki taraf için de 'kazan-kazan' yapan şey neydi?","options":["Polonya ortak düşmana karşı müttefik ve Doğu'ya açılım, Litvanya ise Hristiyanlık ve güvenlik kazandı.","Polonya Litvanya'yı tamamen ilhak etti, Litvanya ise karşılığında Polonya'nın bütün borçlarını üstlendi.","Polonya Osmanlılara karşı destek buldu, Litvanya ise Ortodoks kilisesine tamamen bağlanmış oldu."],"answer":0,"why":"Ortak düşman Tötonlardı. Birlik bir ilhak değildi; Litvanya Witold ile ayrı kimliğini korudu.","terms":["krewo","jagiello","witold"]},
+    {"period":"p6","q":"Grunwald 'büyük zafer, küçük barış' olarak anılır. Uzun vadede yine de neden belirleyiciydi?","options":["Tarikatın askeri itibarını ve mali gücünü kırarak 1466'daki kesin sonuca giden yolu açtı.","Tarikatı hemen ortadan kaldırarak bütün Prusya'yı ve Gdańsk'ı Polonya'ya kazandırdı.","Litvanya'nın birlikten çıkmasını sağlayarak Polonya'nın tek başına güçlenmesine izin verdi."],"answer":0,"why":"Ağır tazminat tarikatı vergileri artırmaya zorladı. Bu da Prusya şehirlerinin isyanına ve On Üç Yıl Savaşı'na yol açtı.","terms":["grunwald","torun1","torun2"]},
+    {"period":"p7","q":"Polonya'da soyluların bu kadar çok imtiyaz kazanabilmesinin temel sebebi neydi?","options":["Krallar savaş ve veraset için desteğe muhtaçtı; her destek yeni bir imtiyazla ödendi.","Kilise kralların bütün yetkilerini kaldırarak soylulara devretmelerini zorunlu kıldı.","Kentli burjuvazi çok güçlüydü ve soylular kendilerini korumak için ayrıcalık istedi."],"answer":0,"why":"Koszyce (veraset), Nieszawa (savaş), Nihil novi: hepsi kralın zor anlarında verildi.","terms":["koszyce","nieszawa","nihil"]},
+    {"period":"p8","q":"'Altın Çağ' kavramına hangi açıdan eleştirel bakılabilir?","options":["Soylular zenginleşirken köylüler angaryayla daha çok bağımlı hâle geldi.","Bu dönemde Polonya'da hiçbir kültürel ya da bilimsel gelişme yaşanmadı.","Tahıl ticareti tamamen durdu ve Polonya büyük bir ekonomik krize girdi."],"answer":0,"why":"Altın Çağ özellikle szlachta için altındı. Folwark sistemi zenginliği köylü emeğinden üretiyordu.","terms":["folwark","szlachta"]},
+    {"period":"p9","q":"Lublin Birliği Krewo'dan hangi açıdan temel olarak farklıdır?","options":["Krewo hükümdara bağlı bir kişisel birlikti, Lublin ise ortak kurumları olan kalıcı bir devlet birliği kurdu.","Krewo iki devleti tamamen tek bir devlete dönüştürdü, Lublin ise onları yeniden birbirinden ayırdı.","Krewo dinî bir anlaşmaydı, Lublin ise yalnızca ticaret ve gümrük konularını düzenleyen bir antlaşmaydı."],"answer":0,"why":"Krewo'da bağ kraldı; kral ölünce birlik tartışmaya açılıyordu. Lublin ortak Sejm ve seçilen ortak kral ile bağı kurumlara taşıdı.","terms":["krewo","lublin","rzeczpospolita"]},
+    {"period":"p9","q":"Brest Birliği'nin Cumhuriyet'in iç dengesine etkisi nasıl değerlendirilebilir?","options":["Ortodoks Rutenleri bölerek ileride Kazak ayaklanmalarını besleyen dinî bir gerginlik yarattı.","Bütün dinî farklılıkları ortadan kaldırarak Cumhuriyet'i tamamen Katolik bir devlete dönüştürdü.","Ortodoks kilisesini güçlendirip Moskova Patrikhanesi'ni Cumhuriyet'in resmî kilisesi yaptı."],"answer":0,"why":"Birlik Karşı Reform ruhuyla yapıldı ama Ortodoks halkın çoğu kabul etmedi. Bu bölünme Doğu topraklarında uzun süren bir yaraya dönüştü.","terms":["brest","unici","tolerancja"]}
+  ]
+}
