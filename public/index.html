@@ -376,6 +376,34 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);displa
 #sidebar{width:210px;min-width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 10px 12px;overflow-y:auto;}
 /* Dil seçici yazıları: buton varsayılan siyah rengi yerine tema rengi */
 #lang-picker button{color:var(--text);}
+/* Kenar çubuğu yatay kaymasın (geniş fontlu temalarda sol taraf kesiliyordu) */
+#sidebar{overflow-x:hidden;}
+/* Soluk yazılar (--text3) bütün temalarda okunur seviyeye */
+html:root{--text3:color-mix(in srgb,var(--text2) 72%,var(--bg));}
+/* Açık temalarda vurgu rengi seçilince --accent-bg koyu kalıyordu (rozetler, etiketler, aktif sekmeler) */
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"])[data-accent]:not([data-accent=""]){--accent-bg:color-mix(in srgb,var(--accent) 14%,#fff);--teal-bg:color-mix(in srgb,var(--teal) 14%,#fff);}
+/* Açık temalarda koda gömülü koyu arka planlar (Fonetik tabloları vb.) */
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#0"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#10"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#11"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#12"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#13"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#14"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#15"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#16"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#17"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#18"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#19"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#1a"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#1b"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="background:#1c"]{background:var(--surface2)!important;}
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="border:1px solid #2a2a2a"],
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="border:1px solid #1a1a1a"]{border-color:var(--border2)!important;}
+:is([data-theme="light"],[data-theme="sakura"],[data-theme="arctic"],[data-theme="desert"]) #main [style*="color:#c8b89a"]{color:var(--accent)!important;}
+/* Koyu temalarda koda gömülü çok koyu gri yazılar (#333/#444/#555) okunmuyordu */
+:root:not([data-theme="light"]):not([data-theme="sakura"]):not([data-theme="arctic"]):not([data-theme="desert"]):not([data-theme="espresso"]) #main [style*="color:#333"],
+:root:not([data-theme="light"]):not([data-theme="sakura"]):not([data-theme="arctic"]):not([data-theme="desert"]):not([data-theme="espresso"]) #main [style*="color:#444"],
+:root:not([data-theme="light"]):not([data-theme="sakura"]):not([data-theme="arctic"]):not([data-theme="desert"]):not([data-theme="espresso"]) #main [style*="color:#555"]{color:var(--text3)!important;}
 /* İnce, temaya uyan kaydırma çubukları */
 *{scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
 ::-webkit-scrollbar{width:8px;height:8px;}
