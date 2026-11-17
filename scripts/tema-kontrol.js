@@ -61,8 +61,8 @@ for (const [name, own] of themes) {
   const missing = REQUIRED.filter(k => !(k in own) && name !== 'dark');
   const col = {};
   for (const k of REQUIRED) col[k] = hex(v[k]);
-  // index.html'deki genel kural: --text3 = text2 %72 + bg
-  if (col.text2 && col.bg) col.text3 = mix(col.text2, col.bg, 0.72);
+  // index.html'deki genel kural: --text3 = text2 %82 + bg
+  if (col.text2 && col.bg) col.text3 = mix(col.text2, col.bg, 0.82);
   const rows = [];
   for (const [fg, bg, min] of CHECKS) {
     if (!col[fg] || !col[bg]) { rows.push(`  ? ${fg}/${bg}: renk okunamadı (${v[fg]} / ${v[bg]})`); continue; }

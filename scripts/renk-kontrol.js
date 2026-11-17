@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /*
  * Koda doğrudan yazılmış renkleri sayar (tema değişince değişmeyen renkler).
- *   node scripts/renk-kontrol.js           → sayım ve en çok kullanılan renkler
+ *   node scripts/renk-kontrol.js           → sayım ve en çok kullanılan renkler (tema tanımları hariç)
  *   node scripts/renk-kontrol.js --check   → sayı scripts/renk-baseline.json'daki değeri aşarsa hata
  *   node scripts/renk-kontrol.js --update  → baseline'ı güncel sayıya indir (sadece azaldıysa)
  *
@@ -18,7 +18,10 @@ function scan(file) {
   let src = fs.readFileSync(path.join(root, file), 'utf8');
   if (file.endsWith('.html')) {
     // <style> içindeki tema değişken tanımları hariç; geri kalan her şey sayılır
-    src = src.replace(/<style>[\s\S]*?<\/style>/, m => m.replace(/--[a-z0-9-]+\s*:\s*[^;]+;/gi, ''));
+    // tema tanımları (değişkenler ve [data-theme=…] kuralları) temanın kendisidir, sayılmaz
+    src = src.replace(/<style>[\s\S]*?<\/style>/, m => m
+      .replace(/[^{}]*\[data-(theme|accent)=[^{}]*\{[^{}]*\}/g, '')
+      .replace(/--[a-z0-9-]+\s*:\s*[^;]+;/gi, ''));
   }
   // var(--x,#fallback) fallback'leri sayılmaz
   src = src.replace(/var\(--[a-z0-9-]+,\s*#[0-9a-f]{3,8}\)/gi, '');
