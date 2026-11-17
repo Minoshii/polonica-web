@@ -1787,6 +1787,17 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       </div>
     </div>
 
+    <!-- ANİMASYON -->
+    <div style="margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">ANİMASYON</div>
+      <div class="mx-seg">
+        <button data-mx-set="full" onclick="setMotion('full')">✨ Tam</button>
+        <button data-mx-set="lite" onclick="setMotion('lite')">🍃 Sade</button>
+        <button data-mx-set="off" onclick="setMotion('off')">⏸ Kapalı</button>
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-top:8px;line-height:1.6">Tam: yumuşak geçişler, imleci takip eden ışık, kayan menü. Sade: sadece kısa geçişler. Kapalı: hiç animasyon yok.</div>
+    </div>
+
     <!-- ÖZEL TEMALAR -->
     <div style="margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
       <div style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">ÖZEL TEMALAR</div>
@@ -7943,6 +7954,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </div>
 
 <script src="/sinav-hub.js"></script>
+<script src="/motion.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
