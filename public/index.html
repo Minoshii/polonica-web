@@ -7953,7 +7953,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="btn" onclick="clearSel()">İptal</button>
 </div>
 
-<script src="/sinav.js"></script>
+<script src="/sinav-hub.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -8948,22 +8948,24 @@ function showPanel(name){
   }
 }
 
-// ── SINAV ─────────────────────────────────────────
-// Motor public/sinav.js içinde. İlerleme profil bazlı sunucuda tutulur.
-var _sinavApp = null;
+// ── SINAV HUB'I ───────────────────────────────────
+// Kod public/sinav-hub.js içinde. Dersler ve HTML/PDF dosyaları sunucuda, profil bazlı.
+var _sinavHub = null;
 function sinavInit(){
-  if (typeof SinavApp === 'undefined') { document.getElementById('sinav-root').innerHTML = 'sinav.js yüklenemedi.'; return; }
-  if (!_sinavApp) {
-    _sinavApp = new SinavApp(document.getElementById('sinav-root'), {
-      store: {
-        load: function(id){ return api.get('/api/exams/progress/' + encodeURIComponent(id)).catch(function(){ return {}; }); },
-        save: function(id, d){ return api.post('/api/exams/progress/' + encodeURIComponent(id), d).catch(function(){}); }
-      },
-      onXp: function(n){ try { awardXp(n, 'Sınav'); } catch(e){} },
-      pdfs: function(){ return api.get('/api/pdfs').catch(function(){ return []; }); },
-      openPdf: function(id){ showPanel('pdf'); openPDF(id); }
+  if (typeof SinavHub === 'undefined') { document.getElementById('sinav-root').innerHTML = 'sinav-hub.js yüklenemedi.'; return; }
+  if (!_sinavHub) {
+    _sinavHub = new SinavHub(document.getElementById('sinav-root'), {
+      req: async function(method, url, body){
+        const opts = { method: method };
+        if (body instanceof FormData) opts.body = body;
+        else if (body !== undefined) { opts.headers = {'Content-Type':'application/json'}; opts.body = JSON.stringify(body); }
+        const r = await _fetch(url, opts);
+        return r.json();
+      }
     });
-    _sinavApp.showList();   // sonraki girişlerde kaldığın yerden devam eder
+    _sinavHub.showList();
+  } else if (_sinavHub.view === 'list') {
+    _sinavHub.showList();
   }
 }
 
