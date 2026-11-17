@@ -115,10 +115,14 @@
     // Temanın seçili sekme zeminini ve işaret rengini kullan
     pill.style.setProperty('--mx-pill-bg', 'var(--side-active, var(--surface3))');
     pill.style.setProperty('--mx-pill-mark', 'var(--side-mark, var(--accent))');
-    pill.style.transform = 'translateY(' + act.offsetTop + 'px)';
-    pill.style.height = act.offsetHeight + 'px';
-    pill.style.left = act.offsetLeft + 'px';
-    pill.style.width = act.offsetWidth + 'px';
+    // Konum, kenar çubuğuna göre ölçülür (offsetTop sarmalayıcılara göre yanılabiliyor)
+    var sr = sb.getBoundingClientRect(), ar = act.getBoundingClientRect();
+    var top = ar.top - sr.top + sb.scrollTop - sb.clientTop;
+    var left = ar.left - sr.left + sb.scrollLeft - sb.clientLeft;
+    pill.style.transform = 'translateY(' + top + 'px)';
+    pill.style.height = ar.height + 'px';
+    pill.style.left = left + 'px';
+    pill.style.width = ar.width + 'px';
     pill.style.right = 'auto';
     pill.style.opacity = '1';
   }
@@ -193,7 +197,18 @@
     window.addEventListener('resize', function () { requestAnimationFrame(movePill); });
     // Tema değişince kenar çubuğu boyutları değişebilir
     new MutationObserver(function () { requestAnimationFrame(movePill); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    // Fontlar, XP kartı ya da menü içeriği değişip menüyü kaydırırsa işaret de takip etsin
+    var sb = document.getElementById('sidebar');
+    var queue = function () { cancelAnimationFrame(queue._r); queue._r = requestAnimationFrame(movePill); };
+    if (sb && window.ResizeObserver) {
+      var ro = new ResizeObserver(queue);
+      ro.observe(sb);
+      Array.prototype.forEach.call(sb.children, function (c) { ro.observe(c); });
+    }
+    if (sb) new MutationObserver(queue).observe(sb, { childList: true, subtree: true, characterData: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(queue);
     setTimeout(movePill, 300);
+    setTimeout(movePill, 1500);
     document.querySelectorAll('[data-mx-set]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-mx-set') === mode()); });
   }
 
