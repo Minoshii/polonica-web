@@ -1056,7 +1056,7 @@ app.post('/api/exams/progress/:id', (req, res) => {
   const p = ensureProfile(req.headers['x-profile']);
   if (!p.exams) p.exams = {};
   const body = req.body || {};
-  p.exams[id] = { q: body.q || {}, total: body.total || 0, mastered: body.mastered || 0, updatedAt: new Date().toISOString() };
+  p.exams[id] = { q: body.q || {}, w: body.w || {}, pdfs: Array.isArray(body.pdfs) ? body.pdfs : [], total: body.total || 0, mastered: body.mastered || 0, updatedAt: new Date().toISOString() };
   saveStore();
   res.json({ ok: true });
 });

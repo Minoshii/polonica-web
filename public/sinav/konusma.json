@@ -1,0 +1,12 @@
+{
+  "id": "konusma",
+  "title": "Lehçe Konuşma",
+  "emoji": "🗣",
+  "teacher": "Artur hoca",
+  "scope": "Konuşma sınavı",
+  "examDate": "",
+  "labels": {
+    "yazili": "🗣 Konuşma Konuları"
+  },
+  "parts": []
+}
