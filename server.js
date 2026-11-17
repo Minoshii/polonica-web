@@ -1042,23 +1042,115 @@ app.post('/api/cevapver', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// ── SINAV İLERLEMESİ ──────────────────────────────────────
-// Sınav içerikleri public/sinav/*.json (statik, herkese açık).
-// Burada sadece profil bazlı ilerleme tutulur.
-app.get('/api/exams/progress/:id', (req, res) => {
-  const p = ensureProfile(req.headers['x-profile']);
-  if (!p.exams) p.exams = {};
-  res.json(p.exams[req.params.id] || {});
+// ── SINAV HUB'I ───────────────────────────────────────────
+// Dersler ve derslere yüklenen HTML/PDF dosyaları profil bazlı tutulur.
+// Dosyalar volume'de (DATA_DIR/sinav-files) durur; içerik koda gömülmez.
+const SINAV_DIR = path.join(DATA_DIR, 'sinav-files');
+if (!fs.existsSync(SINAV_DIR)) fs.mkdirSync(SINAV_DIR, { recursive: true });
+
+const SINAV_DEFAULT_COURSES = [
+  ['Polonya Tarihi', '🏰', 'Hacer hoca'], ['Polonya Edebiyatı', '📜', 'Seyyal hoca'], ['Rusça 1', '🇷🇺', 'Mariana hoca'],
+  ['Lehçe Gramer', '📐', ''], ['Laiklik', '⚖️', 'Cezmi hoca'], ['Lehçe Kompozisyon', '✍️', 'Artur hoca'], ['Lehçe Konuşma', '🗣', 'Artur hoca'],
+];
+function sinavId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function sinavToken() { return require('crypto').randomBytes(12).toString('hex'); }
+function sinavData(p) {
+  if (!p.sinav) {
+    const term = '2026–27 Güz';
+    p.sinav = { courses: SINAV_DEFAULT_COURSES.map(([title, emoji, teacher], i) => ({ id: sinavId() + i, title, emoji, teacher, term, examDate: '', createdAt: new Date().toISOString() })), files: [] };
+    saveStore();
+  }
+  return p.sinav;
+}
+function sinavPublicFile(f) { const { filePath, ...rest } = f; return rest; }
+function sinavCleanCourse(b) {
+  const out = {};
+  ['title', 'emoji', 'teacher', 'term', 'examDate', 'note'].forEach(k => { if (b[k] !== undefined) out[k] = String(b[k]).slice(0, 200); });
+  return out;
+}
+
+const sinavUpload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => cb(null, SINAV_DIR),
+    filename: (req, file, cb) => cb(null, sinavId() + (/\.pdf$/i.test(file.originalname) ? '.pdf' : '.html'))
+  }),
+  fileFilter: (req, file, cb) => cb(null, /\.(html?|pdf)$/i.test(file.originalname)),
+  limits: { fileSize: 150 * 1024 * 1024, files: 30 }
 });
-app.post('/api/exams/progress/:id', (req, res) => {
-  const id = String(req.params.id || '');
-  if (!/^[a-z0-9-]{1,60}$/.test(id)) return res.status(400).json({ error: 'Geçersiz sınav id.' });
-  const p = ensureProfile(req.headers['x-profile']);
-  if (!p.exams) p.exams = {};
-  const body = req.body || {};
-  p.exams[id] = { q: body.q || {}, w: body.w || {}, pdfs: Array.isArray(body.pdfs) ? body.pdfs : [], total: body.total || 0, mastered: body.mastered || 0, updatedAt: new Date().toISOString() };
-  saveStore();
+
+app.get('/api/sinav', (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  res.json({ courses: d.courses, files: d.files.map(sinavPublicFile) });
+});
+app.post('/api/sinav/courses', (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  const c = { id: sinavId(), emoji: '📘', term: '', teacher: '', examDate: '', ...sinavCleanCourse(req.body || {}), createdAt: new Date().toISOString() };
+  if (!c.title || !c.title.trim()) return res.status(400).json({ error: 'Ders adı gerekli.' });
+  d.courses.push(c); saveStore(); res.json(c);
+});
+app.put('/api/sinav/courses/:id', (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  const c = d.courses.find(x => x.id === req.params.id);
+  if (!c) return res.status(404).json({ error: 'Ders yok.' });
+  Object.assign(c, sinavCleanCourse(req.body || {})); saveStore(); res.json(c);
+});
+app.delete('/api/sinav/courses/:id', (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  d.files.filter(f => f.courseId === req.params.id).forEach(f => { try { fs.unlinkSync(f.filePath); } catch (e) {} });
+  d.files = d.files.filter(f => f.courseId !== req.params.id);
+  d.courses = d.courses.filter(c => c.id !== req.params.id);
+  saveStore(); res.json({ ok: true });
+});
+app.post('/api/sinav/courses/:id/files', sinavUpload.array('files', 30), (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  const c = d.courses.find(x => x.id === req.params.id);
+  if (!c) { (req.files || []).forEach(f => { try { fs.unlinkSync(f.path); } catch (e) {} }); return res.status(404).json({ error: 'Ders yok.' }); }
+  if (!req.files || !req.files.length) return res.status(400).json({ error: 'Sadece .html ve .pdf yüklenebilir.' });
+  const kind = String((req.body && req.body.kind) || '');
+  const added = req.files.map(f => {
+    const name = Buffer.from(f.originalname, 'latin1').toString('utf8');
+    const isPdf = /\.pdf$/i.test(name);
+    const meta = {
+      id: sinavId(), courseId: c.id, token: sinavToken(),
+      title: name.replace(/\.(html?|pdf)$/i, '').replace(/[_-]+/g, ' ').trim(),
+      type: isPdf ? 'pdf' : 'html', kind: kind || (isPdf ? 'kaynak' : 'konu'),
+      size: f.size, filePath: f.path, addedAt: new Date().toISOString()
+    };
+    d.files.push(meta); return sinavPublicFile(meta);
+  });
+  saveStore(); res.json(added);
+});
+app.put('/api/sinav/files/:id', (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  const f = d.files.find(x => x.id === req.params.id);
+  if (!f) return res.status(404).json({ error: 'Dosya yok.' });
+  const b = req.body || {};
+  if (b.title) f.title = String(b.title).slice(0, 200);
+  if (b.kind) f.kind = String(b.kind).slice(0, 30);
+  if (b.courseId && d.courses.some(c => c.id === b.courseId)) f.courseId = b.courseId;
+  saveStore(); res.json(sinavPublicFile(f));
+});
+app.delete('/api/sinav/files/:id', (req, res) => {
+  const d = sinavData(ensureProfile(req.headers['x-profile']));
+  const f = d.files.find(x => x.id === req.params.id);
+  if (f) { try { fs.unlinkSync(f.filePath); } catch (e) {} d.files = d.files.filter(x => x.id !== f.id); saveStore(); }
   res.json({ ok: true });
+});
+
+// Dosyayı açma/paylaşma: rastgele token'lı link (giriş gerektirmez, link bilen açar).
+app.get('/sinav-dosya/:token', (req, res) => {
+  for (const key of Object.keys(store.profiles)) {
+    const f = (store.profiles[key].sinav?.files || []).find(x => x.token === req.params.token);
+    if (f) {
+      if (!fs.existsSync(f.filePath)) break;
+      const safe = encodeURIComponent(f.title + (f.type === 'pdf' ? '.pdf' : '.html'));
+      res.setHeader('Content-Type', f.type === 'pdf' ? 'application/pdf' : 'text/html; charset=utf-8');
+      res.setHeader('Content-Disposition', (req.query.indir ? 'attachment' : 'inline') + "; filename*=UTF-8''" + safe);
+      res.setHeader('Cache-Control', 'no-cache');
+      return fs.createReadStream(f.filePath).pipe(res);
+    }
+  }
+  res.status(404).send('Dosya bulunamadı.');
 });
 
 // ── NOTLAR ────────────────────────────────────────────────
