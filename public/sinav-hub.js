@@ -88,7 +88,7 @@
     var self = this, d = this.data;
     var groups = [], by = {};
     d.courses.forEach(function (c) { var t = c.term || 'Diğer'; if (!by[t]) { by[t] = []; groups.push(t); } by[t].push(c); });
-    var h = '<div class="sh-top"><h2 class="sh-h1">📝 Sınav</h2></div><div class="sh-sub">Derslerin ve dosyaların tek yerde. Bir derse girip HTML ya da PDF yükle.</div>';
+    var h = '<div class="sh-top"><h2 class="sh-h1">📝 Vize · Final</h2></div><div class="sh-sub">Derslerin ve dosyaların tek yerde. Bir derse girip HTML ya da PDF yükle.</div>';
     if (showForm) h += this.courseForm({}, 'new');
     if (!d.courses.length) h += '<div class="sh-grid">' + '<div class="sh-card add" data-add="1">+ Ders ekle</div></div>';
     groups.forEach(function (t, gi) {
