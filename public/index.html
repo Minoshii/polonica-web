@@ -8959,7 +8959,9 @@ function sinavInit(){
         load: function(id){ return api.get('/api/exams/progress/' + encodeURIComponent(id)).catch(function(){ return {}; }); },
         save: function(id, d){ return api.post('/api/exams/progress/' + encodeURIComponent(id), d).catch(function(){}); }
       },
-      onXp: function(n){ try { awardXp(n, 'Sınav'); } catch(e){} }
+      onXp: function(n){ try { awardXp(n, 'Sınav'); } catch(e){} },
+      pdfs: function(){ return api.get('/api/pdfs').catch(function(){ return []; }); },
+      openPdf: function(id){ showPanel('pdf'); openPDF(id); }
     });
     _sinavApp.showList();   // sonraki girişlerde kaldığın yerden devam eder
   }
