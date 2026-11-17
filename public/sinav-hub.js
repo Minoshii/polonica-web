@@ -17,8 +17,8 @@
   var CSS = [
     '.sh{color:var(--text,#e8e6e1);font-family:"Syne",system-ui,sans-serif;width:100%;max-width:1040px}',
     '.sh *{box-sizing:border-box}',
-    '.sh-h1{font-size:22px;font-weight:800;letter-spacing:-.4px;margin:0}',
-    '.sh-sub{font-size:13px;color:var(--text2,#888);margin:3px 0 16px}',
+    '.sh-h1{font-size:22px;font-weight:800;letter-spacing:-.5px;margin:0}',
+    '.sh-sub{font-size:13px;color:var(--text2,#888);margin:4px 0 18px}',
     '.sh-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}',
     '.sh-sp{flex:1}',
     '.sh-term{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text2,#888);margin:20px 0 10px}',

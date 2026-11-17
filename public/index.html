@@ -1676,7 +1676,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   </div>
 
   <div class="nav-section" data-i18n="sec.sinav">Sınavlar</div>
-  <button class="nav-btn" id="nav-sinav" onclick="showPanel('sinav')" style="color:var(--c-amber);font-weight:800" data-i18n="nav.sinav">📝 Vize · Final</button>
+  <button class="nav-btn" id="nav-sinav" onclick="showPanel('sinav')" style="color:var(--c-amber)" data-i18n="nav.sinav">📝 Vize · Final</button>
 
   <div class="nav-section" data-i18n="sec.tara">Tara</div>
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')" data-i18n="nav.lesson">📚 Ders Materyali</button>
@@ -1695,23 +1695,23 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-grammar" onclick="showPanel('grammar')" style="color:var(--c-teal)">📖 Grammar</button>
   <button class="nav-btn" id="nav-fonetik" onclick="showPanel('fonetik')" style="color:var(--c-purple)" data-i18n="nav.fonetik">🗣 Fonetik</button>
   <button class="nav-btn" id="nav-vucut" onclick="showPanel('vucut')" style="color:var(--c-red)" data-i18n="nav.vucut">🫀 Vücut</button>
-  <button class="nav-btn" id="nav-harita" onclick="showPanel('harita')" style="color:var(--c-gold);font-weight:800">🗺️ Harita</button>
-  <button class="nav-btn" id="nav-ejmala" onclick="showPanel('ejmala')" style="color:var(--c-pink);font-weight:800">✨ Ej Mała</button>
-  <button class="nav-btn" id="nav-kurwa" onclick="showPanel('kurwa')" style="display:none;color:#ff4444;font-weight:800">Ouchh!</button>
+  <button class="nav-btn" id="nav-harita" onclick="showPanel('harita')" style="color:var(--c-gold)">🗺️ Harita</button>
+  <button class="nav-btn" id="nav-ejmala" onclick="showPanel('ejmala')" style="color:var(--c-pink)">✨ Ej Mała</button>
+  <button class="nav-btn" id="nav-kurwa" onclick="showPanel('kurwa')" style="display:none;color:#ff4444">Ouchh!</button>
 
   <div class="nav-section" data-i18n="sec.calis">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')" data-i18n="nav.test">⟳ Test</button>
   <button class="nav-btn" id="nav-writing" onclick="showPanel('writing')" style="color:var(--c-sky)" data-i18n="nav.writing">✍️ Yazma</button>
   <button class="nav-btn" id="nav-reading" onclick="showPanel('reading')" style="color:var(--c-mint)" data-i18n="nav.reading">📖 Okuma</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')" data-i18n="nav.stats">📊 İstatistik</button>
-  <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:var(--c-pink);font-weight:800" data-i18n="nav.kultur">🏛 Kültür</button>
+  <button class="nav-btn" id="nav-kultur" onclick="showPanel('kultur')" style="color:var(--c-pink)" data-i18n="nav.kultur">🏛 Kültür</button>
   <button class="nav-btn" id="nav-notes" onclick="showPanel('notes')" style="color:var(--c-blue)" data-i18n="nav.notes">📝 Notlarım</button>
 
   <div class="nav-section">Oyunlar</div>
-  <button class="nav-btn" id="nav-hafiza" onclick="showPanel('hafiza')" style="color:var(--c-pink);font-weight:800">🧠 Hafıza Oyunu</button>
-  <button class="nav-btn" id="nav-cumle" onclick="showPanel('cumle')" style="color:var(--c-teal);font-weight:800">🔤 Cümle Kurma</button>
+  <button class="nav-btn" id="nav-hafiza" onclick="showPanel('hafiza')" style="color:var(--c-pink)">🧠 Hafıza Oyunu</button>
+  <button class="nav-btn" id="nav-cumle" onclick="showPanel('cumle')" style="color:var(--c-teal)">🔤 Cümle Kurma</button>
   <button id="spotify-sidebar-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
-  <button class="nav-btn" id="nav-rusca" onclick="showPanel('rusca')" style="color:#e06060;font-weight:800">🇷🇺 Rusça</button>
+  <button class="nav-btn" id="nav-rusca" onclick="showPanel('rusca')" style="color:var(--c-red)">🇷🇺 Rusça</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:var(--text3);margin-top:8px" data-i18n="nav.about">ℹ Hakkında</button>
 
 
@@ -2014,7 +2014,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
         <div>
           <div class="panel-title" style="margin-bottom:4px">🃏 Test Merkezi</div>
-          <div style="font-size:12px;color:var(--text3)">Kendi testlerini oluştur, kart modu veya quiz modu ile çalış.</div>
+          <div class="panel-sub" style="margin-bottom:0">Kendi testlerini oluştur, kart modu veya quiz modu ile çalış.</div>
         </div>
         <button onclick="tvShow('tv-create');tcResetForm()" style="padding:10px 18px;background:var(--teal);color:var(--on-teal);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif">✦ Test Oluştur</button>
       </div>
