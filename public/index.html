@@ -235,9 +235,32 @@
 [data-theme="sakura"] .gtab{background:#f5dde0;color:#6a3848;}
 [data-theme="sakura"] .gtab.active{background:#fce8ec;color:#c2667a;border-color:#c2667a;}
 /* Özel tema buton stili (ayarlarda) */
-.custom-theme-btn{padding:9px 12px;border-radius:10px;border:1.5px solid;cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;font-weight:700;transition:all .2s;text-align:center;min-width:80px;}
-.custom-theme-btn:hover{filter:brightness(1.15);transform:translateY(-1px);}
-.custom-theme-btn.active{box-shadow:0 0 0 2px #fff,0 0 0 4px currentColor;}
+/* Özel tema kartları: her kart temanın küçük bir önizlemesi (kenar çubuğu, kartlar, vurgu) */
+.custom-theme-btn{display:flex;flex-direction:column;gap:7px;padding:7px 7px 8px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--p-fg) 14%,transparent);background:var(--p-bg);color:var(--p-fg);cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;text-align:left;transition:transform .15s,box-shadow .15s,border-color .15s;}
+.custom-theme-btn:hover{transform:translateY(-2px);border-color:var(--p-ac);box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.custom-theme-btn.active{border-color:var(--p-ac);box-shadow:0 0 0 2px var(--p-ac);}
+.tp-mini{display:flex;height:38px;border-radius:7px;overflow:hidden;border:1px solid color-mix(in srgb,var(--p-fg) 10%,transparent);}
+.tp-side{width:24%;background:var(--p-side);border-right:1px solid color-mix(in srgb,var(--p-fg) 12%,transparent);}
+.tp-main{flex:1;padding:6px;display:flex;flex-direction:column;gap:4px;background:var(--p-bg);}
+.tp-bar{height:7px;border-radius:3px;background:var(--p-card);}
+.tp-bar.s{width:60%;}
+.tp-pill{width:34%;height:7px;border-radius:99px;background:var(--p-ac);margin-top:auto;}
+.tp-name{display:flex;align-items:center;justify-content:space-between;padding:0 2px;}
+.tp-name::after{content:'';width:9px;height:9px;border-radius:50%;background:var(--p-ac);}
+.custom-theme-btn[data-t="forest"]{--p-side:#5B6B45;--p-bg:#D6C7A1;--p-card:#CDBF98;--p-ac:#2A3A2F;--p-fg:#2A3A2F;}
+.custom-theme-btn[data-t="sakura"]{--p-side:#5E1A3A;--p-bg:#F5ECF0;--p-card:#EDD8E4;--p-ac:#BE5A78;--p-fg:#2A1018;}
+.custom-theme-btn[data-t="espresso"]{--p-side:#6B4A2A;--p-bg:#F5F5F5;--p-card:#EDE8E0;--p-ac:#8B4513;--p-fg:#4E3B31;}
+.custom-theme-btn[data-t="arctic"]{--p-side:#c8ddf0;--p-bg:#eef4fb;--p-card:#daeaf8;--p-ac:#1e3a5f;--p-fg:#0d1f35;}
+.custom-theme-btn[data-t="dracula"]{--p-side:#21222c;--p-bg:#282a36;--p-card:#3a3d50;--p-ac:#ff79c6;--p-fg:#f8f8f2;}
+.custom-theme-btn[data-t="mono"]{--p-side:#080808;--p-bg:#000000;--p-card:#1a1a1a;--p-ac:#e0e0e0;--p-fg:#f5f5f5;}
+.custom-theme-btn[data-t="desert"]{--p-side:#e0d4c0;--p-bg:#f5f0e8;--p-card:#ede4d8;--p-ac:#c65a2a;--p-fg:#2a1a0a;}
+.custom-theme-btn[data-t="tokyonight"]{--p-side:#141520;--p-bg:#1a1b2e;--p-card:#2e2f50;--p-ac:#ff6eb4;--p-fg:#eeeeff;}
+.custom-theme-btn[data-t="deepsea"]{--p-side:#03101e;--p-bg:#061428;--p-card:#102448;--p-ac:#38bdf8;--p-fg:#bae6fd;}
+.custom-theme-btn[data-t="vaporwave"]{--p-side:linear-gradient(180deg,#2d1b69,#831843);--p-bg:#0f0a1e;--p-card:#1e1438;--p-ac:#f472b6;--p-fg:#fde8ff;}
+.custom-theme-btn[data-t="duskgold"]{--p-side:#100c20;--p-bg:#1a1228;--p-card:#2c2048;--p-ac:#fbbf24;--p-fg:#fef9e7;}
+.custom-theme-btn[data-t="dragonking"]{--p-side:#e8d8b8;--p-bg:#140808;--p-card:#261010;--p-ac:#c8901a;--p-fg:#f5e8c8;}
+.custom-theme-btn[data-t="inheritance"]{--p-side:#060a14;--p-bg:#080e1a;--p-card:#141e34;--p-ac:#c9a84c;--p-fg:#e8e4d8;}
+.custom-theme-btn[data-t="skyline"]{--p-side:#0a2040;--p-bg:#d0d4dc;--p-card:#c8ccd4;--p-ac:#ff6a00;--p-fg:#1a1e28;}
 /* Swatch + mode btn stilleri */
 .theme-mode-btn{flex:1;padding:8px 4px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;transition:all .2s;}
 .theme-mode-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-bg);}
@@ -1659,21 +1682,21 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <!-- ÖZEL TEMALAR -->
     <div style="margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
       <div style="font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">ÖZEL TEMALAR</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-        <button onclick="setTheme('forest')" id="theme-btn-forest" class="custom-theme-btn" style="background:#5B6B45;border-color:#D6C7A188;color:#D6C7A1">🌲 Forest</button>
-        <button onclick="setTheme('sakura')" id="theme-btn-sakura" class="custom-theme-btn" style="background:#C4607A;border-color:#FFE0EA88;color:#FFE0EA">🌸 Sakura</button>
-        <button onclick="setTheme('espresso')" id="theme-btn-espresso" class="custom-theme-btn" style="background:#D8CFC4;border-color:#8B451388;color:#8B4513">☕ Espresso</button>
-        <button onclick="setTheme('arctic')" id="theme-btn-arctic" class="custom-theme-btn" style="background:#c8ddf0;border-color:#1e3a5f66;color:#1e3a5f">🧊 Arctic</button>
-        <button onclick="setTheme('dracula')" id="theme-btn-dracula" class="custom-theme-btn" style="background:#282a36;border-color:#ff79c666;color:#ff79c6">🟣 Dracula</button>
-        <button onclick="setTheme('mono')" id="theme-btn-mono" class="custom-theme-btn" style="background:#0a0a0a;border-color:#e8e8e866;color:#e8e8e8">🖤 Mono</button>
-        <button onclick="setTheme('desert')" id="theme-btn-desert" class="custom-theme-btn" style="background:#e0d4c0;border-color:#c65a2a66;color:#c65a2a">🌵 Desert</button>
-        <button onclick="setTheme('tokyonight')" id="theme-btn-tokyonight" class="custom-theme-btn" style="background:#1a1b2e;border-color:#ff6eb466;color:#ff6eb4">🌸 Tokyo Night</button>
-        <button onclick="setTheme('deepsea')" id="theme-btn-deepsea" class="custom-theme-btn" style="background:linear-gradient(135deg,#03101e 50%,#061428 100%);border-color:#38bdf855;color:#38bdf8">🌊 Deep Sea</button>
-        <button onclick="setTheme('vaporwave')" id="theme-btn-vaporwave" class="custom-theme-btn" style="background:linear-gradient(135deg,#2d1b69,#831843);border-color:#f472b655;color:#f472b6">💜 Vaporwave</button>
-        <button onclick="setTheme('duskgold')" id="theme-btn-duskgold" class="custom-theme-btn" style="background:linear-gradient(135deg,#100c20 50%,#1a1228 100%);border-color:#fbbf2455;color:#fbbf24">⭐ Dusk & Gold</button>
-        <button onclick="setTheme('dragonking')" id="theme-btn-dragonking" class="custom-theme-btn" style="background:linear-gradient(135deg,#e8d8b8,#140808);border-color:#c41e3a88;color:#8b0000">🐉 Dragon King</button>
-        <button onclick="setTheme('inheritance')" id="theme-btn-inheritance" class="custom-theme-btn" style="background:linear-gradient(135deg,#060a14,#0e1628);border-color:#c9a84c55;color:#c9a84c">👑 Inheritance</button>
-        <button onclick="setTheme('skyline')" id="theme-btn-skyline" class="custom-theme-btn" style="background:linear-gradient(135deg,#0a2040 50%,#d0d4dc 50%);border-color:#ff6a0066;color:#ff6a00">🚗 Skyline</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button onclick="setTheme('forest')" id="theme-btn-forest" class="custom-theme-btn" data-t="forest"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Forest</span></button>
+        <button onclick="setTheme('sakura')" id="theme-btn-sakura" class="custom-theme-btn" data-t="sakura"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Sakura</span></button>
+        <button onclick="setTheme('espresso')" id="theme-btn-espresso" class="custom-theme-btn" data-t="espresso"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Espresso</span></button>
+        <button onclick="setTheme('arctic')" id="theme-btn-arctic" class="custom-theme-btn" data-t="arctic"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Arctic</span></button>
+        <button onclick="setTheme('dracula')" id="theme-btn-dracula" class="custom-theme-btn" data-t="dracula"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Dracula</span></button>
+        <button onclick="setTheme('mono')" id="theme-btn-mono" class="custom-theme-btn" data-t="mono"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Mono</span></button>
+        <button onclick="setTheme('desert')" id="theme-btn-desert" class="custom-theme-btn" data-t="desert"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Desert</span></button>
+        <button onclick="setTheme('tokyonight')" id="theme-btn-tokyonight" class="custom-theme-btn" data-t="tokyonight"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Tokyo Night</span></button>
+        <button onclick="setTheme('deepsea')" id="theme-btn-deepsea" class="custom-theme-btn" data-t="deepsea"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Deep Sea</span></button>
+        <button onclick="setTheme('vaporwave')" id="theme-btn-vaporwave" class="custom-theme-btn" data-t="vaporwave"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Vaporwave</span></button>
+        <button onclick="setTheme('duskgold')" id="theme-btn-duskgold" class="custom-theme-btn" data-t="duskgold"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Dusk &amp; Gold</span></button>
+        <button onclick="setTheme('dragonking')" id="theme-btn-dragonking" class="custom-theme-btn" data-t="dragonking"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Dragon King</span></button>
+        <button onclick="setTheme('inheritance')" id="theme-btn-inheritance" class="custom-theme-btn" data-t="inheritance"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Inheritance</span></button>
+        <button onclick="setTheme('skyline')" id="theme-btn-skyline" class="custom-theme-btn" data-t="skyline"><span class="tp-mini"><span class="tp-side"></span><span class="tp-main"><span class="tp-bar"></span><span class="tp-bar s"></span><span class="tp-pill"></span></span></span><span class="tp-name">Skyline</span></button>
       </div>
       <div style="font-size:10px;color:var(--text3);margin-top:8px;line-height:1.6">Özel tema seçince logo yanında gösterge belirir. Koyu / Loş / Açık ile geri dönebilirsin.</div>
     </div>
@@ -8384,7 +8407,7 @@ async function deleteProfile(key) {
 
 // ── BAŞLANGIÇ ─────────────────────────────────────────────
 // ── TEMA ──────────────────────────────────────────────────
-var _themeEmojis = {"forest":"🌲","sakura":"🌸","espresso":"☕","arctic":"🧊","dracula":"🟣","mono":"🖤","desert":"🌵","tokyonight":"🌸","deepsea":"🌊","vaporwave":"💜","duskgold":"⭐","dragonking":"🐉","inheritance":"👑","skyline":"🚗"};
+var _themeEmojis = {"forest":"🌲","sakura":"🌸","espresso":"☕","arctic":"🧊","dracula":"🟣","mono":"🖤","desert":"🌵","tokyonight":"🌸","deepsea":"🌊","vaporwave":"💜","duskgold":"⭐","dragonking":"🐉","inheritance":"👑"};
 var _customThemes = ["forest","sakura","espresso","arctic","dracula","mono","desert","tokyonight","deepsea","vaporwave","duskgold","dragonking","inheritance","skyline"];
 
 function setTheme(theme) {
