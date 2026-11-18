@@ -1182,7 +1182,7 @@ function wiadTag(block, tag) {
 function wiadParse(xml, src) {
   const items = [];
   const blocks = xml.match(/<item[\s>][\s\S]*?<\/item>/gi) || xml.match(/<entry[\s>][\s\S]*?<\/entry>/gi) || [];
-  for (const b of blocks.slice(0, 40)) {
+  for (const b of blocks.slice(0, 80)) {
     const title = wiadText(wiadTag(b, 'title'));
     let link = wiadDecode(wiadTag(b, 'link')).trim();
     if (!link) { const m = b.match(/<link[^>]*href="([^"]+)"/i); if (m) link = wiadDecode(m[1]); }
@@ -1219,19 +1219,93 @@ async function wiadFetchOne(src) {
 }
 function wiadNorm(t) { return t.toLowerCase().replace(/[^a-ząćęłńóśźż0-9 ]/g, '').replace(/\s+/g, ' ').trim().slice(0, 48); }
 
+// Haftalık arşiv: beslemeler sadece son 1-2 günü verdiği için sunucu haberleri kendisi biriktirir.
+const WIAD_ARCHIVE_FILE = path.join(DATA_DIR, 'wiadomosci-arsiv.json');
+const WIAD_KEEP_MS = 14 * 24 * 3600 * 1000;
+let wiadArchive = [];
+try { if (fs.existsSync(WIAD_ARCHIVE_FILE)) wiadArchive = JSON.parse(fs.readFileSync(WIAD_ARCHIVE_FILE, 'utf8')) || []; } catch (e) { wiadArchive = []; }
+function wiadArchiveAdd(items) {
+  const byLink = new Set(wiadArchive.map(i => i.link));
+  const byTitle = new Set(wiadArchive.map(i => wiadNorm(i.title)));
+  const nowIso = new Date().toISOString();
+  let added = 0;
+  for (const it of items) {
+    const k = wiadNorm(it.title);
+    if (byLink.has(it.link) || byTitle.has(k)) continue;
+    byLink.add(it.link); byTitle.add(k);
+    wiadArchive.push({ source: it.source, title: it.title, link: it.link, desc: (it.desc || '').slice(0, 220), date: it.date || nowIso, seenAt: nowIso });
+    added++;
+  }
+  const cutoff = Date.now() - WIAD_KEEP_MS;
+  wiadArchive = wiadArchive.filter(i => new Date(i.date || i.seenAt).getTime() >= cutoff);
+  if (added) { try { fs.writeFileSync(WIAD_ARCHIVE_FILE, JSON.stringify(wiadArchive)); } catch (e) { console.error('Haber arşivi yazılamadı:', e.message); } }
+  return added;
+}
+
+async function wiadRefresh() {
+  const results = await Promise.all(WIAD_SOURCES.map(wiadFetchOne));
+  const seen = new Set(); const items = [];
+  results.forEach(r => r.items.forEach(it => { const k = wiadNorm(it.title); if (!seen.has(k)) { seen.add(k); items.push(it); } }));
+  items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const data = {
+    fetchedAt: new Date().toISOString(),
+    sources: WIAD_SOURCES.map((s, i) => ({ id: s.id, name: s.name, ok: results[i].ok, count: results[i].items.length, error: results[i].error || null })),
+    items: items.slice(0, 150)
+  };
+  wiadCache = { at: Date.now(), data };
+  wiadArchiveAdd(items);
+  return data;
+}
+// Arka planda her 30 dakikada bir topla (panel açılmasa da hafta dolsun)
+setTimeout(() => wiadRefresh().catch(() => {}), 20 * 1000);
+setInterval(() => wiadRefresh().catch(() => {}), 30 * 60 * 1000);
+
 app.get('/api/wiadomosci', async (req, res) => {
   try {
     if (!req.query.yenile && wiadCache.data && Date.now() - wiadCache.at < WIAD_TTL) return res.json(wiadCache.data);
-    const results = await Promise.all(WIAD_SOURCES.map(wiadFetchOne));
-    const seen = new Set(); const items = [];
-    results.forEach(r => r.items.forEach(it => { const k = wiadNorm(it.title); if (!seen.has(k)) { seen.add(k); items.push(it); } }));
-    items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-    const data = {
-      fetchedAt: new Date().toISOString(),
-      sources: WIAD_SOURCES.map((s, i) => ({ id: s.id, name: s.name, ok: results[i].ok, count: results[i].items.length, error: results[i].error || null })),
-      items: items.slice(0, 150)
-    };
-    wiadCache = { at: Date.now(), data };
+    res.json(await wiadRefresh());
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Haftanın öne çıkanları: son 7 günün arşivinden en önemli gelişmeler (3 saat önbellek)
+let wiadHaftaCache = { at: 0, data: null };
+app.get('/api/wiadomosci/hafta', async (req, res) => {
+  try {
+    if (!req.query.yenile && wiadHaftaCache.data && Date.now() - wiadHaftaCache.at < 3 * 3600 * 1000) return res.json(wiadHaftaCache.data);
+    if (!wiadArchive.length) await wiadRefresh().catch(() => {});
+    const from = Date.now() - 7 * 24 * 3600 * 1000;
+    const week = wiadArchive.filter(i => new Date(i.date || i.seenAt).getTime() >= from)
+      .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    if (!week.length) return res.json({ from: new Date(from).toISOString(), to: new Date().toISOString(), count: 0, days: 0, items: [] });
+    const oldest = new Date(week[week.length - 1].date || week[week.length - 1].seenAt);
+    const days = Math.max(1, Math.round((Date.now() - oldest) / (24 * 3600 * 1000)));
+    const list = week.slice(0, 320);
+    const fmt = d => { const x = new Date(d); return String(x.getUTCDate()).padStart(2, '0') + '.' + String(x.getUTCMonth() + 1).padStart(2, '0'); };
+    const lines = list.map((it, i) => i + '. [' + fmt(it.date || it.seenAt) + '][' + it.source + '] ' + it.title.slice(0, 160));
+    const prompt = [
+      'You help a Turkish university student of Polish philology. Every Wednesday the history teacher asks: "What important happened in Poland this past week?"',
+      'Below are headlines collected from major Polish news sites over the last ' + days + ' day(s) (format: index. [dd.mm][source] title).',
+      'Identify the 8 MOST IMPORTANT developments concerning Poland (politics, government, economy, society, security, Poland\'s foreign relations).',
+      'Several headlines may describe the same story — merge them into one development; stories covered by several sources or over several days are usually more important.',
+      'Skip crime trivia, celebrities, sport results, weather and lifestyle unless truly nationally significant.',
+      '', 'HEADLINES:', lines.join('\n'), '',
+      'Return ONLY valid JSON, no markdown:',
+      '{"items":[{"refs":[<indices of the headlines about this development>],"gun":"dd.mm of the key day","baslik_tr":"short Turkish title",',
+      '"ozet_tr":"2-3 sentence neutral Turkish explanation","neden_onemli":"1 Turkish sentence","derste_pl":"1-2 simple natural Polish sentences (B1) to say in class",',
+      '"derste_tr":"Turkish translation","kelimeler":[{"pl":"key word","tr":"Turkish"}]}]}',
+      'Order by importance (most important first). 3-4 kelimeler each. Stay strictly factual to the headlines; do not invent details.'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 3800);
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Haftalık özet üretilemedi.');
+    const parsed = JSON.parse(m[0]);
+    const items = (parsed.items || []).map(x => ({
+      gun: x.gun, baslik_tr: x.baslik_tr, ozet_tr: x.ozet_tr, neden_onemli: x.neden_onemli,
+      derste_pl: x.derste_pl, derste_tr: x.derste_tr, kelimeler: x.kelimeler || [],
+      kaynaklar: (x.refs || []).filter(n => list[n]).slice(0, 6).map(n => ({ source: list[n].source, title: list[n].title, link: list[n].link }))
+    }));
+    const data = { from: oldest.toISOString(), to: new Date().toISOString(), count: week.length, days, items };
+    wiadHaftaCache = { at: Date.now(), data };
     res.json(data);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
