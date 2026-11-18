@@ -1153,6 +1153,128 @@ app.get('/sinav-dosya/:token', (req, res) => {
   res.status(404).send('Dosya bulunamadı.');
 });
 
+// ── WIADOMOŚCI: Polonya'nın büyük haber sitelerinden baş haberler ─────────
+// RSS beslemeleri sunucuda okunur (tarayıcıdan CORS yüzünden okunamaz), 10 dk önbelleklenir.
+const WIAD_SOURCES = [
+  { id: 'tvn24',  name: 'TVN24',          url: 'https://tvn24.pl/najnowsze.xml' },
+  { id: 'polsat', name: 'Polsat News',    url: 'https://www.polsatnews.pl/rss/polska.xml' },
+  { id: 'rmf24',  name: 'RMF24',          url: 'https://www.rmf24.pl/feed' },
+  { id: 'wp',     name: 'Wirtualna Polska', url: 'https://wiadomosci.wp.pl/rss.xml' },
+  { id: 'onet',   name: 'Onet',           url: 'https://wiadomosci.onet.pl/.feed' },
+];
+const WIAD_TTL = 10 * 60 * 1000;
+let wiadCache = { at: 0, data: null };
+const wiadOzetCache = new Map();
+
+function wiadDecode(s) {
+  return String(s || '')
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');
+}
+function wiadText(html) { return wiadDecode(html).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(); }
+function wiadTag(block, tag) {
+  const m = block.match(new RegExp('<' + tag + '(?:\\s[^>]*)?>([\\s\\S]*?)</' + tag + '>', 'i'));
+  return m ? m[1] : '';
+}
+function wiadParse(xml, src) {
+  const items = [];
+  const blocks = xml.match(/<item[\s>][\s\S]*?<\/item>/gi) || xml.match(/<entry[\s>][\s\S]*?<\/entry>/gi) || [];
+  for (const b of blocks.slice(0, 40)) {
+    const title = wiadText(wiadTag(b, 'title'));
+    let link = wiadDecode(wiadTag(b, 'link')).trim();
+    if (!link) { const m = b.match(/<link[^>]*href="([^"]+)"/i); if (m) link = wiadDecode(m[1]); }
+    if (!title || !/^https?:\/\//i.test(link)) continue;
+    const rawDesc = wiadTag(b, 'description') || wiadTag(b, 'summary') || wiadTag(b, 'content');
+    const dateStr = wiadText(wiadTag(b, 'pubDate') || wiadTag(b, 'published') || wiadTag(b, 'updated') || wiadTag(b, 'dc:date'));
+    const date = dateStr ? new Date(dateStr) : null;
+    let img = '';
+    const enc = b.match(/<enclosure[^>]*url="([^"]+)"[^>]*type="image/i) || b.match(/<enclosure[^>]*type="image[^"]*"[^>]*url="([^"]+)"/i)
+      || b.match(/<media:(?:content|thumbnail)[^>]*url="([^"]+)"/i) || wiadDecode(rawDesc).match(/<img[^>]*src="([^"]+)"/i);
+    if (enc && /^https?:\/\//i.test(wiadDecode(enc[1]))) img = wiadDecode(enc[1]);
+    let desc = wiadText(rawDesc);
+    if (desc.length > 260) desc = desc.slice(0, 257).replace(/\s+\S*$/, '') + '…';
+    items.push({ id: src.id + ':' + link, source: src.id, title, link, desc, img,
+      date: date && !isNaN(date) ? date.toISOString() : null });
+  }
+  return items;
+}
+async function wiadFetchOne(src) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 9000);
+  try {
+    const r = await fetch(src.url, { signal: ctrl.signal, headers: { 'User-Agent': 'Mozilla/5.0 (Polonica; +https://github.com/Minoshii/polonica-web)', 'Accept': 'application/rss+xml, application/xml, text/xml, */*' } });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const buf = Buffer.from(await r.arrayBuffer());
+    const head = buf.slice(0, 200).toString('latin1');
+    const cs = ((r.headers.get('content-type') || '').match(/charset=([\w-]+)/i) || head.match(/encoding="([\w-]+)"/i) || [, 'utf-8'])[1];
+    let xml;
+    try { xml = new TextDecoder(cs.toLowerCase()).decode(buf); } catch (e) { xml = buf.toString('utf8'); }
+    return { ok: true, items: wiadParse(xml, src) };
+  } catch (e) {
+    return { ok: false, error: e.name === 'AbortError' ? 'zaman aşımı' : e.message, items: [] };
+  } finally { clearTimeout(t); }
+}
+function wiadNorm(t) { return t.toLowerCase().replace(/[^a-ząćęłńóśźż0-9 ]/g, '').replace(/\s+/g, ' ').trim().slice(0, 48); }
+
+app.get('/api/wiadomosci', async (req, res) => {
+  try {
+    if (!req.query.yenile && wiadCache.data && Date.now() - wiadCache.at < WIAD_TTL) return res.json(wiadCache.data);
+    const results = await Promise.all(WIAD_SOURCES.map(wiadFetchOne));
+    const seen = new Set(); const items = [];
+    results.forEach(r => r.items.forEach(it => { const k = wiadNorm(it.title); if (!seen.has(k)) { seen.add(k); items.push(it); } }));
+    items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const data = {
+      fetchedAt: new Date().toISOString(),
+      sources: WIAD_SOURCES.map((s, i) => ({ id: s.id, name: s.name, ok: results[i].ok, count: results[i].items.length, error: results[i].error || null })),
+      items: items.slice(0, 150)
+    };
+    wiadCache = { at: Date.now(), data };
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Hocanın "Polonya'da bu hafta ne oldu?" sorusu için Türkçe özet + derste söylenecek Lehçe cümleler
+app.post('/api/wiadomosci/ozet', async (req, res) => {
+  try {
+    const list = (Array.isArray(req.body.items) ? req.body.items : []).slice(0, 40)
+      .map((it, i) => (i + 1) + '. [' + String(it.source || '') + '] ' + String(it.title || '').slice(0, 200) + (it.desc ? ' — ' + String(it.desc).slice(0, 220) : ''));
+    if (!list.length) return res.status(400).json({ error: 'Haber yok.' });
+    const key = list.join('|').slice(0, 2000);
+    if (wiadOzetCache.has(key)) return res.json(wiadOzetCache.get(key));
+    const prompt = [
+      'You help a Turkish university student of Polish philology. In class, the teacher regularly asks: "What important happened in Poland recently?"',
+      'Below are the latest headlines from major Polish news sites (Polish). Pick the 5 MOST IMPORTANT stories about Poland itself',
+      '(politics, government, economy, society, security, foreign relations of Poland). Skip crime trivia, celebrity, sport results and weather unless truly major.',
+      '',
+      'HEADLINES:', list.join('\n'), '',
+      'Return ONLY valid JSON, no markdown:',
+      '{"items":[{"n": <headline number>, "baslik_tr": "short Turkish title", "ozet_tr": "2 sentence neutral Turkish explanation with context",',
+      '"neden_onemli": "1 short Turkish sentence: why it matters", "derste_pl": "1-2 simple, natural Polish sentences (B1) the student can say in class about this",',
+      '"derste_tr": "Turkish translation of derste_pl", "kelimeler": [{"pl":"key Polish word/phrase from the story","tr":"Turkish meaning"}]}]}',
+      'Rules: exactly 5 items unless fewer relevant; kelimeler 3-4 per item; stay strictly factual to the headlines, do not invent details; neutral tone.'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 2400);
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Özet üretilemedi.');
+    const data = JSON.parse(m[0]);
+    wiadOzetCache.set(key, data);
+    if (wiadOzetCache.size > 30) wiadOzetCache.delete(wiadOzetCache.keys().next().value);
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/wiadomosci/cevir', async (req, res) => {
+  try {
+    const text = String(req.body.text || '').slice(0, 600);
+    if (!text) return res.status(400).json({ error: 'Metin yok.' });
+    const raw = await claudeAsk('Translate this Polish news headline/lead into natural Turkish. Reply with the Turkish translation only.\n\n' + text, 400);
+    res.json({ tr: raw.trim() });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ── NOTLAR ────────────────────────────────────────────────
 app.get('/api/notes', (req, res) => {
   const p = ensureProfile(req.headers['x-profile']);
