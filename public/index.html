@@ -12544,16 +12544,20 @@ function startAfkTimer() {
 
 function onActivity() {
   if (_fox && !_foxLeaving) {
-    // Tilki var, aktif oldu — veda başlat
-    startFoxLeave();
+    // Tilki var, aktif oldu — veda başlat (telefonda hemen)
+    startFoxLeave(_foxTouch);
   } else if (!_fox) {
     startAfkTimer();
   }
 }
 
-function startFoxLeave() {
+const _foxTouch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+let _foxAutoTimer = null;
+
+function startFoxLeave(fast) {
   if (_foxLeaving) return;
   _foxLeaving = true;
+  clearTimeout(_foxAutoTimer);
   const bubble = _fox && _fox.querySelector('div');
   if (bubble) bubble.textContent = 'Do widzenia! 🦊';
   clearTimeout(_foxLeaveTimer);
@@ -12568,27 +12572,43 @@ function startFoxLeave() {
       _foxLeaving = false;
       startAfkTimer();
     }, 1300);
-  }, 3500);
+  }, fast ? 700 : (_foxTouch ? 1200 : 3500));
 }
 
 document.addEventListener('mousemove', function(e) {
   _foxTarget = { x: e.clientX, y: e.clientY };
   if (!_fox && !_foxLeaving) startAfkTimer();
 });
-document.addEventListener('keydown', onActivity);
-document.addEventListener('click', onActivity);
+// Telefonda dokunma ve kaydırma da etkinlik sayılır (yoksa tilki hiç gitmiyordu)
+['keydown', 'click', 'pointerdown', 'touchstart', 'wheel'].forEach(function(ev) {
+  document.addEventListener(ev, onActivity, { passive: true, capture: true });
+});
+window.addEventListener('scroll', onActivity, { passive: true, capture: true });
+document.addEventListener('visibilitychange', function() { if (document.hidden) clearTimeout(_afkTimer); else onActivity(); });
+// Site içinde açılan HTML/PDF'lerdeki (iframe) etkinlik de sayılsın
+window.polonicaActivity = onActivity;
 
 function spawnFox() {
-  if (_fox || _foxLeaving) return;
+  if (_fox || _foxLeaving || document.hidden) return;
   _fox = document.createElement('div');
-  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:500;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;z-index:500!important;left:' + (window.innerWidth - 80) + 'px;top:' + (window.innerHeight - 80) + 'px;';
+  _fox.style.cssText = 'position:fixed;font-size:36px;z-index:500;cursor:pointer;touch-action:manipulation;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));opacity:0;transition:opacity .5s;z-index:500!important;left:' + (window.innerWidth - 80) + 'px;top:' + (window.innerHeight - 80) + 'px;';
   _fox.textContent = '🦊';
+  _fox.title = 'Dokun, gitsin';
+  _fox.addEventListener('click', function(e) { e.stopPropagation(); startFoxLeave(true); });
   _foxPos = { x: window.innerWidth - 80, y: window.innerHeight - 80 };
+  if (_foxTouch) {
+    // Telefonda imleç yok: köşede, butonların üstünde durup kendiliğinden gitsin
+    _foxPos = { x: 16, y: window.innerHeight - 150 };
+    _foxTarget = { x: _foxPos.x + 30, y: _foxPos.y + 30 };
+    _fox.style.left = _foxPos.x + 'px'; _fox.style.top = _foxPos.y + 'px';
+    clearTimeout(_foxAutoTimer);
+    _foxAutoTimer = setTimeout(function() { startFoxLeave(true); }, 10000);
+  }
   document.body.appendChild(_fox);
   requestAnimationFrame(function() { if(_fox) _fox.style.opacity = '1'; });
 
   var bubble = document.createElement('div');
-  bubble.style.cssText = 'position:absolute;bottom:44px;right:0;background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:var(--accent-text);font-family:Syne,sans-serif;white-space:nowrap;';
+  bubble.style.cssText = 'position:absolute;bottom:44px;' + (_foxTouch ? 'left:0;' : 'right:0;') + 'background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px 10px 4px 10px;padding:8px 12px;font-size:12px;color:var(--accent-text);font-family:Syne,sans-serif;white-space:nowrap;';
   var msgs = ['Ej, uczysz się?', 'Nie ma sprawy!', 'Czy rozumiesz?', 'Bardzo dobrze!', 'Kumam! Kumam!'];
   bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
   _fox.appendChild(bubble);

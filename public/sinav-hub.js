@@ -234,6 +234,14 @@
       '<a class="sh-btn sm" href="' + esc(fileUrl(f)) + '" target="_blank" rel="noopener">↗ Yeni sekmede aç</a></div>' +
       '<iframe class="sh-frame" src="' + esc(fileUrl(f)) + '"></iframe></div>';
     this.root.querySelector('[data-back]').onclick = function () { self.renderCourse(f.courseId); };
+    // Dosyanın içindeki dokunma/kaydırma/yazma da sitede etkinlik sayılsın (AFK tilkisi vb.)
+    var fr = this.root.querySelector('.sh-frame');
+    fr.addEventListener('load', function () {
+      try {
+        var w = fr.contentWindow, ping = function () { if (window.polonicaActivity) window.polonicaActivity(); };
+        ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll', 'mousemove'].forEach(function (ev) { w.addEventListener(ev, ping, { passive: true, capture: true }); });
+      } catch (e) {}
+    });
   };
 
   window.SinavHub = SinavHub;
