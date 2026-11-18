@@ -1681,6 +1681,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')" data-i18n="nav.lesson">📚 Ders Materyali</button>
   <button class="nav-btn" id="nav-lyrics" onclick="showPanel('lyrics')" data-i18n="nav.lyrics">🎵 Şarkı Sözleri</button>
   <button class="nav-btn" id="nav-analyze" onclick="showPanel('analyze')" data-i18n="nav.analyze">🔬 Metin Analizi</button>
+  <button class="nav-btn" id="nav-wiadomosci" onclick="showPanel('wiadomosci')" data-i18n="nav.wiadomosci">📰 Wiadomości</button>
 
   <div class="nav-section" data-i18n="sec.materyal">Materyal</div>
   <button class="nav-btn" id="nav-pdf" onclick="showPanel('pdf')" data-i18n="nav.pdf">📄 PDF Kütüphanesi</button>
@@ -7861,6 +7862,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div id="kultur-result"></div>
   </div>
 
+  <!-- WIADOMOŚCI -->
+  <div class="panel" id="panel-wiadomosci"><div id="wiadomosci-root"></div></div>
+
   <!-- SINAV -->
   <div class="panel" id="panel-sinav"><div id="sinav-root"></div></div>
 
@@ -7955,6 +7959,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 </div>
 
 <script src="/sinav-hub.js"></script>
+<script src="/wiadomosci.js"></script>
 <script src="/motion.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -8932,6 +8937,7 @@ function showPanel(name){
   if(name==='kurwa') { renderKurwaList(); }
   if(name==='rusca') { ruRenderAlpha(); }
   if(name==='sinav') { sinavInit(); }
+  if(name==='wiadomosci') { wiadomosciInit(); }
   if(name==='hafiza') {
     _hafizaState = null;
     document.getElementById('hafiza-setup').style.display = '';
@@ -8951,6 +8957,23 @@ function showPanel(name){
     if(sb && sb.classList.contains('mobile-open')) sb.classList.remove('mobile-open');
     if(ov && ov.classList.contains('visible')) ov.classList.remove('visible');
   }
+}
+
+// ── WIADOMOŚCI ────────────────────────────────────
+var _wiad = null;
+function wiadomosciInit(){
+  if (typeof Wiadomosci === 'undefined') return;
+  if (!_wiad) {
+    _wiad = new Wiadomosci(document.getElementById('wiadomosci-root'), {
+      req: async function(method, url, body){
+        const opts = { method: method };
+        if (body !== undefined) { opts.headers = {'Content-Type':'application/json'}; opts.body = JSON.stringify(body); }
+        const r = await _fetch(url, opts);
+        return r.json();
+      }
+    });
+  }
+  _wiad.load(false);
 }
 
 // ── SINAV HUB'I ───────────────────────────────────
@@ -13950,6 +13973,7 @@ var _i18n = {
     // Nav sections
     'sec.sinav':      'Sınavlar',
     'nav.sinav':      '📝 Vize · Final',
+    'nav.wiadomosci': '📰 Wiadomości',
     'sec.tara':       'Tara',
     'sec.materyal':   'Materyal',
     'sec.kelime':     'Kelime Defteri',
@@ -14059,6 +14083,7 @@ var _i18n = {
   en: {
     'sec.sinav':      'Exams',
     'nav.sinav':      '📝 Midterm · Final',
+    'nav.wiadomosci': '📰 Polish News',
     'sec.tara':       'Browse',
     'sec.materyal':   'Materials',
     'sec.kelime':     'Vocabulary',
@@ -14158,6 +14183,7 @@ var _i18n = {
   zh: {
     'sec.sinav':      '考試',
     'nav.sinav':      '📝 期中 · 期末',
+    'nav.wiadomosci': '📰 波蘭新聞',
     'sec.tara':       '瀏覽',
     'sec.materyal':   '學習資料',
     'sec.kelime':     '單字本',
