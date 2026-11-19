@@ -103,10 +103,12 @@
     '.dz-err.fixed{text-decoration:none;background:color-mix(in srgb,var(--green) 16%,transparent)}',
     '.dz-err .was{text-decoration:line-through;opacity:.55;margin-right:4px}',
     '.dz-errs{display:grid;gap:8px;margin-top:12px}',
-    '.dz-e{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;padding:9px 11px;border-radius:10px;background:var(--surface);border:1px solid var(--border)}',
-    '.dz-e .tag{flex-shrink:0;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:6px;background:var(--red-bg);color:var(--c-red)}',
+    '.dz-e{display:block;font-size:13px;line-height:1.55;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--border);overflow-wrap:anywhere}',
+    '.dz-e .tag{display:inline-block;max-width:100%;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:6px;background:var(--red-bg);color:var(--c-red);margin-bottom:5px;white-space:normal}',
+    '.dz-e .fix{display:block;font-size:14px;margin-bottom:3px}',
     '.dz-e s{opacity:.6}',
     '.dz-e b{color:var(--c-green)}',
+    '.dz-e .why{display:block;color:var(--text2)}',
     '.dz-words{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}',
     '.dz-w{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 12px;transition:transform .3s ' + EASE + ',border-color .2s}',
     '.dz-w:hover{transform:translateY(-2px);border-color:var(--accent)}',
@@ -132,6 +134,17 @@
   function words(s) { return (String(s || '').trim().match(/\S+/g) || []).length; }
   function hasText(e) { return !!(e && ((e.done || '').trim() || (e.plan || '').trim())); }
   function prettyDate(k) { var d = parse(k); return DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()]; }
+  var TURLER = ['przypadek', 'aspekt', 'odmiana', 'rodzaj', 'pisownia', 'szyk', 'przyimek', 'liczebnik', 'słownictwo', 'interpunkcja', 'inne'];
+  var TUR_TR = { przypadek: 'hal eki', aspekt: 'aspekt', odmiana: 'çekim', rodzaj: 'cinsiyet', pisownia: 'yazım', szyk: 'söz dizimi', przyimek: 'edat', liczebnik: 'sayı', 'słownictwo': 'kelime', interpunkcja: 'noktalama', inne: 'diğer' };
+  // Eski kayıtlarda "tur" alanında uzun metin olabiliyor: kısa etikete indir, uzun metni açıklamaya taşı
+  function tagOf(p) {
+    var raw = String(p.tur || '').toLowerCase();
+    var found = TURLER.filter(function (t) { return raw.indexOf(t.slice(0, 6)) >= 0; });
+    if (raw.indexOf('przecin') >= 0 && found.indexOf('interpunkcja') < 0) found.push('interpunkcja');
+    var tag = found.slice(0, 2).map(function (t) { return TUR_TR[t] || t; }).join(' + ') || 'hata';
+    var why = p.aciklama || (raw.length > 20 ? p.tur : '');
+    return { tag: tag, why: why };
+  }
   function motion() { return document.documentElement.getAttribute('data-motion') || 'full'; }
 
   function usedWord(w, text) {
@@ -233,7 +246,8 @@
     h += '<div class="dz-card"><div class="dz-toggle"><button class="dz-btn' + (this.view === 'hatalar' ? ' on' : '') + '" data-v="hatalar">🔍 Hatalarım</button><button class="dz-btn' + (this.view === 'duzgun' ? ' on' : '') + '" data-v="duzgun">✔ Düzeltilmiş</button><button class="dz-btn' + (this.view === 'dogal' ? ' on' : '') + '" data-v="dogal">🌿 Doğal hali</button></div>' +
       '<div class="dz-txt" lang="pl">' + this.viewHtml(c) + '</div>' +
       (this.view === 'hatalar' && errs.length ? '<div class="dz-errs">' + errs.map(function (p) {
-        return '<div class="dz-e"><span class="tag">' + esc(p.tur || 'hata') + '</span><div><s lang="pl">' + esc(p.t) + '</s> → <b lang="pl">' + esc(p.dogru) + '</b><br>' + esc(p.aciklama || '') + '</div></div>';
+        var tg = tagOf(p);
+        return '<div class="dz-e"><span class="tag">' + esc(tg.tag) + '</span><span class="fix"><s lang="pl">' + esc(String(p.t).trim()) + '</s> → <b lang="pl">' + esc(p.dogru) + '</b></span>' + (tg.why ? '<span class="why">' + esc(tg.why) + '</span>' : '') + '</div>';
       }).join('') + '</div>' : '') + '</div>';
 
     if (c.kelimeler && c.kelimeler.length) {
@@ -296,7 +310,7 @@
       if (!p) return;
       el.addEventListener('mouseenter', function () {
         tip = document.createElement('div'); tip.className = 'dz-tip';
-        tip.innerHTML = '<b style="color:var(--c-green)">' + esc(p.dogru) + '</b><br>' + esc(p.aciklama || '');
+        tip.innerHTML = '<b style="color:var(--c-green)">' + esc(p.dogru) + '</b><br>' + esc(tagOf(p).why || '');
         document.body.appendChild(tip);
         var r = el.getBoundingClientRect(); tip.style.left = Math.min(innerWidth - 310, r.left) + 'px'; tip.style.top = (r.bottom + 8) + 'px';
       });
