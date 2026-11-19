@@ -1349,6 +1349,63 @@ app.post('/api/wiadomosci/cevir', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── DZIENNIK: Lehçe günlük + yapay zekâ kontrolü ──────────────────────────
+function dzData(p) { if (!p.dziennik) p.dziennik = { entries: {} }; if (!p.dziennik.entries) p.dziennik.entries = {}; return p.dziennik; }
+function dzValidDate(d) { return /^\d{4}-\d{2}-\d{2}$/.test(String(d || '')); }
+
+app.get('/api/dziennik', (req, res) => {
+  res.json(dzData(ensureProfile(req.headers['x-profile'])));
+});
+app.put('/api/dziennik/:date', (req, res) => {
+  const date = req.params.date;
+  if (!dzValidDate(date)) return res.status(400).json({ error: 'Geçersiz tarih.' });
+  const d = dzData(ensureProfile(req.headers['x-profile']));
+  const e = d.entries[date] || {};
+  ['done', 'plan'].forEach(k => { if (typeof req.body[k] === 'string') e[k] = req.body[k].slice(0, 4000); });
+  e.updatedAt = new Date().toISOString();
+  if (!(e.done || '').trim() && !(e.plan || '').trim() && !e.check) delete d.entries[date]; else d.entries[date] = e;
+  saveStore(); res.json({ ok: true, entry: d.entries[date] || null });
+});
+app.post('/api/dziennik/:date/sprawdz', async (req, res) => {
+  try {
+    const date = req.params.date;
+    if (!dzValidDate(date)) return res.status(400).json({ error: 'Geçersiz tarih.' });
+    const d = dzData(ensureProfile(req.headers['x-profile']));
+    const e = d.entries[date];
+    const done = (e && e.done || '').trim(), plan = (e && e.plan || '').trim();
+    if (!done && !plan) return res.status(400).json({ error: 'Önce bir şeyler yaz.' });
+    const text = (done ? 'DZIŚ:\n' + done : '') + (done && plan ? '\n\n' : '') + (plan ? 'JUTRO / PLANY:\n' + plan : '');
+    const prompt = [
+      'You are a warm but precise Polish teacher for a Turkish university student of Polish philology (around B1-B2). He writes a daily diary in Polish to improve',
+      'speaking, writing, vocabulary, and especially verbs (aspect, conjugation) and adjectives (agreement). Some words may be in Turkish if he did not know them: give the Polish.',
+      '', 'DIARY ENTRY:', text, '',
+      'Return ONLY valid JSON, no markdown:',
+      '{',
+      ' "parcalar": [{"t": "exact original text segment", "hata": false} or {"t": "exact original wrong segment", "hata": true, "dogru": "corrected segment", "tur": "przypadek|aspekt|odmiana|rodzaj|pisownia|szyk|słownictwo|inne", "aciklama": "short Turkish explanation of the rule"}],',
+      ' "duzeltilmis": "the whole entry corrected (keep his meaning and the DZIŚ / JUTRO structure)",',
+      ' "dogal": "a more natural, slightly richer B2 version of the whole entry",',
+      ' "puan": <0-100 integer overall accuracy>, "seviye": "A2|B1|B2|C1",',
+      ' "guclu": "one Turkish sentence about what he did well",',
+      ' "odak": "one Turkish sentence: the single most important thing to work on",',
+      ' "kelimeler": [{"pl": "useful verb or adjective (verbs as aspect pair: niedokonany / dokonany)", "tr": "Turkish", "tur": "czasownik|przymiotnik|rzeczownik|wyrażenie", "ornek": "short Polish example related to his day"}],',
+      ' "yarin": [{"pl": "word to use in tomorrow\'s entry", "tr": "Turkish"}]',
+      '}',
+      'Rules: "parcalar" must cover the ENTIRE original text in order, so that joining every "t" reproduces it exactly (including newlines and the DZIŚ:/JUTRO headers).',
+      'Mark only real errors (grammar, spelling incl. Polish diacritics, wrong word); do not mark stylistic choices. Split so that each error is a short segment.',
+      'kelimeler: 5-6 items, mostly verbs and adjectives that fit his life/topics. yarin: exactly 3 items (at least one verb and one adjective), not already used by him.'
+    ].join('\n');
+    const raw = await claudeAsk(prompt, 3500);
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Kontrol üretilemedi.');
+    const check = JSON.parse(m[0]);
+    check.at = new Date().toISOString();
+    check.kaynak = text;
+    e.check = check;
+    saveStore();
+    res.json({ ok: true, entry: e });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // ── NOTLAR ────────────────────────────────────────────────
 app.get('/api/notes', (req, res) => {
   const p = ensureProfile(req.headers['x-profile']);
