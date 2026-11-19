@@ -1392,12 +1392,25 @@ app.post('/api/dziennik/:date/sprawdz', async (req, res) => {
       '}',
       'Rules: "parcalar" must cover the ENTIRE original text in order, so that joining every "t" reproduces it exactly (including newlines and the DZIŚ:/JUTRO headers).',
       'Mark only real errors (grammar, spelling incl. Polish diacritics, wrong word); do not mark stylistic choices. Split so that each error is a short segment.',
+      '"tur" must be EXACTLY ONE word from this list: przypadek, aspekt, odmiana, rodzaj, pisownia, szyk, przyimek, liczebnik, słownictwo, interpunkcja, inne. Nothing else in "tur".',
+      '"aciklama" MUST be written in TURKISH (not Polish), max 25 words, explaining the rule simply. Keep each wrong segment short (max ~6 words); split long sentences into several errors.',
       'kelimeler: 5-6 items, mostly verbs and adjectives that fit his life/topics. yarin: exactly 3 items (at least one verb and one adjective), not already used by him.'
     ].join('\n');
     const raw = await claudeAsk(prompt, 3500);
     const m = raw.match(/\{[\s\S]*\}/);
     if (!m) throw new Error('Kontrol üretilemedi.');
     const check = JSON.parse(m[0]);
+    // Model bazen "tur" alanına uzun metin, açıklamaya Lehçe yazabiliyor: normalize et
+    const TURLER = ['przypadek', 'aspekt', 'odmiana', 'rodzaj', 'pisownia', 'szyk', 'przyimek', 'liczebnik', 'słownictwo', 'interpunkcja', 'inne'];
+    (check.parcalar || []).forEach(pc => {
+      if (!pc || !pc.hata) return;
+      const raw = String(pc.tur || '').toLowerCase();
+      const found = TURLER.filter(t => raw.includes(t.slice(0, 6)));
+      if (raw.includes('przecin')) found.push('interpunkcja');
+      pc.tur = [...new Set(found)].slice(0, 2).join(' + ') || 'inne';
+      if (raw.length > 20 && !pc.aciklama) pc.aciklama = raw;  // tür alanına yazılmış açıklamayı kaybetme
+      pc.aciklama = String(pc.aciklama || '').slice(0, 400);
+    });
     check.at = new Date().toISOString();
     check.kaynak = text;
     e.check = check;
