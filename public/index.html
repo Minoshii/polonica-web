@@ -1701,6 +1701,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="nav-section" data-i18n="sec.calis">Çalış</div>
   <button class="nav-btn" id="nav-test" onclick="showPanel('test')" data-i18n="nav.test">⟳ Test</button>
+  <button class="nav-btn" id="nav-dziennik" onclick="showPanel('dziennik')" style="color:var(--c-amber)" data-i18n="nav.dziennik">📔 Dziennik</button>
   <button class="nav-btn" id="nav-writing" onclick="showPanel('writing')" style="color:var(--c-sky)" data-i18n="nav.writing">✍️ Yazma</button>
   <button class="nav-btn" id="nav-reading" onclick="showPanel('reading')" style="color:var(--c-mint)" data-i18n="nav.reading">📖 Okuma</button>
   <button class="nav-btn" id="nav-stats" onclick="showPanel('stats')" data-i18n="nav.stats">📊 İstatistik</button>
@@ -7862,6 +7863,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div id="kultur-result"></div>
   </div>
 
+  <!-- DZIENNIK -->
+  <div class="panel" id="panel-dziennik"><div id="dziennik-root"></div></div>
+
   <!-- WIADOMOŚCI -->
   <div class="panel" id="panel-wiadomosci"><div id="wiadomosci-root"></div></div>
 
@@ -7960,6 +7964,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
 <script src="/sinav-hub.js"></script>
 <script src="/wiadomosci.js"></script>
+<script src="/dziennik.js"></script>
 <script src="/motion.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -8938,6 +8943,7 @@ function showPanel(name){
   if(name==='rusca') { ruRenderAlpha(); }
   if(name==='sinav') { sinavInit(); }
   if(name==='wiadomosci') { wiadomosciInit(); }
+  if(name==='dziennik') { dziennikInit(); }
   if(name==='hafiza') {
     _hafizaState = null;
     document.getElementById('hafiza-setup').style.display = '';
@@ -8957,6 +8963,24 @@ function showPanel(name){
     if(sb && sb.classList.contains('mobile-open')) sb.classList.remove('mobile-open');
     if(ov && ov.classList.contains('visible')) ov.classList.remove('visible');
   }
+}
+
+// ── DZIENNIK ──────────────────────────────────────
+var _dz = null;
+function dziennikInit(){
+  if (typeof Dziennik === 'undefined') return;
+  if (!_dz) {
+    _dz = new Dziennik(document.getElementById('dziennik-root'), {
+      req: async function(method, url, body){
+        const opts = { method: method };
+        if (body !== undefined) { opts.headers = {'Content-Type':'application/json'}; opts.body = JSON.stringify(body); }
+        const r = await _fetch(url, opts);
+        return r.json();
+      },
+      saveSpecial: function(entry){ return window.polonica.specialSave(entry); }
+    });
+  }
+  _dz.load();
 }
 
 // ── WIADOMOŚCI ────────────────────────────────────
@@ -13994,6 +14018,7 @@ var _i18n = {
     'sec.sinav':      'Sınavlar',
     'nav.sinav':      '📝 Vize · Final',
     'nav.wiadomosci': '📰 Wiadomości',
+    'nav.dziennik':   '📔 Dziennik',
     'sec.tara':       'Tara',
     'sec.materyal':   'Materyal',
     'sec.kelime':     'Kelime Defteri',
@@ -14104,6 +14129,7 @@ var _i18n = {
     'sec.sinav':      'Exams',
     'nav.sinav':      '📝 Midterm · Final',
     'nav.wiadomosci': '📰 Polish News',
+    'nav.dziennik':   '📔 Diary',
     'sec.tara':       'Browse',
     'sec.materyal':   'Materials',
     'sec.kelime':     'Vocabulary',
@@ -14204,6 +14230,7 @@ var _i18n = {
     'sec.sinav':      '考試',
     'nav.sinav':      '📝 期中 · 期末',
     'nav.wiadomosci': '📰 波蘭新聞',
+    'nav.dziennik':   '📔 日記',
     'sec.tara':       '瀏覽',
     'sec.materyal':   '學習資料',
     'sec.kelime':     '單字本',
