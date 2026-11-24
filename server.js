@@ -1419,6 +1419,65 @@ app.post('/api/dziennik/:date/sprawdz', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// ── FİİL: rekcja (hangi hal / hangi edat) ─────────────────────────────────
+// Sonuçlar DATA_DIR/fiil-cache.json'da saklanır: aynı fiil ikinci kez API'ye gitmez.
+const FIIL_CACHE_FILE = path.join(DATA_DIR, 'fiil-cache.json');
+let fiilCache = {};
+try { if (fs.existsSync(FIIL_CACHE_FILE)) fiilCache = JSON.parse(fs.readFileSync(FIIL_CACHE_FILE, 'utf8')) || {}; } catch (e) { fiilCache = {}; }
+const FIIL_PRZYPADKI = ['mianownik', 'dopełniacz', 'celownik', 'biernik', 'narzędnik', 'miejscownik', 'wołacz'];
+
+app.post('/api/fiil', async (req, res) => {
+  try {
+    const input = String(req.body.verb || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 60);
+    if (!input) return res.status(400).json({ error: 'Fiil yaz.' });
+    if (!req.body.yenile && fiilCache[input]) return res.json({ ...fiilCache[input], cached: true });
+    const prompt = [
+      'You are an expert in Polish verb government (rekcja czasownika) teaching a Turkish university student of Polish philology (B1-B2).',
+      'The student typed: "' + input + '" (it may be misspelled, missing Polish diacritics, or a conjugated form). Identify the intended Polish verb (infinitive, keep "się" if it is a reflexive verb).',
+      '',
+      'Return ONLY valid JSON, no markdown:',
+      '{',
+      ' "fiil": "infinitive",',
+      ' "duzeltme": true if you changed/corrected the input, else false,',
+      ' "aspekt": "niedokonany" | "dokonany" | "dwuaspektowy",',
+      ' "cift": {"fiil": "aspect partner infinitive or empty string", "aspekt": "niedokonany|dokonany"},',
+      ' "tr": "main Turkish meaning(s), short",',
+      ' "kaliplar": [',
+      '   {"kalip": "the government pattern written with kogo/co/komu/czemu/kim/czym/kimś/czymś etc., e.g. przyglądać się komuś / czemuś",',
+      '    "edat": "preposition if the pattern uses one (e.g. na, do, o, z, w, od, za, przed, nad, po, przez, dla), else null",',
+      '    "przypadek": "one of: mianownik, dopełniacz, celownik, biernik, narzędnik, miejscownik, bezokolicznik, zdanie (że…)",',
+      '    "soru": "case question words, e.g. komu? czemu?",',
+      '    "tr": "Turkish meaning of THIS pattern (with the Turkish case ending, e.g. birine/bir şeye)",',
+      '    "ornek_pl": "natural Polish example sentence", "ornek_tr": "Turkish translation",',
+      '    "siklik": "çok yaygın" | "yaygın" | "seyrek"}',
+      ' ],',
+      ' "olumsuz": "Turkish note on what happens to the object case under negation (e.g. biernik → dopełniacz: nie widzę tego), or empty string",',
+      ' "dikkat": "one Turkish sentence: the typical mistake Turkish speakers make with this verb, or empty string",',
+      ' "benzer": [{"kalip": "related/synonym verb with its government", "tr": "Turkish"}]',
+      '}',
+      'Rules: list ALL standard government patterns of this verb, first the ones WITHOUT a preposition, then the ones WITH prepositions (each preposition separately).',
+      'Be strictly accurate about cases (this is used for exam study). 2-6 patterns. benzer: 2-3 items. All explanations in Turkish.'
+    ].join('\n');
+    const msg = await client.messages.create({ model: process.env.FIIL_MODEL || 'claude-haiku-4-5-20251001', max_tokens: 1800, messages: [{ role: 'user', content: prompt }] });
+    const raw = msg.content[0].text;
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Fiil bilgisi üretilemedi.');
+    const data = JSON.parse(m[0]);
+    data.kaliplar = (data.kaliplar || []).map(k => {
+      const p = String(k.przypadek || '').toLowerCase();
+      k.przypadek = FIIL_PRZYPADKI.find(c => p.includes(c.slice(0, 5))) || (p.includes('bezok') ? 'bezokolicznik' : p.includes('zdan') || p.includes('że') ? 'zdanie' : p || 'inne');
+      if (k.edat === 'null' || k.edat === '') k.edat = null;
+      return k;
+    });
+    data.girdi = input;
+    data.at = new Date().toISOString();
+    fiilCache[input] = data;
+    if (data.fiil && data.fiil.toLowerCase() !== input) fiilCache[data.fiil.toLowerCase()] = data;
+    try { fs.writeFileSync(FIIL_CACHE_FILE, JSON.stringify(fiilCache)); } catch (e) {}
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ── NOTLAR ────────────────────────────────────────────────
 app.get('/api/notes', (req, res) => {
   const p = ensureProfile(req.headers['x-profile']);
