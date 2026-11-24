@@ -1693,6 +1693,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="nav-section" data-i18n="sec.dilbilgisi">Dilbilgisi</div>
   <button class="nav-btn" id="nav-grammar" onclick="showPanel('grammar')" style="color:var(--c-teal)">📖 Grammar</button>
+  <button class="nav-btn" id="nav-fiil" onclick="showPanel('fiil')" style="color:var(--c-teal)" data-i18n="nav.fiil">🔗 Fiil</button>
   <button class="nav-btn" id="nav-fonetik" onclick="showPanel('fonetik')" style="color:var(--c-purple)" data-i18n="nav.fonetik">🗣 Fonetik</button>
   <button class="nav-btn" id="nav-vucut" onclick="showPanel('vucut')" style="color:var(--c-red)" data-i18n="nav.vucut">🫀 Vücut</button>
   <button class="nav-btn" id="nav-harita" onclick="showPanel('harita')" style="color:var(--c-gold)">🗺️ Harita</button>
@@ -7863,6 +7864,9 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
     <div id="kultur-result"></div>
   </div>
 
+  <!-- FİİL -->
+  <div class="panel" id="panel-fiil"><div id="fiil-root"></div></div>
+
   <!-- DZIENNIK -->
   <div class="panel" id="panel-dziennik"><div id="dziennik-root"></div></div>
 
@@ -7965,6 +7969,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <script src="/sinav-hub.js"></script>
 <script src="/wiadomosci.js"></script>
 <script src="/dziennik.js"></script>
+<script src="/fiil-liste.js"></script>
+<script src="/fiil.js"></script>
 <script src="/motion.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -8944,6 +8950,7 @@ function showPanel(name){
   if(name==='sinav') { sinavInit(); }
   if(name==='wiadomosci') { wiadomosciInit(); }
   if(name==='dziennik') { dziennikInit(); }
+  if(name==='fiil') { fiilInit(); }
   if(name==='hafiza') {
     _hafizaState = null;
     document.getElementById('hafiza-setup').style.display = '';
@@ -8963,6 +8970,25 @@ function showPanel(name){
     if(sb && sb.classList.contains('mobile-open')) sb.classList.remove('mobile-open');
     if(ov && ov.classList.contains('visible')) ov.classList.remove('visible');
   }
+}
+
+// ── FİİL ──────────────────────────────────────────
+var _fiil = null;
+function fiilInit(){
+  if (typeof Fiil === 'undefined') return;
+  if (!_fiil) {
+    _fiil = new Fiil(document.getElementById('fiil-root'), {
+      req: async function(method, url, body){
+        const opts = { method: method };
+        if (body !== undefined) { opts.headers = {'Content-Type':'application/json'}; opts.body = JSON.stringify(body); }
+        const r = await _fetch(url, opts);
+        return r.json();
+      },
+      saveSpecial: function(entry){ return window.polonica.specialSave(entry); },
+      specialList: function(){ return window.polonica.specialList(); }
+    });
+  }
+  _fiil.init();
 }
 
 // ── DZIENNIK ──────────────────────────────────────
@@ -14019,6 +14045,7 @@ var _i18n = {
     'nav.sinav':      '📝 Vize · Final',
     'nav.wiadomosci': '📰 Wiadomości',
     'nav.dziennik':   '📔 Dziennik',
+    'nav.fiil':       '🔗 Fiil',
     'sec.tara':       'Tara',
     'sec.materyal':   'Materyal',
     'sec.kelime':     'Kelime Defteri',
@@ -14130,6 +14157,7 @@ var _i18n = {
     'nav.sinav':      '📝 Midterm · Final',
     'nav.wiadomosci': '📰 Polish News',
     'nav.dziennik':   '📔 Diary',
+    'nav.fiil':       '🔗 Verbs',
     'sec.tara':       'Browse',
     'sec.materyal':   'Materials',
     'sec.kelime':     'Vocabulary',
@@ -14231,6 +14259,7 @@ var _i18n = {
     'nav.sinav':      '📝 期中 · 期末',
     'nav.wiadomosci': '📰 波蘭新聞',
     'nav.dziennik':   '📔 日記',
+    'nav.fiil':       '🔗 動詞',
     'sec.tara':       '瀏覽',
     'sec.materyal':   '學習資料',
     'sec.kelime':     '單字本',
