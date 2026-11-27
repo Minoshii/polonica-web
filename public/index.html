@@ -1676,6 +1676,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 
   <div class="nav-section" data-i18n="sec.sinav">Sınavlar</div>
   <button class="nav-btn" id="nav-sinav" onclick="showPanel('sinav')" style="color:var(--c-amber)" data-i18n="nav.sinav">📝 Vize · Final</button>
+  <button class="nav-btn" id="nav-rusca" onclick="showPanel('rusca')" style="color:var(--c-red)">🇷🇺 Rusça</button>
 
   <div class="nav-section" data-i18n="sec.tara">Tara</div>
   <button class="nav-btn active" id="nav-lesson" onclick="showPanel('lesson')" data-i18n="nav.lesson">📚 Ders Materyali</button>
@@ -1713,7 +1714,6 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <button class="nav-btn" id="nav-hafiza" onclick="showPanel('hafiza')" style="color:var(--c-pink)">🧠 Hafıza Oyunu</button>
   <button class="nav-btn" id="nav-cumle" onclick="showPanel('cumle')" style="color:var(--c-teal)">🔤 Cümle Kurma</button>
   <button id="spotify-sidebar-btn" onclick="connectSpotify()">🎵 Spotify Bağla</button>
-  <button class="nav-btn" id="nav-rusca" onclick="showPanel('rusca')" style="color:var(--c-red)">🇷🇺 Rusça</button>
   <button class="nav-btn" id="nav-about" onclick="showPanel('about')" style="color:var(--text3);margin-top:8px" data-i18n="nav.about">ℹ Hakkında</button>
 
 
@@ -7196,7 +7196,7 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
   <!-- RUSÇA -->
   <div class="panel" id="panel-rusca">
     <div class="panel-title">🇷🇺 Rusça 1 <span class="mode-badge" style="background:var(--red-bg);color:var(--c-red);border:1px solid var(--red)">Русский язык</span></div>
-    <div class="panel-sub">Kiril alfabesi · baskı & el yazısı · cinsiyet · tekil/çoğul. Harfe tıkla → büyük görünüm ve sesli okunuş.</div>
+    <div class="panel-sub">Kiril alfabesi · cinsiyet · tekil/çoğul · fiil çekimleri (şimdiki / geçmiş / gelecek) · sıfatlar · «Читаем по-русски» kelimeleri · test.</div>
     <div class="ru-tabs">
       <button class="ru-tab active" onclick="ruTab('alfabe',this)">🔤 Alfabe</button>
       <button class="ru-tab" onclick="ruTab('okuma',this)">👁 Okuma İpuçları</button>
@@ -7206,6 +7206,12 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
       <button class="ru-tab" onclick="ruTab('sayi',this)">🔢 Sayı & Zaman</button>
       <button class="ru-tab" onclick="ruTab('cins',this)">⚥ Cinsiyet</button>
       <button class="ru-tab" onclick="ruTab('cogul',this)">➕ Tekil / Çoğul</button>
+      <button class="ru-tab" onclick="ruTab('kural',this)">📐 Fiil & Zaman</button>
+      <button class="ru-tab" onclick="ruTab('fiiller',this)">🔤 Fiiller</button>
+      <button class="ru-tab" onclick="ruTab('sifat',this)">🎨 Sıfatlar</button>
+      <button class="ru-tab" onclick="ruTab('kelime',this)">📚 Kelimeler</button>
+      <button class="ru-tab" onclick="ruTab('kart',this)">🃏 Kartlar</button>
+      <button class="ru-tab" onclick="ruTab('test',this)">✅ Test</button>
       <button class="ru-tab" onclick="ruTab('pratik',this)">🎯 Pratik</button>
     </div>
 
@@ -7566,6 +7572,13 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
         <div class="ru-warn">📌 Sıfat çoğulu: sert gövde <b>-ые</b> (новые), <b>г, к, х, ж, ч, ш, щ</b> veya yumuşak gövde sonrası <b>-ие</b> (русские, хорошие, синие). Örnek: <b>Мои друзья — русские студенты.</b> (Arkadaşlarım Rus öğrenciler.)</div>
       </div>
     </div>
+
+    <div class="ru-sec" id="ru-kural"><div class="rx" id="rx-kural"></div></div>
+    <div class="ru-sec" id="ru-fiiller"><div class="rx" id="rx-fiiller"></div></div>
+    <div class="ru-sec" id="ru-sifat"><div class="rx" id="rx-sifat"></div></div>
+    <div class="ru-sec" id="ru-kelime"><div class="rx" id="rx-kelime"></div></div>
+    <div class="ru-sec" id="ru-kart"><div class="rx" id="rx-kart"></div></div>
+    <div class="ru-sec" id="ru-test"><div class="rx" id="rx-test"></div></div>
 
     <div class="ru-sec" id="ru-pratik">
       <div class="ru-box"><h4>🎯 Cinsiyet testi</h4>
@@ -7971,6 +7984,8 @@ textarea{height:130px;resize:vertical;font-family:'DM Mono',monospace;font-size:
 <script src="/dziennik.js"></script>
 <script src="/fiil-liste.js"></script>
 <script src="/fiil.js"></script>
+<script src="/rusca-data.js"></script>
+<script src="/rusca-plus.js"></script>
 <script src="/motion.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -8800,6 +8815,7 @@ function ruTab(id,btn){
   var el=document.getElementById('ru-'+id); if(el) el.classList.add('active');
   if(btn) btn.classList.add('active');
   if(id==='pratik'){ ruNextG(); ruNextP(); ruNextQ(); ruNextL(); }
+  if(window.RUX) RUX.show(id);
 }
 function ruSpeak(txt){
   try{

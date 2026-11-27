@@ -1,0 +1,757 @@
+# rusça|tür|türkçe|çoğul|konu
+# tür: m eril, f dişil, n nötr, pl sadece çoğul, a sıfat, v fiil, d zarf/diğer, p kalıp
+# vurgu: ünlüden sonra ' (кни'га). Çoğul sadece isimler için, boş bırakılabilir.
+семья'|f|aile|се'мьи|Aile
+па'па|m|baba|па'пы|Aile
+ма'ма|f|anne|ма'мы|Aile
+оте'ц|m|baba (resmî)|отцы'|Aile
+мать|f|anne (resmî)|ма'тери|Aile
+брат|m|erkek kardeş|бра'тья|Aile
+сестра'|f|kız kardeş|сёстры|Aile
+сын|m|oğul|сыновья'|Aile
+дочь|f|kız evlat|до'чери|Aile
+ба'бушка|f|büyükanne|ба'бушки|Aile
+де'душка|m|büyükbaba|де'душки|Aile
+муж|m|koca|мужья'|Aile
+жена'|f|eş (kadın)|жёны|Aile
+ребёнок|m|çocuk|де'ти|Aile
+челове'к|m|insan|лю'ди|Aile
+друг|m|arkadaş (erkek)|друзья'|Aile
+подру'га|f|arkadaş (kız)|подру'ги|Aile
+роди'тели|pl|ebeveynler||Aile
+дя'дя|m|amca, dayı|дя'ди|Aile
+тётя|f|teyze, hala|тёти|Aile
+врач|m|doktor|врачи'|Meslek
+инжене'р|m|mühendis|инжене'ры|Meslek
+студе'нт|m|öğrenci (erkek)|студе'нты|Meslek
+студе'нтка|f|öğrenci (kız)|студе'нтки|Meslek
+преподава'тель|m|öğretim görevlisi|преподава'тели|Meslek
+учи'тель|m|öğretmen|учителя'|Meslek
+перево'дчик|m|çevirmen|перево'дчики|Meslek
+продаве'ц|m|satıcı|продавцы'|Meslek
+журнали'ст|m|gazeteci|журнали'сты|Meslek
+дом|m|ev|дома'|Ev
+кварти'ра|f|daire|кварти'ры|Ev
+ко'мната|f|oda|ко'мнаты|Ev
+общежи'тие|n|yurt|общежи'тия|Ev
+окно'|n|pencere|о'кна|Ev
+дверь|f|kapı|две'ри|Ev
+стол|m|masa|столы'|Ev
+стул|m|sandalye|сту'лья|Ev
+кре'сло|n|koltuk|кре'сла|Ev
+по'лка|f|raf|по'лки|Ev
+ла'мпа|f|lamba|ла'мпы|Ev
+ту'мбочка|f|komodin|ту'мбочки|Ev
+холоди'льник|m|buzdolabı|холоди'льники|Ev
+ку'хня|f|mutfak|ку'хни|Ev
+этаж|m|kat|этажи'|Ev
+ключ|m|anahtar|ключи'|Ev
+фо'то|n|fotoğraf (değişmez)|фо'то|Ev
+письмо'|n|mektup|пи'сьма|Ev
+университе'т|m|üniversite|университе'ты|Okul
+факульте'т|m|fakülte|факульте'ты|Okul
+аудито'рия|f|derslik|аудито'рии|Okul
+уро'к|m|ders (saat)|уро'ки|Okul
+заня'тие|n|ders, faaliyet|заня'тия|Okul
+кни'га|f|kitap|кни'ги|Okul
+тетра'дь|f|defter|тетра'ди|Okul
+ру'чка|f|tükenmez kalem|ру'чки|Okul
+каранда'ш|m|kurşun kalem|карандаши'|Okul
+слова'рь|m|sözlük|словари'|Okul
+сло'во|n|kelime|слова'|Okul
+текст|m|metin|те'ксты|Okul
+язы'к|m|dil|языки'|Okul
+вопро'с|m|soru|вопро'сы|Okul
+отве'т|m|cevap|отве'ты|Okul
+доска'|f|tahta|до'ски|Okul
+бу'ква|f|harf|бу'квы|Okul
+звук|m|ses|зву'ки|Okul
+журна'л|m|dergi|журна'лы|Okul
+газе'та|f|gazete|газе'ты|Okul
+экза'мен|m|sınav|экза'мены|Okul
+го'род|m|şehir|города'|Şehir
+у'лица|f|cadde, sokak|у'лицы|Şehir
+пло'щадь|f|meydan|пло'щади|Şehir
+парк|m|park|па'рки|Şehir
+магази'н|m|mağaza|магази'ны|Şehir
+ры'нок|m|pazar|ры'нки|Şehir
+апте'ка|f|eczane|апте'ки|Şehir
+больни'ца|f|hastane|больни'цы|Şehir
+по'чта|f|postane|по'чты|Şehir
+банк|m|banka|ба'нки|Şehir
+кафе'|n|kafe (değişmez)|кафе'|Şehir
+кинотеа'тр|m|sinema|кинотеа'тры|Şehir
+теа'тр|m|tiyatro|теа'тры|Şehir
+музе'й|m|müze|музе'и|Şehir
+библиоте'ка|f|kütüphane|библиоте'ки|Şehir
+вокза'л|m|gar|вокза'лы|Şehir
+авто'бус|m|otobüs|авто'бусы|Şehir
+тролле'йбус|m|troleybüs|тролле'йбусы|Şehir
+метро'|n|metro (değişmez)|метро'|Şehir
+маши'на|f|araba|маши'ны|Şehir
+доро'га|f|yol|доро'ги|Şehir
+па'мятник|m|anıt, heykel|па'мятники|Şehir
+страна'|f|ülke|стра'ны|Şehir
+мо'ре|n|deniz|моря'|Şehir
+река'|f|nehir|ре'ки|Şehir
+лес|m|orman|леса'|Şehir
+еда'|f|yemek, yiyecek||Yemek
+вода'|f|su|во'ды|Yemek
+чай|m|çay|чаи'|Yemek
+ко'фе|m|kahve (eril!, değişmez)|ко'фе|Yemek
+молоко'|n|süt||Yemek
+сок|m|meyve suyu|со'ки|Yemek
+сыр|m|peynir|сыры'|Yemek
+суп|m|çorba|супы'|Yemek
+ры'ба|f|balık|ры'бы|Yemek
+ку'рица|f|tavuk||Yemek
+яйцо'|n|yumurta|я'йца|Yemek
+помидо'р|m|domates|помидо'ры|Yemek
+огуре'ц|m|salatalık|огурцы'|Yemek
+бана'н|m|muz|бана'ны|Yemek
+торт|m|pasta (bütün)|то'рты|Yemek
+стака'н|m|bardak|стака'ны|Yemek
+таре'лка|f|tabak|таре'лки|Yemek
+ло'жка|f|kaşık|ло'жки|Yemek
+ви'лка|f|çatal|ви'лки|Yemek
+нож|m|bıçak|ножи'|Yemek
+столо'вая|f|yemekhane (sıfat gibi çekilir)||Yemek
+день|m|gün|дни|Zaman
+ночь|f|gece|но'чи|Zaman
+ве'чер|m|akşam|вечера'|Zaman
+год|m|yıl|го'ды|Zaman
+час|m|saat|часы'|Zaman
+мину'та|f|dakika|мину'ты|Zaman
+секу'нда|f|saniye|секу'нды|Zaman
+сего'дня|d|bugün||Zaman
+вчера'|d|dün||Zaman
+за'втра|d|yarın||Zaman
+у'тром|d|sabahleyin||Zaman
+днём|d|gündüz, öğlen||Zaman
+ве'чером|d|akşamleyin||Zaman
+но'чью|d|geceleyin||Zaman
+понеде'льник|m|pazartesi|понеде'льники|Zaman
+вто'рник|m|salı|вто'рники|Zaman
+среда'|f|çarşamba|сре'ды|Zaman
+четве'рг|m|perşembe|четверги'|Zaman
+пя'тница|f|cuma|пя'тницы|Zaman
+суббо'та|f|cumartesi|суббо'ты|Zaman
+воскресе'нье|n|pazar (gün)|воскресе'нья|Zaman
+пого'да|f|hava (durumu)||Hava
+со'лнце|n|güneş||Hava
+дождь|m|yağmur|дожди'|Hava
+ве'тер|m|rüzgâr|ве'тры|Hava
+не'бо|n|gökyüzü||Hava
+тепло'|d|sıcak (hava ılık)||Hava
+хо'лодно|d|soğuk (hava)||Hava
+жа'рко|d|sıcak (bunaltıcı)||Hava
+голова'|f|baş, kafa|го'ловы|Sağlık
+рука'|f|el, kol|ру'ки|Sağlık
+нога'|f|ayak, bacak|но'ги|Sağlık
+глаз|m|göz|глаза'|Sağlık
+у'хо|n|kulak|у'ши|Sağlık
+зуб|m|diş|зу'бы|Sağlık
+боле'знь|f|hastalık|боле'зни|Sağlık
+пальто'|n|palto (değişmez)|пальто'|Kıyafet
+ку'ртка|f|mont, ceket|ку'ртки|Kıyafet
+ша'пка|f|bere, şapka|ша'пки|Kıyafet
+пла'тье|n|elbise|пла'тья|Kıyafet
+руба'шка|f|gömlek|руба'шки|Kıyafet
+ю'бка|f|etek|ю'бки|Kıyafet
+сви'тер|m|kazak|сви'теры|Kıyafet
+о'тдых|m|dinlenme, tatil||Hobi
+спорт|m|spor||Hobi
+футбо'л|m|futbol||Hobi
+му'зыка|f|müzik||Hobi
+пе'сня|f|şarkı|пе'сни|Hobi
+фильм|m|film|фи'льмы|Hobi
+кино'|n|sinema (değişmez)||Hobi
+пра'здник|m|bayram, tatil günü|пра'здники|Hobi
+пода'рок|m|hediye|пода'рки|Hobi
+день рожде'ния|p|doğum günü||Hobi
+стихи'|pl|şiir(ler)||Hobi
+компью'тер|m|bilgisayar|компью'теры|Hobi
+телефо'н|m|telefon|телефо'ны|Hobi
+интерне'т|m|internet||Hobi
+де'ньги|pl|para||Hobi
+и'мя|n|isim, ad|имена'|Aile
+фами'лия|f|soyadı|фами'лии|Aile
+вре'мя|n|zaman|времена'|Zaman
+кто|d|kim||Soru
+что|d|ne||Soru
+где|d|nerede||Soru
+куда'|d|nereye||Soru
+отку'да|d|nereden||Soru
+когда'|d|ne zaman||Soru
+почему'|d|neden||Soru
+как|d|nasıl||Soru
+ско'лько|d|kaç, ne kadar||Soru
+чей / чья / чьё / чьи|d|kimin||Soru
+како'й|a|hangi, nasıl bir||Soru
+здесь / тут|d|burada||Soru
+там|d|orada||Soru
+хорошо'|d|iyi||Soru
+пло'хо|d|kötü||Soru
+мно'го|d|çok||Soru
+ма'ло|d|az||Soru
+бы'стро|d|hızlı (şekilde)||Soru
+ме'дленно|d|yavaş (şekilde)||Soru
+по-ру'сски|d|Rusça (konuşmak)||Soru
+сейча'с|d|şimdi||Soru
+пото'м|d|sonra||Soru
+снача'ла|d|önce, ilk başta||Soru
+всегда'|d|her zaman||Soru
+иногда'|d|bazen||Soru
+уже'|d|artık, zaten||Soru
+ещё|d|henüz, daha||Soru
+большо'й|a|büyük||Sıfat
+ма'ленький|a|küçük||Sıfat
+хоро'ший|a|iyi||Sıfat
+плохо'й|a|kötü||Sıfat
+краси'вый|a|güzel||Sıfat
+некраси'вый|a|çirkin||Sıfat
+лёгкий|a|kolay, hafif||Sıfat
+ру'сский|a|Rus||Sıfat
+англи'йский|a|İngiliz||Sıfat
+туре'цкий|a|Türk||Sıfat
+по'льский|a|Polonya'ya ait, Leh||Sıfat
+иностра'нный|a|yabancı||Sıfat
+студе'нческий|a|öğrenci (öğrenciye ait)||Sıfat
+после'дний|a|son||Sıfat
+пе'рвый|a|birinci||Sıfat
+второ'й|a|ikinci||Sıfat
+ле'тний|a|yazlık, yaz||Sıfat
+дешёвый|a|ucuz||Sıfat
+дру'жный|a|dostça, uyumlu||Sıfat
+небольшо'й|a|ufak, küçük||Sıfat
+дру'гой|a|başka, diğer||Sıfat
+чи'стый|a|temiz||Sıfat
+гря'зный|a|kirli||Sıfat
+счастли'вый|a|mutlu||Sıfat
+авто'граф|m|imza (ünlü imzası)||Kitap sözlüğü
+автоно'мный|a|özerk||Kitap sözlüğü
+агра'рный|a|tarımsal||Kitap sözlüğü
+аква'риум|m|akvaryum||Kitap sözlüğü
+актёр|m|aktör, oyuncu||Kitap sözlüğü
+анке'та|f|anket, form||Kitap sözlüğü
+апельси'н|m|portakal||Kitap sözlüğü
+аплоди'ровать|v|alkışlamak||Kitap sözlüğü
+архитекту'ра|f|mimari||Kitap sözlüğü
+афи'ша|f|afiş||Kitap sözlüğü
+база'р|m|pazar (çarşı)||Kitap sözlüğü
+баклажа'ны|pl|patlıcan(lar)||Kitap sözlüğü
+бале'т|m|bale||Kitap sözlüğü
+бе'дный|a|yoksul, fakir||Kitap sözlüğü
+бе'лый|a|beyaz||Kitap sözlüğü
+белье'|n|çamaşır||Kitap sözlüğü
+бере'чь|v|korumak, sakınmak||Kitap sözlüğü
+беспоко'иться|v|endişelenmek||Kitap sözlüğü
+биле'т|m|bilet||Kitap sözlüğü
+блюда|pl|yemekler (tabaklar)||Kitap sözlüğü
+боле'льщик|m|taraftar||Kitap sözlüğü
+больно'й|a|hasta||Kitap sözlüğü
+боле'ть|v|hasta olmak||Kitap sözlüğü
+бога'тство|n|zenginlik||Kitap sözlüğü
+борщ|m|borş çorbası||Kitap sözlüğü
+босоно'жки|pl|sandalet||Kitap sözlüğü
+брю'ки|pl|pantolon||Kitap sözlüğü
+бу'дущее|n|gelecek||Kitap sözlüğü
+бу'лочка|f|çörek, küçük ekmek||Kitap sözlüğü
+бутербро'д|m|sandviç||Kitap sözlüğü
+бы'стрый|a|hızlı||Kitap sözlüğü
+ва'жный|a|önemli||Kitap sözlüğü
+вверху'|d|yukarıda||Kitap sözlüğü
+вентиля'тор|m|vantilatör||Kitap sözlüğü
+весёлый|a|neşeli||Kitap sözlüğü
+весна'|f|ilkbahar||Kitap sözlüğü
+вечери'нка|f|parti, eğlence||Kitap sözlüğü
+ве'чный|a|ebedi, sonsuz||Kitap sözlüğü
+взаи'мно|d|karşılıklı olarak, sana da||Kitap sözlüğü
+вид|m|görünüş, manzara||Kitap sözlüğü
+ви'деть|v|görmek||Kitap sözlüğü
+висе'ть|v|asılı durmak||Kitap sözlüğü
+витами'ны|pl|vitaminler||Kitap sözlüğü
+включа'ть|v|açmak (cihazı)||Kitap sözlüğü
+вкус|m|tat||Kitap sözlüğü
+вку'сный|a|lezzetli||Kitap sözlüğü
+власть|f|iktidar, güç||Kitap sözlüğü
+внизу'|d|aşağıda||Kitap sözlüğü
+внима'тельный|a|dikkatli||Kitap sözlüğü
+во'зраст|m|yaş||Kitap sözlüğü
+ворча'ть|v|homurdanmak||Kitap sözlüğü
+восхити'тельно|d|harika, büyüleyici||Kitap sözlüğü
+возвраща'ться|v|geri dönmek||Kitap sözlüğü
+восто'рг|m|coşku, hayranlık||Kitap sözlüğü
+вре'мя го'да|n|mevsim||Kitap sözlüğü
+встре'ча|f|buluşma, görüşme||Kitap sözlüğü
+встреча'ться|v|buluşmak||Kitap sözlüğü
+выбира'ть|v|seçmek||Kitap sözlüğü
+выпускни'к|m|mezun||Kitap sözlüğü
+вы'разить|v|ifade etmek||Kitap sözlüğü
+высо'кий|a|yüksek, uzun boylu||Kitap sözlüğü
+вы'ставка|f|sergi||Kitap sözlüğü
+выступа'ть|v|sahneye çıkmak, konuşma yapmak||Kitap sözlüğü
+выходно'й день|p|tatil günü, hafta sonu||Kitap sözlüğü
+галере'я|f|galeri||Kitap sözlüğü
+герб|m|arma||Kitap sözlüğü
+герои'ческий|a|kahramanca||Kitap sözlüğü
+геро'й|m|kahraman||Kitap sözlüğü
+гимн|m|marş||Kitap sözlüğü
+глава'|f|bölüm; baş, şef||Kitap sözlüğü
+гла'вный|a|ana, temel||Kitap sözlüğü
+глухо'й|a|sağır||Kitap sözlüğü
+голо'дный|a|aç||Kitap sözlüğü
+голубо'й|a|açık mavi||Kitap sözlüğü
+горди'ться|v|gurur duymak||Kitap sözlüğü
+горизонта'льный|a|yatay||Kitap sözlüğü
+го'рло|n|boğaz||Kitap sözlüğü
+горя'чий|a|sıcak (yiyecek, su)||Kitap sözlüğü
+го'рький|a|acı||Kitap sözlüğü
+госуда'рство|n|devlet||Kitap sözlüğü
+госуда'рственный|a|devlete ait, devlet||Kitap sözlüğü
+гото'вить|v|hazırlamak; yemek yapmak||Kitap sözlüğü
+грани'ца|f|sınır||Kitap sözlüğü
+гра'мотный|a|okuryazar, yetkin||Kitap sözlüğü
+грудь|f|göğüs||Kitap sözlüğü
+грусти'ть|v|hüzünlenmek||Kitap sözlüğü
+гру'стный|a|hüzünlü||Kitap sözlüğü
+дви'гаться|v|hareket etmek||Kitap sözlüğü
+движе'ние|n|hareket; trafik||Kitap sözlüğü
+декора'ция|f|dekor||Kitap sözlüğü
+дели'ть|v|bölmek, paylaşmak||Kitap sözlüğü
+демократи'ческий|a|demokratik||Kitap sözlüğü
+деревя'нный|a|ahşap||Kitap sözlüğü
+детекти'в|m|polisiye||Kitap sözlüğü
+дже'мпер|m|kazak||Kitap sözlüğü
+джи'нсы|pl|kot pantolon||Kitap sözlüğü
+дива'н|m|kanepe||Kitap sözlüğü
+дли'нный|a|uzun||Kitap sözlüğü
+до'брый|a|iyi kalpli||Kitap sözlüğü
+долголе'тие|n|uzun ömür||Kitap sözlüğü
+дома'шний|a|ev ile ilgili, ev||Kitap sözlüğü
+дорого'й|a|pahalı; sevgili||Kitap sözlüğü
+дра'ма|f|dram||Kitap sözlüğü
+дре'вний|a|antik, çok eski||Kitap sözlüğü
+ду'мать|v|düşünmek||Kitap sözlüğü
+душ|m|duş||Kitap sözlüğü
+еди'нство|n|birlik||Kitap sözlüğü
+жа'реный|a|kızarmış||Kitap sözlüğü
+жа'ркий|a|sıcak (hava)||Kitap sözlüğü
+ждать|v|beklemek||Kitap sözlüğü
+жела'ние|n|istek, dilek||Kitap sözlüğü
+жела'ть|v|dilemek||Kitap sözlüğü
+жена'тый|a|evli (erkek)||Kitap sözlüğü
+жест|m|jest, el hareketi||Kitap sözlüğü
+жёлтый|a|sarı||Kitap sözlüğü
+живо'тные|pl|hayvanlar||Kitap sözlüğü
+жизнь|f|hayat||Kitap sözlüğü
+жить|v|yaşamak||Kitap sözlüğü
+забыва'ть|v|unutmak||Kitap sözlüğü
+заверну'ть|v|sarmak, paketlemek; dönmek||Kitap sözlüğü
+за'втрак|m|kahvaltı||Kitap sözlüğü
+за'втракать|v|kahvaltı yapmak||Kitap sözlüğü
+зако'н|m|kanun||Kitap sözlüğü
+зако'нчить|v|bitirmek||Kitap sözlüğü
+зако'нчиться|v|bitmek, sona ermek||Kitap sözlüğü
+замеча'тельный|a|harika, olağanüstü||Kitap sözlüğü
+зараба'тывать|v|para kazanmak||Kitap sözlüğü
+зда'ние|n|bina||Kitap sözlüğü
+здоро'вье|n|sağlık||Kitap sözlüğü
+зелёный|a|yeşil||Kitap sözlüğü
+зе'ркало|n|ayna||Kitap sözlüğü
+зима'|f|kış||Kitap sözlüğü
+зи'мний|a|kışlık, kış||Kitap sözlüğü
+знако'миться|v|tanışmak||Kitap sözlüğü
+знако'мство|n|tanışma||Kitap sözlüğü
+знако'мый|a|tanıdık||Kitap sözlüğü
+золото'й|a|altın||Kitap sözlüğü
+зо'нтик|m|şemsiye||Kitap sözlüğü
+зубна'я па'ста|p|diş macunu||Kitap sözlüğü
+игрово'й|a|oyun ile ilgili||Kitap sözlüğü
+издава'ть|v|yayımlamak||Kitap sözlüğü
+и'ней|m|kırağı||Kitap sözlüğü
+интере'сный|a|ilginç||Kitap sözlüğü
+и'скренний|a|içten, samimi||Kitap sözlüğü
+испо'льзовать|v|kullanmak||Kitap sözlüğü
+истори'ческий|a|tarihi||Kitap sözlüğü
+ка'ждый|a|her||Kitap sözlüğü
+календа'рь|m|takvim||Kitap sözlüğü
+канцеля'рский|a|kırtasiye ile ilgili||Kitap sözlüğü
+капу'ста|f|lahana||Kitap sözlüğü
+карто'фель|m|patates||Kitap sözlüğü
+ка'сса|f|kasa, gişe||Kitap sözlüğü
+ка'чественный|a|kaliteli||Kitap sözlüğü
+ка'ша|f|lapa, yulaf/pirinç lapası||Kitap sözlüğü
+ка'шель|m|öksürük||Kitap sözlüğü
+класси'ческий|a|klasik||Kitap sözlüğü
+кли'мат|m|iklim||Kitap sözlüğü
+кли'ника|f|klinik||Kitap sözlüğü
+клей|m|yapıştırıcı||Kitap sözlüğü
+ко'жаный|a|deri (deriden)||Kitap sözlüğü
+колго'тки|pl|külotlu çorap||Kitap sözlüğü
+кома'нда|f|takım; komut||Kitap sözlüğü
+коме'дия|f|komedi||Kitap sözlüğü
+компози'тор|m|besteci||Kitap sözlüğü
+кондиционе'р|m|klima||Kitap sözlüğü
+коне'ц|m|son||Kitap sözlüğü
+конститу'ция|f|anayasa||Kitap sözlüğü
+контине'нт|m|kıta||Kitap sözlüğü
+коро'ткий|a|kısa||Kitap sözlüğü
+костю'м|m|takım elbise||Kitap sözlüğü
+конфе'ты|pl|şekerlemeler||Kitap sözlüğü
+кофева'рка|f|kahve makinesi||Kitap sözlüğü
+кошелёк|m|cüzdan||Kitap sözlüğü
+кра'сный|a|kırmızı||Kitap sözlüğü
+крича'ть|v|bağırmak||Kitap sözlüğü
+кре'пость|f|kale||Kitap sözlüğü
+крова'ть|f|yatak||Kitap sözlüğü
+кроссо'вки|pl|spor ayakkabı||Kitap sözlüğü
+культу'рный|a|kültürel||Kitap sözlüğü
+кухо'нный|a|mutfak ile ilgili||Kitap sözlüğü
+лека'рство|n|ilaç||Kitap sözlüğü
+лете'ть|v|uçmak||Kitap sözlüğü
+лечи'ться|v|tedavi görmek||Kitap sözlüğü
+лёд|m|buz||Kitap sözlüğü
+ле'то|n|yaz||Kitap sözlüğü
+лицо'|n|yüz||Kitap sözlüğü
+лови'ть|v|yakalamak||Kitap sözlüğü
+лук|m|soğan||Kitap sözlüğü
+любо'вь|f|aşk, sevgi||Kitap sözlüğü
+майоне'з|m|mayonez||Kitap sözlüğü
+мали'на|f|ahududu||Kitap sözlüğü
+ма'сло|n|yağ; tereyağı||Kitap sözlüğü
+ма'тч|m|maç||Kitap sözlüğü
+ме'бель|f|mobilya||Kitap sözlüğü
+ме'дленный|a|yavaş||Kitap sözlüğü
+междунаро'дный|a|uluslararası||Kitap sözlüğü
+ме'сто|n|yer||Kitap sözlüğü
+ме'сяц|m|ay (takvim)||Kitap sözlüğü
+мечта'|f|hayal||Kitap sözlüğü
+мечта'ть|v|hayal etmek||Kitap sözlüğü
+мёд|m|bal||Kitap sözlüğü
+ми'ло|d|tatlı bir şekilde, sevimli||Kitap sözlüğü
+мирово'й|a|dünya ile ilgili||Kitap sözlüğü
+многоэта'жный|a|çok katlı||Kitap sözlüğü
+мо'дный|a|moda, şık||Kitap sözlüğü
+молодо'й|a|genç||Kitap sözlüğü
+монуме'нт|m|anıt||Kitap sözlüğü
+морко'вь|f|havuç||Kitap sözlüğü
+моро'з|m|ayaz, dondurucu soğuk||Kitap sözlüğü
+моро'женое|n|dondurma||Kitap sözlüğü
+морско'й|a|deniz ile ilgili||Kitap sözlüğü
+мультфи'льм|m|çizgi film||Kitap sözlüğü
+мю'зикл|m|müzikal||Kitap sözlüğü
+мя'гкий|a|yumuşak||Kitap sözlüğü
+мя'со|n|et||Kitap sözlüğü
+мы'ло|n|sabun||Kitap sözlüğü
+мы'сли|pl|düşünceler||Kitap sözlüğü
+навсегда'|d|sonsuza dek||Kitap sözlüğü
+называ'ться|v|adı olmak, denmek||Kitap sözlüğü
+наро'дный|a|halk, halka ait||Kitap sözlüğü
+настоя'щий|a|gerçek, hakiki||Kitap sözlüğü
+национа'льный|a|ulusal||Kitap sözlüğü
+в честь|p|şerefine||Kitap sözlüğü
+невозмо'жно|d|imkânsız||Kitap sözlüğü
+неде'ля|f|hafta||Kitap sözlüğü
+неизве'стный|a|bilinmeyen||Kitap sözlüğü
+незави'симый|a|bağımsız||Kitap sözlüğü
+незави'симость|f|bağımsızlık||Kitap sözlüğü
+необходи'мо|d|gerekli||Kitap sözlüğü
+необыкнове'нный|a|olağandışı||Kitap sözlüğü
+непра'вильный|a|yanlış||Kitap sözlüğü
+непросто'й|a|kolay olmayan||Kitap sözlüğü
+несомне'нно|d|şüphesiz||Kitap sözlüğü
+никогда'|d|asla, hiçbir zaman||Kitap sözlüğü
+нигде'|d|hiçbir yerde||Kitap sözlüğü
+но'вый|a|yeni||Kitap sözlüğü
+носо'к|m|çorap (kısa)||Kitap sözlüğü
+нра'виться|v|hoşa gitmek||Kitap sözlüğü
+нужда'ться|v|ihtiyaç duymak||Kitap sözlüğü
+ну'жно|d|gerek, lazım||Kitap sözlüğü
+о'ба|d|her ikisi||Kitap sözlüğü
+обе'д|m|öğle yemeği||Kitap sözlüğü
+обе'дать|v|öğle yemeği yemek||Kitap sözlüğü
+обме'ниваться|v|değiş tokuş etmek||Kitap sözlüğü
+обсужда'ть|v|tartışmak, görüşmek||Kitap sözlüğü
+обще'ние|n|iletişim||Kitap sözlüğü
+обща'ться|v|iletişim kurmak, sohbet etmek||Kitap sözlüğü
+о'бщество|n|toplum||Kitap sözlüğü
+образе'ц|m|örnek, model||Kitap sözlüğü
+образова'ние|n|eğitim||Kitap sözlüğü
+образо'ванный|a|eğitimli||Kitap sözlüğü
+обыкнове'нный|a|sıradan||Kitap sözlüğü
+обяза'тельно|d|mutlaka||Kitap sözlüğü
+оде'ться|v|giyinmek||Kitap sözlüğü
+о'вощи|pl|sebzeler||Kitap sözlüğü
+оли'вки|pl|zeytin||Kitap sözlüğü
+о'пера|f|opera||Kitap sözlüğü
+опозда'ть|v|geç kalmak||Kitap sözlüğü
+органи'зм|m|organizma||Kitap sözlüğü
+оре'х|m|ceviz, kuruyemiş||Kitap sözlüğü
+оригина'льный|a|orijinal||Kitap sözlüğü
+о'сень|f|sonbahar||Kitap sözlüğü
+основа'ние|n|kuruluş, temel||Kitap sözlüğü
+осторо'жно|d|dikkatlice||Kitap sözlüğü
+отде'л|m|bölüm, reyon||Kitap sözlüğü
+отли'чный|a|mükemmel||Kitap sözlüğü
+официа'нт|m|garson||Kitap sözlüğü
+отпра'вить|v|göndermek||Kitap sözlüğü
+охо'та|f|av||Kitap sözlüğü
+оши'бка|f|hata||Kitap sözlüğü
+ошиба'ться|v|yanılmak||Kitap sözlüğü
+Па'сха|f|Paskalya||Kitap sözlüğü
+парла'мент|m|parlamento||Kitap sözlüğü
+патрио'т|m|vatansever||Kitap sözlüğü
+па'хнуть|v|kokmak||Kitap sözlüğü
+певе'ц|m|şarkıcı||Kitap sözlüğü
+педагоги'ческий|a|pedagojik||Kitap sözlüğü
+переводи'ть|v|çevirmek; karşıya geçirmek||Kitap sözlüğü
+переда'ть|v|uzatmak, iletmek||Kitap sözlüğü
+перехо'д|m|geçit||Kitap sözlüğü
+переходи'ть|v|karşıya geçmek||Kitap sözlüğü
+перча'тки|pl|eldiven||Kitap sözlüğü
+пече'нье|n|kurabiye, bisküvi||Kitap sözlüğü
+пешехо'дный|a|yaya||Kitap sözlüğü
+пиро'жное|n|pasta (dilim)||Kitap sözlüğü
+пирожо'к|m|börek (küçük)||Kitap sözlüğü
+писа'тель|m|yazar||Kitap sözlüğü
+пи'сьменный|a|yazılı; yazı (masası)||Kitap sözlüğü
+пла'вание|n|yüzme||Kitap sözlüğü
+пла'кать|v|ağlamak||Kitap sözlüğü
+плане'та|f|gezegen||Kitap sözlüğü
+площа'дка|f|alan, saha||Kitap sözlüğü
+поги'бнуть|v|ölmek (felakette)||Kitap sözlüğü
+погуля'ть|v|biraz yürüyüş yapmak||Kitap sözlüğü
+подготови'тельный|a|hazırlık||Kitap sözlüğü
+подгото'вить|v|hazırlamak||Kitap sözlüğü
+пожела'ть|v|dilemek||Kitap sözlüğü
+поздрави'тельный|a|tebrik||Kitap sözlüğü
+поздравля'ть|v|tebrik etmek||Kitap sözlüğü
+поздравле'ние|n|tebrik||Kitap sözlüğü
+покупа'ть|v|satın almak||Kitap sözlüğü
+полити'ческий|a|siyasi||Kitap sözlüğü
+полюбова'ться|v|hayranlıkla seyretmek||Kitap sözlüğü
+получа'ть|v|almak, elde etmek||Kitap sözlüğü
+по'ле|n|tarla||Kitap sözlüğü
+поле'зно|d|faydalı, sağlıklı||Kitap sözlüğü
+поле'зный|a|faydalı||Kitap sözlüğü
+помы'ть|v|yıkamak||Kitap sözlüğü
+понима'ть|v|anlamak||Kitap sözlüğü
+понра'виться|v|hoşuna gitmek (bir kez)||Kitap sözlüğü
+попроси'ть|v|rica etmek||Kitap sözlüğü
+популя'рный|a|popüler||Kitap sözlüğü
+по'ртить|v|bozmak||Kitap sözlüğü
+посреди'не|d|ortada||Kitap sözlüğü
+посу'да|f|bulaşık, mutfak eşyası||Kitap sözlüğü
+посыла'ть|v|göndermek||Kitap sözlüğü
+почи'стить|v|temizlemek, fırçalamak||Kitap sözlüğü
+правди'вый|a|dürüst||Kitap sözlüğü
+пра'вильный|a|doğru||Kitap sözlüğü
+прави'тель|m|hükümdar||Kitap sözlüğü
+предме'т|m|ders, nesne||Kitap sözlüğü
+пра'здновать|v|kutlamak||Kitap sözlüğü
+предложи'ть|v|önermek||Kitap sözlüğü
+пригласи'ть|v|davet etmek||Kitap sözlüğü
+приглаше'ние|n|davet||Kitap sözlüğü
+пригото'вить|v|hazırlamak||Kitap sözlüğü
+приключе'ния|pl|maceralar||Kitap sözlüğü
+приключе'нческий|a|macera||Kitap sözlüğü
+пре'лесть|f|güzellik, çekicilik||Kitap sözlüğü
+принима'ть уча'стие|p|katılmak||Kitap sözlüğü
+припра'вы|pl|baharatlar||Kitap sözlüğü
+приро'да|f|doğa||Kitap sözlüğü
+проверя'ть|v|kontrol etmek||Kitap sözlüğü
+прогре'сс|m|ilerleme||Kitap sözlüğü
+продолжа'ть|v|devam etmek||Kitap sözlüğü
+продукто'вый|a|gıda (dükkânı)||Kitap sözlüğü
+проду'кты|pl|yiyecekler, gıdalar||Kitap sözlüğü
+прожива'ть|v|ikamet etmek||Kitap sözlüğü
+прои'грыватель|m|pikap, çalar||Kitap sözlüğü
+проси'ть|v|rica etmek, istemek||Kitap sözlüğü
+просыпа'ться|v|uyanmak||Kitap sözlüğü
+путеше'ствие|n|seyahat||Kitap sözlüğü
+путеше'ствовать|v|seyahat etmek||Kitap sözlüğü
+пшени'ца|f|buğday||Kitap sözlüğü
+пюре'|n|patates püresi||Kitap sözlüğü
+пылесо'с|m|elektrik süpürgesi||Kitap sözlüğü
+рабо'тница|f|işçi (kadın)||Kitap sözlüğü
+рабо'чий|m|işçi||Kitap sözlüğü
+рад|d|memnun||Kitap sözlüğü
+ра'доваться|v|sevinmek||Kitap sözlüğü
+ра'дость|f|sevinç||Kitap sözlüğü
+ра'зный|a|farklı, çeşitli||Kitap sözlüğü
+разреши'ть|v|izin vermek||Kitap sözlüğü
+разуме'ется|d|elbette||Kitap sözlüğü
+расписа'ние|n|ders programı||Kitap sözlüğü
+рези'нка|f|silgi; lastik||Kitap sözlüğü
+регио'н|m|bölge||Kitap sözlüğü
+регистра'ция|f|kayıt||Kitap sözlüğü
+режи'м|m|rejim, düzen||Kitap sözlüğü
+религио'зный|a|dini||Kitap sözlüğü
+рели'гия|f|din||Kitap sözlüğü
+реме'нь|m|kemer||Kitap sözlüğü
+рестора'н|m|restoran||Kitap sözlüğü
+реши'ть|v|karar vermek; çözmek||Kitap sözlüğü
+реце'пт|m|tarif; reçete||Kitap sözlüğü
+рис|m|pirinç||Kitap sözlüğü
+родно'й|a|doğduğu, öz (ana dili)||Kitap sözlüğü
+рожде'ние|n|doğum||Kitap sözlüğü
+ро'за|f|gül||Kitap sözlüğü
+роль|f|rol||Kitap sözlüğü
+ря'дом|d|yanında||Kitap sözlüğü
+сала'т|m|salata||Kitap sözlüğü
+сапоги'|pl|çizme||Kitap sözlüğü
+са'хар|m|şeker||Kitap sözlüğü
+све'жий|a|taze||Kitap sözlüğü
+свети'ть|v|parlamak||Kitap sözlüğü
+све'тлый|a|aydınlık, açık renk||Kitap sözlüğü
+светофо'р|m|trafik ışığı||Kitap sözlüğü
+свобо'дное вре'мя|p|boş zaman||Kitap sözlüğü
+свято'й|a|kutsal||Kitap sözlüğü
+свида'ние|n|randevu, buluşma||Kitap sözlüğü
+свобо'да|f|özgürlük||Kitap sözlüğü
+свобо'дный|a|boş; özgür||Kitap sözlüğü
+сигна'л|m|sinyal||Kitap sözlüğü
+си'льный|a|güçlü||Kitap sözlüğü
+си'мвол|m|sembol||Kitap sözlüğü
+символизи'ровать|v|simgelemek||Kitap sözlüğü
+си'ний|a|koyu mavi, lacivert||Kitap sözlüğü
+сиро'п|m|şurup||Kitap sözlüğü
+сеа'нс|m|seans||Kitap sözlüğü
+село', дере'вня|n|köy||Kitap sözlüğü
+серде'чно|d|candan||Kitap sözlüğü
+се'рдце|n|kalp||Kitap sözlüğü
+ска'зка|f|masal||Kitap sözlüğü
+скача'ть|v|indirmek (dosya)||Kitap sözlüğü
+ску'чно|d|sıkıcı||Kitap sözlüğü
+сла'дкий|a|tatlı||Kitap sözlüğü
+сле'ва|d|solda||Kitap sözlüğü
+сло'жный|a|zor, karmaşık||Kitap sözlüğü
+случа'йно|d|tesadüfen||Kitap sözlüğü
+слу'шать|v|dinlemek||Kitap sözlüğü
+смешно'й|a|komik||Kitap sözlüğü
+смея'ться|v|gülmek||Kitap sözlüğü
+сморо'дина|f|frenk üzümü||Kitap sözlüğü
+смотре'ть|v|bakmak, izlemek||Kitap sözlüğü
+снег|m|kar||Kitap sözlüğü
+собира'ться|v|niyetlenmek, toplanmak||Kitap sözlüğü
+сове'т|m|tavsiye||Kitap sözlüğü
+совреме'нный|a|modern, çağdaş||Kitap sözlüğü
+соединя'ть|v|birleştirmek||Kitap sözlüğü
+солида'рность|f|dayanışma||Kitap sözlüğü
+сооруже'ние|n|yapı, inşaat||Kitap sözlüğü
+соревнова'ние|n|yarışma||Kitap sözlüğü
+соль|f|tuz||Kitap sözlüğü
+сосе'д|m|komşu||Kitap sözlüğü
+спать|v|uyumak||Kitap sözlüğü
+спекта'кль|m|gösteri, oyun (tiyatro)||Kitap sözlüğü
+спра'ва|d|sağda||Kitap sözlüğü
+Сре'дние века'|p|Orta Çağ||Kitap sözlüğü
+стари'нный|a|eski, antika||Kitap sözlüğü
+ста'рый|a|yaşlı, eski||Kitap sözlüğü
+статья'|f|makale||Kitap sözlüğü
+сто'ить|v|(fiyatı) tutmak, değmek||Kitap sözlüğü
+столе'тье|n|yüzyıl||Kitap sözlüğü
+страх|m|korku||Kitap sözlüğü
+стра'шный|a|korkunç||Kitap sözlüğü
+стремле'ние|n|arzu, çaba||Kitap sözlüğü
+стро'йный|a|ince yapılı, fit||Kitap sözlüğü
+с удово'льствием|p|memnuniyetle||Kitap sözlüğü
+судьба'|f|kader||Kitap sözlüğü
+существова'ть|v|var olmak||Kitap sözlüğü
+сце'на|f|sahne||Kitap sözlüğü
+счастли'во|d|mutlu bir şekilde; güle güle||Kitap sözlüğü
+сча'стье|n|mutluluk||Kitap sözlüğü
+тала'нтливый|a|yetenekli||Kitap sözlüğü
+табли'ца|f|tablo, çizelge||Kitap sözlüğü
+та'нец|m|dans||Kitap sözlüğü
+та'почки|pl|terlik||Kitap sözlüğü
+твёрдый|a|sert, katı||Kitap sözlüğü
+театра'льный|a|tiyatro ile ilgili||Kitap sözlüğü
+телеви'дение|n|televizyon (yayıncılık)||Kitap sözlüğü
+температу'ра|f|ateş, sıcaklık||Kitap sözlüğü
+те'ннис|m|tenis||Kitap sözlüğü
+те'хника|f|teknik, teknoloji||Kitap sözlüğü
+тёмный|a|karanlık, koyu||Kitap sözlüğü
+ткань|f|kumaş||Kitap sözlüğü
+то'лстый|a|kalın, şişman||Kitap sözlüğü
+то'нкий|a|ince||Kitap sözlüğü
+траге'дия|f|trajedi||Kitap sözlüğü
+траги'ческий|a|trajik||Kitap sözlüğü
+тради'ция|f|gelenek||Kitap sözlüğü
+трансли'ровать|v|yayınlamak (canlı)||Kitap sözlüğü
+три'ллер|m|gerilim filmi||Kitap sözlüğü
+тру'дный|a|zor||Kitap sözlüğü
+тря'пка|f|bez, paçavra||Kitap sözlüğü
+ту'фли|pl|ayakkabı (iskarpin)||Kitap sözlüğü
+тяжёлый|a|ağır||Kitap sözlüğü
+убира'ть|v|toplamak, ortalığı toplamak||Kitap sözlüğü
+уважа'ть|v|saygı duymak||Kitap sözlüğü
+удивля'ться|v|şaşırmak||Kitap sözlüğü
+удо'бный|a|rahat, uygun||Kitap sözlüğü
+удово'льствие|n|zevk, memnuniyet||Kitap sözlüğü
+у'жин|m|akşam yemeği||Kitap sözlüğü
+у'жинать|v|akşam yemeği yemek||Kitap sözlüğü
+улыба'ться|v|gülümsemek||Kitap sözlüğü
+у'мный|a|akıllı||Kitap sözlüğü
+умыва'ться|v|yüzünü yıkamak||Kitap sözlüğü
+упако'вывать|v|paketlemek||Kitap sözlüğü
+успе'х|m|başarı||Kitap sözlüğü
+уста'ть|v|yorulmak||Kitap sözlüğü
+у'тро|n|sabah||Kitap sözlüğü
+учёный|m|bilim insanı||Kitap sözlüğü
+ую'тный|a|şirin, rahat (ortam)||Kitap sözlüğü
+фанта'стика|f|bilimkurgu||Kitap sözlüğü
+фарфо'ровый|a|porselen||Kitap sözlüğü
+фасо'ль|f|fasulye||Kitap sözlüğü
+фигу'ра|f|figür, vücut||Kitap sözlüğü
+филологи'ческий|a|filolojik||Kitap sözlüğü
+филосо'фский|a|felsefi||Kitap sözlüğü
+флаг|m|bayrak||Kitap sözlüğü
+фойе'|n|fuaye||Kitap sözlüğü
+фон|m|arka plan||Kitap sözlüğü
+фона'рь|m|fener||Kitap sözlüğü
+фонта'н|m|fıskiye, çeşme||Kitap sözlüğü
+фру'кты|pl|meyveler||Kitap sözlüğü
+хлеб|m|ekmek||Kitap sözlüğü
+холо'дный|a|soğuk||Kitap sözlüğü
+хра'брый|a|cesur||Kitap sözlüğü
+худо'жественный|a|sanatsal||Kitap sözlüğü
+худо'жник|m|ressam||Kitap sözlüğü
+цвет|m|renk||Kitap sözlüğü
+цветно'й|a|renkli||Kitap sözlüğü
+це'рковь|f|kilise||Kitap sözlüğü
+ча'йник|m|çaydanlık||Kitap sözlüğü
+ча'стный|a|özel||Kitap sözlüğü
+ча'сто|d|sık sık||Kitap sözlüğü
+ча'шка|f|fincan||Kitap sözlüğü
+чек|m|fiş, makbuz||Kitap sözlüğü
+чемпиона'т|m|şampiyona||Kitap sözlüğü
+чесно'к|m|sarımsak||Kitap sözlüğü
+чёрный|a|siyah||Kitap sözlüğü
+чи'стить|v|temizlemek||Kitap sözlüğü
+чита'тель|m|okur||Kitap sözlüğü
+чу'вство|n|duygu||Kitap sözlüğü
+чуде'сный|a|harika||Kitap sözlüğü
+чу'до|n|mucize||Kitap sözlüğü
+чужо'й|a|yabancı, başkasının||Kitap sözlüğü
+шампу'нь|m|şampuan||Kitap sözlüğü
+ша'хматы|pl|satranç||Kitap sözlüğü
+широ'кий|a|geniş||Kitap sözlüğü
+шкаф|m|dolap||Kitap sözlüğü
+шокола'д|m|çikolata||Kitap sözlüğü
+шокола'дный|a|çikolatalı||Kitap sözlüğü
+шо'рты|pl|şort||Kitap sözlüğü
+эмоциона'льный|a|duygusal||Kitap sözlüğü
+энциклопе'дия|f|ansiklopedi||Kitap sözlüğü
+ю'ный|a|genç (çok genç)||Kitap sözlüğü
+я'блоко|n|elma||Kitap sözlüğü
+я'года|f|meyve (küçük), çilek türü||Kitap sözlüğü
+галантере'я|f|tuhafiye||Kitap sözlüğü
+го'ре|n|keder, dert||Kitap sözlüğü
+изве'стный|a|ünlü, tanınmış||Kitap sözlüğü
+основа'ть|v|kurmak (şehir vb.)||Kitap sözlüğü
+расти'тельное ма'сло|p|bitkisel yağ||Kitap sözlüğü
+Рождество'|n|Noel||Kitap sözlüğü
+сде'лать заря'дку|p|sabah sporu yapmak||Kitap sözlüğü
+стира'льный порошо'к|p|çamaşır deterjanı||Kitap sözlüğü
