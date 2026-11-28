@@ -31,7 +31,7 @@
     'table.rx-cj td.p{color:var(--text3);width:84px;white-space:nowrap}',
     '.rx-ru{font-weight:700;color:var(--text)}',
     '.rx-tl{display:block;color:var(--text3);font-size:12px;font-weight:500}',
-    '.rx-tl b{color:var(--accent-text,var(--accent));font-weight:800}',
+    '.rx-tl .rx-st{color:var(--accent-text,var(--accent));font-weight:inherit;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}',
     '.rx-end{color:var(--accent-text,var(--accent));font-weight:800}',
     '.rx-g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}',
     '@media(max-width:760px){.rx-g2{grid-template-columns:1fr}}',
@@ -57,7 +57,7 @@
     '.rx-row.open .mean,.rx-all .rx-row .mean,.rx-row .mean.always{display:block}',
     '.rx-row .hint{font-size:11px;color:var(--text3);margin-top:4px}',
     '.rx-row.open .hint,.rx-all .rx-row .hint{display:none}',
-    '.rx-b{flex:none;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}',
+    '.rx-b{flex:none;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}',
     '.rx-b-m{color:var(--rx-m)}.rx-b-f{color:var(--rx-f)}.rx-b-n{color:var(--rx-n)}.rx-b-pl{color:var(--rx-pl)}.rx-b-a{color:var(--rx-a)}.rx-b-v{color:var(--rx-v)}.rx-b-d,.rx-b-p{color:var(--text2)}',
     '.rx-b-x{color:var(--rx-bad)}.rx-b-1{color:var(--rx-m)}.rx-b-2{color:var(--rx-n)}',
     '.rx-ist{display:inline-block;font-size:10.5px;font-weight:800;color:var(--rx-bad);background:color-mix(in srgb,var(--rx-bad) 13%,transparent);padding:1px 7px;border-radius:6px;margin-left:6px}',
@@ -128,7 +128,7 @@
       if (t === undefined) { out += esc(c); continue; }
       if (lc === 'е') { var p = (ch[i - 1] === A ? ch[i - 2] : ch[i - 1]) || ' '; var pl = p.toLowerCase(); if (TL[pl] === undefined || VOW.indexOf(pl) >= 0 || pl === 'ь' || pl === 'ъ') t = 'ye'; }
       if (c !== lc) t = t.charAt(0).toUpperCase() + t.slice(1);
-      out += (ch[i + 1] === A || lc === 'ё') ? '<b>' + t + '</b>' : t;
+      out += (ch[i + 1] === A || lc === 'ё') ? '<span class="rx-st">' + t + '</span>' : t;
     }
     return out;
   }
@@ -289,7 +289,7 @@
     var q = plain($('#rx-vq').value.trim().toLowerCase());
     $('#rx-vchips').innerHTML = [['all', 'Hepsi'], ['1', 'I. çekim'], ['2', 'II. çekim'], ['x', 'Özel / düzensiz']].map(function (c) { return '<button class="rx-chip' + (vfilter === c[0] ? ' on' : '') + '" data-vf="' + c[0] + '">' + c[1] + '</button>'; }).join('');
     var list = VB.filter(function (v) {
-      return (vfilter === 'all' || v.k === vfilter) && (!q || plain(v.inf).indexOf(q) >= 0 || v.tr.toLowerCase().indexOf(q) >= 0 || translit(v.inf).replace(/<\/?b>/g, '').toLowerCase().indexOf(q) >= 0 || (v.pf && plain(v.pf).indexOf(q) >= 0));
+      return (vfilter === 'all' || v.k === vfilter) && (!q || plain(v.inf).indexOf(q) >= 0 || v.tr.toLowerCase().indexOf(q) >= 0 || translit(v.inf).replace(/<[^>]+>/g, '').toLowerCase().indexOf(q) >= 0 || (v.pf && plain(v.pf).indexOf(q) >= 0));
     });
     $('#rx-vcount').textContent = list.length + ' fiil';
     $('#rx-vlist').innerHTML = list.map(function (v) {
@@ -353,7 +353,7 @@
     $('#rx-wtypes').innerHTML = [['all', 'Hepsi'], ['noun', 'İsimler'], ['a', 'Sıfatlar'], ['v', 'Fiiller'], ['d', 'Zarf / diğer'], ['ist', 'Çoğul istisnaları']].map(function (t) { return '<button class="rx-chip' + (wtype === t[0] ? ' on' : '') + '" data-wy="' + t[0] + '">' + t[1] + '</button>'; }).join('');
     var list = W.filter(function (w) {
       var okT = wtype === 'all' || (wtype === 'noun' ? ['m', 'f', 'n', 'pl'].indexOf(w.c) >= 0 : wtype === 'ist' ? !!(w.pl && plKind(w)) : wtype === 'd' ? (w.c === 'd' || w.c === 'p') : w.c === wtype);
-      return (wtopic === 'all' || w.t === wtopic) && okT && (!q || plain(w.ru).toLowerCase().indexOf(q) >= 0 || w.tr.toLowerCase().indexOf(q) >= 0 || translit(w.ru).replace(/<\/?b>/g, '').toLowerCase().indexOf(q) >= 0);
+      return (wtopic === 'all' || w.t === wtopic) && okT && (!q || plain(w.ru).toLowerCase().indexOf(q) >= 0 || w.tr.toLowerCase().indexOf(q) >= 0 || translit(w.ru).replace(/<[^>]+>/g, '').toLowerCase().indexOf(q) >= 0);
     });
     $('#rx-wcount').textContent = list.length + ' kelime';
     $('#rx-wlist').innerHTML = list.map(function (w) {
